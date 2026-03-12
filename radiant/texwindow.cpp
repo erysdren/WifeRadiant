@@ -86,6 +86,8 @@
 #include "preferences.h"
 #include "commands.h"
 
+#include "surfacedialog.h"
+
 bool string_equal_start( const char* string, StringRange start ){
 	return string_equal_n( string, start.data(), start.size() );
 }
@@ -160,6 +162,7 @@ public:
 	CopiedString m_shader;    // current shader
 
 	QWidget* m_parent;
+	QWidget* m_surfacedialog;
 	QOpenGLWidget* m_gl_widget;
 	QScrollBar* m_texture_scroll;
 	QTabWidget* m_tabs;
@@ -1767,11 +1770,14 @@ QWidget* TextureBrowser_constructWindow( QWidget* toplevel ){
 
 	g_TexBro.m_parent = toplevel;
 
+	g_TexBro.m_surfacedialog = SurfaceInspector_constructWindow( toplevel );
+
 	auto *splitter = new QSplitter;
 	auto *containerWidgetLeft = new QWidget; // Adding a QLayout to a QSplitter is not supported, use proxy widget
 	auto *containerWidgetRight = new QWidget; // Adding a QLayout to a QSplitter is not supported, use proxy widget
 	splitter->addWidget( containerWidgetLeft );
 	splitter->addWidget( containerWidgetRight );
+	splitter->setChildrenCollapsible( false );
 	auto *vbox = new QVBoxLayout( containerWidgetLeft );
 	auto *hbox = new QHBoxLayout( containerWidgetRight );
 
@@ -1780,6 +1786,13 @@ QWidget* TextureBrowser_constructWindow( QWidget* toplevel ){
 	hbox->setSpacing( 0 );
 	vbox->setSpacing( 0 );
 
+	auto* splitter2 = new QSplitter;
+	splitter2->setOrientation(Qt::Vertical);
+	splitter2->addWidget( g_TexBro.m_surfacedialog );
+	splitter2->addWidget( splitter );
+	splitter2->setChildrenCollapsible( false );
+	splitter2->setStretchFactor( 0, 0 ); // consistent treeview side sizing on resizes
+	splitter2->setStretchFactor( 1, 1 );
 
 	{	// menu bar
 		auto *toolbar = new QToolBar;
@@ -1881,7 +1894,8 @@ QWidget* TextureBrowser_constructWindow( QWidget* toplevel ){
 	splitter->setStretchFactor( 0, 0 ); // consistent treeview side sizing on resizes
 	splitter->setStretchFactor( 1, 1 );
 	g_guiSettings.addSplitter( splitter, "TextureBrowser/splitter", { 100, 800 } );
-	return splitter;
+	g_guiSettings.addSplitter( splitter2, "TextureBrowser/splitter2", { 800, 800 } );
+	return splitter2;
 }
 
 void TextureBrowser_destroyWindow(){
