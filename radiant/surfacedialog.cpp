@@ -303,9 +303,7 @@ public:
 		return GetWidget()->isVisible();
 	}
 	void queueDraw(){
-		if ( visible() ) {
-			m_idleDraw.queueDraw();
-		}
+		m_idleDraw.queueDraw();
 	}
 
 	QWidget* GetWidget(){
@@ -378,8 +376,6 @@ public:
 	}
 };
 
-QWidget* g_page_surface;
-
 namespace
 {
 SurfaceInspector* g_SurfaceInspector;
@@ -391,7 +387,6 @@ inline SurfaceInspector& getSurfaceInspector(){
 }
 
 void SurfaceInspector_toggleShow(){
-	GroupDialog_showPage( g_page_surface );
 	getSurfaceInspector().Update();
 	getSurfaceInspector().importData();
 }
@@ -858,7 +853,7 @@ g_pressedKeysFilter;
 QWidget* SurfaceInspector::BuildDialog(){
 	GetWidget()->setWindowTitle( "Surface Inspector" );
 
-	// g_guiSettings.addWindow( GetWidget(), "SurfaceInspector/geometry", 99, 99 );
+	g_guiSettings.addWindow( GetWidget(), "SurfaceInspector/geometry", 99, 99 );
 
 	GetWidget()->installEventFilter( &g_pressedKeysFilter );
 
