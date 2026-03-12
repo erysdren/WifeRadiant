@@ -21,11 +21,10 @@
 
 #pragma once
 
-
 void SurfaceInspector_Construct();
 void SurfaceInspector_Destroy();
 
-void SurfaceInspector_constructWindow( class QWidget* widget );
+class QWidget* SurfaceInspector_constructWindow( class QWidget* widget );
 void SurfaceInspector_destroyWindow();
 
 bool SelectedFaces_empty();
