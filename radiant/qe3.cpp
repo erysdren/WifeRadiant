@@ -184,6 +184,7 @@ void build_init_variables(){
 		build_set_variable( "MapFile", mapname );
 	}
 
+	build_set_variable( "MapPath", stream( PathFilenameless( mapname ) ) );
 	build_set_variable( "MapName", stream( PathFilename( mapname ) ) );
 }
 

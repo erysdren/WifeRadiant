@@ -9,6 +9,7 @@ build variables
 [GameName]: game folder name .. hl2
 [MapsPath]: game maps path .. C:/Program Files (x86)/Steam/steamapps/common/Half-Life 2/hl2/maps/
 [MapFile]: vmf file path .. C:/Projects/Source/Maps/mymap.vmf
+[MapPath]: vmf file path .. C:/Projects/Source/Maps/
 [BspFile]: bsp file path .. C:/Projects/Source/Maps/mymap.bsp
 [MapName]: vmf file name .. mymap.vmf
 -->
