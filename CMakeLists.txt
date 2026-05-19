@@ -45,6 +45,11 @@ if(RADIANT_SUPPORT_SOURCE)
 	set(SOURCEPP_VTFPP_SUPPORT_WEBP OFF CACHE BOOL "" FORCE)
 
 	FetchContent_MakeAvailable(sourcepp)
+
+	# FIXME: why was this needed on Fedora but not Arch?
+	if(TARGET ppmd)
+		set_property(TARGET ppmd PROPERTY POSITION_INDEPENDENT_CODE ON)
+	endif()
 endif()
 
 find_package(ZLIB REQUIRED)
