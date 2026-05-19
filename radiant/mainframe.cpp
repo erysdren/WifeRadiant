@@ -163,6 +163,7 @@ static qSHGetKnownFolderPath_t *qSHGetKnownFolderPath;
 void HomePaths_Realise(){
 	do
 	{
+#if 0
 		const char* prefix = g_pGameDescription->getKeyValue( "prefix" );
 		if ( !string_empty( prefix ) ) {
 			StringOutputStream path( 256 );
@@ -219,6 +220,7 @@ void HomePaths_Realise(){
 			break;
 #endif
 		}
+#endif
 
 		g_qeglobals.m_userEnginePath = EnginePath_get();
 	}
