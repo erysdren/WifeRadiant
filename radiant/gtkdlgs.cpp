@@ -99,9 +99,10 @@ public:
 	std::string m_dir;
 	std::string m_name;
 	int m_index;
-	GameComboDefinition() : m_dir( "invalid" ), m_name( "invalid" ), m_index( -1 ){
+	bool m_defaultgame;
+	GameComboDefinition() : m_dir( "invalid" ), m_name( "invalid" ), m_index( -1 ), m_defaultgame( false ){
 	}
-	GameComboDefinition( const char* dir, const char* name, int index ) : m_dir( dir ), m_name( name ), m_index( index ){
+	GameComboDefinition( const char* dir, const char* name, int index, bool defaultgame ) : m_dir( dir ), m_name( name ), m_index( index ), m_defaultgame( defaultgame ){
 	}
 	bool is_valid() const {
 		return this != &get_invalid();
@@ -145,12 +146,27 @@ public:
 		}
 		return GameComboDefinition::get_invalid();
 	}
+	const GameComboDefinition& defaultgame(){
+		if ( m_basegame.m_defaultgame ) {
+			return m_basegame;
+		}
+		for ( auto& knowngame : m_knowngames ) {
+			if ( knowngame.m_defaultgame ) {
+				return knowngame;
+			}
+		}
+		return m_basegame;
+	}
 	std::size_t num_games(){
 		return m_knowngames.size() + 1;
 	}
-	GameComboConfiguration() : m_basegame( g_pGameDescription->getRequiredKeyValue( "basegame" ), g_pGameDescription->getRequiredKeyValue( "basegamename" ), 0 ){
+	GameComboConfiguration() : m_basegame( g_pGameDescription->getRequiredKeyValue( "basegame" ), g_pGameDescription->getRequiredKeyValue( "basegamename" ), 0, false ){
 		const char* dirs = g_pGameDescription->getRequiredKeyValue( "knowngames" );
 		const char* names = g_pGameDescription->getRequiredKeyValue( "knowngamenames" );
+		const char* defgame = g_pGameDescription->getRequiredKeyValue( "defaultgame" );
+		if ( string_compare_nocase( m_basegame.m_dir.c_str(), defgame ) == 0 ) {
+			m_basegame.m_defaultgame = true;
+		}
 		if ( dirs && names ) {
 			StringTokeniser knowngames( dirs );
 			StringTokeniser knowngamenames( names, ";" );
@@ -160,7 +176,8 @@ public:
 				if ( string_empty( dir ) || string_empty( name ) ) {
 					break;
 				}
-				m_knowngames.push_back({ dir, name, (int) (m_knowngames.size() + 1) });
+				bool is_default = string_compare_nocase( dir, defgame ) == 0;
+				m_knowngames.push_back({ dir, name, (int) (m_knowngames.size() + 1), is_default });
 			}
 		}
 	}
