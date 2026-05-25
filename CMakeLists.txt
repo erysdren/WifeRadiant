@@ -10,7 +10,7 @@ option(RADIANT_GENERATE_GAMEPACKS "Generate gamepacks" ON)
 option(RADIANT_USE_ASSIMP "Build Assimp model loader plugin" ON)
 option(RADIANT_SUPPORT_SOURCE "Support Source Engine formats" ON)
 option(RADIANT_SUPPORT_GOLDSRC "Generate GoldSrc engine gamepacks" ON)
-option(RADIANT_BUILD_MBSPC "Build mbspc" OFF)
+option(RADIANT_BUILD_MBSPC "Build mbspc" ON)
 cmake_dependent_option(RADIANT_BUILD_Q3MAP2 "Build q3map2" ON RADIANT_USE_ASSIMP OFF)
 
 set(RADIANT_VERSION ${PROJECT_VERSION})
