@@ -84,9 +84,9 @@ set_target_properties(mbspc
 		RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
 )
 target_compile_options(mbspc PRIVATE
+	$<$<BOOL:${MINGW}>:-static>
 	$<$<BOOL:${MINGW}>:-static-libgcc>
 	$<$<BOOL:${MINGW}>:-static-libstdc++>
-	$<$<BOOL:${MINGW}>:-static>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>

@@ -310,6 +310,17 @@ install(TARGETS radiant
 )
 install(SCRIPT ${radiant_deploy_script})
 
+if(WIN32)
+	get_target_property(_libxml2_target_type LibXml2::LibXml2 TYPE)
+	if(_libxml2_target_type STREQUAL "SHARED_LIBRARY")
+		add_custom_command(TARGET radiant POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				$<TARGET_FILE:LibXml2::LibXml2>
+				$<TARGET_FILE_DIR:radiant>
+		)
+	endif()
+endif()
+
 target_compile_definitions(radiant PRIVATE QT_NO_KEYWORDS)
 target_compile_definitions(radiant PRIVATE
 	RADIANT_VERSION=$<QUOTE>${RADIANT_VERSION}$<QUOTE>
@@ -331,9 +342,9 @@ target_link_libraries(radiant PRIVATE $<$<BOOL:${RADIANT_SUPPORT_SOURCE}>:source
 target_link_libraries(radiant PRIVATE $<$<BOOL:${WIN32}>:ws2_32> $<$<BOOL:${WIN32}>:dbghelp>)
 target_link_libraries(radiant PRIVATE $<$<PLATFORM_ID:Haiku>:network>)
 target_compile_options(radiant PRIVATE
+	$<$<BOOL:${MINGW}>:-static>
 	$<$<BOOL:${MINGW}>:-static-libgcc>
 	$<$<BOOL:${MINGW}>:-static-libstdc++>
-	$<$<BOOL:${MINGW}>:-static>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>

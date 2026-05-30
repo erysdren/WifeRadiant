@@ -80,9 +80,9 @@ set_target_properties(q3map2
 		RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
 )
 target_compile_options(q3map2 PRIVATE
+	$<$<BOOL:${MINGW}>:-static>
 	$<$<BOOL:${MINGW}>:-static-libgcc>
 	$<$<BOOL:${MINGW}>:-static-libstdc++>
-	$<$<BOOL:${MINGW}>:-static>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
@@ -94,6 +94,17 @@ target_compile_options(q3map2 PRIVATE
 	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
 )
+
+if(WIN32 AND TARGET ZLIB::ZLIB)
+	get_target_property(_zlib_target_type ZLIB::ZLIB TYPE)
+	if(_zlib_target_type STREQUAL "SHARED_LIBRARY")
+		add_custom_command(TARGET q3map2 POST_BUILD
+			COMMAND ${CMAKE_COMMAND} -E copy_if_different
+				$<TARGET_FILE:ZLIB::ZLIB>
+				$<TARGET_FILE_DIR:q3map2>
+		)
+	endif()
+endif()
 
 target_compile_definitions(q3map2 PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
 if(WIN32)

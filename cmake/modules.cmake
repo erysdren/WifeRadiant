@@ -17,6 +17,9 @@ function(add_module name)
 	)
 	target_compile_definitions(${name} PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
 	target_compile_options(${name} PRIVATE
+		$<$<BOOL:${MINGW}>:-static>
+		$<$<BOOL:${MINGW}>:-static-libgcc>
+		$<$<BOOL:${MINGW}>:-static-libstdc++>
 		$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
 		$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
 		$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
