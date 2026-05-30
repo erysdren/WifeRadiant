@@ -313,7 +313,7 @@ install(SCRIPT ${radiant_deploy_script})
 if(WIN32)
 	add_custom_command(TARGET radiant POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different
-			$<TARGET_RUNTIME_DLLS:LibXml2::LibXml2>
+			$<TARGET_RUNTIME_DLLS:radiant>
 			$<TARGET_FILE_DIR:radiant>
 	)
 endif()

@@ -95,10 +95,10 @@ target_compile_options(q3map2 PRIVATE
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
 )
 
-if(WIN32 AND TARGET ZLIB::ZLIB)
+if(WIN32)
 	add_custom_command(TARGET q3map2 POST_BUILD
 		COMMAND ${CMAKE_COMMAND} -E copy_if_different
-			$<TARGET_RUNTIME_DLLS:ZLIB::ZLIB>
+			$<TARGET_RUNTIME_DLLS:q3map2>
 			$<TARGET_FILE_DIR:q3map2>
 	)
 endif()
