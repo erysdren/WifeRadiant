@@ -58,10 +58,6 @@ add_executable(q3map2
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/vis.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
 )
-if(CMAKE_CXX_COMPILER_ID STREQUAL "GNU" OR CMAKE_CXX_COMPILER_ID STREQUAL "Clang")
-	target_compile_options(q3map2 PRIVATE -MMD -W -Wall -Wcast-align -Wcast-qual -Wno-unused-parameter -Wno-unused-function -fno-strict-aliasing)
-	target_compile_options(q3map2 PRIVATE -Wreorder -fno-exceptions -fno-rtti)
-endif()
 target_link_libraries(q3map2 PRIVATE l_net filematch ddslib etclib crnlib webplib)
 target_link_libraries(q3map2 PRIVATE LibXml2::LibXml2)
 target_link_libraries(q3map2 PRIVATE assimp $<$<BOOL:${WIN32}>:ws2_32>)
@@ -80,17 +76,32 @@ target_compile_definitions(q3map2 PRIVATE
 )
 set_target_properties(q3map2
 	PROPERTIES
-		CXX_STANDARD_REQUIRED ON
-		CXX_STANDARD 20
 		LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
 		RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
 )
-if(DEFINED CMAKE_SYSTEM_PROCESSOR)
+target_compile_options(q3map2 PRIVATE
+	$<$<BOOL:${MINGW}>:-static-libgcc>
+	$<$<BOOL:${MINGW}>:-static-libstdc++>
+	$<$<BOOL:${MINGW}>:-static>
+	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
+	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
+	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-W>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wall>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-align>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-qual>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-parameter>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
+	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
+)
+
+target_compile_definitions(q3map2 PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
+if(WIN32)
+	target_compile_definitions(q3map2 PRIVATE RADIANT_EXECUTABLE=$<QUOTE>exe$<QUOTE>)
+elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
 	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
+	target_compile_definitions(q3map2 PRIVATE RADIANT_EXECUTABLE=$<QUOTE>${SYSTEM_PROCESSOR}$<QUOTE>)
 	set_target_properties(q3map2 PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
-endif()
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-	target_compile_definitions(q3map2 PRIVATE WIN32)
 else()
-	target_compile_definitions(q3map2 PRIVATE POSIX XWINDOWS)
+	target_compile_definitions(q3map2 PRIVATE RADIANT_EXECUTABLE=$<QUOTE>unknown$<QUOTE>)
 endif()

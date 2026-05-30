@@ -80,17 +80,32 @@ target_compile_definitions(mbspc PRIVATE
 )
 set_target_properties(mbspc
 	PROPERTIES
-		CXX_STANDARD_REQUIRED ON
-		CXX_STANDARD 20
 		LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
 		RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
 )
-if(DEFINED CMAKE_SYSTEM_PROCESSOR)
+target_compile_options(mbspc PRIVATE
+	$<$<BOOL:${MINGW}>:-static-libgcc>
+	$<$<BOOL:${MINGW}>:-static-libstdc++>
+	$<$<BOOL:${MINGW}>:-static>
+	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
+	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
+	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-W>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wall>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-align>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-qual>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-parameter>
+	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
+	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
+)
+
+target_compile_definitions(mbspc PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
+if(WIN32)
+	target_compile_definitions(mbspc PRIVATE RADIANT_EXECUTABLE=$<QUOTE>exe$<QUOTE>)
+elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
 	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
+	target_compile_definitions(mbspc PRIVATE RADIANT_EXECUTABLE=$<QUOTE>${SYSTEM_PROCESSOR}$<QUOTE>)
 	set_target_properties(mbspc PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
-endif()
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-	target_compile_definitions(mbspc PRIVATE WIN32)
 else()
-	target_compile_definitions(mbspc PRIVATE POSIX XWINDOWS)
+	target_compile_definitions(mbspc PRIVATE RADIANT_EXECUTABLE=$<QUOTE>unknown$<QUOTE>)
 endif()

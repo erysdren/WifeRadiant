@@ -346,6 +346,12 @@ target_compile_options(radiant PRIVATE
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
 )
 
+target_compile_definitions(radiant PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
+target_compile_definitions(commandlib PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
+target_compile_definitions(gtkutil PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
+target_compile_definitions(l_net PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
+target_compile_definitions(xmllib PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
+
 set_target_properties(radiant
 	PROPERTIES
 		LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
@@ -360,58 +366,19 @@ file(GLOB RADIANT_DATA_FILES "${PROJECT_SOURCE_DIR}/resources/*")
 file(COPY ${RADIANT_DATA_FILES} DESTINATION ${PROJECT_SOURCE_DIR}/install/)
 file(COPY "${PROJECT_SOURCE_DIR}/docs/mouse shortcuts.txt" DESTINATION ${PROJECT_SOURCE_DIR}/install/docs/)
 
-if(CMAKE_SYSTEM_NAME STREQUAL "Windows")
-	target_compile_definitions(radiant PRIVATE WIN32)
-	target_compile_definitions(commandlib PRIVATE WIN32)
-	target_compile_definitions(gtkutil PRIVATE WIN32)
-	target_compile_definitions(l_net PRIVATE WIN32)
-	target_compile_definitions(xmllib PRIVATE WIN32)
+if(WIN32)
 	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>exe$<QUOTE>)
-	if(0)
-	install(CODE [[
-		file(GET_RUNTIME_DEPENDENCIES
-			RESOLVED_DEPENDENCIES_VAR RADIANT_RESOLVED_DEPENDENCIES
-			UNRESOLVED_DEPENDENCIES_VAR RADIANT_UNRESOLVED_DEPENDENCIES
-			EXECUTABLES
-				$<TARGET_FILE:radiant>
-			LIBRARIES
-				$<TARGET_RUNTIME_DLLS:radiant>
-			PRE_EXCLUDE_REGEXES
-				"^api-ms-win-crt-.*"
-			DIRECTORIES
-				$<TARGET_RUNTIME_DLL_DIRS:radiant>
-		)
-		if(RADIANT_UNRESOLVED_DEPENDENCIES)
-			message(WARNING "unresolved dependencies: ${RADIANT_UNRESOLVED_DEPENDENCIES}")
-		endif()
-		file(COPY ${RADIANT_RESOLVED_DEPENDENCIES} DESTINATION $<TARGET_FILE_DIR:radiant>)
-		file(COPY $<TARGET_RUNTIME_DLLS:radiant> DESTINATION $<TARGET_FILE_DIR:radiant>)
-	]])
-	endif()
+elseif(EMSCRIPTEN)
+	target_compile_options(radiant PRIVATE -sMAIN_MODULE=1)
+	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>emscripten$<QUOTE>)
+	set_target_properties(radiant PROPERTIES SUFFIX ".js")
+elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
+	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
+	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>${SYSTEM_PROCESSOR}$<QUOTE>)
+	set_target_properties(radiant PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
 else()
-	target_compile_definitions(radiant PRIVATE POSIX XWINDOWS)
-	target_compile_definitions(commandlib PRIVATE POSIX XWINDOWS)
-	target_compile_definitions(gtkutil PRIVATE POSIX XWINDOWS)
-	target_compile_definitions(l_net PRIVATE POSIX XWINDOWS)
-	target_compile_definitions(xmllib PRIVATE POSIX XWINDOWS)
-	if(EMSCRIPTEN)
-		target_compile_options(radiant PRIVATE -sMAIN_MODULE=1)
-		target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>emscripten$<QUOTE>)
-		set_target_properties(radiant PROPERTIES SUFFIX ".js")
-	elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
-		string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
-		target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>${SYSTEM_PROCESSOR}$<QUOTE>)
-		set_target_properties(radiant PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
-	else()
-		target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>unknown$<QUOTE>)
-	endif()
+	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>unknown$<QUOTE>)
 endif()
-
-target_compile_definitions(radiant PRIVATE $<$<CONFIG:Debug>:_DEBUG>)
-target_compile_definitions(commandlib PRIVATE $<$<CONFIG:Debug>:_DEBUG>)
-target_compile_definitions(gtkutil PRIVATE $<$<CONFIG:Debug>:_DEBUG>)
-target_compile_definitions(l_net PRIVATE $<$<CONFIG:Debug>:_DEBUG>)
-target_compile_definitions(xmllib PRIVATE $<$<CONFIG:Debug>:_DEBUG>)
 
 # gamepacks
 
