@@ -46,8 +46,8 @@ jobs:
     - name: Build
       run: |
         cmake --build --preset DefaultNinja --target install
-        mkdir .\install\settings
-        copy /b NUL .\install\settings\.gitkeep
+        mkdir -p install/settings
+        touch install/settings/.gitkeep
 
     - name: Deploy
       run: |
