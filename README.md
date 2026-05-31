@@ -16,6 +16,13 @@ SourceRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/g
 - Disable any Radiant feature that is unrelated to Source Engine level editing
 - Attempt to upstream any editor changes that are related to code cleanup and general usability improvements.
 
+## FAQ
+
+- Q: How do I load an FGD in the editor?
+	- A: FGDs must be placed inside the SourceRadiant gamepack directory, like so: `SourceRadiant/gamepacks/hl2.game/hl2/halflife2.fgd`
+- Q: How do I load WADs for GoldSrc games?
+	- A: Unfortunately there is currently no way to manage WADs, SourceRadiant will automatically load any WADs it finds in the game directory, i.e. `Half-Life/valve/halflife.wad`
+
 ## Credits
 
 - [sourcepp](https://github.com/craftablescience/sourcepp)
