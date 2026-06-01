@@ -255,6 +255,7 @@ qt_add_executable(radiant
 	${PROJECT_SOURCE_DIR}/radiant/gtkdlgs.cpp
 	${PROJECT_SOURCE_DIR}/radiant/gtkmisc.cpp
 	${PROJECT_SOURCE_DIR}/radiant/help.cpp
+	$<$<BOOL:${WIN32}>:${PROJECT_SOURCE_DIR}/radiant/icon.rc>
 	${PROJECT_SOURCE_DIR}/radiant/image.cpp
 	${PROJECT_SOURCE_DIR}/radiant/layerswindow.cpp
 	${PROJECT_SOURCE_DIR}/radiant/mainframe.cpp
