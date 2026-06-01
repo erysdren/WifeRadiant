@@ -168,7 +168,7 @@ void build_init_variables(){
 #if defined( POSIX )
 	build_set_variable( "CopyCommand", "cp" );
 #elif defined( WIN32 )
-	build_set_variable( "CopyCommand", "copy" );
+	build_set_variable( "CopyCommand", "xcopy" );
 #else
 #error "unsupported platform"
 #endif
