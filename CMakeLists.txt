@@ -215,7 +215,7 @@ target_include_directories(webplib PUBLIC ${PROJECT_SOURCE_DIR}/libs/webplib)
 
 # radiant
 
-qt_add_executable(radiant
+qt_add_executable(radiant WIN32
 	${PROJECT_SOURCE_DIR}/radiant/autosave.cpp
 	${PROJECT_SOURCE_DIR}/radiant/brushmanip.cpp
 	${PROJECT_SOURCE_DIR}/radiant/brushmodule.cpp
