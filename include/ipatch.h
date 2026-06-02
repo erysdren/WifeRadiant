@@ -213,6 +213,7 @@ class PatchControl
 public:
 	Vector3 m_vertex;
 	Vector2 m_texcoord;
+	Vector4 m_color;
 };
 
 typedef Matrix<PatchControl> PatchControlMatrix;

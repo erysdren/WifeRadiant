@@ -1093,7 +1093,20 @@ inline bool Patch_importMatrix( Patch& patch, Tokeniser& tokeniser ){
 				RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_texcoord[0] ) );
 				RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_texcoord[1] ) );
 
-				RETURN_FALSE_IF_FAIL( Tokeniser_parseToken( tokeniser, ")" ) );
+				// patchDef3WS
+				if ( string_equal( tokeniser.getToken(), ")" ) )
+				{
+					continue;
+				}
+				else
+				{
+					tokeniser.ungetToken();
+					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[0] ) );
+					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[1] ) );
+					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[2] ) );
+					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[3] ) );
+					RETURN_FALSE_IF_FAIL( Tokeniser_parseToken( tokeniser, ")" ) );
+				}
 			}
 			RETURN_FALSE_IF_FAIL( Tokeniser_parseToken( tokeniser, ")" ) );
 		}

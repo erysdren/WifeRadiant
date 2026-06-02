@@ -1762,7 +1762,7 @@ inline const Vector3& bitangent_for_index( const Array<ArbitraryMeshVertex>& ver
 #include "math/curve.h"
 
 inline PatchControl QuadraticBezier_evaluate( const PatchControl* firstPoint, double t ){
-	PatchControl result = { Vector3( 0, 0, 0 ), Vector2( 0, 0 ) };
+	PatchControl result = { Vector3( 0, 0, 0 ), Vector2( 0, 0 ), Vector4( 0, 0, 0, 1 ) };
 	double denominator = 0;
 
 	{
