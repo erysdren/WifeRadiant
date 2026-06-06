@@ -12,9 +12,9 @@ jobs:
         arch: [x86_64]
         cc: [gcc]
         include:
-          # - arch: x86
-          #   msystem: MINGW32
-          #   prefix: mingw-w64-i686
+          - arch: x86
+            msystem: MINGW32
+            prefix: mingw-w64-i686
 
           - arch: x86_64
             msystem: MINGW64
