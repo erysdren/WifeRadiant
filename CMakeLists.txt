@@ -276,6 +276,7 @@ qt_add_executable(radiant WIN32
 	${PROJECT_SOURCE_DIR}/radiant/plugin.cpp
 	${PROJECT_SOURCE_DIR}/radiant/plugintoolbar.cpp
 	${PROJECT_SOURCE_DIR}/radiant/points.cpp
+	${PROJECT_SOURCE_DIR}/radiant/prefabs.cpp
 	${PROJECT_SOURCE_DIR}/radiant/preferencedictionary.cpp
 	${PROJECT_SOURCE_DIR}/radiant/preferences.cpp
 	${PROJECT_SOURCE_DIR}/radiant/qe3.cpp
