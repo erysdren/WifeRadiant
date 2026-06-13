@@ -99,6 +99,27 @@ target_compile_options(mbspc PRIVATE
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
 )
 
+if(WIN32)
+	install(CODE [[
+		file(GET_RUNTIME_DEPENDENCIES
+			RESOLVED_DEPENDENCIES_VAR _resolved_deps
+			UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
+			EXECUTABLES
+				$<TARGET_FILE:mbspc>
+			PRE_EXCLUDE_REGEXES
+				"api-ms-" "ext-ms-" "Qt6"
+			POST_EXCLUDE_REGEXES
+				".*system32/.*\\.dll"
+			DIRECTORIES
+				$<TARGET_RUNTIME_DLL_DIRS:mbspc>
+		)
+		if(_unresolved_deps)
+			message(WARNING "mbspc unresolved dependencies: ${_unresolved_deps}")
+		endif()
+		file(COPY ${_resolved_deps} DESTINATION $<TARGET_FILE_DIR:mbspc>)
+	]])
+endif()
+
 target_compile_definitions(mbspc PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
 if(WIN32)
 	target_compile_definitions(mbspc PRIVATE RADIANT_EXECUTABLE=$<QUOTE>exe$<QUOTE>)
