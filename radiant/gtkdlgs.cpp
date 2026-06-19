@@ -462,7 +462,7 @@ void DoAbout(){
 				                         __DATE__ "\n\n"
 				                         RADIANT_ABOUTMSG "\n\n"
 				                         "This program is free software\n"
-				                         "licensed under the GNU GPL.\n"
+				                         "licensed under the GNU GPL (version 2).\n"
 				                       );
 				hbox->addWidget( label );
 			}
