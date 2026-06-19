@@ -1,5 +1,4 @@
-WifeRadiant
-=================
+![WifeRadiant](.github/splash.png)
 
 The open-source, cross-platform level editor for idTech, Source Engine, and GoldSrc based games.
 
