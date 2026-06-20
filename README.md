@@ -119,6 +119,9 @@ should be considered **!!EXPERIMENTAL!!**
 - Project manager window
 - Gamepack editor window
 - Embed Surface Dialog window in Textures group panel
+- Quake 4 support / improved idTech 4 support
+	- Fix entity definitions not loading
+	- Add realtime lighting preview
 
 ### Random feature highlights
 
