@@ -14,6 +14,8 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 	- A: FGDs must be placed inside the WifeRadiant gamepack directory, like so: `WifeRadiant/gamepacks/hl2.game/hl2/halflife2.fgd`
 - Q: How do I load WADs for GoldSrc/Quake games?
 	- A: Unfortunately there is currently no way to manage WADs, WifeRadiant will automatically load any WADs it finds in the game directory, i.e. `Half-Life/valve/halflife.wad`
+- Q: How do I make WifeRadiant a "local" installation?
+	- A: Create an empty folder called "settings" in the WifeRadiant directory and the editor will save settings into there instead.
 
 ## Credits
 
