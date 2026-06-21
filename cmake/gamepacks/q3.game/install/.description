@@ -1,0 +1,13 @@
+
+This is fixed, cleaned and supplemented set of files to map for Q3 and mods.
+Place folder contents to baseq3 directory.
+
+shaderlist.txt: make sure to remove/overwrite existing ones
+	or remove Q3 shaders names
+	(base_*, gothic_*, common, ctf, liquids, models, organics, sfx, skies, skin, tim)
+	from other shaderlists (netradiant can handle multiple ones).
+Q3 shaders live in single q3shadersCopyForRadiant.shader file here.
+
+Included textures (.jpg, .tga) and sounds are not shipped with the game. Make sure to include used ones with your map!
+
+grabmodels.map is intended for quick preview of Q3 models and ctrl+C->shift+Ving to your map.

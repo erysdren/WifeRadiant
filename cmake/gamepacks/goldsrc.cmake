@@ -4,7 +4,7 @@ endif()
 
 # Half-Life
 radiant_add_gamepack(hl
-	GOLDSRC
+	GAME_TYPE "hl"
 	TITLE "Half-Life"
 	GAMEDIR "valve"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Half-Life/"
@@ -12,12 +12,25 @@ radiant_add_gamepack(hl
 	EXECUTABLE_WIN32 "hl.exe"
 	EXECUTABLE_LINUX "hl.sh"
 	EXECUTABLE_MACOS "hl.sh"
-	ENTITIES "halflife.fgd"
+	ENTITIES_FILENAME "halflife.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "source"
+	BUILD_MENU_FILENAME "default_build_menu_goldsrc_ericwtools.xml"
+	ARCHIVE_TYPES "pak" "wad"
+	TEXTURE_TYPES "hlw" "spr" "mdl"
+	MODEL_TYPES "mdl"
+	SOUND_TYPES "wav"
+	MAP_TYPES "maphl"
+	BRUSH_TYPES "halflife"
+	PATCH_TYPES "quake3"
 )
 
 # Half-Life: Blue Shift
 radiant_add_gamepack(bshift
-	GOLDSRC
+	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
 	BASE_GAMEDIR "valve"
@@ -29,12 +42,25 @@ radiant_add_gamepack(bshift
 	EXECUTABLE_WIN32 "hl.exe"
 	EXECUTABLE_LINUX "hl.sh"
 	EXECUTABLE_MACOS "hl.sh"
-	ENTITIES "bshift.fgd"
+	ENTITIES_FILENAME "bshift.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "source"
+	BUILD_MENU_FILENAME "default_build_menu_goldsrc_ericwtools.xml"
+	ARCHIVE_TYPES "pak" "wad"
+	TEXTURE_TYPES "hlw" "spr" "mdl"
+	MODEL_TYPES "mdl"
+	SOUND_TYPES "wav"
+	MAP_TYPES "maphl"
+	BRUSH_TYPES "halflife"
+	PATCH_TYPES "quake3"
 )
 
 # Half-Life: Opposing Force
 radiant_add_gamepack(gearbox
-	GOLDSRC
+	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
 	BASE_GAMEDIR "valve"
@@ -46,12 +72,25 @@ radiant_add_gamepack(gearbox
 	EXECUTABLE_WIN32 "hl.exe"
 	EXECUTABLE_LINUX "hl.sh"
 	EXECUTABLE_MACOS "hl.sh"
-	ENTITIES "halflife-op4.fgd"
+	ENTITIES_FILENAME "halflife-op4.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "source"
+	BUILD_MENU_FILENAME "default_build_menu_goldsrc_ericwtools.xml"
+	ARCHIVE_TYPES "pak" "wad"
+	TEXTURE_TYPES "hlw" "spr" "mdl"
+	MODEL_TYPES "mdl"
+	SOUND_TYPES "wav"
+	MAP_TYPES "maphl"
+	BRUSH_TYPES "halflife"
+	PATCH_TYPES "quake3"
 )
 
 # Team Fortress Classic
 radiant_add_gamepack(tfc
-	GOLDSRC
+	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
 	BASE_GAMEDIR "valve"
@@ -63,12 +102,25 @@ radiant_add_gamepack(tfc
 	EXECUTABLE_WIN32 "hl.exe"
 	EXECUTABLE_LINUX "hl.sh"
 	EXECUTABLE_MACOS "hl.sh"
-	ENTITIES "tfc.fgd"
+	ENTITIES_FILENAME "tfc.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "source"
+	BUILD_MENU_FILENAME "default_build_menu_goldsrc_ericwtools.xml"
+	ARCHIVE_TYPES "pak" "wad"
+	TEXTURE_TYPES "hlw" "spr" "mdl"
+	MODEL_TYPES "mdl"
+	SOUND_TYPES "wav"
+	MAP_TYPES "maphl"
+	BRUSH_TYPES "halflife"
+	PATCH_TYPES "quake3"
 )
 
 # Day of Defeat
 radiant_add_gamepack(dod
-	GOLDSRC
+	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
 	BASE_GAMEDIR "valve"
@@ -80,12 +132,25 @@ radiant_add_gamepack(dod
 	EXECUTABLE_WIN32 "hl.exe"
 	EXECUTABLE_LINUX "hl.sh"
 	EXECUTABLE_MACOS "hl.sh"
-	ENTITIES "dod.fgd"
+	ENTITIES_FILENAME "dod.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "source"
+	BUILD_MENU_FILENAME "default_build_menu_goldsrc_ericwtools.xml"
+	ARCHIVE_TYPES "pak" "wad"
+	TEXTURE_TYPES "hlw" "spr" "mdl"
+	MODEL_TYPES "mdl"
+	SOUND_TYPES "wav"
+	MAP_TYPES "maphl"
+	BRUSH_TYPES "halflife"
+	PATCH_TYPES "quake3"
 )
 
 # Counter-Strike
 radiant_add_gamepack(cstrike
-	GOLDSRC
+	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
 	BASE_GAMEDIR "valve"
@@ -97,12 +162,25 @@ radiant_add_gamepack(cstrike
 	EXECUTABLE_WIN32 "hl.exe"
 	EXECUTABLE_LINUX "hl.sh"
 	EXECUTABLE_MACOS "hl.sh"
-	ENTITIES "cstrike.fgd"
+	ENTITIES_FILENAME "cstrike.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "source"
+	BUILD_MENU_FILENAME "default_build_menu_goldsrc_ericwtools.xml"
+	ARCHIVE_TYPES "pak" "wad"
+	TEXTURE_TYPES "hlw" "spr" "mdl"
+	MODEL_TYPES "mdl"
+	SOUND_TYPES "wav"
+	MAP_TYPES "maphl"
+	BRUSH_TYPES "halflife"
+	PATCH_TYPES "quake3"
 )
 
 # Ricochet
 radiant_add_gamepack(ricochet
-	GOLDSRC
+	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
 	BASE_GAMEDIR "valve"
@@ -114,12 +192,25 @@ radiant_add_gamepack(ricochet
 	EXECUTABLE_WIN32 "hl.exe"
 	EXECUTABLE_LINUX "hl.sh"
 	EXECUTABLE_MACOS "hl.sh"
-	ENTITIES "ricochet.fgd"
+	ENTITIES_FILENAME "ricochet.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "source"
+	BUILD_MENU_FILENAME "default_build_menu_goldsrc_ericwtools.xml"
+	ARCHIVE_TYPES "pak" "wad"
+	TEXTURE_TYPES "hlw" "spr" "mdl"
+	MODEL_TYPES "mdl"
+	SOUND_TYPES "wav"
+	MAP_TYPES "maphl"
+	BRUSH_TYPES "halflife"
+	PATCH_TYPES "quake3"
 )
 
 # Gunman Chronicles
 radiant_add_gamepack(rewolf
-	GOLDSRC
+	GAME_TYPE "hl"
 	TITLE "Gunman Chronicles"
 	GAMEDIR "rewolf"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Half-Life/"
@@ -127,5 +218,18 @@ radiant_add_gamepack(rewolf
 	EXECUTABLE_WIN32 "hl.exe"
 	EXECUTABLE_LINUX "hl.sh"
 	EXECUTABLE_MACOS "hl.sh"
-	ENTITIES "gunman.fgd"
+	ENTITIES_FILENAME "gunman.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "source"
+	BUILD_MENU_FILENAME "default_build_menu_goldsrc_ericwtools.xml"
+	ARCHIVE_TYPES "pak" "wad"
+	TEXTURE_TYPES "hlw" "spr" "mdl"
+	MODEL_TYPES "mdl"
+	SOUND_TYPES "wav"
+	MAP_TYPES "maphl"
+	BRUSH_TYPES "halflife"
+	PATCH_TYPES "quake3"
 )

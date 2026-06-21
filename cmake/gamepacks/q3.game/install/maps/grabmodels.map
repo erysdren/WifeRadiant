@@ -1,0 +1,646 @@
+
+// entity 0
+{
+"classname" "worldspawn"
+// brush 0
+{
+brushDef
+{
+( 11008 -27136 1280 ) ( -1792 10752 1280 ) ( 11008 10752 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.4375 ) ) gothic_block/blocks17e 0 0 0
+( 11008 10752 1024 ) ( -1792 10752 1280 ) ( -1792 10752 1024 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 11008 -27136 1024 ) ( 11008 10752 1280 ) ( 11008 10752 1024 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 11008 -27136 -512 ) ( -1792 -27136 1280 ) ( 11008 -27136 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 1280 ) ( -1792 10752 1024 ) ( -1792 10752 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 1024 ) ( 11008 10752 1024 ) ( -1792 10752 1024 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.4375 ) ) gothic_block/blocks17e 0 0 0
+}
+}
+// brush 1
+{
+brushDef
+{
+( 11008 10752 1280 ) ( -1792 10496 1280 ) ( -1792 10752 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.4375 ) ) gothic_block/blocks17e 0 0 0
+( 11008 10752 -304 ) ( -1792 10752 1280 ) ( -1792 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 11008 10496 1280 ) ( 11008 10752 1280 ) ( 11008 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 11008 10496 -304 ) ( -1792 10752 -304 ) ( -1792 10496 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.0625 ) ) gothic_block/blocks17e 0 0 0
+( -1792 10496 1280 ) ( -1792 10752 -304 ) ( -1792 10752 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 11008 10496 1280 ) ( -1792 10496 -304 ) ( -1792 10496 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+}
+}
+// brush 2
+{
+brushDef
+{
+( 11008 -27136 1280 ) ( 10752 10752 1280 ) ( 11008 10752 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.4375 ) ) gothic_block/blocks17e 0 0 0
+( 11008 10752 -304 ) ( 10752 10752 1280 ) ( 10752 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 11008 -27136 -304 ) ( 11008 10752 1280 ) ( 11008 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 10752 -27136 -304 ) ( 11008 10752 -304 ) ( 10752 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.0625 ) ) gothic_block/blocks17e 0 0 0
+( 10752 -27136 1280 ) ( 11008 -27136 -304 ) ( 10752 -27136 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 10752 -27136 1280 ) ( 10752 10752 -304 ) ( 10752 10752 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+}
+}
+// brush 3
+{
+brushDef
+{
+( 11008 10752 -304 ) ( -1792 10752 -48 ) ( -1792 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 11008 -27136 -304 ) ( 11008 10752 -48 ) ( 11008 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 -304 ) ( 11008 10752 -304 ) ( -1792 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.0625 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 -304 ) ( 11008 -27136 -48 ) ( 11008 -27136 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 -48 ) ( -1792 10752 -304 ) ( -1792 10752 -48 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 11008 -27136 -48 ) ( -1792 10752 -48 ) ( 11008 10752 -48 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.0625 ) ) gothic_block/blocks17e 0 0 0
+}
+}
+// brush 4
+{
+brushDef
+{
+( -1792 2560 1280 ) ( 11008 -27648 1280 ) ( -1792 -27648 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.4375 ) ) gothic_block/blocks17e 0 0 0
+( 11008 -27136 1280 ) ( 11008 -26880 -304 ) ( 11008 -27136 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 -304 ) ( 11008 -27136 -304 ) ( 11008 -26880 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.0625 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 1280 ) ( 11008 -27136 -304 ) ( -1792 -27136 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -26880 1280 ) ( -1792 -27136 -304 ) ( -1792 -26880 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( 11008 -26880 1280 ) ( -1792 -26880 -304 ) ( 11008 -26880 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+}
+}
+// brush 5
+{
+brushDef
+{
+( -1536 -27136 1280 ) ( -1792 10752 1280 ) ( -1536 10752 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.4375 ) ) gothic_block/blocks17e 0 0 0
+( -1792 10752 1280 ) ( -1536 10752 -304 ) ( -1536 10752 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 -304 ) ( -1536 10752 -304 ) ( -1792 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0.0625 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 1280 ) ( -1536 -27136 -304 ) ( -1792 -27136 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( -1792 -27136 1280 ) ( -1792 10752 -304 ) ( -1792 10752 1280 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+( -1536 -27136 -304 ) ( -1536 10752 1280 ) ( -1536 10752 -304 ) ( ( 0.0078125 0 0 ) ( 0 0.0078125 0 ) ) gothic_block/blocks17e 0 0 0
+}
+}
+}
+// entity 1
+{
+"classname" "misc_model"
+"origin" "0.000000 -25288.000000 -24.000000"
+"model" "models/mapobjects/banner/banner5.md3"
+}
+// entity 2
+{
+"classname" "misc_model"
+"origin" "0.000000 -20832.000000 -24.000000"
+"model" "models/mapobjects/baph/baphomet_gold.md3"
+}
+// entity 3
+{
+"classname" "misc_model"
+"origin" "0.000000 -18960.000000 -24.000000"
+"model" "models/mapobjects/bar.md3"
+}
+// entity 4
+{
+"classname" "misc_model"
+"origin" "0.000000 -9368.000000 -24.000000"
+"model" "models/mapobjects/barrel/barrel.md3"
+}
+// entity 5
+{
+"classname" "misc_model"
+"origin" "0.000000 -9664.000000 -24.000000"
+"model" "models/mapobjects/barrel/barrel2.md3"
+}
+// entity 6
+{
+"classname" "misc_model"
+"origin" "0.000000 -11704.000000 -24.000000"
+"model" "models/mapobjects/barrel/barrel_fire.md3"
+}
+// entity 7
+{
+"classname" "misc_model"
+"origin" "0.000000 -12000.000000 -24.000000"
+"model" "models/mapobjects/barrel/barrel_fire2.md3"
+}
+// entity 8
+{
+"classname" "misc_model"
+"origin" "0.000000 -9968.000000 -24.000000"
+"model" "models/mapobjects/barrel/barrelq3.md3"
+}
+// entity 9
+{
+"classname" "misc_model"
+"origin" "-32.000000 -152.000000 0.000000"
+"model" "models/mapobjects/signs/biosign.md3"
+}
+// entity 10
+{
+"classname" "misc_model"
+"origin" "0.000000 -23280.000000 120.000000"
+"model" "models/mapobjects/lamps/bot_lamp2.md3"
+}
+// entity 11
+{
+"classname" "misc_model"
+"origin" "0.000000 -2448.000000 0.000000"
+"model" "models/mapobjects/chains.md3"
+}
+// entity 12
+{
+"classname" "misc_model"
+"origin" "0.000000 -2216.000000 0.000000"
+"model" "models/mapobjects/chains_45.md3"
+}
+// entity 13
+{
+"classname" "misc_model"
+"origin" "0.000000 -2696.000000 0.000000"
+"model" "models/mapobjects/chains_v.md3"
+}
+// entity 14
+{
+"classname" "misc_model"
+"origin" "0.000000 -19696.000000 0.000000"
+"model" "models/mapobjects/console/console.md3"
+}
+// entity 15
+{
+"classname" "misc_model"
+"origin" "0.000000 -6688.000000 16.000000"
+"model" "models/mapobjects/corpse/corpse.md3"
+}
+// entity 16
+{
+"classname" "misc_model"
+"origin" "0.000000 -18608.000000 96.000000"
+"model" "models/mapobjects/cross/cross.md3"
+}
+// entity 17
+{
+"classname" "misc_model"
+"origin" "0.000000 -16840.000000 0.000000"
+"model" "models/mapobjects/eagle_banner.md3"
+}
+// entity 18
+{
+"classname" "misc_model"
+"origin" "0.000000 -17552.000000 168.000000"
+"model" "models/mapobjects/eagle_banner_strgg.md3"
+}
+// entity 19
+{
+"classname" "misc_model"
+"origin" "0.000000 -17176.000000 -24.000000"
+"model" "models/mapobjects/eagle_bar.md3"
+}
+// entity 20
+{
+"classname" "misc_model"
+"origin" "0.000000 -16480.000000 136.000000"
+"model" "models/mapobjects/eagle_bar_strgg.md3"
+}
+// entity 21
+{
+"classname" "misc_model"
+"origin" "0.000000 -22904.000000 32.000000"
+"model" "models/mapobjects/eagleban.md3"
+}
+// entity 22
+{
+"classname" "misc_model"
+"origin" "0.000000 -5680.000000 -24.000000"
+"model" "models/mapobjects/bitch/fembot.md3"
+}
+// entity 23
+{
+"classname" "misc_model"
+"origin" "0.000000 -7264.000000 -24.000000"
+"model" "models/mapobjects/bitch/fembotbig.md3"
+}
+// entity 24
+{
+"classname" "misc_model"
+"origin" "0.000000 -17848.000000 0.000000"
+"model" "models/mapobjects/wallhead/femhead.md3"
+}
+// entity 25
+{
+"classname" "misc_model"
+"origin" "0.000000 -592.000000 136.000000"
+"model" "models/mapobjects/flag/flag_strgg.md3"
+}
+// entity 26
+{
+"classname" "misc_model"
+"origin" "0.000000 -12328.000000 -24.000000"
+"model" "models/mapobjects/gargoyle1.md3"
+}
+// entity 27
+{
+"classname" "misc_model"
+"origin" "0.000000 -3200.000000 0.000000"
+"model" "models/mapobjects/gratelamp/gratelamp.md3"
+}
+// entity 28
+{
+"classname" "misc_model"
+"origin" "0.000000 -5360.000000 -24.000000"
+"model" "models/mapobjects/gratelamp/gratetorch.md3"
+}
+// entity 29
+{
+"classname" "misc_model"
+"origin" "0.000000 -8600.000000 0.000000"
+"model" "models/mapobjects/gratelamp/gratetorchbig.md3"
+}
+// entity 30
+{
+"classname" "misc_model"
+"origin" "0.000000 -1800.000000 -24.000000"
+"model" "models/mapobjects/grenadel/grenadel.md3"
+}
+// entity 31
+{
+"classname" "misc_model"
+"origin" "0.000000 -3464.000000 0.000000"
+"model" "models/mapobjects/console/hologram.md3"
+}
+// entity 32
+{
+"classname" "misc_model"
+"origin" "0.000000 -5064.000000 16.000000"
+"model" "models/mapobjects/horned/horned.md3"
+}
+// entity 33
+{
+"classname" "misc_model"
+"origin" "0.000000 -20400.000000 32.000000"
+"model" "models/mapobjects/jesus/jesus.md3"
+}
+// entity 34
+{
+"classname" "misc_model"
+"origin" "0.000000 -23632.000000 152.000000"
+"model" "models/mapobjects/jets/jets01.md3"
+}
+// entity 35
+{
+"classname" "misc_model"
+"origin" "0.000000 -11392.000000 -24.000000"
+"model" "models/mapobjects/kmlamp1.md3"
+}
+// entity 36
+{
+"classname" "misc_model"
+"origin" "0.000000 -21584.000000 -24.000000"
+"model" "models/mapobjects/baph/lil_baphomet.md3"
+}
+// entity 37
+{
+"classname" "misc_model"
+"origin" "0.000000 -1320.000000 -24.000000"
+"model" "models/mapobjects/wallhead/lion.md3"
+}
+// entity 38
+{
+"classname" "misc_model"
+"origin" "0.000000 -2960.000000 -24.000000"
+"model" "models/mapobjects/skull/monkeyface.md3"
+}
+// entity 39
+{
+"classname" "misc_model"
+"origin" "0.000000 -24360.000000 32.000000"
+"model" "models/mapobjects/pipe/pipe02.md3"
+}
+// entity 40
+{
+"classname" "misc_model"
+"origin" "0.000000 -24784.000000 32.000000"
+"model" "models/mapobjects/pipe/pipe02b.md3"
+}
+// entity 41
+{
+"classname" "misc_model"
+"origin" "0.000000 -19328.000000 -24.000000"
+"model" "models/mapobjects/pj_lamp.md3"
+}
+// entity 42
+{
+"classname" "misc_model"
+"origin" "0.000000 -20016.000000 -24.000000"
+"model" "models/mapobjects/podium/podium4.md3"
+}
+// entity 43
+{
+"classname" "misc_model"
+"origin" "0.000000 -21200.000000 -24.000000"
+"model" "models/mapobjects/portal_2/portal_2.md3"
+}
+// entity 44
+{
+"classname" "misc_model"
+"origin" "0.000000 -9104.000000 -24.000000"
+"model" "models/mapobjects/barrel/qkq_barrel.md3"
+}
+// entity 45
+{
+"classname" "misc_model"
+"origin" "0.000000 -10800.000000 -24.000000"
+"model" "models/mapobjects/barrel/qkq_barrel_2.md3"
+}
+// entity 46
+{
+"classname" "misc_model"
+"origin" "0.000000 -8064.000000 -24.000000"
+"model" "models/mapobjects/skel/skel01.md3"
+}
+// entity 47
+{
+"classname" "misc_model"
+"origin" "0.000000 -4744.000000 -24.000000"
+"model" "models/mapobjects/skel/skel02mid.md3"
+}
+// entity 48
+{
+"classname" "misc_model"
+"origin" "0.000000 -1560.000000 -24.000000"
+"model" "models/mapobjects/skel/skel_ribs.md3"
+}
+// entity 49
+{
+"classname" "misc_model"
+"origin" "0.000000 -4496.000000 -24.000000"
+"model" "models/mapobjects/skull/skull.md3"
+}
+// entity 50
+{
+"classname" "misc_model"
+"origin" "0.000000 -4240.000000 -24.000000"
+"model" "models/mapobjects/skull/skull_tilt1.md3"
+}
+// entity 51
+{
+"classname" "misc_model"
+"origin" "0.000000 -22280.000000 96.000000"
+"model" "models/mapobjects/spotlamp/spotlamp.md3"
+}
+// entity 52
+{
+"classname" "misc_model"
+"origin" "0.000000 2320.000000 -48.000000"
+"model" "models/mapobjects/colua0/colua02.ASE"
+}
+// entity 53
+{
+"classname" "misc_model"
+"origin" "0.000000 -15744.000000 -24.000000"
+"model" "models/mapobjects/statue_major.md3"
+}
+// entity 54
+{
+"classname" "misc_model"
+"origin" "0.000000 -6320.000000 -24.000000"
+"model" "models/mapobjects/storch/storch.md3"
+}
+// entity 55
+{
+"classname" "misc_model"
+"origin" "0.000000 -7528.000000 -24.000000"
+"model" "models/mapobjects/storch/storchx.md3"
+}
+// entity 56
+{
+"classname" "misc_model"
+"origin" "0.000000 -7800.000000 96.000000"
+"model" "models/mapobjects/storch/tall_torch.md3"
+}
+// entity 57
+{
+"classname" "misc_model"
+"origin" "0.000000 -21960.000000 -24.000000"
+"model" "models/mapobjects/teleporter/teleporter.md3"
+}
+// entity 58
+{
+"classname" "misc_model"
+"origin" "0.000000 -11096.000000 -24.000000"
+"model" "models/mapobjects/timlamp/timlamp.md3"
+}
+// entity 59
+{
+"classname" "misc_model"
+"origin" "0.000000 -8856.000000 0.000000"
+"model" "models/mapobjects/corpse/torso.md3"
+}
+// entity 60
+{
+"classname" "misc_model"
+"origin" "0.000000 -16096.000000 -24.000000"
+"model" "models/mapobjects/visor_posed.md3"
+}
+// entity 61
+{
+"classname" "misc_model"
+"origin" "0.000000 -10272.000000 -24.000000"
+"model" "models/mapobjects/wallhead/wallhead02.md3"
+}
+// entity 62
+{
+"classname" "misc_model"
+"origin" "0.000000 -6984.000000 -24.000000"
+"model" "models/mapobjects/walllamp3.md3"
+}
+// entity 63
+{
+"classname" "misc_model"
+"origin" "0.000000 -1072.000000 -24.000000"
+"model" "models/mapobjects/weeds/weeds.md3"
+}
+// entity 64
+{
+"classname" "misc_model"
+"origin" "0.000000 -840.000000 -24.000000"
+"model" "models/mapobjects/weeds/weeds_2.md3"
+}
+// entity 65
+{
+"classname" "misc_model"
+"origin" "0.000000 -6024.000000 -24.000000"
+"model" "models/mapobjects/skel/xray.md3"
+}
+// entity 66
+{
+"classname" "misc_model"
+"origin" "0.000000 -8320.000000 -24.000000"
+"model" "models/mapobjects/skel/xraybig.md3"
+}
+// entity 67
+{
+"classname" "info_player_deathmatch"
+"origin" "-256.000000 0.000000 0"
+}
+// entity 68
+{
+"classname" "misc_model"
+"origin" "0.000000 408.000061 -40.000000"
+"model" "models/mapobjects/baph/bapho_lamp.md3"
+}
+// entity 69
+{
+"classname" "misc_model"
+"origin" "0.000000 672.000000 80.000000"
+"model" "models/mapobjects/bitch/bitch.md3"
+}
+// entity 70
+{
+"classname" "misc_model"
+"origin" "0.000000 952.000000 -24.000000"
+"model" "models/mapobjects/lamps/spikylamp.md3"
+}
+// entity 71
+{
+"classname" "misc_model"
+"origin" "0.000000 1320.000000 136.000000"
+"model" "models/mapobjects/lamps/bot_lampx.md3"
+}
+// entity 72
+{
+"classname" "misc_model"
+"origin" "0.000000 1616.000000 -24.000000"
+"model" "models/mapobjects/flameholder/shaded.MD3"
+}
+// entity 73
+{
+"classname" "misc_model"
+"origin" "0.000000 -1984.000000 0.000000"
+"model" "models/mapobjects/slamp/slamp.md3"
+}
+// entity 74
+{
+"classname" "misc_model"
+"origin" "0 1864.000000 0"
+"model" "models/mapobjects/flares/crackle.md3"
+}
+// entity 75
+{
+"classname" "misc_model"
+"origin" "0.000000 2064.000000 96.000000"
+"model" "models/mapobjects/spotlamp/spotlamp1.md3"
+}
+// entity 76
+{
+"classname" "misc_model"
+"origin" "0.000000 2528.000000 96.000000"
+"model" "models/mapobjects/spotlamp/spotlamp2.ase"
+}
+// entity 77
+{
+"classname" "misc_model"
+"origin" "0.000000 2752.000000 96.000000"
+"model" "models/mapobjects/spotlamp/spotlamp_x.ase"
+}
+// entity 78
+{
+"classname" "misc_model"
+"origin" "0.000000 4608.000000 -40.000000"
+"model" "models/mapobjects/baph/bapholamp.ASE"
+}
+// entity 79
+{
+"classname" "misc_model"
+"origin" "0.000000 3008.000000 96.000000"
+"model" "models/mapobjects/spotlamp/spotlamp_x+.ase"
+}
+// entity 80
+{
+"classname" "misc_model"
+"origin" "0.000000 3264.000000 96.000000"
+"model" "models/mapobjects/lamps/longlamp.ase"
+}
+// entity 81
+{
+"classname" "misc_model"
+"origin" "0.000000 3512.000000 -48.000000"
+"model" "models/mapobjects/statue_ranger.ASE"
+}
+// entity 82
+{
+"classname" "misc_model"
+"origin" "0.000000 3712.000000 -48.000000"
+"model" "models/mapobjects/statue_visor.ASE"
+}
+// entity 83
+{
+"classname" "misc_model"
+"origin" "0.000000 3944.000000 -48.000000"
+"model" "models/mapobjects/statue_doom.ASE"
+}
+// entity 84
+{
+"classname" "misc_model"
+"origin" "0.000000 4144.000000 -40.000000"
+"model" "models/mapobjects/baph/bapholamp2.ASE"
+}
+// entity 85
+{
+"classname" "misc_model"
+"origin" "0.000000 4384.000000 -48.000000"
+"model" "models/mapobjects/storch/storch_mid.ASE"
+}
+// entity 86
+{
+"classname" "misc_model"
+"origin" "0.000000 4792.000000 -48.000000"
+"model" "models/mapobjects/storch/storch_tall.ASE"
+}
+// entity 87
+{
+"classname" "misc_model"
+"origin" "0.000000 5216.000000 -48.000000"
+"model" "models/mapobjects/timdm5_ceiling2.ASE"
+}
+// entity 88
+{
+"classname" "misc_model"
+"origin" "0.000000 5704.000000 56.000000"
+"model" "models/mapobjects/timdm5_wall1.ASE"
+}
+// entity 89
+{
+"classname" "misc_model"
+"origin" "0.000000 6008.000000 56.000000"
+"model" "models/mapobjects/timdm5_wall1+.ASE"
+}
+// entity 90
+{
+"classname" "misc_model"
+"origin" "37.000000 6485.000000 38.000000"
+"model" "models/mapobjects/xiandm1_ringhorz45.ASE"
+}
+// entity 91
+{
+"classname" "misc_model"
+"origin" "0.000000 6888.000000 -48.000000"
+"model" "models/mapobjects/skull/skull_tilt2.ASE"
+}
+// entity 92
+{
+"classname" "misc_model"
+"origin" "21.000000 6470.000000 33.000000"
+"model" "models/mapobjects/xiandm1_linkvert45.ASE"
+}
+// entity 93
+{
+"classname" "misc_model"
+"origin" "0.000000 6448.000000 16.000000"
+"model" "models/mapobjects/xiandm1_linkhorz45.ASE"
+}
+// entity 94
+{
+"classname" "misc_model"
+"origin" "-14.000000 6432.000000 5.000000"
+"model" "models/mapobjects/xiandm1_ringvert45.ASE"
+}
+// entity 95
+{
+"classname" "misc_model"
+"origin" "0.000000 6720.000000 -48.000000"
+"model" "models/mapobjects/skull/ribcage.ASE"
+}

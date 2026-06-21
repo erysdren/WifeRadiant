@@ -1,0 +1,31 @@
+
+radiant_add_gamepack(q3
+	GAME_TYPE "q3"
+	HAS_BASEGAME
+	BASE_TITLE "Quake III Arena"
+	BASE_GAMEDIR "baseq3"
+	TITLE "Quake III Arena / Quake III: Team Arena"
+	KNOWN_GAMEDIRS "missionpack"
+	KNOWN_TITLES "Quake III Team Arena"
+	PATH_WIN32 "C:/Program Files (x86)/Quake III Arena/"
+	PATH_LINUX "/usr/local/games/quake3/"
+	PATH_MACOS "/Applications/Quake3/"
+	EXECUTABLE_WIN32 "quake3.exe"
+	EXECUTABLE_LINUX "quake3"
+	EXECUTABLE_MACOS "Quake3.app"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "def" "xml"
+	ENTITIES "quake3"
+	ENTITIES_FILENAME "entities.ent"
+	ARCHIVE_TYPES "pk3"
+	TEXTURE_TYPES "tga" "jpg"
+	MODEL_TYPES "md3" "ase" "lwo" "obj"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapq3"
+	BRUSH_TYPES "quake3"
+	PATCH_TYPES "quake3"
+	DEFAULT_SCALE "0.5"
+	SUPPORT_PATCHES
+)

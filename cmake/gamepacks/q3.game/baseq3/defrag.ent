@@ -1,0 +1,531 @@
+<classes>
+
+<point name="target_startTimer" color="1 0 0" box="-8 -8 -8 8 8 8">
+Starts defrag timer, when triggered. Usually is triggered by trigger_multiple with "wait" set to "-1" to prevent timer reset.
+-------- KEYS --------
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_stopTimer" color="1 0 0" box="-8 -8 -8 8 8 8">
+Stops defrag timer, when triggered.
+-------- KEYS --------
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_checkpoint" color="1 0 0" box="-8 -8 -8 8 8 8">
+Checkpoint of defrag timer. Is intended for detailed comparison of a run with the best one.
+Utmost number of checkpoints, Defrag can consider, is 31 (32nd is used for finish).
+-------- KEYS --------
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_fragsFilter" color="1 0 0" box="-8 -8 -8 8 8 8">
+Frags filter is conditional entity, which fires its targets, when the player, triggering it, has appropriate count of frags. Frags in Defrag are obtained through activation of target_score.
+-------- KEYS --------
+<integer key="frags" name="Frags" value="1">Number of frags required to trigger the targeted entity (default 1).</integer>
+<target key="target" name="Target">This points to entity to activate in case of correct score.</target>
+<targetname key="targetname" name="Target Name">Trigger, activating frags filter, points to this.</targetname>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="REMOVER" name="REMOVER" bit="0">Removes from player's score the number of frags that was required to trigger the targeted entity.</flag>
+<flag key="SILENT" name="SILENT" bit="2">Disables player warnings ("x more frags needed" messages).</flag>
+<flag key="RESET" name="RESET" bit="3">Resets player's score to 0 after the targeted entity is triggered.</flag>
+<flag key="MATCH" name="MATCH" bit="4">The player's score must be exactly equal to the frags value.</flag>
+-------- NOTES --------
+If the Frags Filter is not bound from a trigger, it becomes independent and is so always active.
+Defrag is limited to 10 independent target_fragsFilters.
+Independent frags filters are bugged: can't be triggered twice in single player mode (unless RESET flag is set); in multiplayer mode one player can block it for others.
+Don't use such ones! Using trigger, connected to frags filter is highly recommended (trigger may be levelwide, if global behavior is required).
+</point>
+
+<!--
+=============================================================================
+-->
+
+<group name="trigger_teleport" color=".5 .5 .5">
+Touching this will teleport players to the location of targeted entity. Allows client side prediction of teleportation events.
+-------- KEYS --------
+<target key="target" name="Target">This must point to a misc_teleporter_dest entity.</target>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- SPAWNFLAGS --------
+<flag key="SPECTATOR" name="SPECTATOR" bit="0">If spectator is set, only spectators can use this teleport. Spectator teleporters are not normally placed in the editor, but are created automatically near doors to allow spectators to move through them.</flag>
+<flag key="KEEP_SPEED" name="KEEP_SPEED" bit="1">Stores the speed at entering the teleporter and restores it at the destination.</flag>
+</group>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_init" color="1 0 0" box="-8 -8 -8 8 8 8">
+Removes various items from player.
+-------- KEYS --------
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<target key="target" name="Target">This points to entities to activate when target_init is triggered.</target>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="KEEPARMOR" name="KEEPARMOR" bit="0">Keep armor.</flag>
+<flag key="KEEPHEALTH" name="KEEPHEALTH" bit="1">Keep health.</flag>
+<flag key="KEEPWEAPONS" name="KEEPWEAPONS" bit="2">Keep weapons.</flag>
+<flag key="KEEPPOWERUPS" name="KEEPPOWERUPS" bit="3">Keep powerups (quad, enviro etc).</flag>
+<flag key="KEEPHOLDABLE" name="KEEPHOLDABLE" bit="4">Keep holdable (medkit, teleporter).</flag>
+<flag key="REMOVEMACHINEGUN" name="REMOVEMACHINEGUN" bit="5">Remove machinegun.</flag>
+-------- NOTES --------
+REMOVEMACHINEGUN has no effect if KEEPWEAPONS is ON.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_smallprint" color="0 .5 0" box="-8 -8 -8 8 8 8">
+This will print a message on the center of the screen when triggered. In Defrag, by default, only the activating client will see the message.
+-------- KEYS --------
+<string key="message" name="Message">Text string to print on screen.</string>
+<targetname key="targetname" name="Target Name">The activating trigger points to this.</targetname>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="BROADCAST" name="BROADCAST" bit="3">When set, the message will be broadcast to all connected players.</flag>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_print" color="0 .5 0" box="-8 -8 -8 8 8 8">
+This will print a message on the center of the screen when triggered. In Defrag, by default, only the activating client will see the message.
+-------- KEYS --------
+<string key="message" name="Message">Text string to print on screen.</string>
+<targetname key="targetname" name="Target Name">The activating trigger points to this.</targetname>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- SPAWNFLAGS --------
+<flag key="BROADCAST" name="BROADCAST" bit="3">When set, the message will be broadcast to all connected players.</flag>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="shooter_grenade_targetplayer" color="1 0 .5" box="-8 -8 -8 8 8 8">
+This will shoot a grenade each time it's triggered. Aiming is done by setting the "angle", "angles" keys or by targeting an info_notnull, target_position or any other entity. It may also target the player, and predict the player's velocity.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Yaw aiming angle of shooter.</angle>
+<angles key="angles" name="Pitch Yaw Roll">This sets the pitch and yaw aiming angles of shooter (default 0 0). The roll angle does not apply.</angles>
+<target key="target" name="Target">This points to a target_position entity for aiming the grenades.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<real key="random" name="Angle Variance" value="1">Random aiming variance in degrees (range 0 - 90, default 1 - see notes).</real>
+<real key="speed" name="XY leading" value="0">Adjusts XY leading of player target.</real>
+<real key="count" name="Z leading" value="0">Adjusts Z leading of player target.</real>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="TARGETPLAYER" name="TARGETPLAYER" bit="0">If set, will aim at player instead of normal target.</flag>
+<flag key="PREDICT_XY" name="PREDICT_XY" bit="1">If set, will attempt to predict player's horizontal position.</flag>
+<flag key="PREDICT_Z" name="PREDICT_Z" bit="2">If set, will attempt to predict player's vertical position. Only should use this if player will be in freefall, as it does not account for the player touching the ground.</flag>
+<flag key="QUAD" name="QUAD" bit="3">Emit quadded grenades.</flag>
+-------- NOTES --------
+When the random key is set, its value is used to calculate a maximum angle deviation from the normal trajectory formed by a straight line between the shooter and the aiming entity it targets. The final trajectory will be a random value anywhere between no deviation at all (0) to maximum deviation (value of the random key / 2). Setting random key to 0 wont disable random, setting it to 180, 360 or 0.0000001 will do.
+
+Both the setting "angle(s)" key or "targeting a target_position" methods can be used to aim the shooter.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="shooter_plasma_targetplayer" color="1 0 .5" box="-8 -8 -8 8 8 8">
+This will shoot a plasma ball each time it's triggered. Aiming is done by setting the "angles" key or by targeting an info_notnull, target_position or any other entity. It may also target the player, and predict the player's velocity.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Yaw aiming angle of shooter.</angle>
+<angles key="angles" name="Pitch Yaw Roll">This sets the pitch and yaw aiming angles of shooter (default 0 0). The roll angle does not apply.</angles>
+<target key="target" name="Target">This points to a target_position entity for aiming the plasma balls.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<real key="random" name="Angle Variance" value="1">Random aiming variance in degrees (range 0 - 90, default 1 - see notes).</real>
+<real key="speed" name="XY leading" value="0">Adjusts XY leading of player target.</real>
+<real key="count" name="Z leading" value="0">Adjusts Z leading of player target.</real>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="TARGETPLAYER" name="TARGETPLAYER" bit="0">If set, will aim at player instead of normal target.</flag>
+<flag key="PREDICT_XY" name="PREDICT_XY" bit="1">If set, will attempt to predict player's horizontal position.</flag>
+<flag key="PREDICT_Z" name="PREDICT_Z" bit="2">If set, will attempt to predict player's vertical position. Only should use this if player will be in freefall, as it does not account for the player touching the ground.</flag>
+<flag key="QUAD" name="QUAD" bit="3">Emit quadded plasma.</flag>
+-------- NOTES --------
+When the random key is set, its value is used to calculate a maximum angle deviation from the normal trajectory formed by a straight line between the shooter and the aiming entity it targets. The final trajectory will be a random value anywhere between no deviation at all (0) to maximum deviation (value of the random key / 2). Setting random key to 0 wont disable random, setting it to 180, 360 or 0.0000001 will do.
+
+Both the setting "angle(s)" key or "targeting a target_position" methods can be used to aim the shooter.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="shooter_rocket_targetplayer" color="1 0 .5" box="-8 -8 -8 8 8 8">
+This will shoot a rocket each time it's triggered. Aiming is done by setting the "angles" key or by targeting an info_notnull, target_position or any other entity. It may also target the player, and predict the player's velocity.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Yaw aiming angle of shooter.</angle>
+<angles key="angles" name="Pitch Yaw Roll">This sets the pitch and yaw aiming angles of shooter (default 0 0). The roll angle does not apply.</angles>
+<target key="target" name="Target">This points to a target_position entity for aiming the rockets.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<real key="random" name="Angle Variance" value="1">Random aiming variance in degrees (range 0 - 90, default 1 - see notes).</real>
+<real key="speed" name="XY leading" value="0">Adjusts XY leading of player target.</real>
+<real key="count" name="Z leading" value="0">Adjusts Z leading of player target.</real>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="TARGETPLAYER" name="TARGETPLAYER" bit="0">If set, will aim at player instead of normal target.</flag>
+<flag key="PREDICT_XY" name="PREDICT_XY" bit="1">If set, will attempt to predict player's horizontal position.</flag>
+<flag key="PREDICT_Z" name="PREDICT_Z" bit="2">If set, will attempt to predict player's vertical position. Only should use this if player will be in freefall, as it does not account for the player touching the ground.</flag>
+<flag key="QUAD" name="QUAD" bit="3">Emit quadded rockets.</flag>
+-------- NOTES --------
+When the random key is set, its value is used to calculate a maximum angle deviation from the normal trajectory formed by a straight line between the shooter and the aiming entity it targets. The final trajectory will be a random value anywhere between no deviation at all (0) to maximum deviation (value of the random key / 2). Setting random key to 0 wont disable random, setting it to 180, 360 or 0.0000001 will do.
+
+Both the setting "angle(s)" key or "targeting a target_position" methods can be used to aim the shooter.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="shooter_bfg" color="1 0 .5" box="-8 -8 -8 8 8 8">
+This will shoot a BFG10K plasma each time it's triggered. Aiming is done by setting the "angle", "angles" keys or by targeting an info_notnull, target_position or any other entity. It may also target the player, and predict the player's velocity.
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">Yaw aiming angle of shooter.</angle>
+<angles key="angles" name="Pitch Yaw Roll">This sets the pitch and yaw aiming angles of shooter (default 0 0). The roll angle does not apply.</angles>
+<target key="target" name="Target">This points to a target_position entity for aiming the BFG10K plasma.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<real key="random" name="Angle Variance" value="1">Random aiming variance in degrees (range 0 - 90, default 1 - see notes).</real>
+<real key="speed" name="XY leading" value="0">Adjusts XY leading of player target.</real>
+<real key="count" name="Z leading" value="0">Adjusts Z leading of player target.</real>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="TARGETPLAYER" name="TARGETPLAYER" bit="0">If set, will aim at player instead of normal target.</flag>
+<flag key="PREDICT_XY" name="PREDICT_XY" bit="1">If set, will attempt to predict player's horizontal position.</flag>
+<flag key="PREDICT_Z" name="PREDICT_Z" bit="2">If set, will attempt to predict player's vertical position. Only should use this if player will be in freefall, as it does not account for the player touching the ground.</flag>
+<flag key="QUAD" name="QUAD" bit="3">Emit quadded BFG10K plasma.</flag>
+-------- NOTES --------
+When the random key is set, its value is used to calculate a maximum angle deviation from the normal trajectory formed by a straight line between the shooter and the aiming entity it targets. The final trajectory will be a random value anywhere between no deviation at all (0) to maximum deviation (value of the random key / 2). Setting random key to 0 wont disable random, setting it to 180, 360 or 0.0000001 will do.
+
+Both the setting "angle(s)" key or "targeting a target_position" methods can be used to aim the shooter.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<group name="trigger_push_velocity" color=".5 .5 .5">
+This is used to create jump pads and launch ramps. It MUST point to a target_position or info_notnull entity, located above trigger's origin, to work. Unlike target_push, this is client side predicted. This is similar to a jumppad, however, it may be configured to add to the player's velocity, as opposed to just setting it.
+-------- KEYS --------
+<target key="target" name="Target">This points to the target_position to which the player will jump.</target>
+<real key="speed" name="Playerdir XY speed" value="0">XY speed for player-directional velocity pads - either sets or adds to the player's horizontal velocity.</real>
+<real key="count" name="Playerdir Z speed" value="0">Z speed for player-directional velocity pads - either sets or adds to the player's vectical velocity.</real>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="PLAYERDIR_XY" name="PLAYERDIR_XY" bit="0">If set, trigger will apply the horizontal speed in the player's horizontal direction of travel, otherwise it uses the target XY component.</flag>
+<flag key="ADD_XY" name="ADD_XY" bit="1">If set, trigger will add to the player's horizontal velocity, otherwise it sets the player's horizontal velociy.</flag>
+<flag key="PLAYERDIR_Z" name="PLAYERDIR_Z" bit="2">If set, trigger will apply the vertical speed in the player's vertical direction of travel, otherwise it uses the target Z component.</flag>
+<flag key="ADD_Z" name="ADD_Z" bit="3">If set, trigger will add to the player's vertical velocity, otherwise it sets the player's vectical velociy.</flag>
+<flag key="BIDIRECTIONAL_XY" name="BIDIRECTIONAL_XY" bit="4">If set, non-playerdir velocity pads will function in 2 directions based on the target specified. The chosen direction is based on the current direction of travel. Applies to horizontal direction.</flag>
+<flag key="BIDIRECTIONAL_Z" name="BIDIRECTIONAL_Z" bit="5">If set, non-playerdir velocity pads will function in 2 directions based on the target specified. The chosen direction is based on the current direction of travel. Applies to vertical direction.</flag>
+<flag key="CLAMP_NEGATIVE_ADDS" name="CLAMP_NEGATIVE_ADDS" bit="6">If set, then a velocity pad that adds negative velocity will be clamped to 0, if the resultant velocity would bounce the player in the opposite direction.</flag>
+-------- NOTES --------
+To make a jump pad or launch ramp, place the target_position/info_notnull entity at the highest point of the jump and target it with this entity.
+</group>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_speed" color="1 1 0" box="-8 -8 -8 8 8 8">
+Sets the speed of the player.
+If ADD is specified, negative values will reduce the speed.
+-------- KEYS --------
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<real key="speed" name="Speed" value="100">Speed value to set (default: 100).</real>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="PERCENTAGE" name="PERCENTAGE" bit="0">value is treated as percentage of current speed</flag>
+<flag key="ADD" name="ADD" bit="1">adds the speed instead of setting it</flag>
+<flag key="+X" name="+X" bit="2">takes positive X-direction into account</flag>
+<flag key="-X" name="-X" bit="3">takes negative X-direction into account</flag>
+<flag key="+Y" name="+Y" bit="4">takes positive Y-direction into account</flag>
+<flag key="-Y" name="-Y" bit="5">takes negative Y-direction into account</flag>
+<flag key="+Z" name="+Z" bit="6">takes positive Z-direction (up) into account</flag>
+<flag key="-Z" name="-Z" bit="7">takes positive Z-direction (up) into account</flag>
+<flag key="LAUNCHER" name="LAUNCHER" bit="8">will accelerate the player into the given direction (spawnflags)</flag>
+-------- NOTES --------
+If LAUNCHER isn't specified the player will only be accelerated if he is moving
+while the target_speed is triggered, as the player needs a moving direction and this is
+only given when he moves. LAUNCHER will split the given speed value to the given
+directions. Note that only one of the spawnflags for each coordinate must be set. For
+example if +X and -X is active the x-direction will be ignored. The same is the case
+if whether +X nor -X is active. So if you want to accelerate the player up with 900u
+you have to set the speed value to 900 and activate the spawnflags +Z and LAUNCHER.
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_multimanager" color=".8 .7 .8" box="-8 -8 -8 8 8 8">
+Triggers a bunch of targets with unique delays.
+-------- KEYS --------
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<target key="target01" name="Target 01">First target to trigger.</target>
+<target key="target02" name="Target 02">Second target to trigger.</target>
+...
+target40: 40th (max) target to trigger.
+<real key="random" name="Random delay" value="0">Additional random delay for all targets.</real>
+<integer key="count" name="# of targets to trigger">If this is set only a given amount of targets is triggered in a random way (e.g. 5 of 10 targets).</integer>
+<real key="wait" name="Delay" value="0">Delay that is used by targets without an explicit delay or if either the ADD_WAIT or WAIT_OFFSET flag is set.</real>
+<boolean key="notvq3" name="Not VQ3">When set to 1, entity will not spawn with VQ3 physics.</boolean>
+<boolean key="notcpm" name="Not CPM">When set to 1, entity will not spawn with CPM physics.</boolean>
+<boolean key="notsp" name="Not Single Player">When set to 1, entity will not spawn in single player mode.</boolean>
+<boolean key="notmp" name="Not Multiplayer">When set to 1, entity will not spawn in multiplayer mode.</boolean>
+<boolean key="notdf" name="Not Defrag Run">When set to 1, entity will not spawn in defrag run mode.</boolean>
+<boolean key="nottm" name="Not Tricks Mode">When set to 1, entity will not spawn in tricks mode.</boolean>
+<boolean key="notfc" name="Not Fast Caps">When set to 1, entity will not spawn in fast caps mode.</boolean>
+<boolean key="notdefrag" name="Not for Defrag">When set to 1, entity will not spawn in Defrag at all.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="RED_ONLY" name="RED_ONLY" bit="0">Only red team can trigger.</flag>
+<flag key="BLUE_ONLY" name="BLUE_ONLY" bit="1">Only blue team can trigger.</flag>
+<flag key="ADD_WAIT" name="ADD_WAIT" bit="2">Adds the value of the wait key to all delays. Is ignored if WAIT_OFFSET is set.</flag>
+<flag key="WAIT_OFFSET" name="WAIT_OFFSET" bit="3">Adds the value of "target_number * wait_delay" to all delays. See notes.</flag>
+-------- NOTES --------
+The keys for the targets have to contain 2 digits for the target number.
+So "target1" won't work while "target01" is correct.
+Target values should look like one of the following:
+	delay_in_seconds:targetname
+	targetname
+Examples:
+	1.5:my_target_door
+	my_other_target_door
+
+The first version will use the given delay while the second version will use the delay that is given
+by the wait key of the multimanager entity. For those targets the wait delay is not added twice if
+ADD_WAIT is set!
+
+The multimanager can only be triggered again after all of its targets
+were triggered! So the maximum of the delays is also the cooldown time.
+
+Example for using the WAIT_OFFSET spawnflag:
+
+target01: my_target1
+target02: my_target2
+target03: my_target3
+target04: 2:my_target4
+
+With a wait value of 0.5 the targets will have the following trigger delays:
+target01: triggers my_target1 after 0.5 seconds
+target02: triggers my_target2 after 1.0 seconds
+target03: triggers my_target3 after 1.5 seconds
+target04: triggers my_target4 after 4.0 seconds (special delay for this target is 2)
+...
+*/
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="target_teleporter" color="0 .5 0" box="-8 -8 -8 8 8 8">
+Activating this will teleport players to the location of the targeted misc_teleporter_dest entity. Unlike trigger_teleport, this entity must be activated by a trigger and does NOT allow client prediction of events.
+-------- KEYS --------
+<target key="target" name="Target">This must point to a misc_teleporter_dest entity.</target>
+<targetname key="targetname" name="Target Name">Activating trigger points to this.</targetname>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+-------- SPAWNFLAGS --------
+<flag key="KEEP_SPEED" name="KEEP_SPEED" bit="0">Stores the speed at entering the teleporter and restores it at the destination.</flag>
+</point>
+
+<!--
+=============================================================================
+-->
+
+<list name="weapon_grapplinghook_types">
+  <item name="Quake3" value="0"/>
+  <item name="Tarzan" value="1"/>
+  <item name="Pendulum" value="2"/>
+  <item name="Quake2" value="3"/>
+</list>
+
+<point name="weapon_grapplinghook" color="1 0 .5" box="-16 -16 -16 16 16 16" model="models/weapons2/grapple/grapple.md3">
+Grappling Hook. Spawns in the game and works but is unskinned.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay" value="5">Time in seconds before item respawns after being picked up (default 5, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance" value="0">Random time variance in seconds added or subtracted from "wait" delay (default 0 - see notes).</real>
+<string key="team" name="Team Name">Set this to team items. Teamed items will respawn randomly after team master is picked up (see notes).</string>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+<weapon_grapplinghook_types key="speed" name="Hook Type" value="0">Hook type.
+   0 : Quake3 (default)
+   1 : Tarzan
+   2 : Pendulum
+   3 : Quake2</weapon_grapplinghook_types>
+<texture key="targetShaderName" name="Target Shader Name">Name of the original shader to remap (see notes).</texture>
+<texture key="targetShaderNewName" name="Target Shader New Name">Name of the new shader to remap by (see notes).</texture>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+<boolean key="notbot" name="Invisible To Bots">Used to make an item invisible for bot attraction.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">Item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+
+When the entity activates its targets, all shaders/textures in the map that were originally the same name as the 'targetShaderName' value, will be changed to the 'targetShaderNewName' value. For example, turning a light on:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_on"
+And this would turn it back off:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_off"
+</point>
+
+<!--
+=============================================================================
+-->
+
+<point name="weapon_lightning" color="1 0 .5" box="-16 -16 -16 16 16 16" model="models\weapons2\lightning\lightning.md3">
+Lightning Gun.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay" value="5">Time in seconds before item respawns after being picked up (default 5, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance" value="0">Random time variance in seconds added or subtracted from "wait" delay (default 0 - see notes).</real>
+<integer key="count" name="Ammo Given" value="100">Sets the amount of ammo given to the player when weapon is picked up (default 100, -1 for 0 count).</integer>
+<string key="team" name="Team Name">Set this to team items. Teamed items will respawn randomly after team master is picked up (see notes).</string>
+<target key="target" name="Target">Picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">A target_give entity, pointed to this, gives the item to player. Activating this by other entities will make the item to respawn.</targetname>
+<boolean key="speed" name="Knockback">When set to 1, the gun will have splash in Defrag, resulting in ability to get knockback from own shots, like with plasma gun for example.</boolean>
+<texture key="targetShaderName" name="Target Shader Name">Name of the original shader to remap (see notes).</texture>
+<texture key="targetShaderNewName" name="Target Shader New Name">Name of the new shader to remap by (see notes).</texture>
+<boolean key="notfree" name="Hidden For FFA">When set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">When set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">When set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">Defines the gametypes that will spawn this item. Q3A values: ffa tournament single team ctf. Q3TA values: oneflag obelisk harvester teamtournament.</string>
+<boolean key="notbot" name="Invisible To Bots">Used to make an item invisible for bot attraction.</boolean>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">Item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+
+When the entity activates its targets, all shaders/textures in the map that were originally the same name as the 'targetShaderName' value, will be changed to the 'targetShaderNewName' value. For example, turning a light on:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_on"
+And this would turn it back off:
+ "targetShaderName"    "textures/proto2/redlight_off"
+ "targetShaderNewName" "textures/proto2/redlight_off"
+</point>
+
+<!--
+=============================================================================
+-->
+
+</classes>

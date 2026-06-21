@@ -1,0 +1,349 @@
+<?xml version="1.0"?>
+<!--
+INSTRUCTIONS
+This document contains the editor descriptions for all the new entities in
+use in Quake III: Team Arena.
+-->
+
+<classes>
+
+<point name="ammo_nails" color=".3 .3 1" box="16 -16 -16 16 16 16" model="models/powerups/ammo/nailgunam.md3">
+Nailgun ammo. Gives the player 25 by default.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before item respawns after being picked up (default 40, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<integer key="count" name="Ammo Given">sets the amount of ammo given to the player when picked up (default 10).</integer>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<point name="ammo_mines" color=".3 .3 1" box="16 -16 -16 16 16 16" model="models/powerups/ammo/proxmineam.md3">
+Prox Launcher ammo. Gives the player 5 by default.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 40, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<integer key="count" name="Ammo Given">sets the amount of ammo given to the player when picked up (default 10).</integer>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string> Any teamed item with the same value will be part of this team.
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<point name="ammo_belt" color=".3 .3 1" box="16 -16 -16 16 16 16" model="models/powerups/ammo/chaingunam.md3">
+Chaingun ammo. Gives the player 100 by default.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 40, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<integer key="count" name="Ammo Given">sets the amount of ammo given to the player when picked up (default 10).</integer>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<!--
+===========================================================================
+
+HOLDABLE_* ENTITIES
+
+===========================================================================
+-->
+
+<point name="holdable_kamikaze" color=".3 .3 1" box="16 -16 -16 16 16 16" model="models/powerups/kamikazi.md3">
+One use kamikaze item that can be picked up and used later. Does an initial wave of shock damage, knockback, then 200 damage to everything in a 256 radius. It kills the using player when used. Player can only carry one holdable item at a time.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 60, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<point name="holdable_invulnerability" color=".3 .3 1" box="16 -16 -16 16 16 16" model="models/powerups/holdable/invulnerability.md3">
+Invulnerability. Creates an energy shield that protects the player against all weapons except proximity mines. Effect lasts XX seconds.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 60, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<!--
+===========================================================================
+
+PERSISTANT POWERUPS (instant use, last until death)
+
+===========================================================================
+-->
+
+<point name="item_scout" color="0.3 0.3 1" box="16 -16 -16 16 16 16" model="models/powerups/scout.md3">
+Scout power-up.  Player moves at 2/3 haste speed.  Increases rate of fire. Lasts until death.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 0, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<real key="count" name="Powerup Duration">time in seconds power-up will last when picked up (default 30).</real>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+<flag key="REDTEAM" name="Red Team Only" bit="1">only players on the red team may pick up this item.</flag>
+<flag key="BLUETEAM" name="Blue Team Only" bit="2">only players on the blue team may pick up this item.</flag>
+-------- NOTES --------
+These team entities are intended to respawn instantly.  The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<point name="item_guard" color="0.3 0.3 1" box="16 -16 -16 16 16 16" model="models/powerups/guard.md3">
+Guard power-up.  Gives player 200 regenerating health and 200 armor (without decay over time).  Lasts until death.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 0, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<real key="count" name="Powerup Duration">time in seconds power-up will last when picked up (default 30).</real>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+<flag key="REDTEAM" name="Red Team Only" bit="1">only players on the red team may pick up this item.</flag>
+<flag key="BLUETEAM" name="Blue Team Only" bit="2">only players on the blue team may pick up this item.</flag>
+-------- NOTES --------
+These team entities are intended to respawn instantly. The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<point name="item_doubler" color="0.3 0.3 1" box="16 -16 -16 16 16 16" model="models/powerups/doubler.md3">
+Doubler power-up.  Doubles the damage of player's weapons.  Lasts until death.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 0, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<real key="count" name="Powerup Duration">time in seconds power-up will last when picked up (default 30).</real>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+<flag key="REDTEAM" name="Red Team Only" bit="1">only players on the red team may pick up this item.</flag>
+<flag key="BLUETEAM" name="Blue Team Only" bit="2">only players on the blue team may pick up this item.</flag>
+-------- NOTES --------
+These team entities are intended to respawn instantly. The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<point name="item_ammoregen" color="0.3 0.3 1" box="16 -16 -16 16 16 16" model="models/powerups/ammo.md3">
+Ammo Regen power-up. Slowly regenerates ammo count for all weapons currently possessed by the player.
+-------- KEYS --------
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 0, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+<flag key="REDTEAM" name="Red Team Only" bit="1">only players on the red team may pick up this item.</flag>
+<flag key="BLUETEAM" name="Blue Team Only" bit="2">only players on the blue team may pick up this item.</flag>
+-------- NOTES --------
+These team entities are intended to respawn instantly. The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<!--
+===========================================================================
+TEAM ARENA TEAMPLAY ENTITIES [NEW]
+
+=============================================================================
+-->
+
+<point name="team_CTF_neutralflag" color="1 .2 1" box="16 -16 -24 16 16 32" model="models/flags/n_flag.md3">
+Neutral flag (One Flag CTF only).
+-------- KEYS --------
+<angle key="angle" name="Facing Angle">an angle facing needs to be set for this entity. This item has a specific facing.</angle>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+</point>
+
+<point name="team_redobelisk" color="1 .2 0" box="16 -16 0 16 16 88" model="models/powerups/overload_base.md3">
+Red team Obelisk. Used for Overload, CTF, Oneflag, and Harvester game types for various functions. Facing needs to be set.
+-------- KEYS --------
+<angle key="angle" name="Facing Angle">an angle facing needs to be set for this entity. This item has a specific facing.</angle>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- NOTES --------
+Do not assign a gametype to this item unless the location of your CTF flags and your Overload obelisk will be different. It is used in all four team game types. The game will call for it as needed.
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+</point>
+
+<point name="team_blueobelisk" color="0 .2 1" box="16 -16 0 16 16 88" model="models/powerups/overload_base.md3">
+Blue team Obelisk. Used for Overload and Harvester game types. Facing needs to be set.
+-------- KEYS --------
+<angle key="angle" name="Facing Angle">an angle facing needs to be set for this entity. This item has a specific facing.</angle>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- NOTES --------
+Do not assign a gametype to this item. It is used in all four team game types. the The game will call for it as needed.
+</point>
+
+<point name="team_neutralobelisk" color="1 .2 1" box="16 -16 0 16 16 88" model="models/powerups/obelisk/obelisk.md3">
+Neutral Obelisk (Harvester only).
+-------- KEYS --------
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+</point>
+
+ 
+
+<!--
+===========================================================================
+TEAM ARENA WEAPONS
+
+===========================================================================
+-->
+
+<point name="weapon_chaingun" color="0 0 1" box="16 -16 -16 16 16 16" model="models/weapons/vulcan/vulcan.md3">
+Chaingun. A rapid fire instant hit weapon.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 5, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<integer key="count" name="Ammo Given">sets the amount of ammo given to the player when weapon is picked up (default 10).</integer>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<point name="weapon_nailgun" color="0 0 1" box="16 -16 -16 16 16 16" model="models/weapons/nailgun/nailgun.md3">
+Nailgun.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 5, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<integer key="count" name="Ammo Given">sets the amount of ammo given to the player when weapon is picked up (default 10).</integer>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+<point name="weapon_prox_launcher" color="0 0 1" box="16 -16 -16 16 16 16" model="models/weapons/proxmine/proxmine.md3">
+Proximity Mine Launcher. Lobs a mine which checks for proximity of a player or a time out. In team play, the mines are differentiated by teams.
+-------- KEYS --------
+<real key="wait" name="Respawn Delay">time in seconds before the item respawns after being picked up (default 5, -1 = never respawn).</real>
+<real key="random" name="Respawn Delay Variance">random time variance in seconds added or subtracted from "wait" delay (default 0 - see Notes).</real>
+<integer key="count" name="Ammo Given">sets the amount of ammo given to the player when weapon is picked up (default 10).</integer>
+<string key="team" name="Team Name">set this to team items. Teamed items will respawn randomly after team master is picked up (see Notes).</string>
+<target key="target" name="Target">picking up the item will trigger the entity this points to.</target>
+<targetname key="targetname" name="Target Name">a target_give entity can point to this for respawn freebies.</targetname>
+<boolean key="notbot" name="Invisible To Bots">used to make an item invisible for bot attraction.</boolean>
+<boolean key="notfree" name="Hidden For FFA">when set to 1, entity will not spawn in "Free for all" and "Tournament" modes.</boolean>
+<boolean key="notteam" name="Hidden For Teamplay">when set to 1, entity will not spawn in "Teamplay" and "CTF" modes.</boolean>
+<boolean key="notsingle" name="Hidden For SP">when set to 1, entity will not spawn in Single Player mode (bot play mode).</boolean>
+<string key="gametype" name="Game Type">the valid values are ffa, tournament, single, team, ctf, oneflag, obelisk, harvester. Once a value for this key is set, it will ONLY appear in the listed gametype(s). Separate gametypes by commas.</string>
+-------- SPAWNFLAGS --------
+<flag key="SUSPENDED" name="No Drop To Floor" bit="0">item will spawn where it was placed in map and won't drop to the floor.</flag>
+-------- NOTES --------
+The amount of time it takes for an item in the team to respawn is determined by the "wait" value of the item that was picked up previously. So if one of the items in the team has it's "wait" key set to -1 (never respawn), the random respawning cycle of the teamed items will stop after that item is picked up.
+
+When the random key is set, its value is used to calculate a minimum and a maximum delay. The final time delay will be a random value anywhere between the minimum and maximum values: (min delay = wait - random) (max delay = wait + random).
+</point>
+
+</classes>
