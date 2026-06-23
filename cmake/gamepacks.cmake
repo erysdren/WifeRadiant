@@ -151,6 +151,9 @@ include(gamepacks/goldsrc)
 # idtech3 gamepacks
 include(gamepacks/idtech3)
 
+# idtech4 gamepacks
+include(gamepacks/idtech4)
+
 # put your custom gamepacks in here:
 # cmake/gamepacks/user.cmake
 include(gamepacks/user OPTIONAL)
