@@ -264,9 +264,40 @@ public:
 template<typename TextOutputStreamType>
 TextOutputStreamType& ostream_write( TextOutputStreamType& ostream, const DirectoryCleaned& path ){
 	const char* i = path.m_path;
+	const char* start = i;
+	// int home_skip_idx = -1;
 	if( !string_empty( i ) ){
+#if 0
+		// check for leading ~, replacing with $HOME
+		// FIXME: should this code run on Windows too?
+		const char* homepath = getenv("HOME");
+		if (homepath)
+		{
+			while (isspace(*i)) i++;
+			if (*i == '~')
+			{
+				ostream << homepath;
+				home_skip_idx = i - start;
+			}
+			i = path.m_path;
+			start = i;
+		}
+#endif
 		for (; *i != '\0'; ++i )
 		{
+			if (i - start == 0 && *i == '~')
+			{
+				const char* homepath = getenv("HOME");
+				const char* username = getenv("USER");
+				if (homepath)
+					ostream << homepath;
+				else if (username)
+					ostream << "/home/" << username;
+				else
+					ostream << *i;
+				continue;
+			}
+
 			if ( *i == '\\' ) {
 				ostream << '/';
 			}
