@@ -127,6 +127,7 @@ should be considered **!!EXPERIMENTAL!!**
 	- Fix crash when entering vertex editing mode on patches in idTech4 maps
 - Nuclide support
 	- Support patchDef2WS and patchDef3/patchDef3WS in q3map2
+- Support Ghoul 2 models (GLA/GLM)
 
 ### Random feature highlights
 
