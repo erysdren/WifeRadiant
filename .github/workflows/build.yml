@@ -102,3 +102,37 @@ jobs:
         name: WifeRadiant-${{ github.sha }}-Linux-${{ matrix.arch }}
         path: install/*
         if-no-files-found: error
+
+  macos:
+    name: ${{ matrix.config }} MacOS ${{ matrix.arch }}
+    runs-on: macos-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        arch: [arm64]
+
+    steps:
+    - name: Install Dependencies
+      run: brew install qt
+
+    - name: Checkout Repository
+      uses: actions/checkout@v4
+      with:
+        submodules: recursive
+
+    - name: Configure
+      run: |
+        cmake -S. --preset DefaultNinja -DCMAKE_BUILD_TYPE=Release
+
+    - name: Build
+      run: |
+        cmake --build --preset DefaultNinja
+        mkdir -p install/settings
+        touch install/settings/.gitkeep
+
+    - name: Upload Artifacts
+      uses: actions/upload-artifact@v4
+      with:
+        name: WifeRadiant-${{ github.sha }}-MacOS-${{ matrix.arch }}
+        path: install/*
+        if-no-files-found: error
