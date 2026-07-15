@@ -29,3 +29,28 @@ radiant_add_gamepack(q3
 	DEFAULT_SCALE "0.5"
 	SUPPORT_PATCHES
 )
+
+radiant_add_gamepack(jk2
+	GAME_TYPE "q3"
+	TITLE "Jedi Knight II: Jedi Outcast"
+	GAMEDIR "base"
+	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Jedi Outcast/GameData/"
+	PATH_LINUX "~/.steam/steam/steamapps/common/Jedi Outcast/GameData/"
+	EXECUTABLE_WIN32 "jk2sp.exe"
+	EXECUTABLE_LINUX "jk2sp.sh"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "def" "xml"
+	ENTITIES "quake3"
+	ENTITIES_FILENAME "entities.ent"
+	ARCHIVE_TYPES "pk3"
+	TEXTURE_TYPES "tga" "jpg"
+	MODEL_TYPES "md3" "glm" "ase" "lwo" "obj"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapq3"
+	BRUSH_TYPES "quake3"
+	PATCH_TYPES "quake3"
+	DEFAULT_SCALE "0.5"
+	SUPPORT_PATCHES
+)
