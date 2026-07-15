@@ -354,11 +354,11 @@ endif()
 
 target_compile_definitions(radiant PRIVATE QT_NO_KEYWORDS)
 target_compile_definitions(radiant PRIVATE
-	RADIANT_VERSION=$<QUOTE>${RADIANT_VERSION}$<QUOTE>
-	RADIANT_MAJOR_VERSION=$<QUOTE>${RADIANT_MAJOR_VERSION}$<QUOTE>
-	RADIANT_MINOR_VERSION=$<QUOTE>${RADIANT_MINOR_VERSION}$<QUOTE>
-	RADIANT_PATCH_VERSION=$<QUOTE>${RADIANT_PATCH_VERSION}$<QUOTE>
-	RADIANT_ABOUTMSG=$<QUOTE>${RADIANT_ABOUTMSG}$<QUOTE>
+	RADIANT_VERSION=\"${RADIANT_VERSION}\"
+	RADIANT_MAJOR_VERSION=\"${RADIANT_MAJOR_VERSION}\"
+	RADIANT_MINOR_VERSION=\"${RADIANT_MINOR_VERSION}\"
+	RADIANT_PATCH_VERSION=\"${RADIANT_PATCH_VERSION}\"
+	RADIANT_ABOUTMSG=\"${RADIANT_ABOUTMSG}\"
 )
 
 target_include_directories(radiant PRIVATE
@@ -409,17 +409,17 @@ file(COPY ${RADIANT_DATA_FILES} DESTINATION ${PROJECT_SOURCE_DIR}/install/)
 file(COPY "${PROJECT_SOURCE_DIR}/docs/mouse shortcuts.txt" DESTINATION ${PROJECT_SOURCE_DIR}/install/docs/)
 
 if(WIN32)
-	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>exe$<QUOTE>)
+	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"exe\")
 elseif(EMSCRIPTEN)
 	target_compile_options(radiant PRIVATE -sMAIN_MODULE=1)
-	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>emscripten$<QUOTE>)
+	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"emscripten\")
 	set_target_properties(radiant PROPERTIES SUFFIX ".js")
 elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
 	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
-	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>${SYSTEM_PROCESSOR}$<QUOTE>)
+	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"${SYSTEM_PROCESSOR}\")
 	set_target_properties(radiant PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
 else()
-	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=$<QUOTE>unknown$<QUOTE>)
+	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"unknown\")
 endif()
 
 # gamepacks
