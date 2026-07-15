@@ -234,13 +234,13 @@ inline void FacePolygon_exportXML( const Winding& w, const BasicVector3<double>&
 
 	char tmp[32];
 
-	sprintf( tmp, "%f", normal.x() );
+	snprintf( tmp, sizeof(tmp), "%f", normal.x() );
 	element.insertAttribute( "nx", tmp );
 
-	sprintf( tmp, "%f", normal.y() );
+	snprintf( tmp, sizeof(tmp), "%f", normal.y() );
 	element.insertAttribute( "ny", tmp );
 
-	sprintf( tmp, "%f", normal.z() );
+	snprintf( tmp, sizeof(tmp), "%f", normal.z() );
 	element.insertAttribute( "nz", tmp );
 
 	importer.pushElement( element );
@@ -249,19 +249,19 @@ inline void FacePolygon_exportXML( const Winding& w, const BasicVector3<double>&
 	{
 		DynamicElement c( "vertex" );
 
-		sprintf( tmp, "%f", w.points[i].vertex.x() );
+		snprintf( tmp, sizeof(tmp), "%f", w.points[i].vertex.x() );
 		c.insertAttribute( "x", tmp );
 
-		sprintf( tmp, "%f", w.points[i].vertex.y() );
+		snprintf( tmp, sizeof(tmp), "%f", w.points[i].vertex.y() );
 		c.insertAttribute( "y", tmp );
 
-		sprintf( tmp, "%f", w.points[i].vertex.z() );
+		snprintf( tmp, sizeof(tmp), "%f", w.points[i].vertex.z() );
 		c.insertAttribute( "z", tmp );
 
-		sprintf( tmp, "%f", w.points[i].texcoord.x() );
+		snprintf( tmp, sizeof(tmp), "%f", w.points[i].texcoord.x() );
 		c.insertAttribute( "s", tmp );
 
-		sprintf( tmp, "%f", w.points[i].texcoord.y() );
+		snprintf( tmp, sizeof(tmp), "%f", w.points[i].texcoord.y() );
 		c.insertAttribute( "t", tmp );
 
 		importer.pushElement( c );

@@ -65,7 +65,7 @@ void gamedetect_found_game( const char *game, char *path ){
 
 	globalOutputStream() << "Detected game " << game << " in " << path << '\n';
 
-	sprintf( buf, "-%s-EnginePath", game );
+	snprintf( buf, sizeof(buf), "-%s-EnginePath", game );
 	argc = 0;
 	gamedetect_argv_buffer[argc++] = "-global-gamefile";
 	gamedetect_argv_buffer[argc++] = game;

@@ -428,7 +428,7 @@ char *WINS_AddrToString( struct sockaddr_s *addr ){
 	int haddr;
 
 	haddr = ntohl( ( (struct sockaddr_in *)addr )->sin_addr.s_addr );
-	sprintf( buffer, "%d.%d.%d.%d:%d", ( haddr >> 24 ) & 0xff, ( haddr >> 16 ) & 0xff, ( haddr >> 8 ) & 0xff, haddr & 0xff, ntohs( ( (struct sockaddr_in *)addr )->sin_port ) );
+	snprintf( buffer, sizeof(buffer), "%d.%d.%d.%d:%d", ( haddr >> 24 ) & 0xff, ( haddr >> 16 ) & 0xff, ( haddr >> 8 ) & 0xff, haddr & 0xff, ntohs( ( (struct sockaddr_in *)addr )->sin_port ) );
 	return buffer;
 }
 

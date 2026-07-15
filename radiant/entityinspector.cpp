@@ -268,7 +268,7 @@ public:
 		string_parse_vector3( m_entry->text().toLatin1().constData(), color );
 		if( color_dialog( m_entry->window(), color ) ){
 			char buffer[64];
-			sprintf( buffer, "%g %g %g", color[0], color[1], color[2] );
+			snprintf( buffer, sizeof(buffer), "%g %g %g", color[0], color[1], color[2] );
 			m_entry->setText( buffer );
 			apply();
 		}
@@ -1056,7 +1056,7 @@ void EntityInspector_applySpawnflags(){
 
 	char value[32] = {};
 	if( f != 0 )
-		sprintf( value, "%i", f );
+		snprintf( value, sizeof(value), "%i", f );
 
 	{
 		const auto command = StringStream<64>( "entitySetSpawnflags -flags ", f );

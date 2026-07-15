@@ -135,7 +135,7 @@ public:
 
 	void makeUnique( const char* name, const NameCallback& setName ) const override {
 		char buffer[1024];
-		name_write( buffer, m_uniqueNames.make_unique( name_read( name ) ) );
+		name_write( buffer, sizeof(buffer), m_uniqueNames.make_unique( name_read( name ) ) );
 		setName( buffer );
 	}
 
@@ -157,7 +157,7 @@ public:
 			uniqueNames.insert( uniqueName );
 
 			char buffer[1024];
-			name_write( buffer, uniqueName );
+			name_write( buffer, sizeof(buffer), uniqueName );
 
 			//globalOutputStream() << "renaming " << Quoted( name.c_str() ) << " to " << Quoted( buffer ) << '\n';
 
@@ -1321,9 +1321,9 @@ class ScopeRegionBrushes
 	void ConstructRegionStartpoint( const Vector3& vOrig ){
 		// write the info_playerstart
 		char sTmp[1024];
-		sprintf( sTmp, "%d %d %d", (int)vOrig[0], (int)vOrig[1], (int)vOrig[2] );
+		snprintf( sTmp, sizeof(sTmp), "%d %d %d", (int)vOrig[0], (int)vOrig[1], (int)vOrig[2] );
 		Node_getEntity( *m_startpoint )->setKeyValue( "origin", sTmp );
-		sprintf( sTmp, "%d", (int)Camera_getAngles( *g_pParentWnd->GetCamWnd() )[CAMERA_YAW] );
+		snprintf( sTmp, sizeof(sTmp), "%d", (int)Camera_getAngles( *g_pParentWnd->GetCamWnd() )[CAMERA_YAW] );
 		Node_getEntity( *m_startpoint )->setKeyValue( "angle", sTmp );
 	}
 public:

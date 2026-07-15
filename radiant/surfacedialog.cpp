@@ -1560,13 +1560,13 @@ typedef Function<void(Entity&, CopiedString&, FaceTexture&), Light_getTexture> L
 void Light_setTexture( Entity& entity, const char* shader, const FaceTexture& clipboard, EPasteMode mode, bool setShader ){
 	if( mode == ePasteSeamless || mode == ePasteProject ){
 		char value[64];
-		sprintf( value, "%g %g %g", clipboard.m_colour[0], clipboard.m_colour[1], clipboard.m_colour[2] );
+		snprintf( value, sizeof(value), "%g %g %g", clipboard.m_colour[0], clipboard.m_colour[1], clipboard.m_colour[2] );
 		entity.setKeyValue( "_color", value );
 	}
 	if( mode == ePasteValues || mode == ePasteProject ){
 		/* copypaste of write_intensity() from entity plugin */
 		char value[64];
-		sprintf( value, "%g", clipboard.m_light );
+		snprintf( value, sizeof(value), "%g", clipboard.m_light );
 		if( entity.hasKeyValue( "_light" ) ) //primaryIntensity //if set
 			entity.setKeyValue( "_light", value );
 		else //secondaryIntensity

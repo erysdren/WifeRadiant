@@ -184,19 +184,19 @@ inline EntityClassAttributePair& EntityClass_insertAttribute( EntityClass& entit
 
 
 inline void buffer_write_colour_add( char buffer[128], const Colour3& colour ){
-	sprintf( buffer, "{%g %g %g}", colour[0], colour[1], colour[2] );
+	snprintf( buffer, 128, "{%g %g %g}", colour[0], colour[1], colour[2] );
 }
 
 inline void buffer_write_colour_fill( char buffer[128], const Colour3& colour ){
-	sprintf( buffer, "(%g %g %g)", colour[0], colour[1], colour[2] );
+	snprintf( buffer, 128, "(%g %g %g)", colour[0], colour[1], colour[2] );
 }
 
 inline void buffer_write_colour_wire( char buffer[128], const Colour3& colour ){
-	sprintf( buffer, "<%g %g %g>", colour[0], colour[1], colour[2] );
+	snprintf( buffer, 128, "<%g %g %g>", colour[0], colour[1], colour[2] );
 }
 
 inline void buffer_write_colour_blend( char buffer[128], const Colour3& colour ){
-	sprintf( buffer, "[%g %g %g]", colour[0], colour[1], colour[2] );
+	snprintf( buffer, 128, "[%g %g %g]", colour[0], colour[1], colour[2] );
 }
 
 inline Shader* colour_capture_state_add( const Colour3& colour ){

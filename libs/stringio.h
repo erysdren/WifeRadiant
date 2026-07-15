@@ -331,7 +331,7 @@ inline void Int_importString( int& self, const char* string ){
 typedef ReferenceCaller<int, void(const char*), Int_importString> IntImportStringCaller;
 inline void Int_exportString( const int& self, const StringImportCallback& importer ){
 	char buffer[16];
-	sprintf( buffer, "%d", self );
+	snprintf( buffer, sizeof(buffer), "%d", self );
 	importer( buffer );
 }
 typedef ConstReferenceCaller<int, void(const StringImportCallback&), Int_exportString> IntExportStringCaller;
@@ -349,7 +349,7 @@ inline void Size_importString( std::size_t& self, const char* string ){
 typedef ReferenceCaller<std::size_t, void(const char*), Size_importString> SizeImportStringCaller;
 inline void Size_exportString( const std::size_t& self, const StringImportCallback& importer ){
 	char buffer[16];
-	sprintf( buffer, "%u", Unsigned( self ) );
+	snprintf( buffer, sizeof(buffer), "%u", Unsigned( self ) );
 	importer( buffer );
 }
 typedef ConstReferenceCaller<std::size_t, void(const StringImportCallback&), Size_exportString> SizeExportStringCaller;
@@ -362,7 +362,7 @@ inline void Float_importString( float& self, const char* string ){
 typedef ReferenceCaller<float, void(const char*), Float_importString> FloatImportStringCaller;
 inline void Float_exportString( const float& self, const StringImportCallback& importer ){
 	char buffer[16];
-	sprintf( buffer, "%g", self );
+	snprintf( buffer, sizeof(buffer), "%g", self );
 	importer( buffer );
 }
 typedef ConstReferenceCaller<float, void(const StringImportCallback&), Float_exportString> FloatExportStringCaller;
@@ -375,7 +375,7 @@ inline void Vector3_importString( Vector3& self, const char* string ){
 typedef ReferenceCaller<Vector3, void(const char*), Vector3_importString> Vector3ImportStringCaller;
 inline void Vector3_exportString( const Vector3& self, const StringImportCallback& importer ){
 	char buffer[64];
-	sprintf( buffer, "%g %g %g", self[0], self[1], self[2] );
+	snprintf( buffer, sizeof(buffer), "%g %g %g", self[0], self[1], self[2] );
 	importer( buffer );
 }
 typedef ConstReferenceCaller<Vector3, void(const StringImportCallback&), Vector3_exportString> Vector3ExportStringCaller;

@@ -27,13 +27,13 @@
 
 inline void entry_set_int( QLineEdit* entry, int i ){
 	char buf[32];
-	sprintf( buf, "%d", i );
+	snprintf( buf, sizeof(buf), "%d", i );
 	entry->setText( buf );
 }
 
 inline void entry_set_float( QLineEdit* entry, float f ){
 	char buf[32];
-	sprintf( buf, "%g", f );
+	snprintf( buf, sizeof(buf), "%g", f );
 	entry->setText( buf );
 }
 

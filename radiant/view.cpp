@@ -47,7 +47,7 @@ void Cull_ResetStats(){
 
 const char* Cull_GetStats(){
 #if defined( DEBUG_CULLING )
-	sprintf( g_cull_stats, "dots: %d | planes %d + %d | bboxs %d + %d", g_count_dots, g_count_planes, g_count_oriented_planes, g_count_bboxs, g_count_oriented_bboxs );
+	snprintf( g_cull_stats, sizeof(g_cull_stats), "dots: %d | planes %d + %d | bboxs %d + %d", g_count_dots, g_count_planes, g_count_oriented_planes, g_count_bboxs, g_count_oriented_bboxs );
 	return g_cull_stats;
 #else
 	return "";

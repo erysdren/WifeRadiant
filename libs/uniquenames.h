@@ -67,9 +67,9 @@ public:
 	int number() const {
 		return m_value;
 	}
-	void write( char* buffer ) const {
+	void write( char* buffer, size_t len_buffer ) const {
 		if( m_value != -1 )
-			sprintf( buffer, "%0*i", m_minWidth, m_value );
+			snprintf( buffer, len_buffer, "%0*i", m_minWidth, m_value );
 	}
 	Postfix& operator++(){
 		++m_value;
@@ -90,9 +90,9 @@ public:
 
 typedef std::pair<CopiedString, Postfix> name_t;
 
-inline void name_write( char* buffer, name_t name ){
+inline void name_write( char* buffer, size_t len_buffer, name_t name ){
 	strcpy( buffer, name.first.c_str() );
-	name.second.write( buffer + strlen( name.first.c_str() ) );
+	name.second.write( buffer + strlen( name.first.c_str() ), len_buffer );
 }
 
 inline name_t name_read( const char* name ){
@@ -178,7 +178,7 @@ public:
 #if 0 //debug
 		char buf[80];
 		name_t r( "","" );
-		name_write( buf, name );
+		name_write( buf, sizeof(buf), name );
 		globalErrorStream() << "find unique name for " << buf << '\n';
 		globalErrorStream() << "> currently registered names:\n";
 		for ( const auto& [ name, postfixes ] : m_names )
@@ -186,7 +186,7 @@ public:
 			globalErrorStream() << ">> " << name.c_str() << ": ";
 			for ( const auto& [ postfix, index ] : postfixes.m_postfixes )
 			{
-				postfix.write( buf );
+				postfix.write( buf, sizeof(buf) );
 				globalErrorStream() << ' ' << SingleQuoted( buf );
 			}
 			globalErrorStream() << '\n';
@@ -199,7 +199,7 @@ public:
 		{
 			r = name_t( name.first, ( *i ).second.make_unique( name.second ) );
 		}
-		name_write( buf, r );
+		name_write( buf, sizeof(buf), r );
 		globalErrorStream() << "> unique name is " << buf << '\n';
 		return r;
 #else

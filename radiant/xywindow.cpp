@@ -1424,12 +1424,12 @@ void XYWnd::XY_DrawGrid() {
 		const float fontDescent = ( GlobalOpenGL().m_font->getPixelDescent() - 1 ) / m_fScale;
 		for ( x = xb - fmod( xb, stepx ); x <= xe; x += stepx ) {
 			gl().glRasterPos2f( x, offx );
-			sprintf( text, "%g", x );
+			snprintf( text, sizeof(text), "%g", x );
 			GlobalOpenGL().drawString( text );
 		}
 		for ( y = yb - fmod( yb, stepy ); y <= ye; y += stepy ) {
 			gl().glRasterPos2f( offy, y - fontDescent );
-			sprintf( text, "%g", y );
+			snprintf( text, sizeof(text), "%g", y );
 			GlobalOpenGL().drawString( text );
 		}
 	}
@@ -1544,7 +1544,7 @@ void XYWnd::XY_DrawBlockGrid(){
 			for ( float y = yb; y < ye; y += bs2 )
 			{
 				gl().glRasterPos2f( x + ( bs1 / 2 ), y + ( bs2 / 2 ) );
-				sprintf( text, "%i,%i", (int)floor( x / bs1 ), (int)floor( y / bs2 ) );
+				snprintf( text, sizeof(text), "%i,%i", (int)floor( x / bs1 ), (int)floor( y / bs2 ) );
 				GlobalOpenGL().drawString( text );
 			}
 	}
@@ -2205,7 +2205,7 @@ inline void Colour4b_importString( Colour4b& self, const char* string ){
 typedef ReferenceCaller<Colour4b, void(const char*), Colour4b_importString> Colour4bImportStringCaller;
 inline void Colour4b_exportString( const Colour4b& self, const StringImportCallback& importer ){
 	char buffer[64];
-	sprintf( buffer, "%hhu %hhu %hhu %hhu", self.r, self.g, self.b, self.a );
+	snprintf( buffer, sizeof(buffer), "%hhu %hhu %hhu %hhu", self.r, self.g, self.b, self.a );
 	importer( buffer );
 }
 typedef ConstReferenceCaller<Colour4b, void(const StringImportCallback&), Colour4b_exportString> Colour4bExportStringCaller;

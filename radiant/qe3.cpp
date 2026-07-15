@@ -114,7 +114,7 @@ void QE_brushCountChange(){
 		char buffer[32];
 		buffer[0] = '\0';
 		if( counts[i] != 0 )
-			sprintf( buffer, "%zu", counts[i] );
+			snprintf( buffer, sizeof(buffer), "%zu", counts[i] );
 		g_pParentWnd->SetStatusText( c_status_brushcount + i, buffer );
 	}
 }
