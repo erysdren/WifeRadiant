@@ -134,7 +134,7 @@ void ExportLightmaps(){
 	for ( i = 0, lightmap = bspLightBytes.data(); lightmap < ( bspLightBytes.data() + bspLightBytes.size() ); ++i, lightmap += ( g_game->lightmapSize * g_game->lightmapSize * 3 ) )
 	{
 		/* write a tga image out */
-		sprintf( filename, "%s/lightmap_%04d.tga", dirname, i );
+		snprintf( filename, sizeof(filename), "%s/lightmap_%04d.tga", dirname, i );
 		Sys_Printf( "Writing %s\n", filename );
 		WriteTGA24( filename, lightmap, g_game->lightmapSize, g_game->lightmapSize, false );
 	}
@@ -215,7 +215,7 @@ int ImportLightmapsMain( Args& args ){
 	for ( i = 0, lightmap = bspLightBytes.data(); lightmap < ( bspLightBytes.data() + bspLightBytes.size() ); ++i, lightmap += ( g_game->lightmapSize * g_game->lightmapSize * 3 ) )
 	{
 		/* read a tga image */
-		sprintf( filename, "%s/lightmap_%04d.tga", dirname, i );
+		snprintf( filename, sizeof(filename), "%s/lightmap_%04d.tga", dirname, i );
 		Sys_Printf( "Loading %s\n", filename );
 		MemBuffer buffer = vfsLoadFile( filename, -1 );
 		if ( !buffer ) {
@@ -2936,14 +2936,14 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 				olm->extLightmapNum = numExtLightmaps;
 
 				/* write lightmap */
-				sprintf( filename, "%s/" EXTERNAL_LIGHTMAP, dirname, numExtLightmaps );
+				snprintf( filename, sizeof(filename), "%s/" EXTERNAL_LIGHTMAP, dirname, numExtLightmaps );
 				Sys_FPrintf( SYS_VRB, "\nwriting %s", filename );
 				WriteTGA24( filename, olm->bspLightBytes->data(), olm->customWidth, olm->customHeight, true );
 				numExtLightmaps++;
 
 				/* write deluxemap */
 				if ( deluxemap ) {
-					sprintf( filename, "%s/" EXTERNAL_LIGHTMAP, dirname, numExtLightmaps );
+					snprintf( filename, sizeof(filename), "%s/" EXTERNAL_LIGHTMAP, dirname, numExtLightmaps );
 					Sys_FPrintf( SYS_VRB, "\nwriting %s", filename );
 					WriteTGA24( filename, olm->bspDirBytes->data(), olm->customWidth, olm->customHeight, true );
 					numExtLightmaps++;
@@ -2963,7 +2963,7 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 		for ( i = numExtLightmaps; i; ++i )
 		{
 			/* determine if file exists */
-			sprintf( filename, "%s/" EXTERNAL_LIGHTMAP, dirname, i );
+			snprintf( filename, sizeof(filename), "%s/" EXTERNAL_LIGHTMAP, dirname, i );
 			if ( !FileExists( filename ) ) {
 				break;
 			}
@@ -3112,7 +3112,7 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 
 
 				/* setup */
-				sprintf( styleStages, "\n\t// Q3Map2 custom lightstyle stage(s)\n" );
+				snprintf( styleStages, sizeof(styleStages), "\n\t// Q3Map2 custom lightstyle stage(s)\n" );
 				dv = &bspDrawVerts[ ds.firstVert ];
 
 				/* depthFunc equal? */
@@ -3135,12 +3135,12 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 						strcpy( lightmapName, "$lightmap" );
 					}
 					else{
-						sprintf( lightmapName, "maps/%s/" EXTERNAL_LIGHTMAP, mapName.c_str(), olm->extLightmapNum );
+						snprintf( lightmapName, sizeof(lightmapName), "maps/%s/" EXTERNAL_LIGHTMAP, mapName.c_str(), olm->extLightmapNum );
 					}
 
 					/* get rgbgen string */
 					if ( rgbGenValues[ style ] == nullptr ) {
-						sprintf( key, "_style%drgbgen", style );
+						snprintf( key, sizeof(key), "_style%drgbgen", style );
 						rgbGenValues[ style ] = entities[ 0 ].valueForKey( key );
 						if ( strEmpty( rgbGenValues[ style ] ) ) {
 							rgbGenValues[ style ] = "wave noise 0.5 1 0 5.37";
@@ -3148,7 +3148,7 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 					}
 					strClear( rgbGen );
 					if ( !strEmpty( rgbGenValues[ style ] ) ) {
-						sprintf( rgbGen, "\t\trgbGen %s // style %d\n", rgbGenValues[ style ], style );
+						snprintf( rgbGen, sizeof(rgbGen), "\t\trgbGen %s // style %d\n", rgbGenValues[ style ], style );
 					}
 					else{
 						strClear( rgbGen );
@@ -3156,11 +3156,11 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 
 					/* get alphagen string */
 					if ( alphaGenValues[ style ] == nullptr ) {
-						sprintf( key, "_style%dalphagen", style );
+						snprintf( key, sizeof(key), "_style%dalphagen", style );
 						alphaGenValues[ style ] = entities[ 0 ].valueForKey( key );
 					}
 					if ( !strEmpty( alphaGenValues[ style ] ) ) {
-						sprintf( alphaGen, "\t\talphaGen %s // style %d\n", alphaGenValues[ style ], style );
+						snprintf( alphaGen, sizeof(alphaGen), "\t\talphaGen %s // style %d\n", alphaGenValues[ style ], style );
 					}
 					else{
 						strClear( alphaGen );
@@ -3171,7 +3171,8 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 
 					/* create additional stage */
 					if ( lmxy.x() == 0 && lmxy.y() == 0 ) {
-						sprintf( styleStage, "\t{\n"
+						snprintf( styleStage, sizeof(styleStage),
+						                     "\t{\n"
 						                     "\t\tmap %s\n"                                      /* lightmap */
 						                     "\t\tblendFunc GL_SRC_ALPHA GL_ONE\n"
 						                     "%s"                                                /* depthFunc equal */
@@ -3186,7 +3187,8 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 					}
 					else
 					{
-						sprintf( styleStage, "\t{\n"
+						snprintf( styleStage, sizeof(styleStage),
+						                     "\t{\n"
 						                     "\t\tmap %s\n"                                      /* lightmap */
 						                     "\t\tblendFunc GL_SRC_ALPHA GL_ONE\n"
 						                     "%s"                                                /* depthFunc equal */
@@ -3227,7 +3229,7 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 				olm = &outLightmaps[ lm->outLightmapNums[ 0 ] ];
 
 				/* do some name mangling */
-				sprintf( lightmapName, "maps/%s/" EXTERNAL_LIGHTMAP "\n\t\ttcgen lightmap", mapName.c_str(), olm->extLightmapNum );
+				snprintf( lightmapName, sizeof(lightmapName), "maps/%s/" EXTERNAL_LIGHTMAP "\n\t\ttcgen lightmap", mapName.c_str(), olm->extLightmapNum );
 
 				/* create custom shader */
 				const shaderInfo_t& csi = CustomShader( info.si, "$lightmap", lightmapName );

@@ -1262,12 +1262,12 @@ void InsertModel( const char *name, const char *skin, int frame, const Matrix4& 
 				/* create new item */
 				remap_t skin;
 
-				sprintf( format, "replace %%%ds %%%ds", (int)sizeof( skin.from ) - 1, (int)sizeof( skin.to ) - 1 );
+				snprintf( format, sizeof(format), "replace %%%ds %%%ds", (int)sizeof( skin.from ) - 1, (int)sizeof( skin.to ) - 1 );
 				if ( sscanf( skinfileptr, format, skin.from, skin.to ) == 2 ) {
 					skins.push_back( skin );
 					continue;
 				}
-				sprintf( format, " %%%d[^,  ] ,%%%ds", (int)sizeof( skin.from ) - 1, (int)sizeof( skin.to ) - 1 );
+				snprintf( format, sizeof(format), " %%%d[^,  ] ,%%%ds", (int)sizeof( skin.from ) - 1, (int)sizeof( skin.to ) - 1 );
 				if ( sscanf( skinfileptr, format, skin.from, skin.to ) == 2 ) {
 					skins.push_back( skin );
 					continue;

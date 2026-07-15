@@ -365,7 +365,8 @@ const shaderInfo_t& CustomShader( const shaderInfo_t *si, const char *find, char
 	/* et: implicitMap */
 	if ( si->implicitMap == EImplicitMap::Opaque ) {
 		srcShaderText = temp;
-		sprintf( temp, "\n"
+		snprintf( temp, sizeof(temp),
+		               "\n"
 		               "{ // Q3Map2 defaulted (implicitMap)\n"
 		               "\t{\n"
 		               "\t\tmap $lightmap\n"
@@ -384,7 +385,8 @@ const shaderInfo_t& CustomShader( const shaderInfo_t *si, const char *find, char
 	/* et: implicitMask */
 	else if ( si->implicitMap == EImplicitMap::Masked ) {
 		srcShaderText = temp;
-		sprintf( temp, "\n"
+		snprintf( temp, sizeof(temp),
+		               "\n"
 		               "{ // Q3Map2 defaulted (implicitMask)\n"
 		               "\tcull none\n"
 		               "\t{\n"
@@ -412,7 +414,8 @@ const shaderInfo_t& CustomShader( const shaderInfo_t *si, const char *find, char
 	/* et: implicitBlend */
 	else if ( si->implicitMap == EImplicitMap::Blend ) {
 		srcShaderText = temp;
-		sprintf( temp, "\n"
+		snprintf( temp, sizeof(temp),
+		               "\n"
 		               "{ // Q3Map2 defaulted (implicitBlend)\n"
 		               "\tcull none\n"
 		               "\t{\n"
@@ -432,7 +435,8 @@ const shaderInfo_t& CustomShader( const shaderInfo_t *si, const char *find, char
 	/* default shader text */
 	else if ( srcShaderText == nullptr ) {
 		srcShaderText = temp;
-		sprintf( temp, "\n"
+		snprintf( temp, sizeof(temp),
+		               "\n"
 		               "{ // Q3Map2 defaulted\n"
 		               "\t{\n"
 		               "\t\tmap $lightmap\n"
@@ -472,7 +476,7 @@ const shaderInfo_t& CustomShader( const shaderInfo_t *si, const char *find, char
 	Com_BlockFullChecksum( shaderText, strlen( shaderText ), digest );
 
 	/* mangle hash into a shader name */
-	sprintf( shader, "%s/%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X", mapName.c_str(),
+	snprintf( shader, sizeof(shader), "%s/%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X", mapName.c_str(),
 	         digest[ 0 ], digest[ 1 ], digest[ 2 ], digest[ 3 ], digest[ 4 ], digest[ 5 ], digest[ 6 ], digest[ 7 ],
 	         digest[ 8 ], digest[ 9 ], digest[ 10 ], digest[ 11 ], digest[ 12 ], digest[ 13 ], digest[ 14 ], digest[ 15 ] );
 
@@ -513,14 +517,14 @@ void EmitVertexRemapShader( char *from, char *to ){
 	}
 
 	/* build value */
-	sprintf( value, "%s;%s", from, to );
+	snprintf( value, sizeof(value), "%s;%s", from, to );
 
 	/* make md4 hash */
 	Com_BlockFullChecksum( value, strlen( value ), digest );
 
 	/* make key (this is annoying, as vertexremapshader is precisely 17 characters,
 	   which is one too long, so we leave off the last byte of the md5 digest) */
-	sprintf( key, "vertexremapshader%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
+	snprintf( key, sizeof(key), "vertexremapshader%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X%02X",
 	         digest[ 0 ], digest[ 1 ], digest[ 2 ], digest[ 3 ], digest[ 4 ], digest[ 5 ], digest[ 6 ], digest[ 7 ],
 	         digest[ 8 ], digest[ 9 ], digest[ 10 ], digest[ 11 ], digest[ 12 ], digest[ 13 ], digest[ 14 ] ); /* no: digest[ 15 ] */
 

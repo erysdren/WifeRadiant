@@ -51,7 +51,7 @@ static void ConvertSurface( FILE *f, int modelNum, int surfaceNum, const Vector3
 	}
 
 	/* print object header for each dsurf */
-	sprintf( name, "mat%dmodel%dsurf%d", ds.shaderNum, modelNum, surfaceNum );
+	snprintf( name, sizeof(name), "mat%dmodel%dsurf%d", ds.shaderNum, modelNum, surfaceNum );
 	fprintf( f, "*GEOMOBJECT\t{\r\n" );
 	fprintf( f, "\t*NODE_NAME\t\"%s\"\r\n", name );
 	fprintf( f, "\t*NODE_TM\t{\r\n" );

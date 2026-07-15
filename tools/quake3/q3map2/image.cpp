@@ -225,7 +225,7 @@ const image_t *ImageLoad( const char *name ){
 	bool alphaHack = false;
 
 	/* attempt to load various formats */
-	if ( sprintf( filename, "%s.tga", name ); ( buffer = vfsLoadFile( filename ) ) ) // StripExtension( name ); already
+	if ( snprintf( filename, sizeof(filename), "%s.tga", name ); ( buffer = vfsLoadFile( filename ) ) ) // StripExtension( name ); already
 	{
 		LoadTGABuffer( buffer.data(), buffer.size(), &pixels, &width, &height );
 	}

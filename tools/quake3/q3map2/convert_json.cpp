@@ -180,7 +180,7 @@ static void write_json( const char *directory ){
 				rapidjson::Value fvalue( rapidjson::kObjectType );
 				for( auto&& [ flag, name ] : map ){ // save in hex format
 					char c[16];
-					sprintf( c, "%#.8x", flag );
+					snprintf( c, sizeof(c), "%#.8x", flag );
 					fvalue.AddMember( rapidjson::StringRef( name ), rapidjson::Value( c, all ), all );
 				}
 				value.AddMember( "surfaceFlags", fvalue, all );
@@ -202,7 +202,7 @@ static void write_json( const char *directory ){
 				rapidjson::Value fvalue( rapidjson::kObjectType );
 				for( auto&& [ flag, name ] : map ){ // save in hex format
 					char c[16];
-					sprintf( c, "%#.8x", flag );
+					snprintf( c, sizeof(c), "%#.8x", flag );
 					fvalue.AddMember( rapidjson::StringRef( name ), rapidjson::Value( c, all ), all );
 				}
 				value.AddMember( "contentFlags", fvalue, all );

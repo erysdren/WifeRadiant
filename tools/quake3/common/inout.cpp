@@ -65,7 +65,7 @@ xmlNodePtr xml_NodeForVec( const Vector3& v ){
 	xmlNodePtr ret;
 	char buf[1024];
 
-	sprintf( buf, "%f %f %f", v[0], v[1], v[2] );
+	snprintf( buf, sizeof(buf), "%f %f %f", v[0], v[1], v[2] );
 	ret = xmlNewNode( nullptr, (const xmlChar*)"point" );
 	xmlNodeAddContent( ret, (const xmlChar*)buf );
 	return ret;
@@ -111,20 +111,20 @@ void xml_Select( const char *msg, int entitynum, int brushnum, bool bError ){
 	char level[2];
 
 	// now build a proper "select" XML node
-	sprintf( buf, "Entity %i, Brush %i: %s", entitynum, brushnum, msg );
+	snprintf( buf, sizeof(buf), "Entity %i, Brush %i: %s", entitynum, brushnum, msg );
 	node = xmlNewNode( nullptr, (const xmlChar*)"select" );
 	xmlNodeAddContent( node, (const xmlChar*)buf );
 	level[0] = (int)'0' + ( bError ? SYS_ERR : SYS_WRN );
 	level[1] = 0;
 	xmlSetProp( node, (const xmlChar*)"level", (const xmlChar *)level );
 	// a 'select' information
-	sprintf( buf, "%i %i", entitynum, brushnum );
+	snprintf( buf, sizeof(buf), "%i %i", entitynum, brushnum );
 	select = xmlNewNode( nullptr, (const xmlChar*)"brush" );
 	xmlNodeAddContent( select, (const xmlChar*)buf );
 	xmlAddChild( node, select );
 	xml_SendNode( node );
 
-	sprintf( buf, "Entity %i, Brush %i: %s", entitynum, brushnum, msg );
+	snprintf( buf, sizeof(buf), "Entity %i, Brush %i: %s", entitynum, brushnum, msg );
 	if ( bError ) {
 		Error( buf );
 	}
@@ -144,13 +144,13 @@ void xml_Point( const char *msg, const Vector3& pt ){
 	level[1] = 0;
 	xmlSetProp( node, (const xmlChar*)"level", (const xmlChar *)level );
 	// a 'point' node
-	sprintf( buf, "%g %g %g", pt[0], pt[1], pt[2] );
+	snprintf( buf, sizeof(buf), "%g %g %g", pt[0], pt[1], pt[2] );
 	point = xmlNewNode( nullptr, (const xmlChar*)"point" );
 	xmlNodeAddContent( point, (const xmlChar*)buf );
 	xmlAddChild( node, point );
 	xml_SendNode( node );
 
-	sprintf( buf, "%s (%g %g %g)", msg, pt[0], pt[1], pt[2] );
+	snprintf( buf, sizeof(buf), "%s (%g %g %g)", msg, pt[0], pt[1], pt[2] );
 	Error( buf );
 }
 
@@ -167,10 +167,10 @@ void xml_Winding( const char *msg, const Vector3 p[], int numpoints, bool die ){
 	level[1] = 0;
 	xmlSetProp( node, (const xmlChar*)"level", (const xmlChar *)level );
 	// a 'winding' node
-	sprintf( buf, "%i ", numpoints );
+	snprintf( buf, sizeof(buf), "%i ", numpoints );
 	for ( int i = 0; i < numpoints; ++i )
 	{
-		sprintf( smlbuf, "(%g %g %g)", p[i][0], p[i][1], p[i][2] );
+		snprintf( smlbuf, sizeof(smlbuf), "(%g %g %g)", p[i][0], p[i][1], p[i][2] );
 		// don't overflow
 		if ( strlen( buf ) + strlen( smlbuf ) >= WINDING_BUFSIZE ) {
 			break;
@@ -365,7 +365,7 @@ void Sys_FPrintf( int flag, const char *format, ... ){
 	}
 
 	va_start( argptr, format );
-	vsprintf( out_buffer, format, argptr );
+	vsnprintf( out_buffer, sizeof(out_buffer), format, argptr );
 	va_end( argptr );
 
 	FPrintf( flag, out_buffer );
@@ -376,7 +376,7 @@ void Sys_Printf( const char *format, ... ){
 	va_list argptr;
 
 	va_start( argptr, format );
-	vsprintf( out_buffer, format, argptr );
+	vsnprintf( out_buffer, sizeof(out_buffer), format, argptr );
 	va_end( argptr );
 
 	FPrintf( SYS_STD, out_buffer );
@@ -387,8 +387,8 @@ void Sys_Warning( const char *format, ... ){
 	va_list argptr;
 
 	va_start( argptr, format );
-	sprintf( out_buffer, "WARNING: " );
-	vsprintf( out_buffer + strlen( "WARNING: " ), format, argptr );
+	snprintf( out_buffer, sizeof(out_buffer), "WARNING: " );
+	vsnprintf( out_buffer + strlen( "WARNING: " ), sizeof(out_buffer) - strlen( "WARNING: " ), format, argptr );
 	va_end( argptr );
 
 	FPrintf( SYS_WRN, out_buffer );
@@ -407,10 +407,10 @@ void Error( const char *error, ... ){
 	va_list argptr;
 
 	va_start( argptr, error );
-	vsprintf( tmp, error, argptr );
+	vsnprintf( tmp, sizeof(tmp), error, argptr );
 	va_end( argptr );
 
-	sprintf( out_buffer, "************ ERROR ************\n%s\n", tmp );
+	snprintf( out_buffer, sizeof(out_buffer), "************ ERROR ************\n%s\n", tmp );
 
 	FPrintf( SYS_ERR, out_buffer );
 	xml_message_flush();

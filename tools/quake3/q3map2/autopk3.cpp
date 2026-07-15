@@ -275,7 +275,7 @@ static bool packTexture( const char* texname, const char* packname, const int co
 	const char* extensions[4] = { ".png", ".tga", ".jpg", 0 };
 	for ( const char** ext = extensions + !png; *ext; ++ext ){
 		char str[MAX_QPATH * 2];
-		sprintf( str, "%s%s", texname, *ext );
+		snprintf( str, sizeof(str), "%s%s", texname, *ext );
 		if( packResource( str, packname, compLevel ) ){
 			return true;
 		}

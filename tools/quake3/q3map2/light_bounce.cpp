@@ -816,7 +816,7 @@ void RadCreateDiffuseLights(){
 		char dumpName[ 1024 ], ext[ 64 ];
 
 		strcpy( dumpName, source );
-		sprintf( ext, "_bounce_%03d.map", iterations );
+		snprintf( ext, sizeof(ext), "_bounce_%03d.map", iterations );
 		path_set_extension( dumpName, ext );
 		FILE *file = fopen( dumpName, "wb" );
 		Sys_Printf( "Writing %s...\n", dumpName );
