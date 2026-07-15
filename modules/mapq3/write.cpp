@@ -59,7 +59,7 @@ static std::size_t g_count_entities;
 static std::size_t g_count_brushes;
 
 
-void Entity_ExportTokens( const Entity& entity, TokenWriter& writer ){
+void Entity_ExportTokens( Entity& entity, TokenWriter& writer ){
 	g_count_brushes = 0;
 
 	class WriteOutput : public Entity::OutputVisitor
