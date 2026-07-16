@@ -105,7 +105,7 @@ QWidget* Console_constructWindow(){
 	text->setFocusPolicy( Qt::FocusPolicy::NoFocus );
 
 	g_console_font = new QFont;
-	g_console_font->setFamily("monospace");
+	g_console_font->setFamilies({"monospace", "Noto Sans"});
 	g_console_font->setFixedPitch( true );
 	g_console_font->setStyleHint( QFont::Monospace );
 
