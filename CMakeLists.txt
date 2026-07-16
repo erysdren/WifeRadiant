@@ -323,6 +323,7 @@ if(APPLE)
 	set_source_files_properties(${radiant_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 	set_target_properties(radiant
 		PROPERTIES
+			OUTPUT_NAME WifeRadiant
 			MACOSX_BUNDLE TRUE
 			MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}"
 			MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
@@ -427,7 +428,9 @@ elseif(EMSCRIPTEN)
 elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
 	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
 	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"${SYSTEM_PROCESSOR}\")
-	set_target_properties(radiant PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
+	if(NOT APPLE)
+		set_target_properties(radiant PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
+	endif()
 else()
 	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"unknown\")
 endif()
