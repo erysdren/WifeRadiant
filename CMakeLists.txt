@@ -319,6 +319,10 @@ qt_add_resources(radiant "radiant"
 )
 
 if(APPLE)
+	set_target_properties(radiant
+		PROPERTIES
+			MACOSX_BUNDLE TRUE
+	)
 	qt_generate_deploy_app_script(
 		TARGET radiant
 		OUTPUT_SCRIPT radiant_deploy_script
