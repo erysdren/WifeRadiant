@@ -4,7 +4,7 @@ on: [workflow_dispatch]
 
 jobs:
   windows-msys:
-    name: ${{ matrix.config }} Windows ${{ matrix.arch }}
+    name: ${{ matrix.config }} Windows ${{ matrix.arch }} ${{ matrix.type }}
     runs-on: windows-2022
     strategy:
       fail-fast: false
@@ -62,7 +62,7 @@ jobs:
         if-no-files-found: error
 
   linux:
-    name: ${{ matrix.config }} Linux ${{ matrix.arch }}
+    name: ${{ matrix.config }} Linux ${{ matrix.arch }} ${{ matrix.type }}
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -106,7 +106,7 @@ jobs:
         if-no-files-found: error
 
   macos:
-    name: ${{ matrix.config }} MacOS ${{ matrix.arch }}
+    name: ${{ matrix.config }} MacOS ${{ matrix.arch }} ${{ matrix.type }}
     runs-on: macos-latest
     strategy:
       fail-fast: false
