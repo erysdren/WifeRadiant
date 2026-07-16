@@ -74,6 +74,10 @@ QPixmap new_local_image( const char* filename ){
 		if( file_exists( fullpath( g_bitmapsPath, PathExtensionless( filename ), ext ) ) )
 			return QPixmap( fullpath.c_str() );
 
+	for( const auto *ext : { ".svg", ".png" } )
+		if( QFile::exists( fullpath( ":/bitmaps/", PathExtensionless( filename ), ext ).c_str() ) )
+			return QPixmap( fullpath.c_str() );
+
 	return {};
 }
 
@@ -85,6 +89,10 @@ QIcon new_local_icon( const char* filename ){
 
 	for( const auto *ext : { ".svg", ".png", ".ico" } )
 		if( file_exists( fullpath( g_bitmapsPath, PathExtensionless( filename ), ext ) ) )
+			return QIcon( fullpath.c_str() );
+
+	for( const auto *ext : { ".svg", ".png", ".ico" } )
+		if( QFile::exists( fullpath( ":/bitmaps/", PathExtensionless( filename ), ext ).c_str() ) )
 			return QIcon( fullpath.c_str() );
 
 	return {};
