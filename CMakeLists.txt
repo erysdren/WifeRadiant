@@ -318,17 +318,17 @@ qt_add_resources(radiant "radiant"
 		"${PROJECT_SOURCE_DIR}/resources"
 )
 
-if(0)
-qt_generate_deploy_app_script(
-	TARGET radiant
-	OUTPUT_SCRIPT radiant_deploy_script
-	NO_UNSUPPORTED_PLATFORM_ERROR
-)
-install(TARGETS radiant
-	BUNDLE DESTINATION ${PROJECT_SOURCE_DIR}/install
-	RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/install
-)
-install(SCRIPT ${radiant_deploy_script})
+if(APPLE)
+	qt_generate_deploy_app_script(
+		TARGET radiant
+		OUTPUT_SCRIPT radiant_deploy_script
+		NO_UNSUPPORTED_PLATFORM_ERROR
+	)
+	install(TARGETS radiant
+		BUNDLE DESTINATION ${PROJECT_SOURCE_DIR}/install
+		RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/install
+	)
+	install(SCRIPT ${radiant_deploy_script})
 endif()
 
 if(WIN32)
