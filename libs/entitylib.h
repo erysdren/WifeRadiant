@@ -664,12 +664,12 @@ public:
 		return m_isContainer;
 	}
 
-	EntityOutput* addOutput( const char* name, const char* target, const char* input, const char* data = "", float delay = 0, int numUses = -1 ) {
+	EntityOutput* addOutput( const char* name, const char* target, const char* input, const char* data = "", float delay = 0, int numUses = -1 ) override {
 		m_outputs.push_back( EntityOutput( *this, name, target, input, data, delay, numUses ) );
 		return &m_outputs.back();
 	}
 
-	EntityOutput* addOutput( const char* key, const char* value ) {
+	EntityOutput* addOutput( const char* key, const char* value ) override {
 		m_outputs.push_back( EntityOutput( *this, key, value ) );
 		return &m_outputs.back();
 	}
