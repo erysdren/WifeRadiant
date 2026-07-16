@@ -319,9 +319,15 @@ qt_add_resources(radiant "radiant"
 )
 
 if(APPLE)
+	set(radiant_icon_macos "${PROJECT_SOURCE_DIR}/resources/bitmaps/wiferadiant.icns")
+	set_source_files_properties(${radiant_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 	set_target_properties(radiant
 		PROPERTIES
 			MACOSX_BUNDLE TRUE
+			MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}"
+			MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
+			MACOSX_BUNDLE_GUI_IDENTIFIER "biz.wifesoft-gameware.wiferadiant"
+			MACOSX_BUNDLE_ICON_FILE "wiferadiant.icns"
 	)
 	qt_generate_deploy_app_script(
 		TARGET radiant
