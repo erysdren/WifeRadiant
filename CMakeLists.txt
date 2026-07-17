@@ -323,7 +323,7 @@ if(APPLE)
 	add_custom_command(
 		TARGET radiant
 		POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/install/gamepacks/" "${PROJECT_SOURCE_DIR}/install/WifeRadiant.app/Contents/Resources/"
+		COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/install/gamepacks/" "${PROJECT_SOURCE_DIR}/install/WifeRadiant.app/Contents/Resources/gamepacks/"
 		VERBATIM
 	)
 	set(radiant_icon_macos "${PROJECT_SOURCE_DIR}/resources/bitmaps/wiferadiant.icns")
