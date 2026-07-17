@@ -442,6 +442,10 @@ endif()
 
 if(RADIANT_GENERATE_GAMEPACKS)
 	include(gamepacks)
+	if(APPLE)
+		file(GLOB RADIANT_GAMEPACKS "${PROJECT_SOURCE_DIR}/install/gamepacks/*")
+		set_source_files_properties(${RADIANT_GAMEPACKS} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
+	endif()
 endif()
 
 # q3map2
