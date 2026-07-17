@@ -44,8 +44,6 @@ if(RADIANT_SUPPORT_SOURCE)
 		sourcepp
 		GIT_REPOSITORY https://github.com/craftablescience/sourcepp.git
 		GIT_TAG bd60f5dd494903e2e7727ae798e1bc3f34f4a6e7
-		GIT_SHALLOW TRUE
-		GIT_PROGRESS TRUE
 		EXCLUDE_FROM_ALL
 	)
 
@@ -71,8 +69,6 @@ if(NOT LibXml2_FOUND)
 		libxml2
 		GIT_REPOSITORY https://gitlab.gnome.org/GNOME/libxml2.git
 		GIT_TAG "v2.15.1"
-		GIT_SHALLOW TRUE
-		GIT_PROGRESS TRUE
 		EXCLUDE_FROM_ALL
 	)
 	set(LIBXML2_WITH_ICONV OFF CACHE BOOL "" FORCE)
@@ -84,8 +80,6 @@ if(RADIANT_USE_ASSIMP)
 		assimp
 		GIT_REPOSITORY https://github.com/assimp/assimp.git
 		GIT_TAG "v6.0.5"
-		GIT_SHALLOW TRUE
-		GIT_PROGRESS TRUE
 		EXCLUDE_FROM_ALL
 	)
 	set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
