@@ -30,7 +30,7 @@
 #include "ddslib.h"
 #include "crunch/inc/crn_decomp.h"
 
-inline int LittleLong( int l ){
+static inline int LittleLong( int l ){
 #if defined( __BIG_ENDIAN__ )
 	std::reverse( reinterpret_cast<unsigned char*>( &l ), reinterpret_cast<unsigned char*>( &l ) + sizeof( int ) );
 #endif
