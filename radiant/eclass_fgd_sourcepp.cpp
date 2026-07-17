@@ -135,6 +135,24 @@ static void addFlagsToEntity( EntityClass* entityClass, const std::vector<toolpp
 	}
 }
 
+class FGDTextInputStream : public TextInputStream
+{
+	std::string m_string;
+	std::size_t m_pos;
+public:
+	FGDTextInputStream( const std::string_view& string ) : m_string( string ), m_pos( 0 ) {
+	}
+	virtual std::size_t read( char* buffer, std::size_t length ) {
+		for ( std::size_t i = 0; i < length; i++ ) {
+			if ( m_pos >= m_string.length() ) {
+				return i;
+			}
+			buffer[i] = m_string[m_pos++];
+		}
+		return length;
+	}
+};
+
 static void addColorToEntity( EntityClass* entityClass, const toolpp::FGD::Entity& entity ) {
 	if ( entityClass->colorSpecified ) {
 		return;
@@ -154,36 +172,35 @@ static void addSizeToEntity( EntityClass* entityClass, const toolpp::FGD::Entity
 		return;
 	}
 	if ( auto sizeProperty = findClassProperty( entity, "size" ); sizeProperty != entity.classProperties.end() ) {
-		if ( std::sscanf( (*sizeProperty).arguments.data(), "%f%f%f,%f%f%f", &entityClass->mins.x(), &entityClass->mins.y(), &entityClass->mins.z(), &entityClass->maxs.x(), &entityClass->maxs.y(), &entityClass->maxs.z() ) == 6 ) {
-			entityClass->sizeSpecified = true;
-		} else if ( std::sscanf( (*sizeProperty).arguments.data(), "%f%f%f", &entityClass->mins.x(), &entityClass->mins.y(), &entityClass->mins.z() ) == 3 ) {
+		FGDTextInputStream istream( (*sizeProperty).arguments );
+		Tokeniser& tokeniser = GlobalScriptLibrary().m_pfnNewScriptTokeniser( istream );
+
+		Tokeniser_getFloat(tokeniser, entityClass->mins.x());
+		Tokeniser_getFloat(tokeniser, entityClass->mins.y());
+		Tokeniser_getFloat(tokeniser, entityClass->mins.z());
+
+		const char *token = tokeniser.getToken();
+		if (string_empty(token))
+		{
 			entityClass->maxs = entityClass->mins;
 			vector3_negate( entityClass->mins );
-			entityClass->sizeSpecified = true;
-			// globalWarningStream() << "had to guess maxs in " << Quoted( entityName ) << '\n';
-		} else {
-			// globalErrorStream() << "failed to parse size property in entity " << Quoted( entityName ) << '\n';
 		}
+		else if (string_equal(token, ","))
+		{
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.x());
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.y());
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.z());
+		}
+		else
+		{
+			entityClass->maxs.x() = std::stof(token);
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.y());
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.z());
+		}
+
+		entityClass->sizeSpecified = true;
 	}
 }
-
-class FGDTextInputStream : public TextInputStream
-{
-	std::string m_string;
-	std::size_t m_pos;
-public:
-	FGDTextInputStream( const std::string_view& string ) : m_string( string ), m_pos( 0 ) {
-	}
-	virtual std::size_t read( char* buffer, std::size_t length ) {
-		for ( std::size_t i = 0; i < length; i++ ) {
-			if ( m_pos >= m_string.length() ) {
-				return i;
-			}
-			buffer[i] = m_string[m_pos++];
-		}
-		return length;
-	}
-};
 
 static void addModelToEntity( EntityClass* entityClass, const toolpp::FGD::Entity& entity ) {
 	if ( !entityClass->m_modelpath.empty() || entityClass->miscmodel_is ) {
@@ -213,8 +230,8 @@ static void addBaseAttributes( EntityClass* entityClass, const std::unordered_ma
 			}
 			if ( auto baseClass = entities.find( baseClassName ); baseClass != entities.end() ) {
 				entityClass->m_parent.push_back( baseClassName );
-				addModelToEntity( entityClass, entity );
-				addSizeToEntity( entityClass, entity );
+				addModelToEntity( entityClass, baseClass->second );
+				addSizeToEntity( entityClass, baseClass->second );
 				addColorToEntity( entityClass, baseClass->second );
 				addChoicesToEntity( entityClass, baseClass->second.fieldsWithChoices );
 				addIOToEntity( entityClass, baseClass->second.inputs, baseClass->second.outputs );
