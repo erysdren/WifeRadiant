@@ -320,6 +320,7 @@ qt_add_resources(radiant "radiant"
 
 if(APPLE)
 	set(radiant_icon_macos "${PROJECT_SOURCE_DIR}/resources/bitmaps/wiferadiant.icns")
+	set_source_files_properties(${RADIANT_RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 	set_source_files_properties(${radiant_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 	set_target_properties(radiant
 		PROPERTIES
@@ -415,9 +416,11 @@ file(WRITE ${PROJECT_SOURCE_DIR}/install/RADIANT_MAJOR ${RADIANT_MAJOR_VERSION})
 file(WRITE ${PROJECT_SOURCE_DIR}/install/RADIANT_MINOR ${RADIANT_MINOR_VERSION})
 file(WRITE ${PROJECT_SOURCE_DIR}/install/RADIANT_PATCH ${RADIANT_PATCH_VERSION})
 
-file(GLOB RADIANT_DATA_FILES "${PROJECT_SOURCE_DIR}/resources/*")
-file(COPY ${RADIANT_DATA_FILES} DESTINATION ${PROJECT_SOURCE_DIR}/install/)
-file(COPY "${PROJECT_SOURCE_DIR}/docs/mouse shortcuts.txt" DESTINATION ${PROJECT_SOURCE_DIR}/install/docs/)
+if(NOT APPLE)
+	file(GLOB RADIANT_DATA_FILES "${PROJECT_SOURCE_DIR}/resources/*")
+	file(COPY ${RADIANT_DATA_FILES} DESTINATION ${PROJECT_SOURCE_DIR}/install/)
+	file(COPY "${PROJECT_SOURCE_DIR}/docs/mouse shortcuts.txt" DESTINATION ${PROJECT_SOURCE_DIR}/install/docs/)
+endif()
 
 if(WIN32)
 	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"exe\")
