@@ -325,6 +325,13 @@ qt_add_resources(radiant "radiant"
 )
 
 if(APPLE)
+	# FIXME: shitty hack
+	add_custom_command(
+		TARGET radiant
+		POST_BUILD
+		COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/install/gamepacks/" "${PROJECT_SOURCE_DIR}/install/WifeRadiant.app/Contents/Resources/"
+		VERBATIM
+	)
 	set(radiant_icon_macos "${PROJECT_SOURCE_DIR}/resources/bitmaps/wiferadiant.icns")
 	set_source_files_properties(${RADIANT_RESOURCES} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 	set_source_files_properties(${radiant_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
@@ -448,10 +455,6 @@ endif()
 
 if(RADIANT_GENERATE_GAMEPACKS)
 	include(gamepacks)
-	if(APPLE)
-		file(GLOB RADIANT_GAMEPACKS "${PROJECT_SOURCE_DIR}/install/gamepacks/*")
-		set_source_files_properties(${RADIANT_GAMEPACKS} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
-	endif()
 endif()
 
 # q3map2
