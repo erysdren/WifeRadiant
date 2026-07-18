@@ -180,7 +180,7 @@ static void addSizeToEntity( EntityClass* entityClass, const toolpp::FGD::Entity
 		Tokeniser_getFloat(tokeniser, entityClass->mins.z());
 
 		const char *token = tokeniser.getToken();
-		if (string_empty(token))
+		if (!token || string_empty(token))
 		{
 			entityClass->maxs = entityClass->mins;
 			vector3_negate( entityClass->mins );
