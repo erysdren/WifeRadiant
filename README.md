@@ -128,6 +128,7 @@ should be considered **!!EXPERIMENTAL!!**
 - Nuclide support
 	- Support patchDef2WS and patchDef3/patchDef3WS in q3map2
 - Support Ghoul 2 models (GLA/GLM)
+- Support IQM models
 
 ### Random feature highlights
 
