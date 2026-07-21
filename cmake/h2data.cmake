@@ -56,9 +56,6 @@ set_target_properties(h2data
 		RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
 )
 target_compile_options(h2data PRIVATE
-	$<$<BOOL:${MINGW}>:-static>
-	$<$<BOOL:${MINGW}>:-static-libgcc>
-	$<$<BOOL:${MINGW}>:-static-libstdc++>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>

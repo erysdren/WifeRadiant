@@ -12,6 +12,15 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 
 set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
+if(MINGW)
+	add_link_options(
+		-static
+		-static-libgcc
+		-static-libstdc++
+		-mcrtdll=msvcrt-os
+	)
+endif()
+
 # options
 
 include(CMakeDependentOption)
@@ -392,9 +401,6 @@ target_link_libraries(radiant PRIVATE $<$<BOOL:${RADIANT_SUPPORT_SOURCE}>:source
 target_link_libraries(radiant PRIVATE $<$<BOOL:${WIN32}>:ws2_32> $<$<BOOL:${WIN32}>:dbghelp>)
 target_link_libraries(radiant PRIVATE $<$<PLATFORM_ID:Haiku>:network>)
 target_compile_options(radiant PRIVATE
-	$<$<BOOL:${MINGW}>:-static>
-	$<$<BOOL:${MINGW}>:-static-libgcc>
-	$<$<BOOL:${MINGW}>:-static-libstdc++>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
