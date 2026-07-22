@@ -156,6 +156,7 @@ endif()
 
 add_module(model
 	SOURCES
+		${PROJECT_SOURCE_DIR}/modules/model/ghoul2.cpp
 		${PROJECT_SOURCE_DIR}/modules/model/md2.cpp
 		${PROJECT_SOURCE_DIR}/modules/model/md3.cpp
 		${PROJECT_SOURCE_DIR}/modules/model/md3normals.cpp

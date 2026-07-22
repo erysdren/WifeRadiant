@@ -41,6 +41,7 @@
 #include "mdc.h"
 #include "mdlimage.h"
 #include "md5.h"
+#include "ghoul2.h"
 
 
 class MD3ModelLoader : public ModelLoader
@@ -217,6 +218,38 @@ typedef SingletonModule<ModelMD5API, ModelMD5Dependencies> ModelMD5Module;
 ModelMD5Module g_ModelMD5Module;
 
 
+class GLMModelLoader : public ModelLoader
+{
+public:
+	scene::Node& loadModel( ArchiveFile& file ) override {
+		return loadGhoul2GLM( file );
+	}
+};
+
+class ModelGLMDependencies : public ModelDependencies, public GlobalScripLibModuleRef
+{
+};
+
+class ModelGLMAPI : public TypeSystemRef
+{
+	GLMModelLoader m_modelglm;
+public:
+	typedef ModelLoader Type;
+	STRING_CONSTANT( Name, "glm" );
+
+	ModelGLMAPI(){
+		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "ghoul 2 models", "*.glm" ) );
+	}
+	ModelLoader* getTable(){
+		return &m_modelglm;
+	}
+};
+
+typedef SingletonModule<ModelGLMAPI, ModelGLMDependencies> ModelGLMModule;
+
+ModelGLMModule g_ModelGLMModule;
+
+
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
 	initialiseModule( server );
 
@@ -226,4 +259,5 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ModelMDCModule.selfRegister();
 	g_ImageMDLModule.selfRegister();
 	g_ModelMD5Module.selfRegister();
+	g_ModelGLMModule.selfRegister();
 }
