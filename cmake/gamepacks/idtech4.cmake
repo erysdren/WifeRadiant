@@ -1,4 +1,29 @@
 
+radiant_add_gamepack(doom3
+	GAME_TYPE "doom3"
+	TITLE "Doom 3"
+	GAMEDIR "base"
+	PATH_WIN32 "C:/Program Files/Doom 3/"
+	PATH_LINUX "/usr/local/games/doom3/"
+	PATH_MACOS "/Applications/Doom3/"
+	EXECUTABLE_WIN32 "Doom3.exe"
+	EXECUTABLE_LINUX "Doom3"
+	EXECUTABLE_MACOS "Doom3.app"
+	SHADER_TYPE "doom3"
+	SHADER_PATH "materials"
+	ENTITY_CLASS "doom3"
+	ENTITIES "doom3"
+	ARCHIVE_TYPES "pk4"
+	TEXTURE_TYPES "tga" "jpg" "dds"
+	MODEL_TYPES "lwo" "ase" "md5mesh"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapdoom3"
+	BRUSH_TYPES "doom3"
+	PATCH_TYPES "doom3" "def2doom3"
+	DEFAULT_SCALE "0.5"
+	SUPPORT_PATCHES
+)
+
 radiant_add_gamepack(q4
 	GAME_TYPE "doom3"
 	TITLE "Quake 4"
