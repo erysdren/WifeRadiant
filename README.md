@@ -129,7 +129,8 @@ should be considered **!!EXPERIMENTAL!!**
 	- Support patchDef2WS and patchDef3/patchDef3WS in q3map2
 - ~~Support Ghoul 2 models (GLA/GLM)~~
 - Add physics sim bakes with [Box3D](https://github.com/erincatto/box3d)
-- Add `func_breakable_surf` hack
+- Add `func_breakable_surf` hack (also, investigate other entity-specific Hammer hacks)
+- Add filter/search to model browser
 
 ### Random feature highlights
 
