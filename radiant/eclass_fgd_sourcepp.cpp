@@ -220,6 +220,12 @@ static void addModelToEntity( EntityClass* entityClass, const toolpp::FGD::Entit
 	}
 }
 
+static void addMiscToEntity( EntityClass* entityClass, const toolpp::FGD::Entity& entity ) {
+	if ( auto boundsProperty = findClassProperty( entity, "quadbounds" ); boundsProperty != entity.classProperties.end() ) {
+		entityClass->quadbounds = true;
+	}
+}
+
 static void addBaseAttributes( EntityClass* entityClass, const std::unordered_map<std::string_view, toolpp::FGD::Entity>& entities, const toolpp::FGD::Entity& entity ) {
 	if ( auto baseProperty = findClassProperty( entity, "base" ); baseProperty != entity.classProperties.end() ) {
 		FGDTextInputStream istream( (*baseProperty).arguments );
@@ -230,6 +236,7 @@ static void addBaseAttributes( EntityClass* entityClass, const std::unordered_ma
 			}
 			if ( auto baseClass = entities.find( baseClassName ); baseClass != entities.end() ) {
 				entityClass->m_parent.push_back( baseClassName );
+				addMiscToEntity( entityClass, baseClass->second );
 				addModelToEntity( entityClass, baseClass->second );
 				addSizeToEntity( entityClass, baseClass->second );
 				addColorToEntity( entityClass, baseClass->second );
@@ -280,6 +287,7 @@ void Eclass_ScanFile_fgd( EntityClassCollector& collector, const char *filename 
 			entityClass->fixedsize = true;
 		}
 
+		addMiscToEntity( entityClass, entity );
 		addModelToEntity( entityClass, entity );
 		addSizeToEntity( entityClass, entity );
 		addColorToEntity( entityClass, entity );

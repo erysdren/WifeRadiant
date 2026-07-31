@@ -106,6 +106,7 @@ public:
 	bool fixedsize;
 	bool unknown;               // wasn't found in source
 	bool miscmodel_is;			// also definable via model attribute presence in xml .ent definition
+	bool quadbounds;			// erysdren: Source Engine specific hack
 	CopiedString m_miscmodel_key;
 	bool has_angles;			// definable via "angle"/"angles"/"direction" attribute presence in xml .ent definition, only affects rendering of group entities angles arrow now
 	bool has_angles_key;		// definable via "angles" attribute presence in xml .ent definition, enables angles support for EclassModel (only angle by default)
