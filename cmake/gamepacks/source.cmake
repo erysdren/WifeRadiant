@@ -36,6 +36,8 @@ radiant_add_gamepack(css
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # D.I.P.R.I.P. Warm Up
@@ -72,6 +74,8 @@ radiant_add_gamepack(diprip
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Day of Defeat: Source
@@ -108,6 +112,8 @@ radiant_add_gamepack(dods
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Garry's Mod
@@ -144,6 +150,8 @@ radiant_add_gamepack(garrysmod
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Half-Life 2
@@ -176,6 +184,8 @@ radiant_add_gamepack(hl2
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Half-Life 2: Episode One
@@ -212,6 +222,8 @@ radiant_add_gamepack(episodic
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Half-Life 2: Episode Two
@@ -248,6 +260,8 @@ radiant_add_gamepack(ep2
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Half-Life 2: Lost Coast
@@ -284,6 +298,8 @@ radiant_add_gamepack(lostcoast
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Half-Life 2: Deathmatch
@@ -320,6 +336,8 @@ radiant_add_gamepack(hl2mp
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Portal
@@ -356,6 +374,8 @@ radiant_add_gamepack(portal
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Portal 2
@@ -389,6 +409,8 @@ radiant_add_gamepack(portal2
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # SiN Episodes: Emergence
@@ -425,6 +447,8 @@ radiant_add_gamepack(sinepisodes
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Team Fortress 2
@@ -461,6 +485,8 @@ radiant_add_gamepack(tf2
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )
 
 # Vampire: The Masquerade - Bloodlines
@@ -497,4 +523,6 @@ radiant_add_gamepack(vampire
 	MAP_TYPES "mapvmf"
 	BRUSH_TYPES "source"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "tools/toolsnodraw"
+	SHADER_NODRAW "tools/toolsnodraw"
 )

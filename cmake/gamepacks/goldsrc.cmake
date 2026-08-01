@@ -26,6 +26,8 @@ radiant_add_gamepack(hl
 	MAP_TYPES "maphl"
 	BRUSH_TYPES "halflife"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "null"
+	SHADER_NODRAW "null"
 )
 
 # Half-Life: Blue Shift
@@ -56,6 +58,8 @@ radiant_add_gamepack(bshift
 	MAP_TYPES "maphl"
 	BRUSH_TYPES "halflife"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "null"
+	SHADER_NODRAW "null"
 )
 
 # Half-Life: Opposing Force
@@ -86,6 +90,8 @@ radiant_add_gamepack(gearbox
 	MAP_TYPES "maphl"
 	BRUSH_TYPES "halflife"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "null"
+	SHADER_NODRAW "null"
 )
 
 # Team Fortress Classic
@@ -116,6 +122,8 @@ radiant_add_gamepack(tfc
 	MAP_TYPES "maphl"
 	BRUSH_TYPES "halflife"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "null"
+	SHADER_NODRAW "null"
 )
 
 # Day of Defeat
@@ -146,6 +154,8 @@ radiant_add_gamepack(dod
 	MAP_TYPES "maphl"
 	BRUSH_TYPES "halflife"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "null"
+	SHADER_NODRAW "null"
 )
 
 # Counter-Strike
@@ -176,6 +186,8 @@ radiant_add_gamepack(cstrike
 	MAP_TYPES "maphl"
 	BRUSH_TYPES "halflife"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "null"
+	SHADER_NODRAW "null"
 )
 
 # Ricochet
@@ -206,6 +218,8 @@ radiant_add_gamepack(ricochet
 	MAP_TYPES "maphl"
 	BRUSH_TYPES "halflife"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "null"
+	SHADER_NODRAW "null"
 )
 
 # Gunman Chronicles
@@ -232,4 +246,6 @@ radiant_add_gamepack(rewolf
 	MAP_TYPES "maphl"
 	BRUSH_TYPES "halflife"
 	PATCH_TYPES "quake3"
+	SHADER_CAULK "null"
+	SHADER_NODRAW "null"
 )
