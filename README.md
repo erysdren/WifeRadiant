@@ -122,8 +122,8 @@ should be considered **!!EXPERIMENTAL!!**
 - Gamepack editor window
 - Embed Surface Dialog window in Textures group panel
 - Quake 4 support / improved idTech 4 support
-	- Fix entity definitions not loading
-	- Add realtime lighting preview
+	- ~~Fix entity definitions not loading~~
+	- ~~Add realtime lighting preview~~
 	- Fix crash when entering vertex editing mode on patches in idTech4 maps
 - Nuclide support
 	- Support patchDef2WS and patchDef3/patchDef3WS in q3map2
