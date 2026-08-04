@@ -28,31 +28,16 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 
 ## Supported games
 
-**NOTE**: The editor still fundamentally supports all of the old idTech2/3/4
-games it always did. The gamepack format has changed somewhat, but old ones can
-be easily updated. Please raise an issue or contact me if you need a specific
-gamepack re-added.
-
-There are built-in gamepacks for the following Source Engine and GoldSrc
-titles:
-
-- Half-Life (1998)
-- Half-Life 2 (2004)
-- Half-Life 2: Deathmatch (2004)
-- Vampire: The Masquerade - Bloodlines (2004)
-- Counter-Strike: Source (2004)
-- Day of Defeat: Source (2005)
-- SiN Episodes: Emergence (2006)
-- Garry's Mod (2006)
-- Half-Life 2: Episode One (2006)
-- Half-Life 2: Episode Two (2007)
-- Portal (2007)
-- Team Fortress 2 (2007)
-- D.I.P.R.I.P. Warm Up (2008)
-- Portal 2 (2011)
-
-Note that any support for specific Source Engine game or engine branch features
-should be considered **!!EXPERIMENTAL!!**
+| Game | Overall Support | Notes |
+|---|---|---|
+| Quake | Good | WAD support needs work. |
+| Quake II | Great | |
+| Quake III Arena | Excellent | |
+| DOOM 3 | Good | Occasional crashes when using patch meshes. |
+| Half-Life | Good | WAD and MDL support both need work. |
+| Half-Life 2 | Okay | No displacements, visgroups, and many other limitations. See below. |
+| Vampire: The Masquerade - Bloodlines | Bad | No MDL support. |
+| Portal 2 | Bad | No instances. |
 
 ## Features
 
@@ -132,6 +117,7 @@ should be considered **!!EXPERIMENTAL!!**
 - Add `func_breakable_surf` hack (also, investigate other entity-specific Hammer hacks)
 - Add filter/search to model browser
 - Show model skins
+- Import tb2pov.py tool I made and add a POV-Ray gamepack (why not?)
 
 ### Random feature highlights
 
