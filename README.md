@@ -131,6 +131,7 @@ should be considered **!!EXPERIMENTAL!!**
 - Add physics sim bakes with [Box3D](https://github.com/erincatto/box3d)
 - Add `func_breakable_surf` hack (also, investigate other entity-specific Hammer hacks)
 - Add filter/search to model browser
+- Show model skins
 
 ### Random feature highlights
 
