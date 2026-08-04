@@ -87,7 +87,7 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 
 - Improve WAD handling for GoldSrc gamepacks
 	- Allow you to choose which WADs get mounted instead of mounting all the ones it can find
-	- Write `wad` keyvalue in the `worldspawn` entity so GoldSrc compile tools can work properly.
+	- Write `wad` keyvalue in the `worldspawn` entity so GoldSrc compile tools can work properly
 - Allow you to pick which texture directories to load (like TrenchBroom)
 - Add read/write support of [J.A.C.K.](https://store.steampowered.com/app/496450/JACK/) map files for better GoldSrc developer interop
 - Add read-only support of Worldcraft map files for loading legacy GoldSrc maps
@@ -121,6 +121,7 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 - Investigate inverted angles for stuff like `light_spot` and `light_environment`
 - Investigate inverted angles for certain types of Source MDLs (sourcepp issue?)
 - Support `pitch` keyvalue seperate from `angle` and `angles`
+- Support rendering images and `.spr` files as sprites in-editor
 
 ### Random feature highlights
 
