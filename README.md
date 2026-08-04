@@ -118,6 +118,9 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 - Add filter/search to model browser
 - Show model skins
 - Import tb2pov.py tool I made and add a POV-Ray gamepack (why not?)
+- Investigate inverted angles for stuff like `light_spot` and `light_environment`
+- Investigate inverted angles for certain types of Source MDLs (sourcepp issue?)
+- Support `pitch` keyvalue seperate from `angle` and `angles`
 
 ### Random feature highlights
 
