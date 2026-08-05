@@ -182,7 +182,7 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 
 ## Compiling
 
-On Linux, building requires the `libxml2-devel` and `qt6-qtbase-devel` packages
+On Linux, building requires the `libxml2-devel`, `qt6-qtbase-devel` and `qt6-svg-dev` packages
 (note that package names vary by distro).
 
 ```bash
