@@ -48,3 +48,5 @@ void TextureBrowser_setBackgroundColour( const Vector3& colour );
 
 void TextureBrowser_addActiveShadersChangedCallback( const SignalHandler& handler );
 void TextureBrowser_addShadersRealiseCallback( const SignalHandler& handler );
+
+extern std::vector<std::string> g_ShaderExclusionDirs;

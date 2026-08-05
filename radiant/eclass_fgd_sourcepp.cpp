@@ -27,6 +27,8 @@
 #include <set>
 #include <format>
 
+#include "texwindow.h"
+
 #include "iscriplib.h"
 
 #include "string/string.h"
@@ -252,6 +254,14 @@ static void addBaseAttributes( EntityClass* entityClass, const std::unordered_ma
 
 void Eclass_ScanFile_fgd( EntityClassCollector& collector, const char *filename ){
 	toolpp::FGD fgd = toolpp::FGD(filename);
+
+	const auto& materialExclusionDirs = fgd.getMaterialExclusionDirs();
+
+	g_ShaderExclusionDirs.clear();
+
+	for ( const auto& dir : materialExclusionDirs ) {
+		g_ShaderExclusionDirs.push_back(std::string{dir});
+	}
 
 	const auto& entities = fgd.getEntities();
 

@@ -86,6 +86,8 @@
 #include "preferences.h"
 #include "commands.h"
 
+std::vector<std::string> g_ShaderExclusionDirs;
+
 bool string_equal_start( const char* string, StringRange start ){
 	return string_equal_n( string, start.data(), start.size() );
 }
@@ -120,6 +122,11 @@ typedef ReferenceCaller<TextureGroups, void(const char*), TextureGroups_addWad> 
 void TextureGroups_addShader( TextureGroups& groups, const char* shaderName ){
 	const char* texture = path_make_relative( shaderName, GlobalTexturePrefix_get() );
 	if ( texture != shaderName ) {
+		for ( const auto& dir : g_ShaderExclusionDirs ) {
+			if ( string_equal_prefix_nocase( texture, dir.c_str() ) ) {
+				return;
+			}
+		}
 		const char* last = path_remove_directory( texture );
 		if ( !string_empty( last ) ) {
 			groups.insert( CopiedString( StringRange( texture, --last ) ) );
@@ -129,6 +136,11 @@ void TextureGroups_addShader( TextureGroups& groups, const char* shaderName ){
 typedef ReferenceCaller<TextureGroups, void(const char*), TextureGroups_addShader> TextureGroupsAddShaderCaller;
 
 void TextureGroups_addDirectory( TextureGroups& groups, const char* directory ){
+	for ( const auto& dir : g_ShaderExclusionDirs ) {
+		if ( string_equal_prefix_nocase( directory, dir.c_str() ) ) {
+			return;
+		}
+	}
 	groups.insert( directory );
 }
 typedef ReferenceCaller<TextureGroups, void(const char*), TextureGroups_addDirectory> TextureGroupsAddDirectoryCaller;
@@ -589,6 +601,12 @@ typedef ReferenceCaller<TextureBrowser, void(bool), TextureBrowser_importShowScr
 inline bool texture_name_ignore( const char* name ){
 	const auto temp = StringStream<64>( LowerCase( name ) );
 
+	for ( const auto& dir : g_ShaderExclusionDirs ) {
+		if ( string_equal_prefix_nocase( temp, dir.c_str() ) ) {
+			return true;
+		}
+	}
+
 	return
 	    string_equal_suffix( temp, ".specular" ) ||
 	    string_equal_suffix( temp, ".glow" ) ||
@@ -702,6 +720,11 @@ public:
 };
 
 void TextureBrowser_ShowDirectory( const char* directory ){
+	for ( const auto& dir : g_ShaderExclusionDirs ) {
+		if ( string_equal_prefix_nocase( directory, dir.c_str() ) ) {
+			return;
+		}
+	}
 	g_TexBro.m_searchedTags = false;
 	if ( TextureBrowser::wads ) {
 		Archive* archive = GlobalFileSystem().getArchive( directory );
