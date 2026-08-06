@@ -1,0 +1,3022 @@
+@include "base.fgd"
+
+
+//
+// TF2 game definition file (.fgd) 
+//
+
+//
+// Material Exclusions
+//
+
+@MaterialExclusion
+[
+	// Names of the sub-directories we don't want to load materials from
+	"ambulance"
+	"backpack"
+	"cable"
+	"console"
+	"cp_bloodstained"
+	"customcubemaps"
+	"detail"
+	"debug"
+	"effects"
+	"engine"
+	"environment maps"
+	"halflife"
+	"matsys_regressiontest"
+	"hlmv"
+	"hud"
+	"logo"
+	"maps"
+	"models"
+	"overviews"
+	"particle"
+	"particles"
+	"perftest"
+	"pl_halfacre"
+	"pl_hoodoo"
+	"scripted"
+	"shadertest"
+	"sprites"
+	"sun"
+	"vgui"
+	"voice"
+]
+
+//
+// AutoVisGroups
+//
+
+@AutoVisGroup = "Tool Brushes"
+[
+	"Vis Clusters"
+	[
+		"func_viscluster"
+	]
+]
+
+@AutoVisGroup = "Custom"
+[
+	"AI, Choreo"
+	[
+		"ai_speechfilter"
+		"ambient_generic"
+		"bot_controller"
+		"bot_generator"
+		"bot_roster"
+		"bot_action_point"
+		"bot_hint_sentrygun"
+		"entity_spawn_manager"
+		"entity_spawn_point"
+		"env_microphone"
+		"info_node"
+		"info_node_air"
+		"info_node_air_hint"
+		"info_node_climb"
+		"info_node_hint"
+		"info_node_link"
+		"info_node_link_controller"
+		"info_npc_spawn_destination"
+		"npc_furniture"
+		"npc_puppet"
+		"npc_template_maker"
+		"point_teleport"
+		"point_template"
+	]
+
+	"Cameras"
+	[
+		"info_observer_point"
+		"game_intro_viewpoint"
+		"info_camera_link"
+		"point_devshot_camera"
+		"point_viewcontrol"
+		"sky_camera"
+	]
+
+	"Visual"
+	[
+		"color_correction"
+		"env_beam"
+		"env_cubemap"
+		"env_dustpuff"
+		"env_effectscript"
+		"env_entity_igniter"
+		"env_entity_maker"
+		"env_explosion"
+		"env_fade"
+		"env_fire"
+		"env_firesensor"
+		"env_firesource"
+		"env_fog_controller"
+		"env_funnel"
+		"env_hudhint"
+		"env_laser"
+		"env_lightglow"
+		"env_message"
+		"env_particleperformance"
+		"env_particlelight"
+		"env_particlescript"
+		"env_physexplosion"
+		"env_physimpact"
+		"env_projectedtexture"
+		"env_rotorshooter"
+		"env_screeneffect"
+		"env_screenoverlay"
+		"env_shake"
+		"env_shooter"
+		"env_smokestack"
+		"env_smoketrail"
+		"env_spark"
+		"env_splash"
+		"env_sprite"
+		"env_sprite_oriented"
+		"env_spritetail"
+		"env_steam"
+		"env_sun"
+		"env_texturetoggle"
+		"env_tonemap_controller"
+		"env_viewpunch"
+		"env_wind"
+		"env_zoom"
+		"func_fishpool"
+		"gibshooter"
+		"info_lighting"
+		"light"
+		"light_spot"
+		"light_dynamic"
+		"light_environment"
+		"info_no_dynamic_shadow"
+		//	"info_overlay"
+		//	"info_overlay_transition"
+		"info_particle_system"
+		"info_projecteddecal"
+		//	"infodecal"
+		"keyframe_rope"
+		"keyframe_track"
+		"material_modify_control"
+		"math_colorblend"
+		"move_rope"
+		"point_spotlight"
+		"point_tesla"
+		"prop_detail"
+		"shadow_control"
+		"vgui_screen"
+		"vgui_slideshow_display"
+		"water_lod_control"
+		// Solids
+		"color_correction_volume"
+		"env_bubbles"
+		"env_embers"
+		"func_dustcloud"
+		"func_dustmotes"
+		"func_precipitation"
+		"func_reflective_glass"
+		"func_smokevolume"
+		"trigger_wind"
+	]
+
+	"Game Logic"
+	[
+		"filter_activator_class"
+		"filter_activator_mass_greater"
+		"filter_activator_name"
+		"filter_activator_tfteam"
+		"filter_damage_type"
+		"filter_enemy"
+		"filter_multi"
+		"filter_tf_player_can_cap"
+		"filter_tf_damaged_by_weapon_in_slot"
+		"filter_tf_bot_has_tag"
+		"filter_tf_class"
+		"func_ladderendpoint"
+		"func_useableladder"
+		"game_end"
+		"game_forcerespawn"
+		"game_gib_manager"
+		"game_player_equip"
+		"game_player_team"
+		"game_ragdoll_manager"
+		"game_round_win"
+		"game_score"
+		"game_text"
+		"game_text_tf"
+		"game_ui"
+		"game_weapon_manager"
+		"info_constraint_anchor"
+		"info_hint"
+		"info_intermission"
+		"info_ladder_dismount"
+		"info_landmark"
+		"info_mass_center"
+		"info_player_start"
+		"info_player_teamspawn"
+		"info_teleport_destination"
+		"info_powerup_spawn"
+		"item_powerup_crit"
+		"item_powerup_uber"
+		"item_ammopack_full"
+		"item_ammopack_medium"
+		"item_ammopack_small"
+		"item_healthkit_full"
+		"item_healthkit_medium"
+		"item_healthkit_small"
+		"item_teamflag"
+		"item_bonuspack"
+		"logic_active_autosave"
+		"logic_auto"
+		"logic_autosave"
+		"logic_branch"
+		"logic_branch_listener"
+		"logic_case"
+		"logic_collision_pair"
+		"logic_compare"
+		"logic_lineto"
+		"logic_measure_movement"
+		"logic_multicompare"
+		"logic_navigation"
+		"logic_playerproxy"
+		"logic_relay"
+		"logic_timer"
+		"mapobj_cart_dispenser"
+		"math_colorblend"
+		"math_counter"
+		"math_remap"
+		"move_keyframed"
+		"move_track"
+		"npc_furntiure"
+		"npc_puppet"
+		"npc_template_maker"
+		"obj_dispenser"
+		"obj_sentrygun"
+		"obj_teleporter"
+		"path_track"
+		"phys_ballsocket"
+		"phys_constraint"
+		"phys_constraintsystem"
+		"phys_convert"
+		"phys_hinge"
+		"phys_keepupright"
+		"phys_lengthconstraint"
+		"phys_magnet"
+		"phys_motor"
+		"phys_pulleyconstraint"
+		"phys_ragdollconstraint"
+		"phys_ragdollmagnet"
+		"phys_slideconstraint"
+		"phys_spring"
+		"phys_thruster"
+		"phys_torque"
+		"physics_cannister"
+		"point_anglesensor"
+		"point_angularvelocitysensor"
+		"point_bonusmaps_accessor"
+		"point_clientcommand"
+		"point_enable_motion_fixup"
+		"point_gamestats_counter"
+		"point_hurt"
+		"point_intermission"
+		"point_message"
+		"point_playermoveconstraint"
+		"point_posecontroller"
+		"point_proximity_sensor"
+		"point_servercommand"
+		"point_teleport"
+		"point_template"
+		"point_velocitysensor"
+		"point_viewcontrol"
+		"prop_door_rotation"
+		"tanktrain_ai"
+		"tanktrain_aitarget"
+		"team_control_point"
+		"team_control_point_master"
+		"team_control_point_round"
+		"team_round_timer"
+		"team_train_watcher"
+		"test_traceline"
+		"tf_gamerules"
+		"tf_logic_arena"
+		"tf_logic_hybrid_ctf_cp"
+		"tf_logic_koth"
+		"tf_logic_medieval"
+		"tf_logic_multiple_escort"
+		"tf_logic_training_mode"
+		"tf_pumpkin_bomb"
+		"tf_generic_bomb"
+		"tf_logic_holiday"
+		"tf_logic_competitive"
+		"tf_logic_mannpower"
+		"tf_logic_on_holiday"
+		"tf_halloween_gift_spawn_location"
+		"passtime_logic"
+		"info_passtime_ball_spawn"
+		"tf_teleport_location"
+		"halloween_fortune_teller"
+		"tf_halloween_minigame_falling_platforms"
+		"tf_halloween_minigame"
+		"tf_base_minigame"
+		"tf_logic_minigames"
+		"prop_soccer_ball"
+		"halloween_zapper"
+		"tf_zombie_spawner"
+		"hightower_teleport_vortex"
+		// Solids
+		"dispenser_touch_trigger"
+		"func_breakable"
+		"func_breakable_surf"
+		"func_capturezone"
+		"func_flagdetectionzone"
+		"func_conveyor"
+		"func_changeclass"
+		"func_door"
+		"func_door_rotating"
+		"func_clip_vphysics"
+		"func_button"
+		"func_flag_alert"
+		"func_guntarget"
+		"func_ladder"
+		"func_movelinear"
+		"func_nav_avoid"
+		"func_nobuild"
+		"func_croc"
+		"func_suggested_build"
+		"func_nogrenades"
+		"func_achievement"
+		"func_physbox"
+		"func_platrot"
+		"func_proprrespawnzone"
+		"func_regenerate"
+		"func_respawnflag"
+		"func_respawnroom"
+		"func_respawnroomvisualizer"
+		"func_forcefield"
+		"func_rot_button"
+		"func_rotation"
+		"func_tanktrain"
+		"func_tfbot_hint"
+		"func_trackautochange"
+		"func_trackchange"
+		"func_tracktrain"
+		"func_traincontrols"
+		"game_zone_player"
+		"momentary_rot_button"
+		"trigger_autosave"
+		"trigger_capture_area"
+		"trigger_changelevel"
+		"trigger_gravity"
+		"trigger_hurt"
+		"trigger_impact"
+		"trigger_look"
+		"trigger_multiple"
+		"trigger_once"
+		"trigger_playermovement"
+		"trigger_proximity"
+		"trigger_push"
+		"trigger_remove"
+		"trigger_serverragdoll"
+		"trigger_stun"
+		"trigger_teleport"
+		"trigger_transition"
+		"trigger_bot_gate"
+		"trigger_add_or_remove_tf_player_attributes"
+		"trigger_particle"
+		"trigger_ignite"
+		"trigger_catapult"
+		"trigger_player_respawn_override"
+		"trigger_remove_tf_player_condition"
+		"trigger_add_tf_player_condition"
+		"trigger_passtime_ball"
+		"func_passtime_no_ball_zone"
+		"func_passtime_goalie_zone"
+		"func_passtime_goal"
+	]
+
+	"Perf"
+	[
+		"func_areaportal"
+		"func_areaportalwindow"
+		"func_occluder"
+		"func_viscluster"
+		"water_lod_control"
+	]
+
+	"Sound"
+	[
+		"ambient_generic"
+		"env_microphone"
+		"env_soundscape"
+		"env_soundscape_proxy"
+		"env_soundscape_triggerable"
+		"info_target"
+		"trigger_soundscape"
+	]
+]
+
+
+//
+// Base Classes
+//
+
+@BaseClass = TeamNum
+[
+	TeamNum(choices) : "Team" : 0 : "Team" =
+	[
+		0 : "Any"
+		2 : "Red"
+		3 : "Blue"
+	]
+	input SetTeam(integer) : "Changes the entity's team."
+]
+
+@BaseClass = MatchSummary
+[
+	MatchSummary(choices) : "Match Summary" : 0 : "Determines whether this location is used for the match summary" =
+	[
+		0 : "Not Valid"
+		1 : "Loser"
+		2 : "Winner"
+	]
+]
+
+@BaseClass = FadeDistance
+[
+	fademindist(float) : "Start Fade Dist" : -1 : "Distance at which the prop starts to fade (<0 = use fademaxdist)."
+	fademaxdist(float) : "End Fade Dist" : 0 : "Maximum distance at which the prop is visible (0 = don't fade out)."
+]
+
+@BaseClass = GameType
+[
+	GameType(choices) : "Game Type" : 0 : "Type of game this flag will be used for." =
+	[
+		0 : "CTF"
+		1 : "Attack/Defend"
+		2 : "Territory Control"
+		3 : "Invade"
+		4 : "Resource Control"
+		5 : "Robot Destruction"
+	]
+]
+
+@BaseClass = Condition
+[
+	condition(choices) : "Condition" : -1 : "The condition to use." =
+	[
+		-1 : "TF_COND_INVALID"
+		0 : "TF_COND_AIMING"		// Sniper aiming, Heavy minigun.
+		1 : "TF_COND_ZOOMED"
+		2 : "TF_COND_DISGUISING"
+		3 : "TF_COND_DISGUISED"
+		4 : "TF_COND_STEALTHED"		// Spy specific
+		5 : "TF_COND_INVULNERABLE"
+		6 : "TF_COND_TELEPORTED"
+		7 : "TF_COND_TAUNTING"
+		8 : "TF_COND_INVULNERABLE_WEARINGOFF"
+		9 : "TF_COND_STEALTHED_BLINK"
+		10 : "TF_COND_SELECTED_TO_TELEPORT"
+		11 : "TF_COND_CRITBOOSTED"	// DO NOT RE-USE THIS -- THIS IS FOR KRITZKRIEG AND REVENGE CRITS ONLY
+		12 : "TF_COND_TMPDAMAGEBONUS"
+		13 : "TF_COND_FEIGN_DEATH"
+		14 : "TF_COND_PHASE"
+		15 : "TF_COND_STUNNED"		// Any type of stun. Check iStunFlags for more info.
+		16 : "TF_COND_OFFENSEBUFF"
+		17 : "TF_COND_SHIELD_CHARGE"
+		18 : "TF_COND_DEMO_BUFF"
+		19 : "TF_COND_ENERGY_BUFF"
+		20 : "TF_COND_RADIUSHEAL"
+		21 : "TF_COND_HEALTH_BUFF"
+		22 : "TF_COND_BURNING"
+		23 : "TF_COND_HEALTH_OVERHEALED"
+		24 : "TF_COND_URINE"
+		25 : "TF_COND_BLEEDING"
+		26 : "TF_COND_DEFENSEBUFF"	// 35% defense! No crit damage.
+		27 : "TF_COND_MAD_MILK"
+		28 : "TF_COND_MEGAHEAL"
+		29 : "TF_COND_REGENONDAMAGEBUFF"
+		30 : "TF_COND_MARKEDFORDEATH"
+		31 : "TF_COND_NOHEALINGDAMAGEBUFF"
+		32 : "TF_COND_SPEED_BOOST"		// = 32
+		33 : "TF_COND_CRITBOOSTED_PUMPKIN"
+		34 : "TF_COND_CRITBOOSTED_USER_BUFF"
+		35 : "TF_COND_CRITBOOSTED_DEMO_CHARGE"
+		36 : "TF_COND_CRITBOOSTED_HYPE"
+		37 : "TF_COND_CRITBOOSTED_FIRST_BLOOD"	// arena mode first blood
+		38 : "TF_COND_CRITBOOSTED_BONUS_TIME"
+		39 : "TF_COND_CRITBOOSTED_CTF_CAPTURE"
+		40 : "TF_COND_CRITBOOSTED_ON_KILL"		// KGB etc.
+		41 : "TF_COND_CANNOT_SWITCH_FROM_MELEE"
+		42 : "TF_COND_DEFENSEBUFF_NO_CRIT_BLOCK"	// 35% defense! Still damaged by crits.
+		43 : "TF_COND_REPROGRAMMED"				// Bots only
+		44 : "TF_COND_CRITBOOSTED_RAGE_BUFF"
+		45 : "TF_COND_DEFENSEBUFF_HIGH"			// 75% defense! Still damaged by crits.
+		46 : "TF_COND_SNIPERCHARGE_RAGE_BUFF"		// Sniper Rage - Charge time speed up
+		47 : "TF_COND_DISGUISE_WEARINGOFF"		// Applied for half-second post-disguise
+		48 : "TF_COND_MARKEDFORDEATH_SILENT"		// Sans sound
+		49 : "TF_COND_DISGUISED_AS_DISPENSER"
+		50 : "TF_COND_SAPPED"						// Bots only
+		51 : "TF_COND_INVULNERABLE_HIDE_UNLESS_DAMAGED"
+		52 : "TF_COND_INVULNERABLE_USER_BUFF"
+		53 : "TF_COND_HALLOWEEN_BOMB_HEAD"
+		54 : "TF_COND_HALLOWEEN_THRILLER"
+		55 : "TF_COND_RADIUSHEAL_ON_DAMAGE"
+		56 : "TF_COND_CRITBOOSTED_CARD_EFFECT"
+		57 : "TF_COND_INVULNERABLE_CARD_EFFECT"
+		58 : "TF_COND_MEDIGUN_UBER_BULLET_RESIST"
+		59 : "TF_COND_MEDIGUN_UBER_BLAST_RESIST"
+		60 : "TF_COND_MEDIGUN_UBER_FIRE_RESIST"
+		61 : "TF_COND_MEDIGUN_SMALL_BULLET_RESIST"
+		62 : "TF_COND_MEDIGUN_SMALL_BLAST_RESIST"
+		63 : "TF_COND_MEDIGUN_SMALL_FIRE_RESIST"
+		64 : "TF_COND_STEALTHED_USER_BUFF"		// Any class can have this
+		65 : "TF_COND_MEDIGUN_DEBUFF"
+		66 : "TF_COND_STEALTHED_USER_BUFF_FADING"
+		67 : "TF_COND_BULLET_IMMUNE"
+		68 : "TF_COND_BLAST_IMMUNE"
+		69 : "TF_COND_FIRE_IMMUNE"
+		70 : "TF_COND_PREVENT_DEATH"
+		71 : "TF_COND_MVM_BOT_STUN_RADIOWAVE" // Bots only
+		72 : "TF_COND_HALLOWEEN_SPEED_BOOST"
+		73 : "TF_COND_HALLOWEEN_QUICK_HEAL"
+		74 : "TF_COND_HALLOWEEN_GIANT"
+		75 : "TF_COND_HALLOWEEN_TINY"
+		76 : "TF_COND_HALLOWEEN_IN_HELL"
+		77 : "TF_COND_HALLOWEEN_GHOST_MODE"
+		78 : "TF_COND_MINICRITBOOSTED_ON_KILL"
+		79 : "TF_COND_OBSCURED_SMOKE"
+		80 : "TF_COND_PARACHUTE_DEPLOYED"
+		81 : "TF_COND_BLASTJUMPING"
+		82 : "TF_COND_HALLOWEEN_KART"
+		83 : "TF_COND_HALLOWEEN_KART_DASH"
+		84 : "TF_COND_BALLOON_HEAD"
+		85 : "TF_COND_MELEE_ONLY"
+		86 : "TF_COND_SWIMMING_CURSE"
+		87 : "TF_COND_FREEZE_INPUT"
+		88 : "TF_COND_HALLOWEEN_KART_CAGE"
+		90 : "TF_COND_RUNE_STRENGTH"
+		91 : "TF_COND_RUNE_HASTE"
+		92 : "TF_COND_RUNE_REGEN"
+		93 : "TF_COND_RUNE_RESIST"
+		94 : "TF_COND_RUNE_VAMPIRE"
+		95 : "TF_COND_RUNE_WARLOCK"
+		96 : "TF_COND_RUNE_PRECISION"
+		97 : "TF_COND_RUNE_AGILITY"
+		98 : "TF_COND_GRAPPLINGHOOK"
+		99 : "TF_COND_GRAPPLINGHOOK_SAFEFALL"
+		100 : "TF_COND_GRAPPLINGHOOK_LATCHED"
+		101 : "TF_COND_GRAPPLINGHOOK_BLEEDING"
+		102 : "TF_COND_AFTERBURN_IMMUNE"
+		103 : "TF_COND_RUNE_KNOCKOUT"
+		104 : "TF_COND_RUNE_IMBALANCE"
+		105 : "TF_COND_CRITBOOSTED_RUNE_TEMP"
+		106 : "TF_COND_PASSTIME_INTERCEPTION"
+		107 : "TF_COND_SWIMMING_NO_EFFECTS"
+		108 : "TF_COND_PURGATORY"
+	]
+]
+
+@BaseClass = PlayerTouch
+[
+	// Outputs
+	output OnPlayerTouch(void) : "Sent when the entity is picked up by a player."
+]
+
+@BaseClass = Toggle
+[
+	// Inputs
+	input Toggle(void) : "Toggle the enabled/disabled status of this entity."
+]
+
+
+//
+// Point Classes
+//
+
+@PointClass base(Targetname) = tf_gamerules : "Proxy entity for TF Gamerules"
+[	
+	hud_type(choices) : "Hud Type" : 0 : "Override the HUD type clients should display." =
+	[
+		0 : "Default"
+		1 : "CTF HUD"
+		2 : "CP HUD"
+		3 : "Payload HUD"
+	]
+	
+	ctf_overtime(choices) : "CTF Overtime" : 1 : "Allow Overtime for CTF maps." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	ropes_holiday_lights_allowed(choices) : "Holiday Ropes" : 1 : "Allow ropes with holiday lights during the holiday event." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	input SetRedTeamRespawnWaveTime(float) : "Set the RED team's respawn wave time"
+	input SetBlueTeamRespawnWaveTime(float) : "Set the BLU team's respawn wave time"
+	input AddRedTeamRespawnWaveTime(float) : "Add to the RED team's respawn wave time"
+	input AddBlueTeamRespawnWaveTime(float) : "Add to the BLU team's respawn wave time"
+	input SetRedTeamGoalString(string) : "Set the RED team's goal string to show in the hud"
+	input SetBlueTeamGoalString(string) : "Set the BLU team's goal string to show in the hud"
+	input SetRedTeamRole(integer) : "Set RED team role, 0=none, 1=defenders, 2=attackers"
+	input SetBlueTeamRole(integer) : "Set BLU team role, 0=none, 1=defenders, 2=attackers"
+	input SetRequiredObserverTarget(string) : "Sets the given entity (by name) to be the required observer target for all spectators. Must be cleared to allow spectators to cycle through targets normally again."
+	input AddRedTeamScore(integer) : "Add to the RED team score (can be a negative number)"
+	input AddBlueTeamScore(integer) : "Add to the BLU team score (can be a negative number)"
+	input SetStalemateOnTimelimit(bool) : "Determines whether mp_timelimit can end the match in the middle of a round."
+	input SetRedKothClockActive(void) : "Set the RED team clock active for KOTH maps."
+	input SetBlueKothClockActive(void) : "Set the BLU team clock active for KOTH maps."
+	input SetCTFCaptureBonusTime(float) : "Set the length (in seconds) of team crit time for CTF captures. 0 = none"
+	input PlayVORed(string) : "Play the given sound entry via the VO channel" 
+	input PlayVOBlue(string) : "Play the given sound entry via the VO channel"
+	input PlayVO(string) : "Play the given sound entry via the VO channel"
+	input HandleMapEvent(string) : "Handles map events. This will be different events for different maps."
+	input SetCustomUpgradesFile(string) : "Specifies the path relative to the game directory to the upgrades file to be used."
+	input SetRoundRespawnFreezeEnabled(integer) : "Enable/disable the player movement freeze period after a round begins."
+	input SetMapForcedTruceDuringBossFight(bool) : "Enable/disable truce between the teams during a fight with Monoculus or Merasmus."
+	
+	output OnWonByTeam1(void) : "Sent when RED wins the round."
+	output OnWonByTeam2(void) : "Sent when BLUE wins the round."
+	output Team1PlayersChanged(integer) : "Sent when RED team player count changes, due to a player joining or leaving the team."
+	output Team2PlayersChanged(integer) : "Sent when BLUE team player count changes, due to a player joining or leaving the team."
+	output OnPowerupImbalanceTeam1(void) : "Sent when BLUE team has a powerup kill advantage over the RED team. Initiate RED team assist measures now."
+	output OnPowerupImbalanceTeam2(void) : "Sent when RED team has a powerup kill advantage over the BLUE team. Initiate BLUE team assist measures now."
+	output OnPowerupImbalanceMeasuresOver(void) : "Sent when powerup imbalance measures should be stopped"
+	output OnStateEnterBetweenRounds(void) : "Fired when entering the between-rounds state (MvM and Competitive)."
+	output OnStateEnterPreRound(void) : "Fired when entering the pre-round state (just before round running)."
+	output OnStateExitPreRound(void) : "Fired when exiting the pre-round state (just before round running)."
+	output OnStateEnterRoundRunning(void) : "Fired when entering the round-running state."
+	output OnMatchSummaryStart(void) : "Fired when the match summary begins and players are spawned on stage."
+	output OnTruceStart(void) : "Sent when a truce starts."
+	output OnTruceEnd(void) : "Sent when a truce ends."
+]
+
+@PointClass base(Targetname, TeamNum, MatchSummary, EnableDisable, Angles) studio("models/editor/playerstart.mdl") = info_player_teamspawn :
+	"This entity marks the spawn point for Team Fortress players."
+[
+	controlpoint(target_destination) : "Associated Control Point" : : "The team_control_point associated with this spawn. Ownership of control points will control this spawn point's enabled state."
+	
+	SpawnMode(choices) : "Spawn Mode" : 0 : "How the game decides when a player can spawn here.  Triggered mode will only allow players sent via a trigger_player_respawn_override (in which case this spawn must be named, and match the trigger)." =
+	[
+		0 : "Normal"
+		1 : "Triggered"
+	] 
+	
+	spawnflags(flags) =
+	[
+		1 :	   "Scout" : 1
+		2 :    "Sniper" : 1
+		4 :    "Soldier" : 1
+		8 :    "Demoman" : 1
+		16 :   "Medic" : 1
+		32 :   "Heavyweapons" : 1
+		64 :   "Pyro" : 1
+		128 :  "Spy" : 1
+		256 :  "Engineer" : 1
+	]
+
+	round_bluespawn(target_destination) : "Blue spawn for round" : : "Blue spawn point when the associated round is being played."
+	round_redspawn(target_destination) : "Red spawn for round" : : "Red spawn point when the associated round is being played."
+]
+
+@PointClass base(Targetname) = game_forcerespawn :
+	"Removes buildings, grenades, etc., from the world and forces all players to respawn " +
+	"(without being killed)."
+[
+	// Inputs
+	input ForceRespawn(void) : "Force players to respawn and remove buildings, grenades, etc., from the world.."
+	input ForceRespawnSwitchTeams(void) : "Switch all players to the opposite team, and then respawn all players (and remove buildings, grenades, etc., from the world)."
+	input ForceTeamRespawn(integer) : "Force players on a specific team to respawn. 2 for Red, 3 for Blue. This does NOT remove buildings, grenades, etc., from the world..."
+	
+	// Outputs
+	output OnForceRespawn(void) : "Sent when the entity respawns the players."	
+]
+
+@PointClass base(Targetname, Parentname, GameType, TeamNum, EnableDisable, Angles) studio("models/flag/briefcase.mdl") = item_teamflag : "Team Fortress flag entity."
+[
+	ReturnTime(integer) : "Return time (in seconds)" : 60 : "Length of time (in seconds) before dropped flag/intelligence returns to base."
+	
+	NeutralType(choices) : "Neutral flag (Invade)" : 1 : "Only used for the Invade game type. When should a dropped Invade flag become neutral?" =
+	[
+		0 : "Never"
+		1 : "Default (30 seconds)"
+		2 : "Half of the Return Time."
+	] 
+	
+	ScoringType(choices) : "Scoring style (Invade)" : 0 : "Only used for the Invade game type. When the Invade flag is captured, how should the team be rewarded? 'Score' is the team score in the scoreboard. 'Capture count' is the team capture count used in the HUD." =
+	[
+		0 : "Increment score"
+		1 : "Increment capture count"
+	] 
+	
+	flag_model(string) : "Model" : "models/flag/briefcase.mdl" : "The model to be used for this entity."
+	flag_icon(string) : "Icon" : "../hud/objectives_flagpanel_carried" : "The icons used for the HUD in some game modes. Format: materials/vgui/[materialname]_red and materials/vgui/[materialname]_blue"
+	flag_paper(string) : "Paper Particle" : "player_intel_papertrail" : "Particle effect used for the falling paper trail."
+	flag_trail(string) : "Trail Effect" : "flagtrail" : "Materials used for the trail effect. Format: materials/effects/[materialname]_red and materials/effects/[materialname]_blu"
+
+	trail_effect(choices) : "Use Trail Effect" : 1 : "Use trail effect when the player is carrying the flag." =
+	[
+		0 : "None"
+		1 : "All Effects"
+		2 : "Paper Trail Only"
+		3 : "Color Trail Only"
+	]
+
+	VisibleWhenDisabled(choices) : "Visible When Disabled" : 0 : "Flag appears semitransparent when disabled." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	ShotClockMode(choices) : "Shot Clock Mode" : 0 : "Flag uses shot-clock mode, which means that the timer doesn't reset to the full time when an attacking player touches it." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	PointValue(integer) : "Point Value" : 0 : "Player Destruction or Robot Destruction mode: Point value of this flag pickup."
+
+	ReturnBetweenWaves(choices) : "Return Between Waves" : 1 : "Used only for MvM mode. Determines if the flag should return home between waves." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	tags(string) : "tags" : "" : "Tags used for the AI bomb carrier to avoid nav areas that have matching tags. Tags need to be separated by empty space."
+
+	// Inputs
+	input ForceDrop(void) : "Force the flag to be dropped if it's being carried by a player."
+	input ForceReset(void) : "Force the flag to be dropped if it's being carried by a player, then reset the flag to its original location."
+	input ForceResetSilent(void) : "Force the flag to be dropped if it's being carried by a player, then reset the flag to its original location silently (no messages sent to players)."
+	input ForceResetAndDisableSilent(void) : "Force the flag to be dropped if it's being carried by a player, and disable the flag, then reset the flag to its original location silently (no messages sent to players)."
+	input SetReturnTime(integer) : "Set the length of time (in seconds) before dropped flag/intelligence returns to base."
+	input ShowTimer(integer) : "Show a visible timer (in seconds)."
+	input ForceGlowDisabled(integer) : "Forcably block the glow effect for this flag. 1 = glow blocked, 0 = normal behavior"
+		
+	// Outputs
+	output OnReturn(void)  : "Sent when the flag is returned via timer."
+	output OnPickup(void)  : "Sent when the flag is picked up."
+	output OnPickup1(void)  : "Sent with the player as the activator when the flag is picked up."
+	output OnPickupTeam1(void) : "Sent when the flag is picked up by RED."
+	output OnPickupTeam2(void) : "Sent when the flag is picked up by BLU."
+	output OnDrop(void)    : "Sent when the flag is dropped."
+	output OnDrop1(void)    : "Sent with the player as the activator when the flag is dropped."
+	output OnCapture(void) : "Sent when the flag is captured."
+	output OnCapture1(void) : "Sent with the player as the activator when the flag is captured."
+	output OnCapTeam1(void) : "Sent when the flag is captured by RED."
+	output OnCapTeam2(void) : "Sent when the flag is captured by BLU."
+	output OnTouchSameTeam(void) : "Sent when the flag is touched by a player on the same team (BLU player touches BLU flag, RED player touches RED flag)."
+]
+
+@PointClass base(Targetname) = point_intermission : "Entity that ends the match and triggers an intermission."
+[
+	// Inputs
+	input Activate(void) : "Activate. Causes the game to end and the intermission to begin."
+]
+
+@PointClass base(Targetname, TeamNum, Angles, EnableDisable, Parentname) studioprop("models/editor/camera.mdl") = info_observer_point :
+	"Observer Point"
+[
+	associated_team_entity(target_destination) : "Associated Team Entity" : "" : "An entity associated with this point that can be owned by a team (such as a flag or control point). Players will only be able to use this observer point if their team owns the associated team entity."
+	
+	defaultwelcome(choices) : "Welcome Point" : 0 :  "This marks this point as a welcome point. Players use this when connectig to servers the first time." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	fov(float) : "FOV" : 0
+
+	match_summary(choices) : "Match Summary" : 0 :  "Marks this point as a camera for the match summary." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+
+@PointClass base(Targetname) = game_round_win :
+	 "Tells the game rules that the round has either been won (if a team is assigned) " +
+	 "or enter Sudden Death mode (if no team is assigned)."
+[	
+	TeamNum(choices) : "Team" : 0 : "Team" =
+	[
+		0 : "None (Sudden Death)"
+		2 : "Red"
+		3 : "Blue"
+	]
+	
+	force_map_reset(choices) : "Force map reset" : 1 : "Force the map to reset during the force respawn after the round is over." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	switch_teams(choices) : "Switch teams on map win?" : 0 : "Switch the teams when the game is going to be reset." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input SetTeam(integer) : "Changes the entity's team (this is used to determine which team has won the round (0 = none)."
+	input RoundWin(void) : "Tell the game rules the round is over."
+	
+	// Outputs
+	output OnRoundWin(void) : "Sent when the entity tells the game rules the round is over."	
+]
+
+@PointClass base(Targetname,EnableDisable) = team_round_timer :
+	"Round Timer. Timer starts paused by default."
+[
+	timer_length(integer) : "Timer length (in seconds)" : 600 : "Initial timer length."
+	max_length(integer) : "Max timer length (in seconds)" : 0 : "Maximum timer length (0 = no max). This value is used to ensure the timer never goes above this value when SetTime and AddTime are used."
+	
+	start_paused(choices) : "Start paused" : 1 : "Should the timer start paused? (will need to send a Resume input to start the timer if this is set)." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	show_time_remaining(choices) : "Show Time Remaining" : 1 : "Should we show how much time is remaining.  If no, this will display how much time has passed." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	setup_length(integer) : "Setup timer length (in seconds)" : 0 : "Length of setup time before the round begins and the timer starts to countdown the normal time. (0 = no setup time)  Setup time is run at the beginning of every round before the normal time begins."
+	
+	reset_time(choices) : "Reset time on round restart" : 0 : "Reset the timer time after a round restart.  This is not the setup time, but the normal round time." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	auto_countdown(choices) : "Use countdown sounds" : 1 : "Let the timer automatically count down the end of a round." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	show_in_hud(choices) : "Show timer in the HUD" : 1 : "Note: You can only show one timer in the HUD at a time." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	// Inputs	
+	input Pause(void) : "Pause the timer."
+	input Resume(void) : "Resume the timer."
+	input SetTime(integer) : "Set the timer to this value (in seconds)."
+	input AddTime(integer) : "Add time to the timer (in seconds). Added time cannot excede the max timer length."
+	input AddTeamTime(string) : "Input takes a string (space delimited) with the team number and the time to be added (in seconds) because of the team (2 for red, 3 for blue, and 0 for no team...but you could just use AddTime for that). Added time cannot excede the max timer length. Example: 2 600 (adds 10 minutes because of team red)" 
+	input Restart(void) : "Restart the timer."
+	input ShowInHUD(integer) : "Show this timer in the HUD (0 no, 1 Yes)."
+	input SetMaxTime(integer) : "Set the max timer length to this value (in seconds). The timer's time will never excede this value."
+	input AutoCountdown(integer) : "Turn off/on the auto countdown feature (0 no, 1 Yes)."
+	input SetSetupTime(integer) : "Set the setup time length to this value (in seconds)."
+		
+	// Outputs
+	output On5MinRemain(void) : "Sent when 5 minutes remain."
+	output On4MinRemain(void) : "Sent when 4 minutes remain."
+	output On3MinRemain(void) : "Sent when 3 minutes remain."
+	output On2MinRemain(void) : "Sent when 2 minutes remain."
+	output On1MinRemain(void) : "Sent when 1 minutes remain."
+	output On30SecRemain(void) : "Sent when 30 seconds remain."
+	output On10SecRemain(void) : "Sent when 10 seconds remain."
+	output On5SecRemain(void) : "Sent when 5 seconds remain."
+	output On4SecRemain(void) : "Sent when 4 seconds remain."
+	output On3SecRemain(void) : "Sent when 3 seconds remain."
+	output On2SecRemain(void) : "Sent when 2 seconds remain."
+	output On1SecRemain(void) : "Sent when 1 second remains."
+	
+	output OnRoundStart(void) : "Sent when the round starts."
+	output OnFinished(void) : "Sent when the timer is finished."
+	
+	output OnSetupStart(void) : "Sent when the setup time begins."
+	output OnSetupFinished(void) : "Sent when the setup time is finished."
+]
+
+//
+// Items
+//
+
+@BaseClass color(0 0 200) base(Targetname, TeamNum, EnableDisable, Toggle, Angles, PlayerTouch, FadeDistance) = Item
+[
+	powerup_model(string) : "Model" : "" : "Change the model to something other than the default model." 
+	AutoMaterialize(choices) : "Auto-Materialize" : 1 : "The pickup should automatically materialize after being picked up." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+
+@PointClass base(Item) studio("models/items/medkit_large.mdl") sphere(fademindist) sphere(fademaxdist) = item_healthkit_full : "Health Kit Full" []
+@PointClass base(Item) studio("models/items/medkit_small.mdl") sphere(fademindist) sphere(fademaxdist) = item_healthkit_small :	"Health Kit Small" []
+@PointClass base(Item) studio("models/items/medkit_medium.mdl") sphere(fademindist) sphere(fademaxdist) = item_healthkit_medium : "Health Kit Medium" []
+
+@PointClass base(Item) studio("models/items/ammopack_large.mdl") sphere(fademindist) sphere(fademaxdist) = item_ammopack_full :	"Ammo Pack Full" []
+@PointClass base(Item) studio("models/items/ammopack_small.mdl") sphere(fademindist) sphere(fademaxdist) = item_ammopack_small : "Ammo Pack Small" []
+@PointClass base(Item) studio("models/items/ammopack_medium.mdl") sphere(fademindist) sphere(fademaxdist) = item_ammopack_medium : "Ammo Pack Medium" []
+
+@PointClass base(Item) studio("models/props_halloween/hwn_spellbook_flying.mdl") sphere(fademindist) sphere(fademaxdist) = tf_spell_pickup : "Spell"
+[
+	tier(choices) : "Spell Tier" : 0 : "Tier of spells that would be randomly assigned to the player" =
+	[
+		0 : "Common"
+		1 : "Rare"
+	]
+]
+
+@PointClass color(0 0 200) base(Targetname, TeamNum, EnableDisable, Toggle, Angles, PlayerTouch, FadeDistance) studio("models/crafting/moustachium.mdl") sphere(fademindist) sphere(fademaxdist) = item_bonuspack : "Bonus Pack"
+[
+	powerup_model(string) : "Model" : "" : "Change the model to something other than the default model." 
+]
+
+@PointClass base(Item, Parentname) studio("models/items/target_duck.mdl") sphere(fademindist) sphere(fademaxdist) = tf_halloween_pickup : "Halloween pickup"
+[
+	pickup_sound(string) : "Sound Effect" : "" : "The sound script entry that is played when the item is picked up." 
+	pickup_particle(string) : "Particle Effect" : "" : "The particle effect that is displayed when the item is picked up." 
+
+	output OnRedPickup(void) : "Sent when Red picks-up the item."
+	output OnBluePickup(void) : "Sent when Blue picks-up the item."
+]
+
+@PointClass base(Targetname, EnableDisable) studio("models/pickups/pickup_powerup_regen.mdl") sphere(fademindist) sphere(fademaxdist) = info_powerup_spawn : "Powerup spawn location. Only one of each type of Powerup will spawn in a game, so some Powerup spawn locations may not be used in some rounds. Locations and Powerup types are chosen at random. Will only spawn if tf_powerup_mode is set"
+[
+	team(choices) : "Owner Team" : -2 : "Teams can own spawn points. When Powerups are dropped, they resposition themselves after timing out. They will try to pick a spawn point based on what team designation they had when they repositioned. Set to Everyone to have no team bias in spawn positioning" =
+	[
+		-2 : "Everyone"
+		2 : "Red"
+		3 : "Blue"
+	]
+]
+@PointClass base(Targetname, EnableDisable) studio("models/pickups/pickup_powerup_crit.mdl") sphere(fademindist) sphere(fademaxdist) = item_powerup_crit :	"Temporary Crit Powerup. Powerup effect wears off. Powerup respawns automatically" []
+@PointClass base(Targetname, EnableDisable) studio("models/pickups/pickup_powerup_uber.mdl") sphere(fademindist) sphere(fademaxdist) = item_powerup_uber :	"Temporary Uber Powerup. Powerup effect wears off. Powerup respawns automatically" []
+
+//
+// Filters
+//
+@FilterClass base(TeamNum, BaseFilter) iconsprite("editor/filter_team.vmt") = filter_activator_tfteam :
+	"A filter that filters by the team of the activator.  The team number to filter by. " +
+	"If the filter mode is Allow, only entities whose team number matches the given team will " +
+	"pass the filter. If the filter mode is Disallow, all entities EXCEPT those whose team number " +
+	"matches the given team will pass the filter." 
+[
+	controlpoint(target_destination) : "Associated Control Point" : "" : "The team_control_point associated with this filter. The filter does NOT need an associated control point to function properly, but ownership of the control point will control the team number the filter uses (setup during each round start)."
+]
+
+@FilterClass base(TeamNum, BaseFilter) iconsprite("editor/filter_team.vmt") = filter_tf_player_can_cap :
+	"A filter that filters players that are allowed to capture objectives." +
+	"If the filter mode is Allow, only entities whose team number matches the given team and" +
+	"are not disguised, stealthed or invuln will pass the filter." +
+	"If the filter mode is Disallow, all entities EXCEPT those players will be allowed."
+[
+]
+
+@FilterClass base(BaseFilter) = filter_tf_damaged_by_weapon_in_slot :
+	"A filter that filters damage by a weapon in a certain slot." +
+	"Used for training purposes"
+[
+	weaponSlot(choices) : "Weapon Slot" : 0 : "Damaged by weapon in slot." =
+	[
+		0 : "Primary"
+		1 : "Secondary"
+		2 : "Melee"
+		3 : "Grenade"
+		4 : "Building"
+		5 : "PDA"
+		6 : "Item 1"
+		7 : "Item 2"
+	]
+]
+
+@FilterClass base(BaseFilter) = filter_tf_damaged_by_weapon_in_slot :
+	"A filter that filters damage by a weapon in a certain slot." +
+	"Used for training purposes"
+[
+	weaponSlot(choices) : "Weapon Slot" : 0 : "Damaged by weapon in slot." =
+	[
+		0 : "Primary"
+		1 : "Secondary"
+		2 : "Melee"
+		3 : "Grenade"
+		4 : "Building"
+		5 : "PDA"
+		6 : "Item 1"
+		7 : "Item 2"
+	]
+]
+
+@FilterClass base(BaseFilter,Condition) = filter_tf_condition : "A filter that filters by conditions on a player"
+[
+	
+]
+
+@FilterClass base(BaseFilter) iconsprite("editor/filter_class.vmt") = filter_tf_class :
+	"A filter that filters by the class of the activator.  The class number to filter by. " +
+	"If the filter mode is Allow, only entities whose class matches the given class will " +
+	"pass the filter. If the filter mode is Disallow, all entities EXCEPT those whose class " +
+	"matches the given class will pass the filter." 
+[
+	tfclass(choices) : "Class" : 0 : "Class" =
+	[
+		// 0 is undefined
+		1 : "Scout"
+		2 : "Sniper"
+		3 : "Soldier"
+		4 : "Demoman"
+		5 : "Medic"
+		6 : "Heavy"
+		7 : "Pyro"
+		8 : "Spy"
+		9 : "Engineer"
+	]
+]
+
+//
+// Solid Classes
+//
+
+@SolidClass base(Targetname, EnableDisable, TeamNum) = func_capturezone :
+	"TF flag capture zone (set Team to 'any' for Territory Control maps)."
+[
+	capturepoint(integer) : "Capture Point" : 1 : "Used for Attack/Defend and Territory Control maps ONLY. This is ignored for CTF maps. Set this value to the Capture Point number for this entity."
+
+	capture_delay(float) : "Capture Delay" : "1.1" : "Only used on Player Destruction maps, this is the default number of seconds between captures when the player is touching the area."
+	capture_delay_offset(float) : "Capture Delay Offset" : "0.025" : "Only used on Player Destruction maps, this is amount of time to reduce the Capture Delay per player on the server."
+	shouldBlock(choices) : "Capture Blocking" : 1 : "Only used on Player Destruction maps, this determines whether multiple teams in the zone will block each other from captures." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	output OnCapture(void) : "Sent when a flag is captured in this zone."
+	output OnCapTeam1(void) : "Sent when RED captures a flag in this zone."
+	output OnCapTeam2(void) : "Sent when BLU captures a flag in this zone."
+	output OnCapTeam1_PD(void) : "Sent when RED captures a point in this zone during Player Destruction mode."
+	output OnCapTeam2_PD(void) : "Sent when BLU captures a point in this zone during Player Destruction mode."
+]
+
+@SolidClass base(Targetname, Parentname, EnableDisable, TeamNum) = func_flagdetectionzone :
+	"TF flag detection zone."
+[
+	alarm(choices) : "Alarm" : 0 : "Trigger bomb alarm." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	input Test( void ) : "Send OnStartTouchFlag & OnPickedUpFlag outputs if any player with flag is touching. Send OnEndTouchFlag & OnDroppedFlag outputs if no player with flag is touching."
+	
+	output OnStartTouchFlag(void) : "Sent when a flag or flag carrier first touches the zone."
+	output OnEndTouchFlag(void) : "Sent when a flag or flag carrier stops touching the zone."
+	output OnDroppedFlag(void) : "Sent when a flag is dropped in the zone."
+	output OnPickedUpFlag(void) : "Sent when a flag is picked up in the zone."
+]
+
+@SolidClass base(Targetname, TeamNum, EnableDisable, Toggle) = func_nogrenades :
+	"Grenades protected area." []
+	
+@SolidClass base(Targetname, TeamNum, EnableDisable, Toggle) = func_achievement : "Achievement area."
+[
+	zone_id(integer) : "Zone ID" : 0 : "ID number for this zone (multiple zones can have the same number to group them)."
+]
+
+@SolidClass base(Targetname, TeamNum, EnableDisable, Toggle) = func_nobuild : "Engineer no-build area."
+[
+	AllowSentry(choices) : "Allow Sentries" : 0 : "Sentries are allowed to be built in this volume" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	AllowDispenser(choices) : "Allow Dispensers" : 0 : "Dispensers are allowed to be built in this volume" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	AllowTeleporters(choices) : "Allow Teleporters" : 0 : "Teleporters are allowed to be built in this volume" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	DestroyBuildings(choices) : "Destroy Buildings" : 0 : "Destroy buildings when activated" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	input SetActive(void) : "Set this trigger active"
+]
+
+@SolidClass base(Targetname, TeamNum, EnableDisable, Toggle) = func_croc : "Crocs live here!"
+[
+	filtername(filterclass) : "Filter Name" : : "Optional filter to use to see if activator triggers me."
+
+	croc_model(string) : "Model" : "models/props_island/crocodile/crocodile.mdl" : "The model to be used for this entity."
+
+	// Outputs
+	output OnEat(void) : "Sent when the crocs eat a player."
+	output OnEatRed(void) : "Sent when the crocs eat a player on team RED."
+	output OnEatBlue(void) : "Sent when the crocs eat a player on team BLU."
+]
+
+@SolidClass base(Targetname, TeamNum, EnableDisable, Origin, Toggle) = func_suggested_build :
+	"Engineer suggested build area."
+[
+	object_type(choices) : "Suggested Object" : 0 : "Suggested object to build in this area." =
+	[
+		0 : "Any"
+		1 : "Sentry"
+		2 : "Dispenser"
+		3 : "Teleporter Entrance"
+		4 : "Teleporter Exit"
+	]
+
+	spawnflags(flags) = 
+	[
+		1: "Built Object Never Dies" : 0
+	]
+
+	face_entity(target_destination) : "Must face point entity" : : "If this is not empty, the built object must face the point this entity is at."
+	face_entity_fov(float) : "Facing Angle FOV Tolerance" : 90 : "If the 'must face entity' property is set, this is the tolerance aka field-of-view when facing that entity (in degrees)."
+
+	output OnBuildInsideArea(void) : "Sent when the player builds an appropriate object inside a suggested area."
+	output OnBuildNotFacing(void) : "Sent when the player builds an appropriate object inside a suggested area, but it has a bad orientation."
+	output OnBuildingUpgraded(void) : "Sent when a building in this area is upgraded."
+]
+
+@SolidClass base(Targetname, TeamNum, EnableDisable, Toggle) = func_regenerate :
+	"Regeneration zone for players."
+[
+	associatedmodel(target_destination) : "Associated Model" : "" : "The prop_dynamic that represents this zone in the world. The associated model should have appropriate open and close animations for when players interact with the zone."
+]
+
+@SolidClass base(Trigger, Targetname, TeamNum, EnableDisable, Toggle) = func_powerupvolume :
+	"Players touching this volume will get a temporary, powerful upgrade." []
+
+
+@SolidClass base(Targetname, EnableDisable, Toggle) = func_respawnflag :
+	"Designates an area that triggers the flag to reset when it touches the area." []	
+																						
+@SolidClass base(Targetname, TeamNum, EnableDisable, Toggle) = func_respawnroom :
+	"Designates a respawn room for a team." []
+		
+@SolidClass base(Targetname, TeamNum, EnableDisable, Toggle) = func_flag_alert : "Alerts are triggered when an enemy carrying a flag starts touching the area (or any player for an area with no team)."
+[
+	playsound(choices) : "Play alert sound" : 1 : "Play the sound when the alert is triggered." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	alert_delay(integer) : "Delay between alerts (in seconds)" : 10 : "The amount of time between alerts being triggered (per team)."
+	
+	output OnTriggeredByTeam1(void) : "Sent when RED triggers the alert."
+	output OnTriggeredByTeam2(void) : "Sent when BLUE triggers the alert."
+]	
+
+@SolidClass base(Targetname, Parentname, Origin, RenderFields, Global, Inputfilter, EnableDisable, Shadow) = func_respawnroomvisualizer : 
+	"Brushes that become visible to enemy players when they get close. Use them to mark areas that they're unable to enter (i.e. respawn rooms)." 
+[
+	spawnflags(flags) =
+	[
+		2: "Ignore player +USE" : 1
+	]
+
+	respawnroomname(target_destination) : "Associated Respawn Room" : "" : "The func_respawnroom that this entity is visualizing. This entity will have its team matched to that for the func_respawnroom, and will have it updated if the func_respawnroom ever changes team."
+
+	Solidity(choices) : "Solidity" : 1 : "Used to control the solidity/collision of these brushes." =
+	[
+		0 : "Toggle"
+		1 : "Never Solid"
+		2 : "Always Solid"
+	]
+
+	vrad_brush_cast_shadows(choices) : "Shadows" : 0 : "Set this if this brush casts lightmap shadows." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	solid_to_enemies(choices) : "Solid to Enemies" : 1 : "Determines if this area is solid to enemy players." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]	
+	
+	input SetSolid(bool) : "Set whether this area is solid to enemy players or not. 0 = No, 1 = Yes"
+]
+
+@SolidClass base(Targetname, TeamNum, Parentname, Origin, RenderFields, EnableDisable) = func_forcefield : 
+	"Brushes that become visible to enemy players when they get close. Use them to mark areas that they're unable to enter." 
+[
+]
+
+@SolidClass base(Targetname, TeamNum, EnableDisable, Toggle) = func_changeclass :
+	"ChangeClass zone for players." []
+
+@PointClass base(Angles) studioprop("models/editor/camera.mdl") = game_intro_viewpoint :
+	"A viewpoint in the intro camera."
+[	
+	TeamNum(choices) : "Team" : 0 : "Team" =
+	[
+		0 : "None (Shared)"
+		2 : "Red"
+		3 : "Blue"
+	]
+
+	step_number(integer) : "Step Number. Intro starts at 1." : 1
+	time_delay(float) : "Time to spend here." : 12
+	hint_message(string) : "Hint Message here."
+	event_to_fire(string) : "Game Event To Fire"
+	event_delay(float) : "Game Event fire delay" : 3
+	event_data_int(integer) : "Game Event data" : 0
+	fov(float) : "FOV" : 0
+]
+
+@SolidClass base(Targetname) = func_proprrespawnzone :
+	"Zone that handles respawning and distribution of clientside physics props." []
+
+
+
+//====================================================================================================================
+// CAPTURE POINT HANDLING
+//====================================================================================================================
+@PointClass base(Targetname, EnableDisable, Angles, Parentname) studio("models/effects/cappoint_hologram.mdl") = team_control_point :
+	"Control Point"
+[
+	spawnflags(flags) =
+	[
+		1: "Hide Control Point on HUD" : 0
+		2: "Start with model hidden" : 0
+		4: "Disable shadow" : 0
+		8: "Disable sounds" : 0
+		16: "Bots should ignore" : 0
+	]
+	
+	point_start_locked(choices) : "Start locked" : 0 : "Locked means the point will not be available for capture until it is unlocked via its input."  =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	point_printname(string) : "Print Name" : "TODO: Set Name" : "LOCALIZED name to print on the HUD." 
+	point_group(integer) : "Group Index" : 0 : "Used for grouping points together under a team_control_point_master (not using control point rounds)."
+	point_default_owner(choices) : "Default Owner" : 0 : "Default Owner of the control point."  =
+	[
+		0 : "Neither"
+		2 : "Red"
+		3 : "Blue"
+	]
+	point_index(integer) : "Index" : 0 : "Index of this point (must be unique)."
+	
+	point_warn_on_cap(choices) : "Warning Type" : 0 : "Type of warning to issue to the team that owns the control point when the opposing team starts to capture it."  =
+	[
+		0 : "Normal Announcements"
+		1 : "Final Capture Point Warning"
+		2 : "No Announcements"
+	]
+	
+	point_warn_sound(string) : "Warning sound" : "ControlPoint.CaptureWarn" : "Sound to be played when this point is being captured (if warn on capture is set)." 
+	
+	random_owner_on_restart(choices) : "Randomly set the owner on restart" : 0 : "Randomly set the owner of this point during a full restart of the map. The ratio of default owners among the points with this flag will be kept when selecting random owners."  =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	// Per team data
+	team_timedpoints_2(integer) : "Time-based point value for RED." : 0
+	team_timedpoints_3(integer) : "Time-based point value for BLUE." : 0
+	
+	team_capsound_0(sound) : "Reset Sound" : "" : "Sound made when point resets."
+	team_capsound_2(sound) : "Red Capture Sound" : "" : "Sound made when RED captures."
+	team_capsound_3(sound) : "Blue Capture Sound" : "" : "Sound made when BLUE captures."
+	
+	team_model_0(studio) 	: "Reset Model" : "models/effects/cappoint_hologram.mdl" : "Model when point reset."
+	team_model_2(studio) 	: "RED Model" : "models/effects/cappoint_hologram.mdl" : "Model when RED owns the point."
+	team_model_3(studio) 	: "BLUE Model" : "models/effects/cappoint_hologram.mdl" : "Model when BLUE owns the point."
+	
+	team_bodygroup_0(integer) : "Reset model bodygroup" : 3
+	team_bodygroup_2(integer) : "RED model bodygroup" : 1
+	team_bodygroup_3(integer) : "BLUE model bodygroup" : 1
+
+	team_icon_0(material)	: "HUD icon neutral" : "sprites/obj_icons/icon_obj_neutral" : "HUD icon material when no one owns the point."
+	team_icon_2(material)	: "HUD icon RED" : "sprites/obj_icons/icon_obj_red" : "HUD icon material when RED owns the point."
+	team_icon_3(material)	: "HUD icon BLUE" : "sprites/obj_icons/icon_obj_blu" : "HUD icon material when BLUE owns the point."
+
+	team_overlay_0(material) : "HUD overlay neutral" : "" : "HUD material that will overlay the icon when no one owns the point."
+	team_overlay_2(material) : "HUD overlay RED" : "" : "HUD material that will overlay the icon when RED owns the point."
+	team_overlay_3(material) : "HUD overlay BLUE" : "" : "HUD material that will overlay the icon when BLUE owns the point."
+
+	team_previouspoint_2_0(target_source) : "RED Previous Required Point 1" : "" : "The name of a previous capture point that RED must own to be able to capture this point. If empty, the team must own all points preceding this one. Pointing to itself means no previous point required."
+	team_previouspoint_2_1(target_source) : "RED Previous Required Point 2" : "" : "The name of a second previous capture point that RED must own to be able to capture this point."
+	team_previouspoint_2_2(target_source) : "RED Previous Required Point 3" : "" : "The name of a third previous capture point that RED must own to be able to capture this point."
+	team_previouspoint_3_0(target_source) : "BLUE Previous Required Point 1" : "" : "The name of a previous capture point that BLUE must own to be able to capture this point. If empty, the team must own all points preceding this one. Pointing to itself means no previous point required."
+	team_previouspoint_3_1(target_source) : "BLUE Previous Required Point 2" : "" : "The name of a second previous capture point that BLUE must own to be able to capture this point."
+	team_previouspoint_3_2(target_source) : "BLUE Previous Required Point 3" : "" : "The name of a third previous capture point that BLUE must own to be able to capture this point."
+
+	// Outputs
+	output OnOwnerChangedToTeam1(void) : "Sent when owner is changed to RED."
+	output OnOwnerChangedToTeam2(void) : "Sent when owner is changed to BLUE."
+	output OnCapReset(void) : "Sent when owner is changed to neutral."
+
+	output OnRoundStartOwnedByTeam1(void) : "Sent when a round is starting and the point is owned by RED."
+	output OnRoundStartOwnedByTeam2(void) : "Sent when a round is starting and the point is owned by BLUE."
+	
+	output OnCapTeam1(void) : "Sent when RED capture this point."
+	output OnCapTeam2(void) : "Sent when BLUE capture this point."
+	
+	output OnUnlocked(void) : "Sent when point is unlocked via the SetLocked(0) or SetUnlockTime inputs."
+
+	input SetOwner(integer) : "Set the owner of the point."
+	input HideModel(void) : "Hide the control point model."
+	input ShowModel(void) : "Show the control point model again."
+	
+	input SetLocked(integer) : "Lock the control point. 0 = unlocked, 1 = locked"
+	input SetUnlockTime(integer) : "This will automatically unlock the control point in the specified amound of time (seconds)."
+]
+
+@PointClass base(Targetname, EnableDisable) = team_control_point_round :
+	"Control Point Round (you may have as many of these in the map as you would like)."
+[
+	cpr_printname(string) : "Print Name" : "" : "LOCALIZED name to print on the RoundInfo panel" 
+	
+	cpr_priority(integer) : "Priority" : 0 : "The priority value for this round (must be >= 0). Higher priority rounds will be picked first. If multiple rounds have the same priority value, a random selection will be used."
+	
+	cpr_cp_names(string) : "Control points in this round" : "" : "Names of the control points included in this round (space delimited). Control points may belong to more than one control point round.  The names of the control points (and the rounds) should all be unique." 
+
+	cpr_restrict_team_cap_win(choices) : "Restrict team from winning" : 0 : "Prevent this team from winning by capping all the points" =
+	[
+		0 : "Neither"
+		1 : "Both"
+		2 : "Red"
+		3 : "Blue"
+	]
+	
+	output OnStart(void) : "Sent when this round is selected to be played."
+	output OnEnd(void) : "Sent when this round is finished."
+	output OnWonByTeam1(void) : "Sent when RED wins this round."
+	output OnWonByTeam2(void) : "Sent when BLUE wins this round."
+]
+
+@PointClass base(Targetname, EnableDisable) = team_control_point_master : "Control Point Master"
+[
+	team_base_icon_2(material) : "Material for the RED Base icon" : "sprites/obj_icons/icon_base_red"
+	team_base_icon_3(material) : "Material for the BLUE Base icon" : "sprites/obj_icons/icon_base_blu"
+	caplayout(string) : "Cap Layout" : "" : "A string that tells the HUD how to lay out the cap points. It should be a string with indexes of cap points seperated by commas to denote a new line. So <2,0 1> would create a pyramid, with cap point 2 on the top and cap points 0 & 1 on the bottom."
+	custom_position_x(float) : "Custom cap position X" : -1 : "Set the cap layout custom X position [0,1]"
+	custom_position_y(float) : "Custom cap position Y" : -1 : "Set the cap layout custom Y position [0,1]"
+	
+	cpm_restrict_team_cap_win(choices) : "Restrict team from winning" : 0 : "Prevent this team from winning by capping all the points. This field is ignored if you're using control_point_rounds in your map (set this field inside the rounds)." =
+	[
+		0 : "Neither"
+		1 : "Both"
+		2 : "Red"
+		3 : "Blue"
+	]
+	
+	switch_teams(choices) : "Switch teams on map win?" : 0 : "Switch the teams when one team has won the map and the game is going to be reset." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	score_style(choices) : "Scoring style" : 0 : "Sets the style of scoring used for capture point maps." = 
+	[
+		0 : "Add team score for each round won"
+		1 : "Add team score for each captured point"
+	]
+	
+	play_all_rounds(choices) : "Play all rounds before changelevel" : 0 : "Determines whether the server may changelevel when mp_timelimit is up before all mini-rounds have been completed (for maps like Dustbowl)." = 
+	[
+		0 : "Changelevel normally"
+		1 : "Only changelevel after all mini-rounds have been played to completion"
+	]	
+	
+	partial_cap_points_rate(float) : "Partial cap rate" : 0 : "Rate at which to give partial cap points for area captures."
+
+	output OnWonByTeam1(void) : "Sent when RED wins the game."
+	output OnWonByTeam2(void) : "Sent when BLUE wins the game."
+	
+	input SetWinner(integer) : "Set the winner of the round to this team (0 for a stalemate)."
+	input SetCapLayout(string) : "Set the cap layout string."
+	input SetCapLayoutCustomPositionX(float) : "Set the cap layout custom X position [0,1]"
+	input SetCapLayoutCustomPositionY(float) : "Set the cap layout custom Y position [0,1]"
+]
+
+@SolidClass base(Targetname, EnableDisable, Parentname) = trigger_capture_area : "Capture Area"
+[
+	area_cap_point(target_source) : "Control point" : "" : "Name of the control point this area is linked to."
+
+	team_cancap_2(choices) : "Can RED Cap?" : 1 = 
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+	team_cancap_3(choices) : "Can BLUE Cap?" : 1 = 
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+	
+	team_startcap_2(integer) : "Number of RED players to start capping" : 1 
+	team_startcap_3(integer) : "Number of BLUE players to start capping" : 1 
+
+	team_numcap_2(integer) : "Number of RED players to cap" : 1 
+	team_numcap_3(integer) : "Number of BLUE players to cap" : 1 
+	
+	team_spawn_2(integer) : "Red Spawn Adjust" : 0 : "Adjust the minimum respawn time for the red team by this amount (in seconds) when red captures this point. If the red team owns this point when blue captures it, this adjustment is reversed."
+	team_spawn_3(integer) : "Blue Spawn Adjust" : 0 : "Adjust the minimum respawn time for the blue team by this amount (in seconds) when blue captures this point. If the blue team owns this point when red captures it, this adjustment is reversed."
+	
+	area_time_to_cap(integer) : "Time to cap (sec)" : 5 
+
+	// Outputs
+	output OnStartTeam1(void) : "Sent when RED start capture."
+	output OnBreakTeam1(void) : "Sent when a RED capture is broken."
+	output OnCapTeam1(void)   : "Sent when RED end capture."
+
+	output OnStartTeam2(void) : "Sent when BLUE start capture."
+	output OnBreakTeam2(void) : "Sent when a BLUE capture is broken."
+	output OnCapTeam2(void)   : "Sent when BLUE end capture."
+
+	output OnStartCap(void) : "Sent when either team starts capture."
+	output OnBreakCap(void) : "Sent when either team break capture."
+	output OnEndCap(void)   : "Sent when either team end capture."
+	
+	output OnNumCappersChanged(integer) : "Sent when the number of cappers changes, passes the value in int."
+	output OnNumCappersChanged2(integer) : "Sent when the number of cappers changes, passes the value in int (-1 for capture blocked)."
+
+	// Inputs
+	input SetTeamCanCap(string) : "Set whether a specific team is allowed to capture this point. Format is: <team number> <(0/1)>. i.e. '2 0' would prevent RED from capturing this point, whereas '3 1' would allow BLUE to cap it."
+	
+	input SetControlPoint(string) : "Assign area capture to the passed control point."
+	input CaptureCurrentCP(string) : "If we're being capped, forces the current point to capture."
+]
+
+@PointClass base(Targetname, TeamNum, EnableDisable) = team_train_watcher :
+	"Entity that tracks the train progress through train escort maps"
+[
+	train_can_recede(choices) : "Can the train recede?" : 1 : "Used to hide the HUD countdown." = 
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+	
+	train_recede_time(integer) : "Train recede time (in seconds)" : 0 : "Length of time before the train begins to recede. 0 = use TF2 default setting of 30 seconds."
+	
+	handle_train_movement(choices) : "Handle train movement?" : 0 : "Should the train watcher handle all train movement?" = 
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+	
+	speed_forward_modifier(float) : "Speed Forward Modifier" : 1 : "Applies the given modifier to all forward speeds. Only used if the watcher is handling the train movement. [0, 1]"
+	
+	env_spark_name(string) : "Train spark sprites" : "" : "Name of the env_spark entities used under the train for backward movement. They should all have the same entity name. Only used if the watcher is handling the train movement."
+	
+	train(target_destination) : "Train to watch."
+	start_node(target_destination) : "Node that the path starts at."
+	goal_node(target_destination) : "Node that the path ends at."
+	
+	linked_pathtrack_1(target_destination) : "Linked PathTrack 1"
+	linked_cp_1(target_destination) : "Linked CP 1"
+	
+	linked_pathtrack_2(target_destination) : "Linked PathTrack 2"
+	linked_cp_2(target_destination) : "Linked CP 2"
+	
+	linked_pathtrack_3(target_destination) : "Linked PathTrack 3"
+	linked_cp_3(target_destination) : "Linked CP 3"
+	
+	linked_pathtrack_4(target_destination) : "Linked PathTrack 4"
+	linked_cp_4(target_destination) : "Linked CP 4"
+	
+	linked_pathtrack_5(target_destination) : "Linked PathTrack 5"
+	linked_cp_5(target_destination) : "Linked CP 5"
+	
+	linked_pathtrack_6(target_destination) : "Linked PathTrack 6"
+	linked_cp_6(target_destination) : "Linked CP 6"
+	
+	linked_pathtrack_7(target_destination) : "Linked PathTrack 7"
+	linked_cp_7(target_destination) : "Linked CP 7"
+	
+	linked_pathtrack_8(target_destination) : "Linked PathTrack 8"
+	linked_cp_8(target_destination) : "Linked CP 8"
+		
+	hud_min_speed_level_1(float) : "Min Speed for Speed Level 1" : 30
+	hud_min_speed_level_2(float) : "Min Speed for Speed Level 2" : 60
+	hud_min_speed_level_3(float) : "Min Speed for Speed Level 3" : 90
+	
+	// Inputs
+	input SetNumTrainCappers(integer) : "Set Number of players capping the train"
+	input SetSpeedForwardModifier(float) : "Set the speed forward modifier. Only used if the watcher is handling the train movement. [0, 1]"
+	input SetTrainRecedeTime(integer) : "Set the number of seconds before the train starts to recede."
+	input SetTrainCanRecede(bool) : "Determines whether or not the train can recede."
+	input SetTrainRecedeTimeAndUpdate(integer) : "Set the number of seconds before the train starts to recede and update the current recede time."
+	
+	// Outputs
+	output OnTrainStartRecede(void)   : "Sent when the train should start receding"
+]
+
+@PointClass base(Targetname) iconsprite("editor/game_text.vmt") = game_text_tf : 
+	"An entity that displays text on player's screens, in pretty tf hud format" 
+[
+	message(string) : "Message Text" : "" : "Message to display onscreen."
+	
+	icon(string) : "Icon" : "" : "Hud icon ( from mod_textures.res ) to display."
+	
+	display_to_team(Choices) : "Audience" : 0 =
+	[
+		0 : "Everyone"
+		2 : "Red Team Only"
+		3 : "Blue Team Only"
+	]
+	
+	background(Choices) : "Background Panel Color" : 0 =
+	[
+		0 : "Grey"
+		2 : "Red"
+		3 : "Blue"
+	]
+
+	// Inputs
+	input Display(void) : "Display the message text."
+]
+
+@BaseClass = BaseObject
+[
+	TeamNum(choices) : "Team" : 2 : "Team" =
+	[
+		2 : "Red"
+		3 : "Blue"
+	]
+	
+	// invuln
+	spawnflags(flags) =
+	[
+		2: "Invulnerable" : 0
+	]
+
+	// Inputs
+	input SetBuilder(string) : "Sets the builder of this object to the player given (from an output)"
+	input Show(void) : "Makes the building visible and tries to re-enable it."
+	input Hide(void) : "Makes the building invisible and disables it."
+	input SetHealth(integer) : "Sets a new value for the breakable's health. If the breakable's health reaches zero it will break."
+	input AddHealth(integer) : "Adds health to the breakable. If the breakable's health reaches zero it will break."
+	input RemoveHealth(integer) : "Removes health from the breakable. If the breakable's health reaches zero it will break."
+	input Enable(void) : "Enable this entity."
+	input Disable(void) : "Disable this entity."
+]
+
+@PointClass base(Targetname,Parentname,BaseObject,Angles) studio("models/buildables/dispenser_light.mdl") = obj_dispenser : 
+	"TF2 Dispenser" 
+[
+	defaultupgrade(choices) : "Starting Upgrade Level" : 0 =
+	[
+		0 : "Level 1"
+		1 : "Level 2"
+		2 : "Level 3"	
+	]
+
+	spawnflags(flags) = 
+	[
+		4: "Upgradable" : 0
+	]
+
+	// Outputs
+	output OnDestroyed(void) : "Fired when this entity is destroyed."
+]
+
+@PointClass base(Targetname,Parentname,BaseObject,Angles) studio("models/buildables/sentry3.mdl") = obj_sentrygun : 
+	"TF2 Sentrygun" 
+[
+	defaultupgrade(choices) : "Starting Upgrade Level" : 0 =
+	[
+		0 : "Level 1"
+		1 : "Level 2"
+		2 : "Level 3"	
+	]
+	
+	spawnflags(flags) = 
+	[
+		4: "Upgradable" : 0
+		8: "Infinite Ammo" : 0
+	]
+
+	// Outputs
+	output OnDestroyed(void) : "Fired when this entity is destroyed."
+]
+
+@PointClass base(Targetname,Parentname,BaseObject,Angles) studio("models/buildables/teleporter_light.mdl") = obj_teleporter : 
+	"TF2 Teleporter" 
+[
+	defaultupgrade(choices) : "Starting Upgrade Level" : 0 =
+	[
+		0 : "Level 1"
+		1 : "Level 2"
+		2 : "Level 3"	
+	]
+
+	spawnflags(flags) = 
+	[
+		4: "Upgradable" : 0
+	]
+
+	teleporterType(choices) : "Type" : 1 =
+	[
+		1 : "Entrance"
+		2 : "Exit"
+	]
+
+	matchingTeleporter(target_destination) : "Matching Teleporter" : : "The teleporter linked to this one."
+
+	// Outputs
+	output OnDestroyed(void) : "Fired when this entity is destroyed."
+]
+
+@PointClass base(Targetname,Parentname,BaseObject,Angles,EnableDisable) studio("models/buildables/sentry3.mdl") = bot_hint_sentrygun : 
+	"TF2 Sentry Gun Placement Hint for Bots" 
+[
+	sequence(integer) : "Sequence" : 5 : "Default animation sequence for the model to be playing after spawning."
+
+	sticky(choices) : "Sticky" : 0 : "If set, Engineer bots using this hint will stay here instead of destroying their equipment and moving up as the scenario changes." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	output OnSentryGunDestroyed(void) : "Fired when a sentry gun built on this hint is destroyed."
+]
+
+@PointClass base(Targetname,Parentname,BaseObject,Angles,EnableDisable) studio("models/buildables/teleporter_blueprint_exit.mdl") = bot_hint_teleporter_exit : 
+	"TF2 Teleporter Exit Placement Hint for Bots" 
+[
+]
+
+@PointClass base(Targetname,Parentname,BaseObject,Angles,EnableDisable) studio("models/bots/engineer/bot_engineer.mdl") = bot_hint_engineer_nest : 
+	"TF2 Engineer Nest Hint for Bots" 
+[
+]
+
+@PointClass base(Targetname,Parentname,BaseObject,Angles) studio("models/player/sniper.mdl") sphere(radius) = bot_hint_sniper_spot : 
+	"TF2 Sniper Spot Hint for Bots" 
+[
+	radius(float) : "Hint Radius" : 100 : "Radius of hint influence."
+]
+
+@PointClass base(Targetname,Parentname,BaseObject) iconsprite("editor/bullseye.vmt") = mapobj_cart_dispenser : 
+	"TF2 Dispenser" 
+[
+	spawnflags(flags) =
+	[
+		4: "Ignore line of sight check" : 1
+		8: "Don't heal disguised/stealthed spies" : 1
+	]
+	
+	touch_trigger(target_destination) : "Custom Touch Trigger"
+	
+	input FireHalloweenBonus(integer) : "Trigger bonus effect on players near this dispenser"
+	input SetDispenserLevel(integer) : "Set the dispenser level: 1, 2, or 3"
+	input Enable(void) : "Enable this entity."
+	input Disable(void) : "Disable this entity."
+]
+
+@SolidClass base(Parentname,Targetname,Trigger) = dispenser_touch_trigger : "Trigger for dispenser healing bounds"
+[
+]
+
+@PointClass base(Targetname,EnableDisable) = tf_logic_arena : 	"Arena Entity. This is used to detect an arena map and also to do round specific stuff."
+[	
+
+	CapEnableDelay(float) : "Capture Point Enable Time" : 0
+
+// Outputs
+	output OnArenaRoundStart(void)	: "Fired the moment an arena match starts"
+	output OnCapEnabled(void)	: "Fired when the specified time elapses and the cap becomes enabled"
+
+]
+
+@PointClass base(Targetname,EnableDisable) = tf_logic_competitive : 	"Logic specifically for competitive mode."
+[	
+	output OnSpawnRoomDoorsShouldLock(void)	: "Game rules is saying that we should now disable (home) spawn door triggers."
+	output OnSpawnRoomDoorsShouldUnlock(void)	: "Game rules is saying that we should now enable (home) spawn door triggers."
+]
+
+@PointClass base(Targetname,EnableDisable) = tf_logic_mannpower : 	"Logic specifically for Mannpower Mode."
+[	
+]
+
+@PointClass base(Targetname) = bot_controller :
+	"An entity used to create a bot, and then issue commands to it."
+[
+	TeamNum(choices) : "Team" : 2 : "Team" =
+	[
+		2 : "Red"
+		3 : "Blue"
+	]
+	
+	bot_class(choices) : "Class" : 0 : "The class the bot will spawn as." =
+	[
+		0 : "Random"
+		1 : "Scout"
+		2 : "Sniper"
+		3 : "Soldier"
+		4 : "Demoman"
+		5 : "Medic"
+		6 : "Heavy"
+		7 : "Pyro"
+		8 : "Spy"
+		9 : "Engineer"
+	]
+
+	bot_name(string) : "Name of the bot."
+
+	// Inputs
+	input CreateBot(void) : "Create the bot for this controller."
+	input RespawnBot(void) : "Force the bot to respawn."
+	input AddCommandMoveToEntity(target_destination) : "Add a command to the bot's queue, telling it to move to the specified entity."
+	input AddCommandAttackEntity(target_destination) : "Add a command to the bot's queue, telling it to attack the specified entity."
+	input AddCommandSwitchWeapon(integer) : "Add a command to the bot's queue, telling it to switch to the specified weapon slot."
+	input AddCommandDefend(float) : "Add a command to the bot's queue, telling it to defend the position it's standing at. The parameter specifies the distance from the point that the Bot is allowed to move to fight enemies."
+	input SetIgnoreHumans(integer) : "Set whether or not the Bot should ignore human players. 1 = ignore, 0 = don't ignore."
+	input PreventMovement(integer) : "Set whether or not the Bot is allowed to move. 1 = prevent movement, 0 = allow movement."
+	input ClearQueue(void) : "Clear the bot's command queue."
+	
+	// Outputs
+	output OnForceRespawn(void) : "Sent when the entity respawns the players."	
+]
+
+@PointClass base(Targetname) = tf_logic_training_mode : "Training logic entity. This is used to detect a training map."
+[
+	nextMap(choices) : "Next Map" : "" : "Next map to load when the current one is finished." =
+	[
+		"" : "None"
+		"tr_dustbowl" : "tr_dustbowl"
+		"tr_target"   : "tr_target"
+	]
+
+	// Inputs
+	input ShowTrainingMsg(string) : "Show a training message, for training mode. The parameter should be the string entry in tf_english.txt"
+	input ShowTrainingObjective(string) : "Sets a training objective to show to the player."
+	input ForcePlayerSpawnAsClassOutput(void) : "Force the appropriate output to fire for the player spawning as a class.  You can use this to essentially ask what class the player is."
+	input KickBots(void) : "Kicks all the bots from the server."
+	input ShowTrainingHUD(void) : "Makes the training objective HUD visible."
+	input HideTrainingHUD(void) : "Makes the training objective HUD hidden."
+	input EndTraining(string) : "Ends training mode."
+	input PlaySoundOnPlayer(string) : "Play a sound on the player."
+	input WaitForTimerOrKeypress(target_destination) : "Wait for the logic_timer entity to fire on its interval or for a keypress from the player."
+	input SetNextMap(string) : "Set the next map for training."
+	input ForcePlayerSwapToWeapon(string) : "Forces the player to switch to the weapon."
+
+	// Outputs
+	output OnPlayerSpawnAsScout(void) : "Sent when the player spawns as a Scout."
+	output OnPlayerSpawnAsSniper(void) : "Sent when the player spawns as a Sniper."
+	output OnPlayerSpawnAsSoldier(void) : "Sent when the player spawns as a Soldier."
+	output OnPlayerSpawnAsDemoman(void) : "Sent when the player spawns as a Demoman."
+	output OnPlayerSpawnAsMedic(void) : "Sent when the player spawns as a Medic."
+	output OnPlayerSpawnAsHeavy(void) : "Sent when the player spawns as a Heavy."
+	output OnPlayerSpawnAsPyro(void) : "Sent when the player spawns as a Pyro."
+	output OnPlayerSpawnAsSpy(void) : "Sent when the player spawns as a Spy."
+	output OnPlayerSpawnAsEngineer(void) : "Sent when the player spawns as an Engineer."
+	output OnPlayerDied(void) : "Sent when the player dies."
+	output OnBotDied(void) : "Sent when a bot player dies."
+	output OnPlayerSwappedToPrimary(void) : "Sent when the player swaps to the item in his primary weapon slot."
+	output OnPlayerSwappedToSecondary(void) : "Sent when the player swaps to the item in his secondary weapon slot."
+	output OnPlayerSwappedToMelee(void) : "Sent when the player swaps to the item in his melee weapon slot."
+	output OnPlayerSwappedToBuilding(void) : "Sent when the player swaps to the item in his building weapon slot."
+	output OnPlayerSwappedToPDA(void) : "Sent when the player swaps to the item in his pda weapon slot."
+	output OnBuildOutsideArea(void) : "Sent when the player builds an object outside a suggested area."
+	output OnPlayerDetonateBuilding(void) : "Sent when the player manually detonates one of their buildings."
+]
+
+@PointClass base(Targetname, Angles) = boss_alpha : "The Giant Robot Boss"
+[
+	// Outputs
+	output OnStunned(void) : "Sent when the Boss becomes stunned."
+	output OnHealthBelow90Percent(void) : "Sent when the Boss' health drops below 90 percent."
+	output OnHealthBelow80Percent(void) : "Sent when the Boss' health drops below 80 percent."
+	output OnHealthBelow70Percent(void) : "Sent when the Boss' health drops below 70 percent."
+	output OnHealthBelow60Percent(void) : "Sent when the Boss' health drops below 60 percent."
+	output OnHealthBelow50Percent(void) : "Sent when the Boss' health drops below 50 percent."
+	output OnHealthBelow40Percent(void) : "Sent when the Boss' health drops below 40 percent."
+	output OnHealthBelow30Percent(void) : "Sent when the Boss' health drops below 30 percent."
+	output OnHealthBelow20Percent(void) : "Sent when the Boss' health drops below 20 percent."
+	output OnHealthBelow10Percent(void) : "Sent when the Boss' health drops below 10 percent."
+	output OnKilled(void) : "Sent when the Boss is killed."
+]
+
+@PointClass base(Targetname, Parentname, Angles, TeamNum) = base_boss : "A Basic Boss"
+[
+	health(integer) : "Boss' starting health" : 1000 : "The Boss' starting health."
+	model(string) : "Model" : "models/bots/boss_bot/boss_tank.mdl" : "The model to be used for this entity." 
+	speed(float) : "Boss' max movement speed" : 75 : "Boss' max movement speed"
+
+	start_disabled(choices) : "Start Disabled" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	input Enable(void) : "Enable the Boss"
+	input Disable(void) : "Disable the Boss"
+	input SetSpeed(float) : "Change the speed of the Boss"
+	input SetStepHeight(float) : "Change the step height of the Boss"
+	input SetMaxJumpHeight(float) : "Change the max jump height of the Boss"
+
+	// Outputs
+	output OnHealthBelow90Percent(void) : "Sent when the Boss' health drops below 90 percent."
+	output OnHealthBelow80Percent(void) : "Sent when the Boss' health drops below 80 percent."
+	output OnHealthBelow70Percent(void) : "Sent when the Boss' health drops below 70 percent."
+	output OnHealthBelow60Percent(void) : "Sent when the Boss' health drops below 60 percent."
+	output OnHealthBelow50Percent(void) : "Sent when the Boss' health drops below 50 percent."
+	output OnHealthBelow40Percent(void) : "Sent when the Boss' health drops below 40 percent."
+	output OnHealthBelow30Percent(void) : "Sent when the Boss' health drops below 30 percent."
+	output OnHealthBelow20Percent(void) : "Sent when the Boss' health drops below 20 percent."
+	output OnHealthBelow10Percent(void) : "Sent when the Boss' health drops below 10 percent."
+	
+	output OnKilled(void) : "Sent when the Boss is killed."
+]
+
+@PointClass base(base_boss) = tank_boss : "Tank Boss"
+[
+	input DestroyIfAtCapturePoint(integer) : "Destroy If At CapturePoint"
+	input AddCaptureDestroyPostfix(string) : "Set the postfix for the destroy animation when it's at the capture point"
+]
+
+@PointClass base(Targetname) = tf_logic_multiple_escort : "Multiple Escort Entity. This is used to detect a payload map with trains for both teams."
+[	
+]
+
+@PointClass base(Targetname) = tf_logic_koth : "King of the Hill Entity. This is used to detect a KOTH map."
+[	
+	timer_length(integer) : "Timer length (in seconds)" : 180 : "Initial timer length for each team."
+	unlock_point(integer) : "Unlock Point (in seconds)" : 30 : "Time to wait before unlocking the point in CP KOTH maps."
+
+	input SetRedTimer(integer)	:	"Set the time remaining for the RED timer."
+	input SetBlueTimer(integer)	:	"Set the time remaining for the BLUE timer."
+	input AddRedTimer(integer)	:	"Add time to the RED timer."
+	input AddBlueTimer(integer)	:	"Add time to the BLUE timer."
+]
+
+@PointClass base(Targetname,Parentname,Angles ) studio("models/bots/bot_worker/bot_worker_a.mdl")= tf_robot_destruction_robot_spawn : "Robot Destruction Robot spawn point."
+[	
+	health(integer) : "Health" : 500 : "The health for the robot"
+	gibs(integer) : "Gibs" : 0 : "The number of point-giving gibs to spawn on death"
+	type(choices) : "Robot Style" : 0 =
+	[
+		0 : "Frustum"
+		1 : "Sphere"
+		2 : "King"
+		3 : "Finale"
+	]
+	spawngroup(target_source) : "Spawn Group" : : "Which group this spawn belongs to"
+	startpath(target_source) : "Start Path" : : "Which path_track to head towards first"
+
+	input SpawnRobot(void)	:	"Spawn a robot on this spawnpoint.  Does nothing if there's already a robot."
+	output OnRobotKilled(void) : "Sent when this spawn point's robot dies."
+]
+
+
+@PointClass base(Targetname) = tf_robot_destruction_spawn_group : "Robot Destruction spawn group. This groups the Robot Destruction spawn points"
+[	
+	respawn_time(float) : "Respawn Time" : 0 : "Respawn time for this group"
+	group_number(integer) : "Group Number" : 0 : "This group's number.  Affect's UI position and spawn priority"
+	team_number(choices) : "Team Number" : 2 =
+	[
+		2 : "Red"
+		3 : "Blue"
+	]
+	hud_icon(string) : "HUD Icon Name" : "../HUD/hud_bot_worker_outline_blue" : "HUD icon to use for this group"
+	respawn_reduction_scale(float) : "Team Respawn Reduction Scale" : 0 : "Scale the owning team's respawn time by this amount when this group is dead."
+
+	output OnRobotsRespawn(void) : "Sent when this group's robots respawn."
+	output OnAllRobotsDead(void ) : "Sent when the last robot alive in this group dies."
+]
+
+@BaseClass = RobotDestruction
+[	
+
+]
+
+@PointClass base(Targetname,RobotDestruction) = tf_logic_robot_destruction : "Robot Destruction Entity. This is used to detect a Robot Destruction map."
+[
+	score_interval(float) : "Robot Scoring Interval (in seconds)" : 1 : "How often a robot should score a point while hacking."
+	loser_respawn_bonus_per_bot(float) : "Loser Respawn Bonus Per Bot (percentage)" : 0 : "How much faster the losing team will respawn per bot difference."
+	red_respawn_time(float) : "Red Respawn Time (in seconds)" : 10 : "Respawn times for Red"
+	blue_respawn_time(float) : "Blue Respawn Time (in seconds)" : 10 : "Respawn times for Blue"
+	max_points(integer) : "Max Points" : 200 : "The number of points a team must get to unlock their win condition."
+	finale_length(float) : "Finale Length" : 30 : "The amount of time from after max score is reached a team will win."
+	res_file(string) : "HUD Res File" : "resource/UI/HudObjectiveRobotDestruction.res" : "What res file to use for the HUD"
+	
+	output OnBlueHitMaxPoints(void) : "Sent when Blue hits the max points."
+	output OnRedHitMaxPoints(void) : "Sent when Red hits the max points."
+	output OnBlueLeaveMaxPoints(void) : "Sent when blue goes from max points to fewer."
+	output OnRedLeaveMaxPoints(void) : "Sent when red goes from max points to fewer."
+	output OnBlueHitZeroPoints(void) : "Sent when Blue hits 0 points."
+	output OnRedHitZeroPoints(void) : "Sent when Red hits 0 points"
+	output OnBlueHasPoints(void) : "Sent when Blue goes from 0 to any points"
+	output OnRedHasPoints(void) : "Sent when Red goes from 0 to any points"
+
+	output OnRedFinalePeriodEnd(void) : "Sent when the red finale period ends."
+	output OnBlueFinalePeriodEnd(void) : "Sent when the blue finale period ends."
+
+	output OnRedFirstFlagStolen(void) : "Sent when red's first flag gets stolen."
+	output OnRedFlagStolen(void) : "Sent when a flag gets stolen from red."
+	output OnRedLastFlagReturned(void) : "Sent when red's last stolen flag gets returned."
+	output OnBlueFirstFlagStolen(void) : "Sent when blue's first flag gets stolen."
+	output OnBlueFlagStolen(void) : "Sent when a flag gets stolen from blue."
+	output OnBlueLastFlagReturned(void) : "Sent when blue's last stolen flag gets returned."
+]
+
+@PointClass base(Targetname) = tf_logic_player_destruction : "Player Destruction Entity. This is used to detect a Player Destruction map."
+[
+	prop_model_name(studio) : "Prop Model Name" : "models/flag/flag.mdl" : "model of prop that drops from player on death"
+	prop_drop_sound(sound) : "Prop Drop Sound" : "" : "sound when player drops prop"
+	prop_pickup_sound(sound) : "Prop Pickup Sound" : "" : "sound when player picks up prop"
+	input ScoreRedPoints(void) : "Score points for red."
+	input ScoreBluePoints(void) : "Score points for blue."
+	input EnableMaxScoreUpdating(void) : "Allow the max score to update based on player count."
+	input DisableMaxScoreUpdating(void) : "Disallow the max score to update based on player count."
+	input SetCountdownTimer(integer) : "Set the countdown time and start the timer."
+	input SetCountdownImage(string) : "Set the countdown image."
+	input SetFlagResetDelay(integer) : "Set the length of time (in seconds) before a dropped flag resets."
+	input SetPointsOnPlayerDeath(integer) : "Set number of points per flag dropped upon player death."
+
+	red_respawn_time(float) : "Red Respawn Time (in seconds)" : 10 : "Respawn times for Red"
+	blue_respawn_time(float) : "Blue Respawn Time (in seconds)" : 10 : "Respawn times for Blue"
+	min_points(integer) : "Min Points" : 10 : "The minimum points to win"
+	points_per_player(integer) : "Point Per Player" : 5 : "How many points to increase the max points by per player"
+	finale_length(float) : "Finale Length" : 30 : "The amount of time from after max score is reached a team will win."
+	res_file(string) : "HUD Res File" : "resource/UI/HudObjectivePlayerDestruction.res" : "What res file to use for the HUD"
+	flag_reset_delay(integer) : "Flag Reset Delay (in seconds)" : 60 : "Length of time (in seconds) before a dropped flag resets."
+	heal_distance(integer) : "Heal Distance" : 450 : "The distance for the team leader's ability to heal teammates."
+	
+	output OnBlueHitMaxPoints(void) : "Sent when Blue hits the max points."
+	output OnRedHitMaxPoints(void) : "Sent when Red hits the max points."
+	output OnBlueLeaveMaxPoints(void) : "Sent when blue goes from max points to fewer."
+	output OnRedLeaveMaxPoints(void) : "Sent when red goes from max points to fewer."
+	output OnBlueHitZeroPoints(void) : "Sent when Blue hits 0 points."
+	output OnRedHitZeroPoints(void) : "Sent when Red hits 0 points"
+	output OnBlueHasPoints(void) : "Sent when Blue goes from 0 to any points"
+	output OnRedHasPoints(void) : "Sent when Red goes from 0 to any points"
+
+	output OnRedFinalePeriodEnd(void) : "Sent when the red finale period ends."
+	output OnBlueFinalePeriodEnd(void) : "Sent when the blue finale period ends."
+
+	output OnRedFirstFlagStolen(void) : "Sent when red's first flag gets stolen."
+	output OnRedFlagStolen(void) : "Sent when a flag gets stolen from red."
+	output OnRedLastFlagReturned(void) : "Sent when red's last stolen flag gets returned."
+	output OnBlueFirstFlagStolen(void) : "Sent when blue's first flag gets stolen."
+	output OnBlueFlagStolen(void) : "Sent when a flag gets stolen from blue."
+	output OnBlueLastFlagReturned(void) : "Sent when blue's last stolen flag gets returned."
+
+	output OnRedScoreChanged(float) : "Send when score changes, and is a value representing total progress from [0..1]."
+	output OnBlueScoreChanged(float) : "Send when score changes, and is a value representing total progress from [0..1]."
+
+	output OnCountdownTimerExpired(void) : "Sent when the countdown timer expires."
+]
+
+@SolidClass base(Trigger, Targetname, TeamNum) = trigger_rd_vault_trigger :
+	"A trigger used to mark where players can steal credits."
+[
+	output OnPointsStolen(void) : "Sent during every point stealing 'pulse'."
+	output OnPointsStartStealing(void) : "Sent when points start being stolen."
+	output OnPointsEndStealing(void) : "Send when points stop being stolen."
+]
+
+@PointClass base(Targetname) = tf_logic_medieval : "Medieval Mode Entity. This is used to detect a Medieval map."
+[	
+]
+
+@PointClass base(Targetname) = tf_logic_cp_timer : "Control Point Timer Entity."
+[	
+	controlpoint(target_destination) : "Control Point" : : "The team_control_point associated with this timer."
+	timer_length(integer) : "Timer length (in seconds)" : 60 : "Length of the timer that runs when the control point becomes available for capture."
+	team_number(choices) : "Team" : 3 : "Team" =
+	[
+		0 : "Any"
+		2 : "Red"
+		3 : "Blue"
+	]
+	
+	// Outputs
+	output OnCountdownStart(void) : "Sent when the timer starts."
+	output OnCountdown15SecRemain(void) : "Sent when 15 seconds remain."	
+	output OnCountdown10SecRemain(void) : "Sent when 10 seconds remain."
+	output OnCountdown5SecRemain(void) : "Sent when 5 seconds remain."
+	output OnCountdownEnd(void) : "Sent when the timer expires and the point is not being captured."	
+]
+
+@PointClass base(Targetname) = tf_logic_hybrid_ctf_cp : "Hybrid Map Entity. This is used to detect a map that blends the CTF and CP game modes."
+[	
+]
+
+@PointClass base(Targetname) = tf_logic_raid : "Raid Entity. This is used to detect a Raid map."
+[	
+]
+
+@PointClass base(Targetname) = tf_logic_boss_battle : "Boss Battle Entity. This is used to detect a Boss Battle map."
+[	
+]
+
+@PointClass base(Targetname) = tf_logic_mann_vs_machine : "Mann VS Machine Entity. This is used to detect a Mann VS Machine map."
+[	
+]
+
+@PointClass base(Targetname) = tf_logic_holiday : "Holiday Entity. This is used to detect a holiday map."
+[	
+	holiday_type(choices) : "Holiday" : 1 =
+	[
+		1 : "None"
+		2 : "Halloween"
+		3 : "Birthday"
+	]
+
+	tauntInHell(choices) : "Taunt In Hell" : 0 : "Should players taunt when teleported to Hell." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	allowHaunting(choices) : "Haunting" : 0 : "Allow Wheel of Doom haunting." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	input HalloweenSetUsingSpells(integer) : "Disable/Enable spells for this map. Only works on Halloween maps. (0 disable, 1 enable)"
+	input Halloween2013TeleportToHell(string) : "Teleport all players to hell."
+]
+
+@SolidClass base(Targetname, EnableDisable) = func_upgradestation : "Where players go to buy upgrades for weapons and items."
+[
+]
+
+@PointClass base(Targetname, Angles) = bot_generator : "Entity spawns <count> TFBots every <interval> seconds, with at most <maxActive> active at once"
+[
+	team(choices) : "Team" : "auto" : "Team" =
+	[
+		"auto" : "Any"
+		"red" : "Red"
+		"blue" : "Blue"
+	]
+	
+	class(choices) : "Class" : "auto" : "Class" =
+	[
+		"auto" : "Any"
+		"scout" : "Scout"
+		"sniper" : "Sniper"
+		"soldier" : "Soldier"
+		"demoman" : "Demoman"
+		"medic" : "Medic"
+		"heavyweapons" : "Heavy"
+		"pyro" : "Pyro"
+		"spy" : "Spy"
+		"engineer" : "Engineer"
+	]
+
+	count(integer) : "Count" : 1 : "Number of TFBots to spawn over the lifetime of this bot generator."
+	maxActive(integer) : "Max Active" : 1 : "Maximum number of active TFBots spawned at any given time from this generator."
+	interval(float) : "Interval" : 0 : "Time (in seconds) between spawns"
+
+	action_point(target_destination) : "Action Point" : : "Put the name of a bot_action_point here to tell the spawned bot to move there."
+
+	initial_command(choices) : "Initial Command" : "" : "Initial command to give this bot, if any." =
+	[
+		"goto action point" : "Go to specified Action Point"
+		"taunt" : "Taunt"
+		"despawn" : "Leave the game"
+		"cloak" : "If Spy, Cloak"
+		"uncloak" : "If Spy, Uncloak"
+		"attack sentry at next action point" : "Attack sentry gun at next action point"
+		"disguise" : "If Spy, Disguise"
+	]
+
+	suppressFire(choices) : "Suppress Fire" : 0 : "Newly generated TFBots will suppress their fire if this is set." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	disableDodge(choices) : "Disable Dodge" : 0 : "Newly generated TFBots will not dodge if this is set." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	actionOnDeath(choices) : "Action on Death" : 1 : "When a TFBot dies, they will either respawn like a normal player, remove themselves, or move to the spectator team." =
+	[
+		0 : "Repawn as usual"
+		1 : "Remove self"
+		2 : "Move to Spectator team"
+	]
+
+	spectateOnDeath(choices) : "Move to Spectator Team on Death" : 0 : "TFBots will move to the Spectator team on death.  Use this as a pooling mechanism" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	useTeamSpawnPoint(choices) : "Use Team Spawn Point" : 0 : "TFBots will use their team spawn point, instead of this point if this is set." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	retainBuildings(choices) : "Retain Buildings After Disconnect" : 0 : "If set, any buildings (sentries, sappers, etc) built by bots from this generator will not be destroyed when their owners are removed." = 
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	difficulty(choices) : "Difficulty" : 0 : "The skill level of bots created by this generator." = 
+	[
+		-1 : "Default"
+		0 : "Easy"
+		1 : "Normal"
+		2 : "Hard"
+		3 : "Expert"
+	]
+
+	spawnOnlyWhenTriggered(choices) : "Don't spawn bots unless triggered" : 0 : "If this is set, you must use the SpawnBot input to have any bots spawn" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	spawnflags(flags) =
+	[
+		1 :	   "Spawned Bots Ignore Enemy Scouts" : 0
+		2 :    "Spawned Bots Ignore Enemy Soldiers" : 0
+		4 :    "Spawned Bots Ignore Enemy Pyros" : 0
+		8 :    "Spawned Bots Ignore Enemy Demomen" : 0
+		16 :   "Spawned Bots Ignore Enemy Heavies" : 0
+		32 :   "Spawned Bots Ignore Enemy Medics" : 0
+		64 :   "Spawned Bots Ignore Enemy Engineers" : 0
+		128 :  "Spawned Bots Ignore Enemy Snipers" : 0
+		256 :  "Spawned Bots Ignore Enemy Spies" : 0
+		512 :  "Spawned Bots Ignore Enemy Sentry Guns" : 0
+		1024 : "Spawned Bots Ignore Scenario Goals" : 0
+	]
+
+	// Inputs
+	input Enable(void) : "Begin spawning TFBots"
+	input Disable(void) : "Stop spawning TFBots"
+	input SetSuppressFire(bool) : "Set whether TFBots should suppress their fire."
+	input SetDisableDodge(bool) : "Set whether TFBots should have the dodge ability disabled or not."
+	input SetDifficulty(integer) : "Change the skill level of subsequently generated bots (-1=default, 0=easy, 1=normal, 2=hard, 3=expert)."
+	input CommandGotoActionPoint(target_destination) : "Commands all bots spawned by this generator to go to the specified action point by name."
+	input SetAttentionFocus(target_destination) : "All bots spawned by this generator will focus exclusively on this entity. If entity is action point, entities within that point's radius will be attended to."
+	input ClearAttentionFocus(target_destination) : "Remove attention focus restrictions from bots spawned by this generator."
+	input SpawnBot(void) : "Attempt to spawn a bot within the rules specified."
+	input RemoveBots(void) : "Force remove any bots this entity spawned."
+
+	// Outputs
+	output OnSpawned(void) : "Sent when the TFBot has spawned into the environment"
+	output OnExpended(void) : "Sent when the bot generator has reached its limit of the bots it can create"
+	output OnBotKilled(void) : "Sent when a bot associated with this bot generator is killed"
+]
+
+@PointClass base(Targetname) = bot_roster : "Entity specifies what classes TFBots can choose"
+[
+	team(choices) : "Team" : "auto" : "Team" =
+	[
+		"auto" : "Any"
+		"red" : "Red"
+		"blue" : "Blue"
+	]
+
+	allowClassChanges(choices) : "Allow Class Changes" : 1 : "Allow TFBots to choose a new class when they respawn." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	allowScout(choices) : "Allow Scout" : 1 : "Allow TFBots to choose Scouts as a class." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	allowSniper(choices) : "Allow Sniper" : 1 : "Allow TFBots to choose Snipers as a class." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	allowSoldier(choices) : "Allow Soldier" : 1 : "Allow TFBots to choose Soldiers as a class." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	allowDemoman(choices) : "Allow Demoman" : 1 : "Allow TFBots to choose Demoman as a class." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	allowMedic(choices) : "Allow Medics" : 1 : "Allow TFBots to choose Medics as a class." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	allowHeavy(choices) : "Allow Heavy" : 1 : "Allow TFBots to choose Heavy as a class." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	allowPyro(choices) : "Allow Pyro" : 1 : "Allow TFBots to choose Pyro as a class." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	allowSpy(choices) : "Allow Spy" : 1 : "Allow TFBots to choose Spy as a class." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	allowEngineer(choices) : "Allow Engineer" : 1 : "Allow TFBots to choose Engineer as a class." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	
+	// Inputs
+	input SetAllowScout(bool) : "Sets whether TFBots can choose Scouts as a class. 0 = No, 1 = Yes"
+	input SetAllowSniper(bool) : "Sets whether TFBots can choose Snipers as a class. 0 = No, 1 = Yes"
+	input SetAllowSoldier(bool) : "Sets whether TFBots can choose Soldiers as a class. 0 = No, 1 = Yes"
+	input SetAllowDemoman(bool) : "Sets whether TFBots can choose Demoman as a class. 0 = No, 1 = Yes"
+	input SetAllowMedic(bool) : "Sets whether TFBots can choose Medics as a class. 0 = No, 1 = Yes"
+	input SetAllowHeavy(bool) : "Sets whether TFBots can choose Heavy as a class. 0 = No, 1 = Yes"
+	input SetAllowPyro(bool) : "Sets whether TFBots can choose Pyro as a class. 0 = No, 1 = Yes"
+	input SetAllowSpy(bool) : "Sets whether TFBots can choose Spy as a class. 0 = No, 1 = Yes"
+	input SetAllowEngineer(bool) : "Sets whether TFBots can choose Engineer as a class. 0 = No, 1 = Yes"
+]
+
+@PointClass base(Targetname) sphere(desired_distance) = bot_action_point : "A potential destination for a bot"
+[
+	next_action_point(target_destination) : "Next Action Point" : : "The next Action Point to approach after performing this one."
+	desired_distance(float) : "Desired Distance" : 5 : "The distance to get within when approaching this Action Point before the bot says it has reached it."
+	stay_time(float) : "Stay Time" : 0 : "How long the bot should stay at this action point (while perform any commands if applicable)."
+	command(choices) : "Command" : "" : "Command to give to the bot when it gets within range of this Action Point." = 
+	[
+		"taunt" : "Taunt"
+		"despawn" : "Leave the game"
+		"cloak" : "If Spy, Cloak"
+		"uncloak" : "If Spy, Uncloak"
+		"attack sentry at next action point" : "Attack sentry gun at next action point"
+		"disguise" : "If Spy, Disguise"
+		"build sentry at nearest sentry hint" : "If Engineer, build a sentry gun at the nearest sentry hint"
+	]
+
+	// Outputs
+	output OnBotReached(void) : "A bot has reached this action point"
+]
+
+@PointClass base(Targetname) = bot_proxy : "An entity that spawns a TFBot and relays events to/from it"
+[
+	bot_name(string) : "Bot Name" : "TFBot" : "The bot's player name" 
+
+	team(choices) : "Team" : "auto" : "Team" =
+	[
+		"auto" : "Any"
+		"red" : "Red"
+		"blue" : "Blue"
+	]
+	
+	class(choices) : "Class" : "auto" : "Class" =
+	[
+		"auto" : "Any"
+		"scout" : "Scout"
+		"sniper" : "Sniper"
+		"soldier" : "Soldier"
+		"demoman" : "Demoman"
+		"medic" : "Medic"
+		"heavyweapons" : "Heavy"
+		"pyro" : "Pyro"
+		"spy" : "Spy"
+		"engineer" : "Engineer"
+	]
+
+	spawn_on_start(choices) : "Spawn on start" : 0 : "Spawn this bot when the round starts" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	respawn_interval(float) : "Respawn delay" : 0 : "If nonzero, respawn this bot N seconds after it dies"
+
+	action_point(target_destination) : "Action Point" : : "Put the name of a bot_action_point here to tell the bot to move to it when it spawns in."
+
+	// Inputs
+	input SetTeam(string) : "Change the bot's team (auto, red, blue)"
+	input SetClass(string) : "Change the bot's class (auto, soldier, pyro, etc)"
+	input SetMovementGoal(target_destination) : "Tell the bot to move to the given goal"
+	input Spawn(void) : "Spawn a TFBot at this position"
+	input Delete(void) : "Delete the existing TFBot"
+
+	// Outputs
+	output OnSpawned(void) : "Sent when the TFBot has spawned into the environment"
+	output OnInjured(void) : "Sent when the TFBot has been injured"
+	output OnKilled(void) : "Sent when the TFBot has been killed"
+	output OnAttackingEnemy(void) : "Sent when the TFBot has started attacking an enemy"
+	output OnKilledEnemy(void) : "Sent when the TFBot has killed an enemy"
+]
+
+@PointClass base(Targetname) = tf_spawner : "An entity that spawns templatized entities."
+[
+	count(integer) : "Count" : 1 : "Total number of entities to spawn over the lifetime of this spawner."
+	maxActive(integer) : "Max Active" : 1 : "Maximum number of simultaneous active entities created by this spawner."
+	interval(float) : "Interval" : 0 : "Time (in seconds) between spawns"
+	template(target_destination) : "Template to spawn entities from"
+
+	// Inputs
+	input Enable(void) : "Begin spawning entities"
+	input Disable(void) : "Stop spawning entities"
+	input Reset(void) : "Reset spawner to initial state"
+
+	// Outputs
+	output OnSpawned(void) : "Sent when an entity has spawned into the environment"
+	output OnExpended(void) : "Sent when the spawner has reached its allowed total of entities spawned"
+	output OnKilled(void) : "Sent when en entity spawned by this spawner has died/been destroyed"
+]
+
+@PointClass base(Targetname, Angles, EnableDisable) = tf_template_stun_drone : "A template to spawn a Stun Drone"
+[
+]
+
+@SolidClass base(Targetname) = func_nav_blocker : "A brush entity that can block nav areas touching its AABB." 
+[
+	input BlockNav(string) : "Starts blocking nav areas."
+	input UnblockNav(void) : "Stops blocking nav areas."
+
+	teamToBlock(choices) : "Team(s) to block" : -1 : "Block the nav for bots on this team" =
+	[
+		-1 : "Everyone"
+		2 : "Red"
+		3 : "Blue"
+	]
+	
+	affectsFlow(choices) : "Affects Flow?" : 0 : "Does this func_nav_blocker block flow in the level? Only func_nav_blockers with this enabled will cause flow recomputation on blocking/unblocking." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+
+@SolidClass base(Targetname) = func_nav_avoid : "Influence bots to avoid this region by increasing the pathfinding cost within it."
+[
+	tags(string) : "Tags" : "" : "A space delimited list of tags. A tag is a label with no spaces. If a TFBot has at least one matching tag, it will pay attention to this entity. Tags that are automatically set on TFBots include bomb_carrier, common, mission_sniper, mission_spy, mission_sentry_buster, or any class name." 
+
+	team(choices) : "Team" : -2 : "Which team will avoid this region" =
+	[
+		-2 : "Everyone"
+		2 : "Red"
+		3 : "Blue"
+	]
+
+	start_disabled(choices) : "Start Disabled" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input Enable(void) : "Enable"
+	input Disable(void) : "Disable"
+	input Toggle(void) : "Toggle"
+]
+
+@SolidClass base(Targetname) = func_nav_prefer : "Influence bots to prefer this region by decreasing the pathfinding cost within it."
+[
+	tags(string) : "Tags" : "" : "A space delimited list of tags. A tag is a label with no spaces. If a TFBot has at least one matching tag, it will pay attention to this entity. Tags that are automatically set on TFBots include bomb_carrier, common, mission_sniper, mission_spy, mission_sentry_buster, or any class name." 
+
+	team(choices) : "Team" : -2 : "Which team will prefer this region" =
+	[
+		-2 : "Everyone"
+		2 : "Red"
+		3 : "Blue"
+	]
+
+	start_disabled(choices) : "Start Disabled" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input Enable(void) : "Enable"
+	input Disable(void) : "Disable"
+]
+
+@SolidClass base(Trigger, Targetname) = func_nav_prerequisite : "A trigger volume that requires bots to do perform a task before they can move through it."
+[
+	Task(choices) : "Task" : 1 : "What must be done to move through this volume" =
+	[
+		1 : "Destroy Entity (Value = max range to attack from. -1 for no range restriction)"
+		2 : "Move to Entity"
+		3 : "Wait (Value = seconds to wait)"
+	]
+
+	Entity(target_destination) : "Task Entity" : : "The subject entity of the Task"
+
+	Value(float) : "Task Value" : 0 : "A Task-specific value"
+
+	start_disabled(choices) : "Start Disabled" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input Enable(void) : "Enable"
+	input Disable(void) : "Disable"
+]
+
+@SolidClass base(Targetname, Origin, EnableDisable) = func_tfbot_hint : "Define 'hint' regions for TFBot behaviors"
+[
+	team(choices) : "Team" : -1 : "Which team will use this hint" =
+	[
+		-2 : "Everyone"
+		2 : "Red"
+		3 : "Blue"
+	]
+
+	hint(choices) : "Hint" : 0 : "What is the hint" =
+	[
+		0 : "Sniper Spot (aim at hint origin)"
+		1 : "Sentry Gun Spot (aim at hint origin)"
+	]
+]
+
+@SolidClass base(Trigger, Targetname) = trigger_stun :
+	"A trigger volume that stuns entities that touch it."
+[
+	trigger_delay(float) : "Trigger Delay" : 0 : "Delay after an entity touches that we fire our first stun."
+	
+	stun_duration(float) : "Duration" : 0 : "Length of the stun effect."
+	
+	move_speed_reduction(float) : "Move Speed Reduction" : 0 : "0 to 1 - Amount to reduce the player's move speed. 1 is 100% immobile."
+	
+	stun_type(choices) : "Stun Type" : 0  =
+	[
+		0 : "Movement"
+		1 : "Controls + Movement"
+		2 : "Loser State + Controls + Movement"
+	]
+	
+	stun_effects(choices) : "Stun Effects" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Outputs
+	output OnStunPlayer(void) : "Fired whenever this trigger stuns a player."
+]
+
+@PointClass base(Targetname) = entity_spawn_point : "A spawn location associated with a spawn manager."
+[
+	spawn_manager_name(string) : "Spawn Manager Name" : "" : "Name of the spawn manager entity we are associated with."
+]
+
+@PointClass base(Targetname) = entity_spawn_manager : "An entity that spawns stuff at spawn points."
+[
+	entity_name(string) : "Entity Name" : "" : "Name of the entity class we are supposed to spawn."
+	entity_count(integer) : "Count" : 0 : "Max number of entities to have spawned at one time, if points are available."
+	respawn_time(integer) : "Respawn Time" : 0 : "Time to wait before we spawn a new entity when one is destroyed."
+	drop_to_ground(choices) : "Drop to Ground" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	random_rotation(choices) : "Random Rotation" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+]
+
+@PointClass base(Item) studio("models/props_halloween/pumpkin_explode.mdl") = tf_pumpkin_bomb : "Pumpkin Bomb" []
+
+@PointClass base(Targetname,Studiomodel,Origin,Angles) studioprop() = tf_generic_bomb : "Generic Bomb"
+[
+	// Params
+	damage(float) : "Explosion Damage" : 50 : "Amount of damage to do when exploding."
+	radius(float) : "Explosion Radius" : 100 : "Explosion radius."
+	health(integer) : "Health" : 1 : "Health of the bomb."
+	explode_particle(string) : "Explosion Particle" : "" : "Name of the particle effect to play when exploding."
+	sound(sound) : "Explosion Sound" : "" : "Name of the sound effect to play when exploding."
+	friendlyfire(choices) : "Friendly Fire" : 0 =
+	[
+		0 : "Damage attacker and enemies"
+		1 : "Damage everyone"
+	]
+	passActivator(choices) : "Pass Activator" : 0 : "Pass the activator in the OnDetonate output" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	// Inputs
+	input Detonate(void) : "Force detonation."
+
+	// Outputs
+	output OnDetonate(void) : "Fired when this bomb detonates."
+]
+
+@PointClass base(Targetname) studio("models/extras/info_speech.mdl") = training_annotation : "Training Annotation"
+[
+	display_text(string) : "Displayed Text" : "<Add Text Here>" : "The text to be displayed in the annotation popup."
+	lifetime(float) : "Lifetime" : 0 : "How long you want the annotation popup to stick around.  If set to 0, it will default to the value in code (1 sec).  If it set to -1, it will last forever."
+	offset(float) : "Vertical Offset" : 0 : "The vertical offset"
+
+	input Show(void) : "Show the annotation."
+	input Hide(void) : "Hide the annotation."
+]
+
+@PointClass base(prop_dynamic) studioprop() = training_prop_dynamic :
+	"Same a prop_dynamic, but with additional flags for training."
+[
+	spawnflags(flags) =
+	[
+		512 : "Custom collision with grenades and sticky bombs" : 0
+	]
+]
+
+@SolidClass base(Trigger,Parentname,Targetname,Origin) = trigger_ignite_arrows : "Trigger that ignites arrows on bows held by Snipers who touch the trigger while looking at the origin."
+[
+]
+
+@PointClass base(Targetname,Parentname,Angles) studio("models/editor/cone_helper.mdl")= wheel_of_doom : "Wheel of Doom"
+[
+	input Spin(void) : "Spin the wheel."
+	input ClearAllEffects(void) : "Remove all active effects."
+
+	output OnEffectApplied(void) : "Effect just applied."
+	output OnEffectExpired(void) : "Effect just expired."
+
+	effect_duration(float) : "Effect Duration" : 30 : "How long effects should last before they are automatically removed."
+	has_spiral(choices) : "Has Spiral" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+]
+
+@PointClass base(Targetname) = point_populator_interface : "Entity interface to the populator."
+[
+	input PauseBotSpawning(void)	: "Pause the spawning of all bots."
+	input UnpauseBotSpawning(void)	: "Resume spawning of all bots."
+	input ChangeBotAttributes(string)	: "All bots with matching event name will apply the attribute changes."
+	input ChangeDefaultEventAttributes(string)	: "Change default event name to spawn bots. The default name is Default"
+]
+
+@PointClass base(Targetname,Parentname,Angles) studio("models/editor/cone_helper.mdl") = tf_point_weapon_mimic : "An entity that shoots like player weapons."
+[
+	WeaponType(choices) : "Weapon Type" : 0 : "Which projectiles to fire." =
+	[
+		0 : "Rockets"
+		1 : "Grenades"
+		2 : "Arrows"
+		3 : "Stickies"
+	]
+
+	FireSound(string)		: "Fire Sound"		: ""	: "The sound to be played when we fired."
+	ParticleEffect(string)	: "Particle Effect"	: ""	: "The particle effect to be played when we fired."
+	ModelOverride(string)	: "Model Override"	: ""	: "The model to apply onto projectiles we fire."
+	ModelScale(float)		: "Model Scale"		: "1"	: "Scale for the projectile model."
+	SpeedMin(float)			: "Minimum Speed"	: "1000": "Minimum speed for each projectile."
+	SpeedMax(float)			: "Maximum Speed"	: "1000": "Maximum speed for each projectile."
+	Damage(float)			: "Damage"			: "75"	: "Damage for the projectile."
+	SplashRadius(float)		: "Splash Radius"	: "50"	: "Splash radius for the projectile."
+	SpreadAngle(float)		: "Spread Angle"	: "0"	: "Random spread for each projectile fired."
+	Crits(choices) : "Always Crits" : 0 : "All shots are crits." =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+
+	input FireOnce(void)			: "Fire once."
+	input FireMultiple(integer)		: "Fire multiple projectiles at once."
+	input DetonateStickies(void)	: "Detonate stickies."
+]
+
+@PointClass base(Targetname) = tf_point_nav_interface : "Entity interface to the TF nav mesh."
+[
+	input RecomputeBlockers(void)	: "Recompute blocks in the nav mesh.  Call this after blockers change state (ie. a door opens or closes)."
+]
+
+@SolidClass base(Trigger) = trigger_timer_door :
+	"A trigger that will open/close the door base filtered objects."
+[
+	door_name(string) : "Door Name" : "" : "Name of the door entity the trigger is attaching to."
+
+	area_cap_point(target_source) : "Control point" : "" : "Name of the control point this area is linked to."
+
+	team_cancap_2(choices) : "Can RED Cap?" : 1 = 
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+	team_cancap_3(choices) : "Can BLUE Cap?" : 1 = 
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+	
+	team_startcap_2(integer) : "Number of RED players to start capping" : 1 
+	team_startcap_3(integer) : "Number of BLUE players to start capping" : 1 
+
+	team_numcap_2(integer) : "Number of RED players to cap" : 1 
+	team_numcap_3(integer) : "Number of BLUE players to cap" : 1 
+	
+	team_spawn_2(integer) : "Red Spawn Adjust" : 0 : "Adjust the minimum respawn time for the red team by this amount (in seconds) when red captures this point. If the red team owns this point when blue captures it, this adjustment is reversed."
+	team_spawn_3(integer) : "Blue Spawn Adjust" : 0 : "Adjust the minimum respawn time for the blue team by this amount (in seconds) when blue captures this point. If the blue team owns this point when red captures it, this adjustment is reversed."
+	
+	area_time_to_cap(integer) : "Time to cap (sec)" : 5 
+
+	// Outputs
+	output OnStartTeam1(void) : "Sent when RED start capture."
+	output OnBreakTeam1(void) : "Sent when a RED capture is broken."
+	output OnCapTeam1(void)   : "Sent when RED end capture."
+
+	output OnStartTeam2(void) : "Sent when BLUE start capture."
+	output OnBreakTeam2(void) : "Sent when a BLUE capture is broken."
+	output OnCapTeam2(void)   : "Sent when BLUE end capture."
+
+	output OnStartCap(void) : "Sent when either team starts capture."
+	output OnBreakCap(void) : "Sent when either team break capture."
+	output OnEndCap(void)   : "Sent when either team end capture."
+	
+	output OnNumCappersChanged(integer) : "Sent when the number of cappers changes, passes the value in int."
+	output OnNumCappersChanged2(integer) : "Sent when the number of cappers changes, passes the value in int (-1 for capture blocked)."
+
+	// Inputs
+	input SetTeamCanCap(string) : "Set whether a specific team is allowed to capture this point. Format is: <team number> <(0/1)>. i.e. '2 0' would prevent RED from capturing this point, whereas '3 1' would allow BLUE to cap it."
+	
+	input SetControlPoint(string) : "Assign area capture to the passed control point."
+	input CaptureCurrentCP(string) : "If we're being capped, forces the current point to capture."
+]
+
+@SolidClass base(Trigger) = trigger_bot_tag :
+	"A trigger that will open/close the door base filtered objects."
+[
+	tags(string) : "Tags" : "" : "Add/Remove these tags."
+	add(choices) : "Operation" : 1 : "Add/Remove tags operation." =
+	[
+		0 : "RemoveTag"
+		1 : "AddTag"
+	]
+]
+
+@FilterClass base(BaseFilter) = filter_tf_bot_has_tag : "A filter that filters based on the touching bot having specific tags."
+[
+	tags(string) : "Tags" : "" : "Tags required to pass this filter"
+	require_all_tags(choices) : "Require all tags?" : 1 : "Does this filter require all specified tags?" =
+	[
+		1 : "Yes"
+		0 : "No"
+	]
+]
+
+@SolidClass base(Trigger,Condition) = trigger_add_tf_player_condition :
+	"A trigger that will add a condition to tf players."
+[
+	duration(float)			: "Duration"		:  0	: "The duration of the condition. NOTE: -1 duration means last until the player exits the trigger."
+]
+
+@SolidClass base(Trigger,Condition) = trigger_remove_tf_player_condition :
+	"A trigger that will remove a condition (or all if set to INVALID) from tf players."
+[
+]
+
+@PointClass base(Targetname) = hightower_teleport_vortex : "Halloween Vortex"
+[
+	target_base_name(string) : "Destination base name" : : "The base name of the destination.  (ie. If using 'hell_winner' and 'hell_loser', then 'hell' is the base name.)"
+	lifetime(float) : "Lifetime" : 0 : "How long the portal should stay open"
+
+	input SetAdvantageTeam(string) : "Set which team has the advantage."
+]
+
+@PointClass base(Targetname, TeamNum) studio("models/bots/skeleton_sniper/skeleton_sniper.mdl") = tf_zombie_spawner : "Entity that spawns zombies."
+[
+	zombie_lifetime(float) : "Skeleton Life Time" : 0 : "Skeleton life time in seconds. 0 means skeletons will stay alive until they're dead."
+	max_zombies(integer) : "Skeleton Count" : 1 : "Number of skeletons this point can have active in the world."
+	infinite_zombies(choices)		: "Infinite Spawn"		: 0	: "If Yes, keep spawning skeletons to have skeleton count in the world. If no, only spawn skeletons up to skeleton count." =
+	[
+		0 : "NO"
+		1 : "Yes"
+	]
+	zombie_type(choices)		: "Skeleton Type"		: 0	: "Type of skeleton." =
+	[
+		0 : "NORMAL"
+		1 : "SKELETON KING"
+	]
+
+	// Inputs
+	input Enable(void) : "Enable zombie spawn point."
+	input Disable(void) : "Disable zombie spawn point."
+	input SetMaxActiveZombies(integer) : "Max number of zombies"
+]
+
+
+@PointClass base(Targetname,Parentname) iconsprite("editor/bullseye.vmt") = halloween_zapper : 
+	"Halloween Hell Zapper" 
+[
+	touch_trigger(target_destination) : "Custom Touch Trigger"
+	ParticleEffect(string)	: "Particle Effect"	: ""	: "The particle effect to be played when we fired."
+	ZapperType(choices) : "Zapper Type" : 0 : "Type of zapper." =
+	[
+		0 : "Zap on touch"
+		1 : "Zap only on input"
+	]
+
+	input ZapTouching(void) : "Zap all touching players."
+]
+
+@SolidClass base(Trigger, Targetname, EnableDisable, Toggle) = trigger_player_respawn_override : "Respawn Override"
+[
+	RespawnTime(float) : "Respawn Time" : -1 : "The number of seconds before players that die inside the volume of this trigger can respawn.  Setting -1 will allow the game to decide."
+	RespawnName(string) : "Respawn Entity Name" : "" : "The name of the player team spawn(s) to use when a player dies in this volume."
+
+	// Inputs
+	input SetRespawnTime(float) : "The number of seconds before players that die inside the volume of this trigger can respawn."
+	input SetRespawnName(string) : "The name of the info_player_teamspawn to use when players die inside the volume of this trigger."
+	input Enable(void) : "Enable"
+	input Disable(void) : "Disable"
+]
+
+@PointClass base(Targetname, Studiomodel) = prop_soccer_ball : "Soccer Ball"
+[
+	trigger_name(string) : "Trigger Name" : "" : "The name of the trigger(s) to try and touch"
+]
+
+@BaseClass = MiniGame
+[	
+	// Inputs
+	input ReturnFromMinigame(void) : "Force players to return from the current minigame."
+	input TeleportToMinigame(integer) : "Teleport to a specific minigame."
+	input TeleportToRandomMinigame(void) : "Teleport to a random minigame"
+	input SetAdvantageTeam(string) : "Set which team has the advantage."
+]
+
+@PointClass base(Targetname,MiniGame) = tf_logic_minigames : "Minigame mode logic."
+[
+]
+
+@PointClass base(Targetname) = tf_base_minigame : "Base minigame"
+[
+	RedSpawn(target_source) : "Red Spawn Name" : "" : "The name of the spawnpoints for RED for this minigame"
+	BlueSpawn(target_source) : "Blue Spawn Name" : "" : "The name of the spawnpoints for BLUE for this minigame"
+	InRandomPool(choices) : "Put in Random Pool" : 1 : "If Yes, allowed to be chosen when told to go to a random minigame" =
+	[
+		0 : "No"
+		1 : "Yes"
+	]
+	MaxScore(integer) : "Max Score" : 5 : "When a team hits this score, the On<Team>HitMaxScore output will be fired"
+	hud_res_file(string) : "HUD Res File" : "" : "Res file to use for this minigame"
+	your_team_score_sound(string) : "Your Team Score Sound" : "" : "Sound file to play when your team scores a point"
+	enemy_team_score_sound(string) : "Enemy Team Score Sound" : "" : "Sound file to play when the enemy team scores a point"
+	ScoreType(choices) : "Scoring Type" : 0 : "What to use for scoring" =
+	[
+		0 : "Points"
+		1 : "Players alive"
+	]
+	SuddenDeathTime(float) : "Sudden Death Time" : -1 : "Time til sudden death starts (-1 for sudden death)"
+
+	// Inputs
+	input ScoreTeamRed(integer) : "Give points to team RED"
+	input ScoreTeamBlue(integer) : "Give points to team BLUE"
+	input ReturnFromMinigame(void) : "Force players to return from the current minigame."
+	input ChangeHudResFile(string) : "Change the HUD resource file."
+
+	// Outputs
+	output OnReturnFromMinigame(void) : "Sent when players return from this minigame."
+	output OnTeleportToMinigame(void) : "Sent when players arrive in this minigame."
+	output OnRedHitMaxScore(void) : "Sent RED hits the max score for this minigame."
+	output OnBlueHitMaxScore(void) : "Sent BLUE hits the max score for this minigame."
+	output OnAllRedDead(void) : "Sent when the entire RED team is dead."
+	output OnAllBlueDead(void) : "Send when the entire BLUE team is dead."
+	output OnSuddenDeathStart(void) : "Sent when sudden death starts."
+]
+
+@PointClass base(Targetname,tf_base_minigame) = tf_halloween_minigame : "Halloween 2014 Minigame"
+[
+	MinigameType(choices) : "Minigame Type" : 1 : "Which minigame is this" =
+	[
+		1 : "Halloween Collection"
+		2 : "Halloween Platforms"
+		3 : "Halloween Soccer"
+	]
+
+	input KartWinAnimationRed(void) : "Play win animation for all players in kart on team RED"
+	input KartWinAnimationBlue(void) : "Play win animation for all players in kart on team BLUE"
+	input KartLoseAnimationRed(void) : "Play lose animation for all players in kart on team RED"
+	input KartLoseAnimationBlue(void) : "Play lose animation for all players in kart on team BLUE"
+
+	input EnableSpawnBoss(string) : "Spawn Halloween boss HHH at specified target entity"
+	input DisableSpawnBoss(void) : "Stop spawning Halloween boss"
+]
+
+@PointClass base(Targetname,tf_halloween_minigame) = tf_halloween_minigame_falling_platforms : "Halloween 2014 Falling Platform Minigame"
+[
+	input ChoosePlatform(void) : "Fire to get the next SAFE platform and the next platform that wont come back"
+
+	output OutputSafePlatform(void) : "Sends the index of the SAFE platform."
+	output OutputRemovePlatform(void) : "Sends the index of the platform that shouldn't come back."
+]
+
+@PointClass base(Targetname,Origin,Angles) studio("models/bots/merasmus/merasmas_misfortune_teller.mdl") = halloween_fortune_teller : "Halloween Fortune Teller trigger" 
+[
+	red_teleport(string) : "Red Teleport Entity" : "" :  "Where to teleport the red team"
+	blue_teleport(string) : "Blue Teleport Entity" : "" : "Where to teleport the blue team"
+
+	input EnableFortuneTelling( void) :"Enable fortune telling"
+	input DisableFortuneTelling( void) :"Disable fortune telling"
+	input StartFortuneTelling(void) : "Start fortune telling"
+	input EndFortuneTelling(void) : "Stop the current fortune" 
+
+	output OnFortuneWarning(void) : "Sent before a fortune will be told."
+	output OnFortuneTold(void) : "Sent when a fortune is told."
+	output OnFortuneCurse(void) : "Sent when a fortune curse all players"
+	output OnFortuneEnd(void) : "Sent when a fortune is ended."
+]
+
+@PointClass base(Targetname,Origin,Angles) = tf_teleport_location : "Players teleport locations which will be delete on round start"
+[
+]
+
+@SolidClass base(Targetname, Origin, EnableDisable, TeamNum) = func_passtime_goal :
+	"Players or passtime balls that touch this will cause a score for whichever team touches it. You can limit which teams are allowed to touch it."
+[
+	points(float) : "Points" : 1 : "How many points the team gets for scoring here."
+	output OnScoreBlu(void) : "BLU scored. Useful for doing any effects specific to this goal."
+	output OnScoreRed(void) : "RED scored. Useful for doing any effects specific to this goal."
+
+	spawnflags(flags) = 
+	[
+		1: "Scoring here wins the game" : 0
+		2: "DO NOT let the ball score here" : 0
+		4: "Let ball-carrying players score here" : 0
+		8: "Show special locked status on HUD" : 0
+	]
+]
+
+@PointClass base(Targetname, EnableDisable, TeamNum) iconsprite("editor/passtime_ball_spawner.vmt") = info_passtime_ball_spawn : "Just marks a ball spawnpoint. Won't be used if disabled."
+[
+	output OnSpawnBall(void) : "A ball just spawned here. Might be useful when using randomly selected spawn points."
+]
+
+@PointClass base(Targetname) iconsprite("editor/passtime_master.vmt") = passtime_logic : "Passtime Logic"
+[
+	num_sections(integer) : "Number of sections" : 0 : ""
+	ball_spawn_countdown(integer) : "Ball spawn countdown duration in seconds" : 15 : ""
+	max_pass_range(float) : "Max Pass Range" : 0 : "0 means unlimited."
+
+	input SpawnBall(void) : "With a countdown, pick a random enabled info_passtime_ball_spawn and spawn a ball there."
+	input SetSection(string) : "Parameter must be three values - [section number] [name of first track_path] [name of last track_path]"
+	input TimeUp(void) : "Input this from a round timer or something to indicate the game timer ended with no winner."
+	input SpeedBoostUsed(void) : "For stats tracking."
+	input JumpPadUsed(void) : "For stats tracking."
+
+	output OnBallFree(void) : "The ball is free - someone was holding it, and now they aren't."
+	output OnBallGetBlu(void) : "The ball was free and someone picked it up."
+	output OnBallGetRed(void) : "The ball was free and someone picked it up."
+	output OnBallGetAny(void) : "The ball was free and someone picked it up."
+	output OnBallRemoved(void) : "The ball was removed by game rules and you should respawn it. (e.g. fell out of the world (func_passtime_goal with -1 points))."
+	output OnScoreBlu(void) : "BLU scored."
+	output OnScoreRed(void) : "RED scored."
+	output OnScoreAny(void) : ""
+	output OnBallPowerUp(void) : "Experimental"
+	output OnBallPowerDown(void) : "Experimental"
+]
+
+@SolidClass base(Targetname, EnableDisable, TeamNum) = func_passtime_goalie_zone : ""
+[
+]
+
+@SolidClass base(Targetname) = func_passtime_no_ball_zone : "Cant use the ball here."
+[
+]
+
+@SolidClass base(Targetname) = trigger_passtime_ball  : "Send enter/exit outputs when ball or player with ball enter/exits"
+[
+	output OnBallEnter(void) : ""
+	output OnBallExit(void) : ""
+]
+
+@SolidClass base(Trigger) = trigger_catapult : "Catapult the player in a given diretion at a given velocity."
+[
+	playerSpeed(float) : "Player Speed" : 450 : "Speed at which to launch the players (u/sec)"
+	physicsSpeed(float) : "Physics Object Speed" : 450 : "Speed at which to launch physics objects (u/sec)"
+	useThresholdCheck(integer) : "Use Threshold Check" : 0
+	entryAngleTolerance(float) : "Entry Angle Tolerance" : "0.0" : "Flung object's velocity must be pointing this much at the target. Specify a value between [-1...1] 1 means exactly, 0 means within 180 degrees -1 means any angle is accepted. This is only used if Use Threshold Check is set to yes."
+	useExactVelocity(integer) : "Use Exact Velocity" : 0 : "Try to fling exactly at the speed specified - this prevents the added upward velocity from a launch target."
+	exactVelocityChoiceType(choices) : "Exact Solution Method" : 0 :
+	"Using exact velocity generates two correct solutions. Use this to force which one you choose." =
+	[
+		0 : "Best"
+		1 : "Solution One"
+		2 : "Solution Two"
+	]
+	lowerThreshold(float) : "Lower Threshold" : "0.15" : "Flung object must be within this percentage value in order to activate fling. Specify a value between [0...1] (default is .15) This is only used if Use Threshold Check is set to yes."
+	upperThreshold(float) : "Upper Threshold" : "0.30" : "Flung object must be within this percentage value in order to activate fling. Specify a value between [0...1] (default is .30) This is only used if Use Threshold Check is set to yes."
+	launchDirection(angle) : "Launch direction" : "0 0 0" : "Direction to launch the player in."
+	launchTarget(target_destination) : "Launch target" : "" : "Entity to try to 'hit' when we're launched."
+	onlyVelocityCheck(integer) : "Only check velocity" : 0 : "Only check velocity of the touching object - don't actually catapult it.  Use in conjunction with OnCatapulted to create velocity checking triggers.  Only works when Use Threshhold Check is enabled."
+	applyAngularImpulse(integer) : "Apply angular impulse" : 1 : "If a random angular impulse should be applied to physics objects being catapulted."
+	AirCtrlSupressionTime(float) : "Air Control SupressionTime" : "-1.0" : "[Launch by target only!]If greater than zero, supress player aircontrol for this number (in seconds). If less than zero use the default (quarter second)."
+
+	output OnCatapulted(void) : "The object has been launched."
+]
+
+@SolidClass base(Trigger) = trigger_ignite : "Ignite the player and burn the player over time."
+[
+	burn_duration(float) : "Burn duration" : 5 : "Duration of the after burn effect on the player after leaving the trigger."
+	damage_percent_per_second(float) : "Damage(%) per second" : 10 : "Damage per second while inside the trigger."
+	ignite_particle_name(string) : "Ignite particle name" : "" : "Name of the particle that plays when player first touch the trigger."
+	ignite_sound_name(string) : "Ignite sound name" : "" : "Name of the sound script that plays when player first touch the trigger."
+]
+
+
+@PointClass base(Targetname,Origin,Angles) = tf_halloween_gift_spawn_location : "Halloween Gift Spawn Locations - Location saved by GameRules. Deleted after map load"
+[
+]
+
+@PointClass base(Targetname) iconsprite("editor/logic_auto.vmt") = tf_logic_on_holiday :
+	"This entity allows you execute map actions on holidays. Will send all relevant outputs every time the Fire input is called."
+[
+	input Fire(void) : "Cause one or more appropriate outputs to fire."
+	output IsNothing(void) : ""
+	output IsTFBirthday(void) : ""
+	output IsHalloween(void) : ""
+	output IsSmissmas(void) : ""
+	output IsValentines(void) : ""
+	output IsFullMoon(void) : ""
+	output IsAprilFools(void) : ""
+]
+
+@PointClass base(EnableDisable) = tf_glow
+[
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	target(target_destination) : "Target - ONE TARGET ONLY"
+	GlowColor(color255) : "Glow Color" : "255 0 0 255" : "<r> <g> <b> <a> 0-255"
+	Mode(choices) : "Visibility Mode" : 0 : "When the glow should be visible" =
+	[
+		0 : "Always"
+		1 : "Only when model is occluded"
+		2 : "Only when model is visible"
+	]
+	input SetGlowColor(color255) : "<r> <g> <b> <a> 0-255"
+]
+
+//-------------------------------------------------------------------------
+//
+// Camera/monitor entities
+//
+//-------------------------------------------------------------------------
+@PointClass base(Parentname, Angles) studioprop("models/editor/camera.mdl") = point_camera : "Camera"
+[
+	spawnflags(Flags) =
+	[
+		1 : "Start Off" : 0 
+	]
+
+	targetname(target_source) : "Name" : : "The name that other entities refer to this entity by."
+	FOV(float) : "FOV" : 90 : "Field of view in degrees"
+//	resolution(float) : "resolution" : 256 : "width/height of the render target for the camera"
+	UseScreenAspectRatio(choices) : "Screen Aspect Ratio" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]	
+	fogEnable(choices) : "Fog Enable" : 0 =
+	[
+		0 : "No"
+		1 : "Yes"
+	]	
+	fogColor(color255) : "Fog Color" : "0 0 0"
+	fogStart(float) : "Fog Start" : 2048 : "The near fog plane."
+	fogEnd(float) : "Fog End" : 4096 : "The far fog/clipping plane."
+	fogMaxDensity(float) : "Fog Max Density [0..1]" : 1 : "The maximum fog density. 0=no fog, 1=full fog."
+
+	// Inputs
+	input ChangeFOV(string) : "Changes camera's FOV over time"
+	input SetOnAndTurnOthersOff(void) : "Turn the camera on, and turn all other cameras off."
+	input SetOn(void) : "Turn the camera on."
+	input SetOff(void) : "Turn the camera off."
+]
+
+@SolidClass base(func_brush) = func_monitor :
+	"A monitor that renders the view from a given point_camera entity."
+[
+	target(target_destination) : "Camera name"
+	
+	// Inputs
+	input Toggle(void) : "Toggle - If on, turn off, if off, turn on."
+	input Enable(void) : "Enable."
+	input Disable(void) : "Disable."
+	input SetCamera(string) : "Sets the camera to use for this monitor. Takes the name of a point_camera entity in the map."
+]
