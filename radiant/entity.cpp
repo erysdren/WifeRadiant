@@ -456,7 +456,7 @@ void Entity_createFromSelection( const char* name, const Vector3& origin ){
 	// tweaking: when right click dropping a light entity, ask for light value in a custom dialog box
 	// see SF bug 105383
 
-	if ( g_pGameDescription->mGameType == "hl" ) {
+	if ( g_pGameDescription->mGameType == "hl" || g_pGameDescription->mGameType == "source" ) {
 		// FIXME - Hydra: really we need a combined light AND color dialog for halflife.
 		if ( string_equal_nocase( name, "light" )
 		  || string_equal_nocase( name, "light_environment" )
