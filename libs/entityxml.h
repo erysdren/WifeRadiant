@@ -22,6 +22,7 @@
 #pragma once
 
 #include "ientity.h"
+#include "eclasslib.h"
 #include "xml/ixml.h"
 #include "xml/xmlelement.h"
 
@@ -70,6 +71,24 @@ public:
 		ExportXMLVisitor visitor( observer );
 
 		m_entity.forEachKeyValue( visitor );
+
+		// write default keyvalues if needed
+		const char *write_default_keyvalues = GlobalRadiant().getGameDescriptionKeyValue( "write_default_keyvalues" );
+		if (write_default_keyvalues && string_equal(write_default_keyvalues, "1"))
+		{
+			const auto& entityClass = m_entity.getEntityClass();
+			for (const auto& [ key, attr ] : entityClass.m_attributes)
+			{
+				if (!m_entity.hasKeyValue(key.c_str()))
+				{
+					StaticElement element( "epair" );
+					element.insertAttribute( "key", key.c_str() );
+					element.insertAttribute( "value", attr.m_value.c_str() );
+					observer.pushElement( element );
+					observer.popElement( element.name() );
+				}
+			}
+		}
 	}
 };
 

@@ -104,6 +104,16 @@ inline scene::Node& node_for_eclass( EntityClass* eclass ){
 		namespaced->setNamespace( GlobalNamespace() );
 	}
 
+	// add default keyvalues if needed
+	const char *write_default_keyvalues = GlobalRadiant().getGameDescriptionKeyValue( "write_default_keyvalues" );
+	if (write_default_keyvalues && string_equal(write_default_keyvalues, "1"))
+	{
+		for (const auto& [ key, attr ] : eclass->m_attributes)
+		{
+			Node_getEntity(node)->setKeyValue(key.c_str(), attr.m_value.c_str());
+		}
+	}
+
 	return node;
 }
 

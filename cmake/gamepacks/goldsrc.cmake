@@ -4,6 +4,7 @@ endif()
 
 # Half-Life
 radiant_add_gamepack(hl
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "hl"
 	TITLE "Half-Life"
 	GAMEDIR "valve"
@@ -32,6 +33,7 @@ radiant_add_gamepack(hl
 
 # Half-Life: Blue Shift
 radiant_add_gamepack(bshift
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
@@ -64,6 +66,7 @@ radiant_add_gamepack(bshift
 
 # Half-Life: Opposing Force
 radiant_add_gamepack(gearbox
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
@@ -96,6 +99,7 @@ radiant_add_gamepack(gearbox
 
 # Team Fortress Classic
 radiant_add_gamepack(tfc
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
@@ -128,6 +132,7 @@ radiant_add_gamepack(tfc
 
 # Day of Defeat
 radiant_add_gamepack(dod
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
@@ -160,6 +165,7 @@ radiant_add_gamepack(dod
 
 # Counter-Strike
 radiant_add_gamepack(cstrike
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
@@ -192,6 +198,7 @@ radiant_add_gamepack(cstrike
 
 # Ricochet
 radiant_add_gamepack(ricochet
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "hl"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life"
@@ -224,6 +231,7 @@ radiant_add_gamepack(ricochet
 
 # Gunman Chronicles
 radiant_add_gamepack(rewolf
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "hl"
 	TITLE "Gunman Chronicles"
 	GAMEDIR "rewolf"

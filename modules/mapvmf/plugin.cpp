@@ -398,6 +398,18 @@ public:
 					entity->forEachKeyValue( visitor );
 					MapVMFWriteOutput outputVisitor( m_writer["world"] );
 					entity->forEachOutput( outputVisitor );
+					const char *write_default_keyvalues = GlobalRadiant().getGameDescriptionKeyValue( "write_default_keyvalues" );
+					if (write_default_keyvalues && string_equal(write_default_keyvalues, "1"))
+					{
+						const auto& entityClass = entity->getEntityClass();
+						for (const auto& [ key, attr ] : entityClass.m_attributes)
+						{
+							if (!entity->hasKeyValue(key.c_str()))
+							{
+								m_writer["world"].addChild(key.c_str(), attr.m_value.c_str());
+							}
+						}
+					}
 					m_childIndex = m_worldIndex;
 				} else {
 					auto& child = m_writer.addChild("entity");
@@ -405,6 +417,18 @@ public:
 					entity->forEachKeyValue( visitor );
 					MapVMFWriteOutput outputVisitor( child );
 					entity->forEachOutput( outputVisitor );
+					const char *write_default_keyvalues = GlobalRadiant().getGameDescriptionKeyValue( "write_default_keyvalues" );
+					if (write_default_keyvalues && string_equal(write_default_keyvalues, "1"))
+					{
+						const auto& entityClass = entity->getEntityClass();
+						for (const auto& [ key, attr ] : entityClass.m_attributes)
+						{
+							if (!entity->hasKeyValue(key.c_str()))
+							{
+								child.addChild(key.c_str(), attr.m_value.c_str());
+							}
+						}
+					}
 					m_childIndex = m_writer.getChildCount() - 1;
 				}
 			} else if ( Node_isBrush( node ) ) {

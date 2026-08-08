@@ -24,6 +24,7 @@
 #include "ientity.h"
 #include "iscriplib.h"
 #include "scenelib.h"
+#include "eclasslib.h"
 #include "layers.h"
 
 void Layers_Write( Layers& layers, TokenWriter& writer ){
@@ -91,6 +92,22 @@ void Entity_ExportTokens( Entity& entity, TokenWriter& writer ){
 
 	entity.forEachKeyValue( visitor );
 	entity.forEachOutput( outputVisitor );
+
+	// write default keyvalues if needed
+	const char *write_default_keyvalues = GlobalRadiant().getGameDescriptionKeyValue( "write_default_keyvalues" );
+	if (write_default_keyvalues && string_equal(write_default_keyvalues, "1"))
+	{
+		const auto& entityClass = entity.getEntityClass();
+		for (const auto& [ key, attr ] : entityClass.m_attributes)
+		{
+			if (!entity.hasKeyValue(key.c_str()))
+			{
+				writer.writeString(key.c_str());
+				writer.writeString(attr.m_value.c_str());
+				writer.nextLine();
+			}
+		}
+	}
 }
 
 class WriteTokensWalker : public scene::Traversable::Walker

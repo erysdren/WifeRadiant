@@ -6,6 +6,7 @@ endif()
 radiant_add_gamepack(css
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life 2"
@@ -44,6 +45,7 @@ radiant_add_gamepack(css
 radiant_add_gamepack(diprip
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Source SDK Base 2007"
@@ -82,6 +84,7 @@ radiant_add_gamepack(diprip
 radiant_add_gamepack(dods
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life 2"
@@ -120,6 +123,7 @@ radiant_add_gamepack(dods
 radiant_add_gamepack(garrysmod
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Source Engine Base Content"
@@ -158,6 +162,7 @@ radiant_add_gamepack(garrysmod
 radiant_add_gamepack(hl2
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	TITLE "Half-Life 2"
 	GAMEDIR "hl2"
@@ -192,6 +197,7 @@ radiant_add_gamepack(hl2
 radiant_add_gamepack(episodic
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life 2"
@@ -230,6 +236,7 @@ radiant_add_gamepack(episodic
 radiant_add_gamepack(ep2
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life 2"
@@ -268,6 +275,7 @@ radiant_add_gamepack(ep2
 radiant_add_gamepack(lostcoast
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life 2"
@@ -306,6 +314,7 @@ radiant_add_gamepack(lostcoast
 radiant_add_gamepack(hl2mp
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life 2"
@@ -344,6 +353,7 @@ radiant_add_gamepack(hl2mp
 radiant_add_gamepack(portal
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life 2"
@@ -382,6 +392,7 @@ radiant_add_gamepack(portal
 radiant_add_gamepack(portal2
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	USE_NEW_OUTPUT_SEPARATOR
 	TITLE "Portal 2"
@@ -417,6 +428,7 @@ radiant_add_gamepack(portal2
 radiant_add_gamepack(sinepisodes
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "SiN Episodes: Emergence Base Content"
@@ -455,6 +467,7 @@ radiant_add_gamepack(sinepisodes
 radiant_add_gamepack(tf2
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Half-Life 2"
@@ -493,6 +506,7 @@ radiant_add_gamepack(tf2
 radiant_add_gamepack(vampire
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
+	WRITE_DEFAULT_KEYVALUES
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Vampire: The Masquerade - Bloodlines"
