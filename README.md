@@ -52,7 +52,6 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 	- FIXME: Discards VMF object IDs
 - Save VMF maps
 	- ~~FIXME: Sometimes solids are saved incorrectly and then the map won't compile.~~
-	- FIXME: Needs to have a special case for not merging entity keys that start with "On", which are **always** Source Engine I/O outputs.
 - Load VMT materials
 	- ~~FIXME: Doesn't prioritize loading the `%tooltexture` VTF before `$basetexture`.~~
 - Load VTF textures
