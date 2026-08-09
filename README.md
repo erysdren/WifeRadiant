@@ -81,6 +81,8 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 - Decals
 	- Probably should look at [TrenchBroom](https://github.com/TrenchBroom/TrenchBroom/)'s implementation for reference.
 - Instances
+	- Could be done similarly to TrenchBroom's linked groups, but allowing them to be loaded from external files.
+	- For non-Source gamepacks, will require a "map export" feature to merge all the groups/instances.
 
 ### To Do:
 
