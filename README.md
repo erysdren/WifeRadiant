@@ -128,6 +128,8 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 - Hotspot texturing
 	- [https://developer.valvesoftware.com/wiki/Hotspot_texturing](https://developer.valvesoftware.com/wiki/Hotspot_texturing)
 	- [https://github.com/koerismo/Hammer-Hotspots](https://github.com/koerismo/Hammer-Hotspots)
+	- [https://wiki.stratasource.org/modding/formats/vtf-hotspot-resource](https://wiki.stratasource.org/modding/formats/vtf-hotspot-resource)
+	- [https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format](https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format)
 	- sourcepp supports `.hot` files and VTF hotspot resources
 
 ### Random feature highlights
