@@ -125,6 +125,10 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 - Support rendering images and `.spr` files as sprites in-editor
 - ~~Add shader directory exclusion stuff to hide `models` directory~~
 	- ~~Respect `@MaterialExclusion` in FGDs~~
+- Hotspot texturing
+	- [https://developer.valvesoftware.com/wiki/Hotspot_texturing](https://developer.valvesoftware.com/wiki/Hotspot_texturing)
+	- [https://github.com/koerismo/Hammer-Hotspots](https://github.com/koerismo/Hammer-Hotspots)
+	- sourcepp supports `.hot` files and VTF hotspot resources
 
 ### Random feature highlights
 
