@@ -8242,12 +8242,89 @@ void SelectionSystem_OnBoundsChanged(){
 
 SignalHandlerId SelectionSystem_boundsChanged;
 
+template<typename Functor>
+class QuadBoundsSelectedVisitor : public SelectionSystem::Visitor
+{
+	const Functor& m_functor;
+public:
+	QuadBoundsSelectedVisitor( const Functor& functor ) : m_functor( functor ){
+	}
+	void visit( scene::Instance& instance ) const override {
+		BrushInstance* brush = Instance_getBrush( instance );
+		if ( brush != 0 ) {
+			m_functor( *brush );
+		}
+	}
+};
+
+class QuadBoundsBrushInstanceVisitor : public BrushInstanceVisitor
+{
+	const char* m_caulkShader;
+	mutable bool m_done = false;
+	mutable const Winding* m_winding = nullptr;
+public:
+	QuadBoundsBrushInstanceVisitor(const char* caulkShader) : m_caulkShader(caulkShader) {
+
+	}
+
+	void visit( FaceInstance& faceInstance ) const override {
+		if (m_done) {
+			return;
+		}
+		const auto& face = faceInstance.getFace();
+		const auto& winding = face.getWinding();
+		if (winding.numpoints != 4) {
+			return;
+		}
+		if (string_equal(face.GetShader(), m_caulkShader)) {
+			return;
+		}
+		m_winding = &face.getWinding();
+		m_done = true;
+	}
+
+	const Winding* getWinding() const {
+		return m_winding;
+	}
+};
+
+const char* GetCaulkShader();
+
+void SelectionSystem_OnQuadBoundsChanged(){
+	auto functor = [](BrushInstance& brush){
+		Entity* entity = Node_getEntity(brush.parent()->path().top());
+		if (entity) {
+			const EntityClass& entityClass = entity->getEntityClass();
+			if (entityClass.quadbounds) {
+				const char* caulkShader = GetCaulkShader();
+				QuadBoundsBrushInstanceVisitor visitor(caulkShader);
+				brush.forEachFaceInstance(visitor);
+				const Winding* winding = visitor.getWinding();
+				if (winding) {
+					const auto& lowerLeft = winding->points[0];
+					const auto& lowerRight = winding->points[1];
+					const auto& upperRight = winding->points[2];
+					const auto& upperLeft = winding->points[3];
+					entity->setKeyValue("lowerleft", std::format("{} {} {}", lowerLeft.vertex[0], lowerLeft.vertex[1], lowerLeft.vertex[2]).c_str());
+					entity->setKeyValue("lowerright", std::format("{} {} {}", lowerRight.vertex[0], lowerRight.vertex[1], lowerRight.vertex[2]).c_str());
+					entity->setKeyValue("upperright", std::format("{} {} {}", upperRight.vertex[0], upperRight.vertex[1], upperRight.vertex[2]).c_str());
+					entity->setKeyValue("upperleft", std::format("{} {} {}", upperLeft.vertex[0], upperLeft.vertex[1], upperLeft.vertex[2]).c_str());
+				}
+			}
+		}
+	};
+	getSelectionSystem().foreachSelected(QuadBoundsSelectedVisitor<decltype(functor)>(functor));
+}
+
+SignalHandlerId SelectionSystem_quadBoundsChanged;
+
 void SelectionSystem_Construct(){
 	RadiantSelectionSystem::constructStatic();
 
 	g_RadiantSelectionSystem = new RadiantSelectionSystem;
 
 	SelectionSystem_boundsChanged = GlobalSceneGraph().addBoundsChangedCallback( FreeCaller<void(), SelectionSystem_OnBoundsChanged>() );
+	SelectionSystem_quadBoundsChanged = GlobalSceneGraph().addBoundsChangedCallback( FreeCaller<void(), SelectionSystem_OnQuadBoundsChanged>() );
 
 	GlobalShaderCache().attachRenderable( getSelectionSystem() );
 
@@ -8262,6 +8339,7 @@ void SelectionSystem_Destroy(){
 	GlobalShaderCache().detachRenderable( getSelectionSystem() );
 
 	GlobalSceneGraph().removeBoundsChangedCallback( SelectionSystem_boundsChanged );
+	GlobalSceneGraph().removeBoundsChangedCallback( SelectionSystem_quadBoundsChanged );
 
 	delete g_RadiantSelectionSystem;
 
