@@ -115,7 +115,7 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 	- Support patchDef2WS and patchDef3/patchDef3WS in q3map2
 - ~~Support Ghoul 2 models (GLA/GLM)~~
 - Add physics sim bakes with [Box3D](https://github.com/erincatto/box3d)
-- Add `func_breakable_surf` hack (also, investigate other entity-specific Hammer hacks)
+- ~~Add `func_breakable_surf` hack (also, investigate other entity-specific Hammer hacks)~~
 - Add filter/search to model browser
 - Show model skins
 - Import tb2pov.py tool I made and add a POV-Ray gamepack (why not?)
