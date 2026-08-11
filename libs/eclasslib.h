@@ -267,6 +267,7 @@ inline EntityClass* Eclass_Alloc(){
 	e->fixedsize = false;
 	e->unknown = false;
 	e->miscmodel_is = false;
+	e->quadbounds = false;
 	e->m_miscmodel_key = "model";
 	e->has_angles = false;
 	e->has_angles_key = false;
