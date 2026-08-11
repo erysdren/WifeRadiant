@@ -1280,6 +1280,73 @@ void Texdef_FitTexture( TextureProjection& projection, std::size_t width, std::s
 		Texdef_normalise( projection.m_texdef, width, height );
 }
 
+void Texdef_FitTextureHotSpot( TextureProjection& projection, std::size_t width, std::size_t height, const Vector3& normal, const Winding& w, const HotSpotDef* hotSpotDef, bool altGroup ){
+	if ( w.numpoints < 3 ) {
+		return;
+	}
+
+	Matrix4 st2tex;
+	Texdef_toTransform( projection, width, height, st2tex );
+
+	// the current texture transform
+	Matrix4 local2tex = st2tex;
+	{
+		Matrix4 xyz2st;
+		Texdef_basisForNormal( projection, normal, xyz2st );
+		matrix4_multiply_by_matrix4( local2tex, xyz2st );
+	}
+
+	// the bounds of the current texture transform
+	AABB bounds;
+	for ( const auto& v : w )
+	{
+		Vector3 texcoord = matrix4_transformed_point( local2tex, v.vertex );
+		aabb_extend_by_point_safe( bounds, texcoord );
+	}
+	bounds.origin.z() = 0;
+	bounds.extents.z() = 1;
+
+	Vector2 mins = Vector2(bounds.origin.x(), bounds.origin.y()) - Vector2(bounds.extents.x(), bounds.extents.y());
+	Vector2 maxs = Vector2(bounds.origin.x(), bounds.origin.y()) + Vector2(bounds.extents.x(), bounds.extents.y());
+
+	Vector2 size = maxs - mins;
+
+	const float targetScale = std::max(width * size.x(), height * size.y()) / Texdef_getDefaultTextureScale();
+	const float targetAspect = size.x() / size.y();
+
+	bool isRotated = false;
+	float aspectErr = -1;
+	float scalingErr = -1;
+	int rectIndex = hotSpotDef->MatchRandomBestRect(targetAspect, targetScale, altGroup, &isRotated, &aspectErr, &scalingErr);
+	if ( rectIndex < 0 ) {
+		rectIndex = hotSpotDef->MatchRandomBestRect(targetAspect, targetScale, false, &isRotated, &aspectErr, &scalingErr);
+	}
+	if ( rectIndex < 0 ) {
+		globalErrorStream() << "failed to match best rect!" << '\n';
+		return;
+	}
+
+	// globalOutputStream() << std::format("Chose rectangle {} (rotated={}) with a diff of an aspectErr of {} and scalingErr of {}", rectIndex, isRotated, aspectErr, scalingErr) << '\n';
+
+	Vector2 uvMins, uvMaxs;
+	hotSpotDef->GetUvMinMax(rectIndex, width, height, &uvMins, &uvMaxs);
+
+	AABB perfect = aabb_for_minmax(Vector3(uvMins.x(), uvMins.y(), -1), Vector3(uvMaxs.x(), uvMaxs.y(), 1));
+
+	// the difference between the current texture transform and the perfectly fitted transform
+	Matrix4 matrix( matrix4_translation_for_vec3( bounds.origin - perfect.origin ) );
+	matrix4_pivoted_scale_by_vec3( matrix, bounds.extents / perfect.extents, perfect.origin );
+	matrix4_affine_invert( matrix );
+
+	// apply the difference to the current texture transform
+	matrix4_premultiply_by_matrix4( st2tex, matrix );
+	Texdef_fromTransform( projection, width, height, st2tex );
+	if ( g_bp_globals.m_texdefTypeId == TEXDEFTYPEID_BRUSHPRIMITIVES )
+		BPTexdef_normalise( projection.m_brushprimit_texdef, 1, 1 ); /* scaleApplied is! */
+	else
+		Texdef_normalise( projection.m_texdef, width, height );
+}
+
 float Texdef_getDefaultTextureScale(){
 	return g_texdef_default_scale;
 }

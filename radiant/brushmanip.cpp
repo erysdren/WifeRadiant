@@ -33,6 +33,7 @@
 #include "dialog.h"
 #include "xywindow.h"
 #include "preferences.h"
+#include "ihotspot.h"
 
 void Brush_ConstructCuboid( Brush& brush, const AABB& bounds, const char* shader, const TextureProjection& projection ){
 	const unsigned char box[3][2] = { { 0, 1 }, { 2, 0 }, { 1, 2 } };
@@ -794,6 +795,39 @@ void Scene_BrushFitTexture_Selected( scene::Graph& graph, float s_repeat, float 
 
 void Scene_BrushFitTexture_Component_Selected( scene::Graph& graph, float s_repeat, float t_repeat, bool only_dimension ){
 	Scene_ForEachSelectedBrushFace( graph, FaceFitTexture( s_repeat, t_repeat, only_dimension ) );
+	SceneChangeNotify();
+}
+
+
+class FaceFitTextureHotspot
+{
+	bool m_altGroup;
+public:
+	FaceFitTextureHotspot( bool altGroup ) : m_altGroup( altGroup ) {
+	}
+	void operator()( Face& face ) const {
+		IShader* shader = GlobalShaderSystem().getShaderForName( face.GetShader() );
+		if ( !shader ) {
+			globalErrorStream() << "failed to find shader by the name: " << Quoted( face.GetShader() ) << '\n';
+			return;
+		}
+		const auto* hotSpotDef = shader->getHotSpotDef();
+		if ( hotSpotDef ) {
+			face.FitTextureHotspot( hotSpotDef, m_altGroup );
+		} else {
+			// globalWarningStream() << Quoted( face.GetShader() ) << " has no hotspots defined" << '\n';
+		}
+		shader->DecRef();
+	}
+};
+
+void Scene_BrushFitTextureHotspot_Selected( scene::Graph& graph, bool altGroup ){
+	Scene_ForEachSelectedBrush_ForEachFace( graph, FaceFitTextureHotspot( altGroup ) );
+	SceneChangeNotify();
+}
+
+void Scene_BrushFitTextureHotspot_Component_Selected( scene::Graph& graph, bool altGroup ){
+	Scene_ForEachSelectedBrushFace( graph, FaceFitTextureHotspot( altGroup ) );
 	SceneChangeNotify();
 }
 

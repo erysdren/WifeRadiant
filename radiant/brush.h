@@ -44,6 +44,7 @@
 #include "ifilter.h"
 #include "nameable.h"
 #include "moduleobserver.h"
+#include "ihotspot.h"
 
 #include "cullable.h"
 #include "renderable.h"
@@ -567,6 +568,10 @@ public:
 
 	void fit( const Vector3& normal, const Winding& winding, float s_repeat, float t_repeat, bool only_dimension ){
 		Texdef_FitTexture( m_projection, m_shader.width(), m_shader.height(), normal, winding, s_repeat, t_repeat, only_dimension );
+	}
+
+	void fitHotSpot( const Vector3& normal, const Winding& winding, const HotSpotDef* hotSpotDef, bool altGroup ){
+		Texdef_FitTextureHotSpot( m_projection, m_shader.width(), m_shader.height(), normal, winding, hotSpotDef, altGroup );
 	}
 
 	void emitTextureCoordinates( Winding& winding, const Vector3& normal, const Matrix4& localToWorld ) const {
@@ -1274,6 +1279,12 @@ public:
 	void FitTexture( float s_repeat, float t_repeat, bool only_dimension ){
 		undoSave();
 		m_texdef.fit( m_plane.plane3().normal(), m_winding, s_repeat, t_repeat, only_dimension );
+		texdefChanged();
+	}
+
+	void FitTextureHotspot( const HotSpotDef* hotSpotDef, bool altGroup ){
+		undoSave();
+		m_texdef.fitHotSpot( m_plane.plane3().normal(), m_winding, hotSpotDef, altGroup );
 		texdefChanged();
 	}
 

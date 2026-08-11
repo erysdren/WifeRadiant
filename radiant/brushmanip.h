@@ -84,6 +84,9 @@ void Scene_BrushProjectTexture_Component_Selected( scene::Graph& graph, const Te
 void Scene_BrushFitTexture_Selected( scene::Graph& graph, float s_repeat, float t_repeat, bool only_dimension );
 void Scene_BrushFitTexture_Component_Selected( scene::Graph& graph, float s_repeat, float t_repeat, bool only_dimension );
 
+void Scene_BrushFitTextureHotspot_Selected( scene::Graph& graph, bool altGroup );
+void Scene_BrushFitTextureHotspot_Component_Selected( scene::Graph& graph, bool altGroup );
+
 void Brush_constructMenu( class QMenu* menu );
 
 extern Callback<void()> g_texture_lock_status_changed;

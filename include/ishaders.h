@@ -23,6 +23,7 @@
 
 #include "generic/constant.h"
 #include "generic/callback.h"
+#include "ihotspot.h"
 
 enum
 {
@@ -125,6 +126,8 @@ public:
 	virtual void forEachLayer( const ShaderLayerCallback& layer ) const = 0;
 
 	virtual qtexture_t* lightFalloffImage() const = 0;
+
+	virtual const HotSpotDef* getHotSpotDef() const = 0;
 };
 
 typedef Callback<void(const char*)> ShaderNameCallback;
