@@ -25,6 +25,7 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 - [GtkRadiant](https://icculus.org/gtkradiant/)
 - [FTEQW](https://github.com/fte-team/fteqw)
 - [Sean Barrett](https://github.com/nothings/stb)
+- [Hammer-Hotspots](https://github.com/koerismo/Hammer-Hotspots)
 
 ## Supported games
 
@@ -125,12 +126,12 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 - Support rendering images and `.spr` files as sprites in-editor
 - ~~Add shader directory exclusion stuff to hide `models` directory~~
 	- ~~Respect `@MaterialExclusion` in FGDs~~
-- Hotspot texturing
-	- [https://developer.valvesoftware.com/wiki/Hotspot_texturing](https://developer.valvesoftware.com/wiki/Hotspot_texturing)
-	- [https://github.com/koerismo/Hammer-Hotspots](https://github.com/koerismo/Hammer-Hotspots)
-	- [https://wiki.stratasource.org/modding/formats/vtf-hotspot-resource](https://wiki.stratasource.org/modding/formats/vtf-hotspot-resource)
-	- [https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format](https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format)
-	- sourcepp supports `.hot` files and VTF hotspot resources
+- ~~Hotspot texturing~~
+	- ~~[https://developer.valvesoftware.com/wiki/Hotspot_texturing](https://developer.valvesoftware.com/wiki/Hotspot_texturing)~~
+	- ~~[https://github.com/koerismo/Hammer-Hotspots](https://github.com/koerismo/Hammer-Hotspots)~~
+	- ~~[https://wiki.stratasource.org/modding/formats/vtf-hotspot-resource](https://wiki.stratasource.org/modding/formats/vtf-hotspot-resource)~~
+	- ~~[https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format](https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format)~~
+	- ~~sourcepp supports `.hot` files and VTF hotspot resources~~
 
 ### Random feature highlights
 

@@ -47,6 +47,7 @@ void Select_SetFlags( const class ContentsFlagsValue& flags );
 void Select_ProjectTexture( const class texdef_t& texdef, const Vector3* direction );
 void Select_ProjectTexture( const class TextureProjection& projection, const Vector3& normal );
 void Select_FitTexture( float horizontal = 1, float vertical = 1, bool only_dimension = false );
+void Select_FitTextureHotspot( bool altGroup );
 void FindReplaceTextures( const char* pFind, const char* pReplace, bool bSelected );
 
 void Select_ShowAllHidden();

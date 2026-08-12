@@ -443,9 +443,16 @@ void SurfaceInspector_InvertTextureVertically(){
 
 
 void SurfaceInspector_FitTexture(){
-	UndoableCommand undo( "textureAutoFit" );
-	getSurfaceInspector().exportData();
-	Select_FitTexture( getSurfaceInspector().m_fitHorizontal, getSurfaceInspector().m_fitVertical );
+	auto keyboardModifiers = QGuiApplication::keyboardModifiers();
+	if (keyboardModifiers & Qt::ShiftModifier) {
+		UndoableCommand undo( "textureAutoFitHotSpot" );
+		getSurfaceInspector().exportData();
+		Select_FitTextureHotspot( keyboardModifiers & Qt::AltModifier );
+	} else {
+		UndoableCommand undo( "textureAutoFit" );
+		getSurfaceInspector().exportData();
+		Select_FitTexture( getSurfaceInspector().m_fitHorizontal, getSurfaceInspector().m_fitVertical );
+	}
 }
 
 void SurfaceInspector_FaceFitWidth(){

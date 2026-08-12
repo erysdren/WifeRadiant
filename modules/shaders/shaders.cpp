@@ -275,6 +275,7 @@ class ShaderTemplate
 {
 	std::size_t m_refcount;
 	CopiedString m_Name;
+	CopiedString m_hotSpotDefName;
 public:
 
 	ShaderParameters m_params;
@@ -323,6 +324,12 @@ public:
 		m_Name = name;
 	}
 
+	const char* getHotSpotDefName() const {
+		return m_hotSpotDefName.c_str();
+	}
+	void setHotSpotDefName( const char* name ){
+		m_hotSpotDefName = name;
+	}
 // -----------------------------------------
 
 	bool parseDoom3( Tokeniser& tokeniser );
@@ -599,6 +606,9 @@ bool ShaderTemplate::parseDoom3( Tokeniser& tokeniser ){
 			if ( string_equal_nocase( token, "qer_editorimage" ) ) {
 				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_textureName ) );
 			}
+			if ( string_equal_nocase( token, "qer_rectanglemap" ) ) {
+				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_hotSpotDefName ) );
+			}
 			else if ( string_equal_nocase( token, "qer_trans" ) ) {
 				m_fTrans = string_read_float( tokeniser.getToken() );
 				m_nFlags |= QER_TRANS;
@@ -778,6 +788,65 @@ qtexture_t* evaluateTexture( const TextureExpression& texture, const ShaderParam
 	return GlobalTexturesCache().capture( loader, result );
 }
 
+HotSpotDef* evaluateHotSpotDef( const char *textureName, const char *hotSpotDefName ){
+	ArchiveFile* f = nullptr;
+	if ( hotSpotDefName && !string_empty( hotSpotDefName ) ) {
+		f = GlobalFileSystem().openFile( hotSpotDefName );
+	}
+
+	if ( !f ) {
+		f = GlobalFileSystem().openFile( StringStream( PathCleaned( PathExtensionless( textureName ) ), ".rect" ) );
+	}
+
+	if ( !f ) {
+		return nullptr;
+	}
+
+	ScopedArchiveBuffer buffer(*f);
+	std::string_view kv1Data((char *)buffer.buffer, (char *)buffer.buffer + buffer.length);
+	kvpp::KV1 kv1(kv1Data);
+	f->release();
+
+	std::vector<HotSpotDef::Rect> rects;
+
+	for ( auto& child : kv1[0] ) {
+		if ( !child["min"] || !child["max"] ) {
+			globalErrorStream() << "rectanglemap " << Quoted( f->getName() ) << " has bad rectangle definition" << '\n';
+			return nullptr;
+		}
+		HotSpotDef::Rect rect{};
+		char *ptr = NULL;
+		rect.mins.x = std::strtoul(child["min"].getValue().data(), &ptr, 10);
+		rect.mins.y = std::strtoul(ptr, &ptr, 10);
+		rect.maxs.x = std::strtoul(child["max"].getValue().data(), &ptr, 10);
+		rect.maxs.y = std::strtoul(ptr, &ptr, 10);
+		if ( child["rotate"] && child["rotate"].getValue<bool>() ) {
+			rect.flags |= static_cast<uint8_t>(HotSpotDef::Rect::Flags::EnableRotation);
+		}
+		if ( child["reflect"] && child["reflect"].getValue<bool>() ) {
+			rect.flags |= static_cast<uint8_t>(HotSpotDef::Rect::Flags::EnableReflection);
+		}
+		if ( child["tile"] && child["tile"].getValue<bool>() ) {
+			rect.flags |= static_cast<uint8_t>(HotSpotDef::Rect::Flags::EnableTiling);
+		}
+		if ( child["alt"] && child["alt"].getValue<bool>() ) {
+			rect.flags |= static_cast<uint8_t>(HotSpotDef::Rect::Flags::AltGroup);
+		}
+		rects.push_back(rect);
+	}
+
+	if ( rects.empty() ) {
+		globalErrorStream() << "rectanglemap " << Quoted( f->getName() ) << " has no rectangle definitions" << '\n';
+		return nullptr;
+	}
+
+	HotSpotDef* hotspotDef = new HotSpotDef;
+
+	hotspotDef->rects.assign(rects.begin(), rects.end());
+
+	return hotspotDef;
+}
+
 float evaluateFloat( const ShaderValue& value, const ShaderParameters& params, const ShaderArguments& args ){
 	const char* result = evaluateShaderValue( value.c_str(), params, args );
 	float f;
@@ -848,6 +917,7 @@ class CShader final : public IShader
 	qtexture_t* m_pSpecular;
 	qtexture_t* m_pLightFalloffImage;
 	BlendFunc m_blendFunc;
+	HotSpotDef* m_hotSpotDef;
 
 	bool m_bInUse;
 
@@ -867,6 +937,7 @@ public:
 		m_pDiffuse = 0;
 		m_pBump = 0;
 		m_pSpecular = 0;
+		m_hotSpotDef = 0;
 
 		m_notfound = 0;
 
@@ -967,6 +1038,8 @@ public:
 			m_pTexture = GlobalTexturesCache().capture( LoadImageCallback( 0, loadBitmap ), name );
 		}
 
+		m_hotSpotDef = evaluateHotSpotDef( m_template.m_textureName.c_str(), m_template.getHotSpotDefName() );
+
 		realiseLighting();
 	}
 
@@ -979,6 +1052,10 @@ public:
 
 		if ( m_pSkyBox != 0 ) {
 			GlobalTexturesCache().release( m_pSkyBox );
+		}
+
+		if ( m_hotSpotDef != 0 ) {
+			delete m_hotSpotDef;
 		}
 
 		unrealiseLighting();
@@ -1112,6 +1189,10 @@ public:
 		}
 		return 0;
 	}
+
+	const HotSpotDef* getHotSpotDef() const override {
+		return m_hotSpotDef;
+	}
 };
 
 bool CShader::m_lightingEnabled = false;
@@ -1202,6 +1283,9 @@ bool ShaderTemplate::parseQuake3( Tokeniser& tokeniser ){
 			}
 			else if ( string_equal_nocase( token, "qer_editorimage" ) ) {
 				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_textureName ) );
+			}
+			else if ( string_equal_nocase( token, "qer_rectanglemap" ) ) {
+				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_hotSpotDefName ) );
 			}
 			else if ( string_equal_nocase( token, "qer_alphafunc" ) ) {
 				const char* alphafunc = tokeniser.getToken();
@@ -1533,6 +1617,11 @@ void ParseSourceShaderFile( ArchiveFile* file, const char* filename ){
 	if ( kv1[0]["$nocull"] ) {
 		shaderTemplate->m_Cull = IShader::eCullNone;
 		shaderTemplate->m_nFlags |= QER_CULL;
+	}
+
+	if ( kv1[0]["%rectanglemap"] ) {
+		std::string hotSpotDefName = std::format("materials/{}.rect", kv1[0]["%rectanglemap"].getValue());
+		shaderTemplate->setHotSpotDefName(hotSpotDefName.c_str());
 	}
 
 	g_shaderDefinitions.insert( ShaderDefinitionMap::value_type( shaderTemplate->getName(), ShaderDefinition( shaderTemplate.get(), ShaderArguments(), filename ) ) );

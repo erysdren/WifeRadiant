@@ -932,6 +932,14 @@ void Select_FitTexture( float horizontal, float vertical, bool only_dimension ){
 	SceneChangeNotify();
 }
 
+void Select_FitTextureHotspot( bool altGroup ){
+	if ( GlobalSelectionSystem().Mode() != SelectionSystem::eComponent ) {
+		Scene_BrushFitTextureHotspot_Selected( GlobalSceneGraph(), altGroup );
+	}
+	Scene_BrushFitTextureHotspot_Component_Selected( GlobalSceneGraph(), altGroup );
+	SceneChangeNotify();
+}
+
 
 #include "commands.h"
 #include "dialog.h"

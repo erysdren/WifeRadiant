@@ -6,6 +6,8 @@ LGPL - GNU Lesser General Public License v2.1
 ( see LGPL at the root of the tree )
 GPL - GNU General Public License v2
 ( see GPL at the root of the tree )
+MPL2 - Mozilla Public License Version 2.0
+( see MPL2 at the root of the tree )
 
 How do I check which license applies to a given part of the source code?
 
@@ -31,3 +33,6 @@ PrtView Plugin
 LGPL
 BobToolz Plugin
 GenSurf Plugin
+
+MPL2
+WifeRadiant Hotspot code
