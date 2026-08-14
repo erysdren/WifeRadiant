@@ -23,7 +23,6 @@
 
 
 // libs
-#include "stream/stringstream.h"  // StringBuffer & StringOutputStream
 #include "stringio.h"
 
 #include "disp.h"
@@ -34,7 +33,6 @@ class DispTokenImporter: public MapImporter {
     Disp &m_disp;
 
     inline static bool importHeader(Disp &disp, Tokeniser &tokeniser);
-    inline static bool importShader(Disp &disp, Tokeniser &tokeniser);
     inline static bool importParams(Disp &disp, Tokeniser &tokeniser);
     inline static bool importVertex(Disp &disp, Tokeniser &tokeniser);
     inline static bool importFooter(Disp &disp, Tokeniser &tokeniser);
@@ -44,7 +42,6 @@ class DispTokenImporter: public MapImporter {
 
     bool importTokens(Tokeniser &tokeniser) override {
         RETURN_FALSE_IF_FAIL(Disp_importHeader(m_disp, tokeniser));
-        RETURN_FALSE_IF_FAIL(Disp_importShader(m_disp, tokeniser));
         RETURN_FALSE_IF_FAIL(Disp_importParams(m_disp, tokeniser));
         RETURN_FALSE_IF_FAIL(Disp_importVertex(m_disp, tokeniser));
         RETURN_FALSE_IF_FAIL(Disp_importFooter(m_disp, tokeniser));
@@ -58,7 +55,6 @@ class DispTokenExporter : public MapExporter {
     const Disp &m_disp;
 
     inline static void exportHeader(Disp &disp, TokenWriter &writer);
-    inline static void exportShader(Disp &disp, TokenWriter &writer);
     inline static void exportParams(Disp &disp, TokenWriter &writer);
     inline static void exportVertex(Disp &disp, TokenWriter &writer);
     inline static void exportFooter(Disp &disp, TokenWriter &writer);
@@ -68,7 +64,6 @@ class DispTokenExporter : public MapExporter {
 
     void exportTokens(TokenWriter &writer) const override {
         exportHeader(m_disp, writer);
-        exportShader(m_disp, writer);
         exportParams(m_disp, writer);
         exportVertex(m_disp, writer);
         exportFooter(m_disp, writer);

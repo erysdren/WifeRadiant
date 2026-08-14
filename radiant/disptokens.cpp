@@ -33,21 +33,6 @@ inline bool DispTokenImporter::importHeader(Disp &disp, Tokeniser &tokeniser) {
 }
 
 
-inline bool DispTokenImporter::importShader(Disp &disp, Tokeniser &tokeniser) {
-    tokeniser.nextLine();
-    const char* texture = tokeniser.getToken();
-    if (texture == 0) {
-        Tokeniser_unexpectedError(tokeniser, texture, "#texture-name");
-        return false;
-    }
-    if (string_equal(texture, "NULL"))
-        disp.SetShader(texdef_name_default());
-    else
-        disp.SetShader(StringStream<64>(GlobalTexturePrefix_get(), texture));
-    return true;
-}
-
-
 inline bool DispTokenImporter::importParams(Disp &disp, Tokeniser &tokeniser) {
     tokeniser.nextLine();
     RETURN_FALSE_IF_FAIL(Tokeniser_getInteger(tokeniser, disp.m_power));
@@ -100,15 +85,6 @@ inline bool DispTokenImporter::importFooter(Disp &disp, Tokeniser &tokeniser) {
 
 inline void DispTokenExporter::exportHeader(const Disp &disp, TokenWriter &writer) {
     writer.writeToken("{");
-    writer.nextLine();
-}
-
-
-inline void DispTokenExporter::exportShader(const Disp &disp, TokenWriter &writer) {
-    if (*(shader_get_textureName(disp.GetShader())) == '\0')
-        writer.writeToken("NULL");
-    else
-        writer.writeToken(shader_get_textureName(patch.GetShader()));
     writer.nextLine();
 }
 
