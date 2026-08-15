@@ -1246,7 +1246,25 @@ protected:
 g_pressedKeysFilter;
 
 void EntityOutputs_AddItem(){
-
+	class EntityGetKeyValues : public SelectionSystem::Visitor
+	{
+	public:
+		mutable std::set<Entity*> m_visited;
+		EntityGetKeyValues() {}
+		void visit( scene::Instance& instance ) const override {
+			Entity* entity = Node_getEntity( instance.path().top() );
+			if ( entity == 0 && instance.path().size() != 1 ) {
+				entity = Node_getEntity( instance.path().parent() );
+			}
+			if ( entity != 0 ) {
+				m_visited.insert( entity );
+			}
+		}
+	} visitor;
+	GlobalSelectionSystem().foreachSelected( visitor );
+	for ( auto* entity : visitor.m_visited ) {
+		entity->addOutput("", "");
+	}
 }
 
 void EntityOutputs_RemoveItem(){
