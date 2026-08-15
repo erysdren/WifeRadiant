@@ -156,6 +156,24 @@ public:
 	const char* miscmodel_key() const {
 		return m_miscmodel_key.c_str();
 	}
+	bool hasInput( const char *name ) const {
+		for ( const auto& [ k, attr ] : m_inputs )
+		{
+			if ( string_equal( name, k.c_str() ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
+	bool hasOutput( const char *name ) const {
+		for ( const auto& [ k, attr ] : m_outputs )
+		{
+			if ( string_equal( name, k.c_str() ) ) {
+				return true;
+			}
+		}
+		return false;
+	}
 };
 
 inline const char* EntityClass_valueForKey( const EntityClass& entityClass, const char* key ){

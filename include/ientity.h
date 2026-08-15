@@ -67,8 +67,24 @@ public:
 		while ( *value && *value != m_separator ) delay.append( 1, *(value++) );
 		value++;
 		while ( *value && *value != m_separator ) numUses.append( 1, *(value++) );
-		if ( delay.size() ) m_delay = std::stof( delay ); else m_delay = 0;
-		if ( numUses.size() ) m_numUses = std::stoi( numUses ); else m_numUses = -1;
+		if ( !delay.empty() ) {
+			try {
+				m_delay = std::stof( delay );
+			} catch(std::invalid_argument& e) {
+				m_delay = 0;
+			}
+		} else {
+			m_delay = 0;
+		}
+		if ( !numUses.empty() ) {
+			try {
+				m_numUses = std::stoi( numUses );
+			} catch(std::invalid_argument& e) {
+				m_numUses = -1;
+			}
+		} else {
+			m_numUses = -1;
+		}
 	}
 	~EntityOutput() = default;
 	std::string key() const {

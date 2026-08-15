@@ -621,8 +621,8 @@ public:
 		}
 	}
 	void setKeyValue( const char* key, const char* value ) override {
-		if (string_equal_prefix( key, "On") ) {
-			erase( key ); // drop the legacy keyvalue
+		if ( m_eclass->hasOutput( key ) ) {
+			erase( key );
 			if ( string_empty( value ) ) {
 				for (auto it = m_outputs.begin(); it != m_outputs.end(); ) {
 					if (string_equal( it->key().c_str(), key ) ) {
