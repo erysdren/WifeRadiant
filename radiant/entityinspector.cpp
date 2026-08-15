@@ -1245,6 +1245,10 @@ protected:
 }
 g_pressedKeysFilter;
 
+void EntityOutputs_AddItem(){
+
+}
+
 void EntityOutputs_RemoveItem(){
 	auto items = g_entoutputs_store->selectedItems();
 	for (auto& _item : items) {
@@ -1486,7 +1490,6 @@ QWidget* EntityInspector_constructWindow( QWidget* toplevel ){
 
 		splitter->addWidget( tree );
 
-#if 0
 		// add/remove buttons
 		auto *parent = new QWidget;
 		auto *hbox = new QHBoxLayout(parent);
@@ -1494,15 +1497,14 @@ QWidget* EntityInspector_constructWindow( QWidget* toplevel ){
 		{
 			auto *b = new QPushButton( "Add Output" );
 			hbox->addWidget( b );
-			QObject::connect( b, &QAbstractButton::clicked, EntityInspector_clearAllKeyValues );
+			QObject::connect( b, &QAbstractButton::clicked, EntityOutputs_AddItem );
 		}
 		{
-			auto *b = new QPushButton( "Delete Selected Output" );
+			auto *b = new QPushButton( "Delete Selected Outputs" );
 			hbox->addWidget( b );
 			QObject::connect( b, &QAbstractButton::clicked, EntityOutputs_RemoveItem );
 		}
 		splitter->addWidget( parent );
-#endif
 	}
 
 	g_entityInspector_windowConstructed = true;
