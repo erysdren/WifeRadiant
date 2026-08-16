@@ -77,6 +77,7 @@ class ScriptTokeniser final : public Tokeniser
 		case ']':
 		case ',':
 		case ':':
+		case '\x1b': // for Source I/O support after they stopped using ','
 			return ( m_special ) ? eCharSpecial : eCharToken;
 		}
 

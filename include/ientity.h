@@ -22,12 +22,14 @@
 #pragma once
 
 #include <format>
+#include <sstream>
 
 #include "generic/constant.h"
 
 #include "string/string.h"
 #include "scenelib.h"
 #include "qerplugin.h"
+#include "stringio.h"
 
 class EntityClass;
 class Entity;
@@ -55,35 +57,19 @@ public:
 	}
 	EntityOutput( Entity& entity, const char* key, const char* value ) : m_entity( entity ), m_name( key ) {
 		setSeperator();
-		// FIXME: why am i doing this C-style?
-		std::string delay, numUses;
-		while ( *value && *value != m_separator ) m_target.append( 1, *(value++) );
-		value++;
-		while ( *value && *value != m_separator ) m_input.append( 1, *(value++) );
-		value++;
-		while ( *value && *value != m_separator ) m_data.append( 1, *(value++) );
-		value++;
-		while ( *value && *value != m_separator ) delay.append( 1, *(value++) );
-		value++;
-		while ( *value && *value != m_separator ) numUses.append( 1, *(value++) );
-		if ( !delay.empty() ) {
-			try {
-				m_delay = std::stof( delay );
-			} catch(std::invalid_argument& e) {
-				m_delay = 0;
-			}
-		} else {
-			m_delay = 0;
+		std::stringstream stream(value);
+		std::string segment;
+		std::vector<std::string> segments;
+		while (std::getline(stream, segment, m_separator)) {
+			segments.push_back(segment);
 		}
-		if ( !numUses.empty() ) {
-			try {
-				m_numUses = std::stoi( numUses );
-			} catch(std::invalid_argument& e) {
-				m_numUses = -1;
-			}
-		} else {
-			m_numUses = -1;
-		}
+		m_delay = 0;
+		m_numUses = -1;
+		if ( segments.size() > 0 ) m_target = segments[0];
+		if ( segments.size() > 1 ) m_input = segments[1];
+		if ( segments.size() > 2 ) m_data = segments[2];
+		if ( segments.size() > 3 ) string_parse_float( segments[3].c_str(), m_delay );
+		if ( segments.size() > 4 ) string_parse_int( segments[4].c_str(), m_numUses );
 	}
 	~EntityOutput() = default;
 	std::string key() const {
