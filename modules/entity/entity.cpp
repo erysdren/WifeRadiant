@@ -118,7 +118,9 @@ inline scene::Node& node_for_eclass( EntityClass* eclass ){
 }
 
 EntityCreator::KeyValueChangedFunc EntityKeyValues::m_entityKeyValueChanged = 0;
+EntityCreator::OutputChangedFunc EntityKeyValues::m_entityOutputChanged = 0;
 EntityCreator::KeyValueChangedFunc KeyValue::m_entityKeyValueChanged = 0;
+EntityCreator::OutputChangedFunc KeyValue::m_entityOutputChanged = 0;
 Counter* EntityKeyValues::m_counter = 0;
 
 bool g_showNames = true;
@@ -165,6 +167,9 @@ public:
 	}
 	void setKeyValueChangedFunc( KeyValueChangedFunc func ) override {
 		EntityKeyValues::setKeyValueChangedFunc( func );
+	}
+	void setOutputChangedFunc( OutputChangedFunc func ) override {
+		EntityKeyValues::setOutputChangedFunc( func );
 	}
 	void setCounter( Counter* counter ) override {
 		EntityKeyValues::setCounter( counter );

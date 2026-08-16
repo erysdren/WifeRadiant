@@ -312,6 +312,7 @@ class KeyValue final : public EntityKeyValue
 	const char* m_empty;
 	ObservedUndoableObject<CopiedString> m_undo;
 	static EntityCreator::KeyValueChangedFunc m_entityKeyValueChanged;
+	static EntityCreator::OutputChangedFunc m_entityOutputChanged;
 public:
 
 	KeyValue( const char* string, const char* empty )
@@ -324,6 +325,10 @@ public:
 
 	static void setKeyValueChangedFunc( EntityCreator::KeyValueChangedFunc func ){
 		m_entityKeyValueChanged = func;
+	}
+
+	static void setOutputChangedFunc( EntityCreator::OutputChangedFunc func ){
+		m_entityOutputChanged = func;
 	}
 
 	void IncRef(){
@@ -365,6 +370,7 @@ public:
 
 	void notify(){
 		m_entityKeyValueChanged();
+		m_entityOutputChanged();
 		KeyObservers::reverse_iterator i = m_observers.rbegin();
 		while ( i != m_observers.rend() )
 		{
@@ -395,6 +401,7 @@ public:
 	}
 private:
 	static EntityCreator::KeyValueChangedFunc m_entityKeyValueChanged;
+	static EntityCreator::OutputChangedFunc m_entityOutputChanged;
 	static Counter* m_counter;
 
 	EntityClass* m_eclass;
@@ -539,6 +546,10 @@ public:
 		m_entityKeyValueChanged = func;
 		KeyValue::setKeyValueChangedFunc( func );
 	}
+	static void setOutputChangedFunc( EntityCreator::OutputChangedFunc func ){
+		m_entityOutputChanged = func;
+		KeyValue::setOutputChangedFunc( func );
+	}
 	static void setCounter( Counter* counter ){
 		m_counter = counter;
 	}
@@ -555,6 +566,7 @@ public:
 		}
 
 		m_entityKeyValueChanged();
+		m_entityOutputChanged();
 	}
 	typedef MemberCaller<EntityKeyValues, void(const KeyValues&), &EntityKeyValues::importState> UndoImportCaller;
 
@@ -634,7 +646,7 @@ public:
 			} else {
 				addOutput( key, value );
 			}
-			m_entityKeyValueChanged();
+			m_entityOutputChanged();
 			return;
 		}
 

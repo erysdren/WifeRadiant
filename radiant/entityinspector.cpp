@@ -1128,6 +1128,9 @@ public:
 EntityInspectorDraw g_EntityInspectorDraw;
 
 
+void EntityInspector_outputChanged(){
+	g_EntityInspectorDraw.queueDraw();
+}
 void EntityInspector_keyValueChanged(){
 	g_EntityInspectorDraw.queueDraw();
 }
@@ -1531,6 +1534,7 @@ QWidget* EntityInspector_constructWindow( QWidget* toplevel ){
 	typedef FreeCaller<void(const Selectable&), EntityInspector_selectionChanged> EntityInspectorSelectionChangedCaller;
 	GlobalSelectionSystem().addSelectionChangeCallback( EntityInspectorSelectionChangedCaller() );
 	GlobalEntityCreator().setKeyValueChangedFunc( EntityInspector_keyValueChanged );
+	GlobalEntityCreator().setOutputChangedFunc( EntityInspector_outputChanged );
 
 	splitter->setChildrenCollapsible( false );
 
