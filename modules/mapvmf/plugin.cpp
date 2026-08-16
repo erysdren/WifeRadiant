@@ -31,6 +31,7 @@
 #include "ientity.h"
 #include "layers.h"
 #include "script/scripttokeniser.h"
+#include "stream/stringstream.h"
 
 #include "scenelib.h"
 #include "string/string.h"
@@ -152,23 +153,6 @@ public:
 	MapFormat* getTable(){
 		return this;
 	}
-	class MapVMFTextInputStream : public TextInputStream
-	{
-		std::string m_string;
-		std::size_t m_pos;
-	public:
-		MapVMFTextInputStream( std::string& string ) : m_string( string ), m_pos( 0 ) {
-		}
-		virtual std::size_t read( char* buffer, std::size_t length ) {
-			for ( std::size_t i = 0; i < length; i++ ) {
-				if ( m_pos >= m_string.length() ) {
-					return i;
-				}
-				buffer[i] = m_string[m_pos++];
-			}
-			return length;
-		}
-	};
 	void readGraph( scene::Node& root, TextInputStream& inputStream, EntityCreator& entityTable ) const override {
 
 		char buffer[2048];
@@ -247,7 +231,7 @@ public:
 								);
 
 								MapImporter* importer = Node_getMapImporter( solid );
-								MapVMFTextInputStream istream( faceData );
+								StringInputStream istream( faceData );
 								importer->importTokens( NewScriptTokeniser( istream ) );
 							}  else if (string_equal_nocase(solidelem.getKey().data(), "editor")) {
 								if ( solidelem.hasChild("visgroupid") ) {

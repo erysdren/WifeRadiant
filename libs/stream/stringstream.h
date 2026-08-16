@@ -164,3 +164,25 @@ StringOutputStream StringStream( Args&& ... args ){
 	( str << ... << std::forward<Args>( args ) );
 	return str;
 }
+
+/// \brief A TextInputStream which reads from a std::string.
+class StringInputStream final : public TextInputStream
+{
+	std::string m_string;
+	std::size_t m_pos;
+public:
+	StringInputStream( const std::string_view& string ) : m_string( string ), m_pos( 0 ) {}
+	StringInputStream( const std::string& string ) : m_string( string ), m_pos( 0 ) {}
+	StringInputStream( const char* string ) : m_string( string ), m_pos( 0 ) {}
+	StringInputStream( const char* start, const char* end ) : m_string( start, end ), m_pos( 0 ) {}
+	StringInputStream( const char* string, size_t len ) : m_string( string, string + len ), m_pos( 0 ) {}
+	virtual std::size_t read( char* buffer, std::size_t length ) {
+		for ( std::size_t i = 0; i < length; i++ ) {
+			if ( m_pos >= m_string.length() ) {
+				return i;
+			}
+			buffer[i] = m_string[m_pos++];
+		}
+		return length;
+	}
+};

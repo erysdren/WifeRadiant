@@ -137,24 +137,6 @@ static void addFlagsToEntity( EntityClass* entityClass, const std::vector<toolpp
 	}
 }
 
-class FGDTextInputStream : public TextInputStream
-{
-	std::string m_string;
-	std::size_t m_pos;
-public:
-	FGDTextInputStream( const std::string_view& string ) : m_string( string ), m_pos( 0 ) {
-	}
-	virtual std::size_t read( char* buffer, std::size_t length ) {
-		for ( std::size_t i = 0; i < length; i++ ) {
-			if ( m_pos >= m_string.length() ) {
-				return i;
-			}
-			buffer[i] = m_string[m_pos++];
-		}
-		return length;
-	}
-};
-
 static void addColorToEntity( EntityClass* entityClass, const toolpp::FGD::Entity& entity ) {
 	if ( entityClass->colorSpecified ) {
 		return;
@@ -174,7 +156,7 @@ static void addSizeToEntity( EntityClass* entityClass, const toolpp::FGD::Entity
 		return;
 	}
 	if ( auto sizeProperty = findClassProperty( entity, "size" ); sizeProperty != entity.classProperties.end() ) {
-		FGDTextInputStream istream( (*sizeProperty).arguments );
+		StringInputStream istream( (*sizeProperty).arguments );
 		Tokeniser& tokeniser = GlobalScriptLibrary().m_pfnNewScriptTokeniser( istream );
 
 		Tokeniser_getFloat(tokeniser, entityClass->mins.x());
@@ -210,7 +192,7 @@ static void addModelToEntity( EntityClass* entityClass, const toolpp::FGD::Entit
 	}
 	if ( auto studioProperty = findClassProperty( entity, "studio" ); studioProperty != entity.classProperties.end() ) {
 		if ( !(*studioProperty).arguments.empty() ) {
-			FGDTextInputStream istream( (*studioProperty).arguments );
+			StringInputStream istream( (*studioProperty).arguments );
 			Tokeniser& tokeniser = GlobalScriptLibrary().m_pfnNewScriptTokeniser( istream );
 			auto modelNameCleaned = StringStream<64>( PathCleaned( tokeniser.getToken() ) );
 			entityClass->m_modelpath = string_to_lowercase( modelNameCleaned.c_str() );
@@ -230,7 +212,7 @@ static void addMiscToEntity( EntityClass* entityClass, const toolpp::FGD::Entity
 
 static void addBaseAttributes( EntityClass* entityClass, const std::unordered_map<std::string_view, toolpp::FGD::Entity>& entities, const toolpp::FGD::Entity& entity ) {
 	if ( auto baseProperty = findClassProperty( entity, "base" ); baseProperty != entity.classProperties.end() ) {
-		FGDTextInputStream istream( (*baseProperty).arguments );
+		StringInputStream istream( (*baseProperty).arguments );
 		Tokeniser& tokeniser = GlobalScriptLibrary().m_pfnNewScriptTokeniser( istream );
 		while ( const char *baseClassName = tokeniser.getToken() ) {
 			if ( string_equal( baseClassName, "," ) ) {
