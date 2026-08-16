@@ -42,20 +42,19 @@ class EntityOutput
 	float m_delay;
 	int m_numUses;
 	char m_separator;
-public:
-	EntityOutput( Entity& entity, const char* name, const char* target, const char* input, const char* data = "", float delay = 0, int numUses = -1 ) : m_entity( entity ), m_name( name ), m_target( target ), m_input( input ), m_data( data ), m_delay( delay ), m_numUses( numUses ) {
+	void setSeperator() {
 		if ( string_equal( GlobalRadiant().getGameDescriptionKeyValue( "use_new_output_separator" ), "1" ) ) {
 			m_separator = '\x1b';
 		} else {
 			m_separator = ',';
 		}
 	}
+public:
+	EntityOutput( Entity& entity, const char* name, const char* target, const char* input, const char* data = "", float delay = 0, int numUses = -1 ) : m_entity( entity ), m_name( name ), m_target( target ), m_input( input ), m_data( data ), m_delay( delay ), m_numUses( numUses ) {
+		setSeperator();
+	}
 	EntityOutput( Entity& entity, const char* key, const char* value ) : m_entity( entity ), m_name( key ) {
-		if ( string_equal( GlobalRadiant().getGameDescriptionKeyValue( "use_new_output_separator" ), "1" ) ) {
-			m_separator = '\x1b';
-		} else {
-			m_separator = ',';
-		}
+		setSeperator();
 		// FIXME: why am i doing this C-style?
 		std::string delay, numUses;
 		while ( *value && *value != m_separator ) m_target.append( 1, *(value++) );
