@@ -94,7 +94,7 @@ public:
 				if ( !std::filesystem::is_directory( entry.path() ) ) {
 					visitor.file( path_make_relative( reinterpret_cast<char const*>(entry.path().generic_u8string().c_str()), m_root.c_str() ) );
 				} else {
-					if ( visitor.directory( path_make_relative( reinterpret_cast<char const*>(entry.path().generic_u8string().c_str()), m_root.c_str() ), directory.depth() ) ) {
+					if ( !visitor.directory( path_make_relative( reinterpret_cast<char const*>(entry.path().generic_u8string().c_str()), m_root.c_str() ), directory.depth() ) ) {
 						directory.disable_recursion_pending();
 					}
 				}

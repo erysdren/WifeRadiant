@@ -56,7 +56,7 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 - Load VMT materials
 	- ~~FIXME: Doesn't prioritize loading the `%tooltexture` VTF before `$basetexture`.~~
 - Load VTF textures
-	- FIXME: something's wrong with the code somewhere and it can't load **loose** VTFs. need to fix.
+	- ~~FIXME: something's wrong with the code somewhere and it can't load **loose** VTFs. need to fix.~~
 - Load files from VPKs, GMAs and GCFs
 	- FIXME: Doesn't support "old style" VPK layouts, like from Source SDK 2006.
 	- ~~TODO: Support VTMB VPKs. They can already be loaded by sourcepp, but my code assumes that the filenames end with `_dir.vpk`, which the VTMB ones don't.~~
