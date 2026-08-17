@@ -2,18 +2,18 @@
 # qdata3
 
 add_executable(qdata3
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/bspfile.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/cmdlib.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/inout.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/l3dslib.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/lbmlib.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/mathlib.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/md4.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/path_init.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/polylib.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/scriplib.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/threads.cpp
-		${PROJECT_SOURCE_DIR}/tools/quake2/common/trilib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/bspfile.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/cmdlib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/inout.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/l3dslib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/lbmlib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/mathlib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/md4.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/path_init.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/polylib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/scriplib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/threads.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/trilib.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake2/qdata/images.c
 	${PROJECT_SOURCE_DIR}/tools/quake2/qdata/models.c
 	${PROJECT_SOURCE_DIR}/tools/quake2/qdata/qdata.c
