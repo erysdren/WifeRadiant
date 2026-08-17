@@ -59,7 +59,7 @@ add_executable(q3map2
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
 )
 target_link_libraries(q3map2 PRIVATE l_net filematch ddslib etclib crnlib webplib)
-target_link_libraries(q3map2 PRIVATE LibXml2::LibXml2)
+target_link_libraries(q3map2 PRIVATE pugixml::pugixml)
 target_link_libraries(q3map2 PRIVATE assimp $<$<BOOL:${WIN32}>:ws2_32>)
 target_include_directories(q3map2 PRIVATE
 	${PROJECT_SOURCE_DIR}/include

@@ -63,17 +63,25 @@ endif()
 
 find_package(ZLIB REQUIRED)
 
-find_package(LibXml2)
-if(NOT LibXml2_FOUND)
-	FetchContent_Declare(
-		libxml2
-		GIT_REPOSITORY https://gitlab.gnome.org/GNOME/libxml2.git
-		GIT_TAG "v2.15.1"
-		EXCLUDE_FROM_ALL
-	)
-	set(LIBXML2_WITH_ICONV OFF CACHE BOOL "" FORCE)
-	FetchContent_MakeAvailable(libxml2)
-endif()
+# find_package(LibXml2)
+# if(NOT LibXml2_FOUND)
+# 	 FetchContent_Declare(
+# 		 libxml2
+# 		 GIT_REPOSITORY https://gitlab.gnome.org/GNOME/libxml2.git
+# 		 GIT_TAG "v2.15.1"
+# 	   	 EXCLUDE_FROM_ALL
+# 	 )
+# 	 set(LIBXML2_WITH_ICONV OFF CACHE BOOL "" FORCE)
+#  	 FetchContent_MakeAvailable(libxml2)
+# endif()
+
+FetchContent_Declare(
+	pugixml
+	GIT_REPOSITORY https://github.com/zeux/pugixml.git
+	GIT_TAG "v1.16"
+	EXCLUDE_FROM_ALL
+)
+FetchContent_MakeAvailable(pugixml)
 
 if(RADIANT_USE_ASSIMP)
 	FetchContent_Declare(
@@ -167,23 +175,6 @@ target_include_directories(l_net PRIVATE
 	${PROJECT_SOURCE_DIR}/libs/l_net
 	${PROJECT_SOURCE_DIR}/libs
 )
-
-# xmllib
-
-add_library(xmllib STATIC
-	${PROJECT_SOURCE_DIR}/libs/xml/ixml.cpp
-	${PROJECT_SOURCE_DIR}/libs/xml/xmlelement.cpp
-	${PROJECT_SOURCE_DIR}/libs/xml/xmlparser.cpp
-	${PROJECT_SOURCE_DIR}/libs/xml/xmltextags.cpp
-	${PROJECT_SOURCE_DIR}/libs/xml/xmlwriter.cpp
-)
-
-target_include_directories(xmllib PRIVATE
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/libs
-)
-
-target_link_libraries(xmllib PRIVATE LibXml2::LibXml2)
 
 # quickhull
 
@@ -386,8 +377,8 @@ target_include_directories(radiant PRIVATE
 )
 
 target_link_libraries(radiant PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
-target_link_libraries(radiant PRIVATE LibXml2::LibXml2)
-target_link_libraries(radiant PRIVATE commandlib gtkutil l_net xmllib quickhull)
+target_link_libraries(radiant PRIVATE pugixml::pugixml)
+target_link_libraries(radiant PRIVATE commandlib gtkutil l_net quickhull)
 target_link_libraries(radiant PRIVATE $<$<BOOL:${RADIANT_SUPPORT_SOURCE}>:sourcepp::toolpp>)
 target_link_libraries(radiant PRIVATE $<$<BOOL:${WIN32}>:ws2_32> $<$<BOOL:${WIN32}>:dbghelp>)
 target_link_libraries(radiant PRIVATE $<$<PLATFORM_ID:Haiku>:network>)
@@ -408,7 +399,6 @@ target_compile_definitions(radiant PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<B
 target_compile_definitions(commandlib PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
 target_compile_definitions(gtkutil PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
 target_compile_definitions(l_net PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-target_compile_definitions(xmllib PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
 
 set_target_properties(radiant
 	PROPERTIES
