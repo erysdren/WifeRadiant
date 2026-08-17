@@ -80,31 +80,28 @@ void xml_SendNode( pugi::xml_node node ){
 	// this index loops through the node buffer
 	int pos = 0;
 
-	// xmlAddChild( doc->children, node );
 	doc->append_copy(node);
 
 	if ( brdcst_socket ) {
-		// xml_buf = xmlBufferCreate();
-		// xmlNodeDump( xml_buf, doc, node, 0, 0 );
 		doc->save( xml_stream );
 
 		// the XML node might be too big to fit in a single network message
 		// l_net library defines an upper limit of MAX_NETMESSAGE
 		// there are some size check errors, so we use MAX_NETMESSAGE-10 to be safe
 		// if the size of the buffer exceeds MAX_NETMESSAGE-10 we'll send in several network message
-		xml_stream.seekg(0, std::ios::end);
+		xml_stream.seekg( 0, std::ios::end );
 		while ( xml_stream.tellg() > 0 )
 		{
-			xml_stream.seekg(pos, std::ios::beg);
+			xml_stream.seekg( pos, std::ios::beg );
 			auto size = ( xml_stream.tellg() > MAX_NETMESSAGE - 10 ) ? static_cast<int>(xml_stream.tellg()) : MAX_NETMESSAGE - 10;
-			xml_stream.readsome(xmlbuf, size);
+			xml_stream.readsome( xmlbuf, size );
 
 			NMSG_Clear( &msg );
 			NMSG_WriteString( &msg, xmlbuf );
 			Net_Send( brdcst_socket, &msg );
 
 			pos += size;
-			xml_stream.seekg(0, std::ios::end);
+			xml_stream.seekg( 0, std::ios::end );
 		}
 	}
 }
@@ -124,7 +121,6 @@ void xml_Select( char *msg, int entitynum, int brushnum, qboolean bError ){
 
 	sprintf( buf, "%i %i", entitynum, brushnum );
 	pugi::xml_node select = node->append_child( "brush" );
-	select.set_name( "brush" );
 	select.set_value( buf );
 
 	xml_SendNode( *node );
@@ -136,7 +132,6 @@ void xml_Select( char *msg, int entitynum, int brushnum, qboolean bError ){
 	else{
 		Sys_FPrintf( SYS_NOXML, "%s\n", buf );
 	}
-
 }
 
 void xml_Point( char *msg, vec3_t pt ){
@@ -157,7 +152,7 @@ void xml_Point( char *msg, vec3_t pt ){
 
 	xml_SendNode( *node );
 
-	sprintf( buf, "%s (%g %g %g)", msg, pt[0], pt[1], pt[2] );
+	snprintf( buf, sizeof(buf), "%s (%g %g %g)", msg, pt[0], pt[1], pt[2] );
 	Error( buf );
 }
 
