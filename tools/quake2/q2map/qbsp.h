@@ -45,6 +45,7 @@
 #include "q2_threads.h"
 #include "bspfile.h"
 #include "inout.h"
+#include "pugixml.hpp"
 
 #ifdef _MSC_VER
 	#ifdef NDEBUG                           // Don't show in a Release build
@@ -337,7 +338,7 @@ void WriteGLView( tree_t *tree, char *source );
 // leakfile.c
 
 //void LeakFile (tree_t *tree);
-xmlNodePtr LeakFile( tree_t *tree );
+pugi::xml_node* LeakFile( tree_t *tree );
 
 //=============================================================================
 
