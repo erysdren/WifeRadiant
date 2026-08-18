@@ -113,6 +113,7 @@
 #include "renderstate.h"
 #include "feedback.h"
 #include "referencecache.h"
+#include "prefabs.h"
 
 #include "colors.h"
 #include "tools.h"
@@ -1182,6 +1183,17 @@ void create_misc_menu( QMenuBar *menubar ){
 	create_menu_item_with_mnemonic( menu, "Maximize view", "MaximizeView" );
 }
 
+void create_prefab_menu( QMenuBar *menubar ){
+	// Prefabs menu
+	QMenu *menu = menubar->addMenu( "&Prefabs" );
+
+	menu->setTearOffEnabled( g_Layout_enableDetachableMenus.m_value );
+
+	create_menu_item_with_mnemonic( menu, "Browse...", "PrefabMenuOpen" );
+
+	g_prefab_menu = menu;
+}
+
 void create_entity_menu( QMenuBar *menubar ){
 	// Entity menu
 	QMenu *menu = menubar->addMenu( "E&ntity" );
@@ -1236,6 +1248,7 @@ void create_main_menu( QMenuBar *menubar, MainFrame::EViewStyle style ){
 	create_misc_menu( menubar );
 	create_entity_menu( menubar );
 	create_brush_menu( menubar );
+	create_prefab_menu( menubar );
 	if ( !string_equal( g_pGameDescription->getKeyValue( "no_patch" ), "1" ) )
 		create_patch_menu( menubar );
 	if ( !string_equal( g_pGameDescription->getKeyValue( "no_plugins" ), "1" ) )
@@ -2087,6 +2100,8 @@ void MainFrame_Construct(){
 
 	GlobalCommands_insert( "BuildMenuCustomize", makeCallbackF( DoBuildMenu ) );
 	GlobalCommands_insert( "Build_runRecentExecutedBuild", makeCallbackF( Build_runRecentExecutedBuild ), QKeySequence( "F5" ) );
+
+	GlobalCommands_insert( "PrefabMenuOpen", makeCallbackF( DoPrefabMenu ) );
 
 	GlobalCommands_insert( "OpenGLFont", makeCallbackF( OpenGLFont_select ) );
 
