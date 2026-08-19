@@ -39,6 +39,8 @@
 #include "stream/textfilestream.h"
 #include "math/vector.h"
 
+#include "entityinspector.h"
+
 #include <toolpp/toolpp.h>
 
 typedef std::map<const char*, EntityClass*, RawStringLessNoCase> EntityClasses;
@@ -124,15 +126,19 @@ static void addFieldsToEntity( EntityClass* entityClass, const std::vector<toolp
 
 static void addFlagsToEntity( EntityClass* entityClass, const std::vector<toolpp::FGD::Entity::FieldFlags>& fields ) {
 	for ( const auto& field : fields ) {
+		std::string name = field.name.data();
+		entityClass->flags[name].displayName = field.displayName;
 		for ( const auto& flag : field.flags ) {
+			if ( flag.value <= 0) {
+				continue;
+			}
 			const size_t bit = std::log2( flag.value );
-			// ASSERT_MESSAGE( bit < MAX_FLAGS, "invalid flag bit" );
-			// ASSERT_MESSAGE( entityClass->flagNames[bit].empty(), "non-unique flag bit" );
-			entityClass->flagNames[bit] = flag.displayName;
-			EntityClassAttribute *attribute = &EntityClass_insertAttribute( *entityClass, field.name.data(), EntityClassAttribute( "flag", field.name.data() ) ).second;
-			entityClass->flagAttributes[bit] = attribute;
-			attribute->m_displayName = field.displayName;
-			attribute->m_description = field.description;
+			EntityClassAttribute *attribute = &EntityClass_insertAttribute( *entityClass, name.c_str(), EntityClassAttribute( "flag", name.c_str() ) ).second;
+			attribute->m_displayName = flag.displayName;
+			attribute->m_description = flag.description;
+			entityClass->flags[name].flags[bit].displayName = flag.displayName;
+			entityClass->flags[name].flags[bit].attribute = attribute;
+			g_entityFlagFields[name] += 1;
 		}
 	}
 }
@@ -244,6 +250,8 @@ void Eclass_ScanFile_fgd( EntityClassCollector& collector, const char *filename 
 	for ( const auto& dir : materialExclusionDirs ) {
 		g_ShaderExclusionDirs.push_back(std::string{dir});
 	}
+
+	g_entityFlagFields.clear();
 
 	const auto& entities = fgd.getEntities();
 
