@@ -69,6 +69,7 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 	- ~~FIXME: Doesn't load choice/list keyvalues.~~
 	- ~~FIXME: Doesn't write default keyvalues to the saved map, like Hammer does.~~
 	- ~~FIXME: Discards Source Entity I/O keys.~~
+	- FIXME: Duplicates keys and choices in some cases.
 
 ### Can't Do (yet):
 
