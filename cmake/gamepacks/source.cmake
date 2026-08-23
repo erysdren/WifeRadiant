@@ -7,13 +7,10 @@ radiant_add_gamepack(css
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
-	HAS_BASEGAME
-	BASE_TITLE "Half-Life 2"
-	BASE_GAMEDIR "hl2"
 	TITLE "Counter-Strike: Source"
-	KNOWN_GAMEDIRS "cstrike"
-	KNOWN_TITLES "Counter-Strike: Source"
+	GAMEDIR "cstrike"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Counter-Strike Source/"
 	PATH_LINUX "~/.steam/steam/steamapps/common/Counter-Strike Source/"
 	EXECUTABLE_WIN32 "cstrike.exe"
@@ -46,6 +43,7 @@ radiant_add_gamepack(diprip
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Source SDK Base 2007"
@@ -85,13 +83,10 @@ radiant_add_gamepack(dods
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
-	HAS_BASEGAME
-	BASE_TITLE "Half-Life 2"
-	BASE_GAMEDIR "hl2"
 	TITLE "Day of Defeat: Source"
-	KNOWN_GAMEDIRS "dod"
-	KNOWN_TITLES "Day of Defeat: Source"
+	GAMEDIR "dod"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Day of Defeat Source/"
 	PATH_LINUX "~/.steam/steam/steamapps/common/Day of Defeat Source/"
 	EXECUTABLE_WIN32 "dod.exe"
@@ -124,13 +119,10 @@ radiant_add_gamepack(garrysmod
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
-	HAS_BASEGAME
-	BASE_TITLE "Source Engine Base Content"
-	BASE_GAMEDIR "sourceengine"
 	TITLE "Garry's Mod"
-	KNOWN_GAMEDIRS "garrysmod"
-	KNOWN_TITLES "Garry's Mod"
+	GAMEDIR "garrysmod"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/GarrysMod/"
 	PATH_LINUX "~/.steam/steam/steamapps/common/GarrysMod/"
 	EXECUTABLE_WIN32 "hl2.exe"
@@ -163,6 +155,7 @@ radiant_add_gamepack(hl2
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
 	TITLE "Half-Life 2"
 	GAMEDIR "hl2"
@@ -198,13 +191,10 @@ radiant_add_gamepack(episodic
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
-	HAS_BASEGAME
-	BASE_TITLE "Half-Life 2"
-	BASE_GAMEDIR "hl2"
 	TITLE "Half-Life 2: Episode One"
-	KNOWN_GAMEDIRS "episodic"
-	KNOWN_TITLES "Half-Life 2: Episode One"
+	GAMEDIR "episodic"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Half-Life 2/"
 	PATH_LINUX "~/.steam/steam/steamapps/common/Half-Life 2/"
 	EXECUTABLE_WIN32 "hl2.exe"
@@ -237,13 +227,10 @@ radiant_add_gamepack(ep2
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
-	HAS_BASEGAME
-	BASE_TITLE "Half-Life 2"
-	BASE_GAMEDIR "hl2"
 	TITLE "Half-Life 2: Episode Two"
-	KNOWN_GAMEDIRS "ep2"
-	KNOWN_TITLES "Half-Life 2: Episode Two"
+	GAMEDIR "ep2"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Half-Life 2/"
 	PATH_LINUX "~/.steam/steam/steamapps/common/Half-Life 2/"
 	EXECUTABLE_WIN32 "hl2.exe"
@@ -276,13 +263,10 @@ radiant_add_gamepack(lostcoast
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
-	HAS_BASEGAME
-	BASE_TITLE "Half-Life 2"
-	BASE_GAMEDIR "hl2"
 	TITLE "Half-Life 2: Lost Coast"
-	KNOWN_GAMEDIRS "lostcoast"
-	KNOWN_TITLES "Half-Life 2: Lost Coast"
+	GAMEDIR "lostcoast"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Half-Life 2/"
 	PATH_LINUX "~/.steam/steam/steamapps/common/Half-Life 2/"
 	EXECUTABLE_WIN32 "hl2.exe"
@@ -315,13 +299,10 @@ radiant_add_gamepack(hl2mp
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
-	HAS_BASEGAME
-	BASE_TITLE "Half-Life 2"
-	BASE_GAMEDIR "hl2"
 	TITLE "Half-Life 2: Deathmatch"
-	KNOWN_GAMEDIRS "hl2mp"
-	KNOWN_TITLES "Half-Life 2: Deathmatch"
+	GAMEDIR "hl2mp"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Half-Life 2 Deathmatch/"
 	PATH_LINUX "~/.steam/steam/steamapps/common/Half-Life 2 Deathmatch/"
 	EXECUTABLE_WIN32 "hl2mp.exe"
@@ -354,13 +335,10 @@ radiant_add_gamepack(portal
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
-	HAS_BASEGAME
-	BASE_TITLE "Half-Life 2"
-	BASE_GAMEDIR "hl2"
 	TITLE "Portal"
-	KNOWN_GAMEDIRS "portal"
-	KNOWN_TITLES "Portal"
+	GAMEDIR "portal"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Portal/"
 	PATH_LINUX "~/.steam/steam/steamapps/common/Portal/"
 	EXECUTABLE_WIN32 "hl2.exe"
@@ -393,6 +371,7 @@ radiant_add_gamepack(portal2
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
 	USE_NEW_OUTPUT_SEPARATOR
 	TITLE "Portal 2"
@@ -429,6 +408,7 @@ radiant_add_gamepack(sinepisodes
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "SiN Episodes: Emergence Base Content"
@@ -468,13 +448,10 @@ radiant_add_gamepack(tf2
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
-	HAS_BASEGAME
-	BASE_TITLE "Half-Life 2"
-	BASE_GAMEDIR "hl2"
 	TITLE "Team Fortress 2"
-	KNOWN_GAMEDIRS "tf"
-	KNOWN_TITLES "Team Fortress 2"
+	GAMEDIR "tf"
 	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Team Fortress 2/"
 	PATH_LINUX "~/.steam/steam/steamapps/common/Team Fortress 2/"
 	EXECUTABLE_WIN32 "tf.exe"
@@ -507,6 +484,7 @@ radiant_add_gamepack(vampire
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
+	READ_GAMEINFO_TXT
 	GAME_TYPE "source"
 	HAS_BASEGAME
 	BASE_TITLE "Vampire: The Masquerade - Bloodlines"
