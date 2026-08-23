@@ -57,6 +57,8 @@
 #include "watchbsp.h"
 #include "autosave.h"
 
+#include "os/dir.h"
+
 #include <fstream>
 #include <kvpp/kvpp.h>
 
@@ -121,35 +123,46 @@ void QE_InitVFS(){
 						paths.clear();
 						for ( const auto& SearchPath : SearchPaths ) {
 							// resolve path
-							auto resolvePath = [&globalRoot, &gamename](std::string_view path){
+							auto resolvePaths = [&globalRoot, &gamename](std::string_view path){
 								const char* ptr = path.data();
-								std::string resolvedPath = "";
+								std::vector<std::string> resolvedPaths;
+								std::string tempPath;
 								if ( string_equal_suffix_nocase( ptr, ".vpk" ) ) {
 									// FIXME: mount VPKs directly
-								} else if ( string_equal_suffix_nocase( ptr, "*" ) ) {
-									// FIXME: mount recursively with asterisk
 								} else if ( string_equal_prefix_nocase( ptr, "|all_source_engine_paths|" ) ) {
 									ptr += string_length("|all_source_engine_paths|");
-									resolvedPath = std::format("{}{}", globalRoot, ptr);
+									tempPath = std::format("{}{}", globalRoot, ptr);
 								} else if( string_equal_prefix_nocase( ptr, "|gameinfo_path|" ) ) {
 									ptr += string_length("|gameinfo_path|");
-									if ( !string_equal_suffix_nocase( ptr, "." ) ) {
-										resolvedPath = std::format("{}{}/{}", globalRoot, gamename, ptr);
-									} else {
-										resolvedPath = std::format("{}{}", globalRoot, gamename);
-									}
+									tempPath = std::format("{}{}/{}", globalRoot, gamename, ptr);
 								} else {
-									resolvedPath = std::format("{}{}", globalRoot, ptr);
+									tempPath = std::format("{}{}", globalRoot, ptr);
 								}
-								return resolvedPath;
+								if ( string_equal_suffix_nocase( tempPath.c_str(), "*" ) ) {
+									tempPath.pop_back();
+									Directory_forEach(tempPath.c_str(), [&resolvedPaths, &tempPath](const char* path){
+										std::string resolvedPath = std::format("{}{}", tempPath, path);
+										if ( std::filesystem::is_directory( resolvedPath ) ) {
+											resolvedPaths.push_back(resolvedPath.c_str());
+										}
+									});
+								} else {
+									if ( string_equal_suffix_nocase( tempPath.c_str(), "." ) ) {
+										tempPath.pop_back();
+									}
+									resolvedPaths.push_back(tempPath);
+								}
+								return resolvedPaths;
 							};
-							std::string resolvedPath = resolvePath( SearchPath.getValue() );
+							auto resolvedPaths = resolvePaths( SearchPath.getValue() );
 							// tokenize key
 							StringTokeniser tokeniser( SearchPath.getKey().data(), "+" );
 							const char* token = tokeniser.getToken();
-							while ( !resolvedPath.empty() && !string_empty( token ) ) {
+							while ( !resolvedPaths.empty() && !string_empty( token ) ) {
 								if ( string_equal_nocase( token, "game" ) || string_equal_nocase( token, "mod" ) || string_equal_nocase( token, "platform" ) ) {
-									paths_push( resolvedPath.c_str() );
+									for ( auto& resolvedPath : resolvedPaths ) {
+										paths_push( resolvedPath.c_str() );
+									}
 									break;
 								}
 								token = tokeniser.getToken();
