@@ -445,6 +445,8 @@ public:
 			// FIXME: this sucks and could surely be done better.
 			MapVMFTokenWriter writer;
 			exporter->exportTokens( writer );
+			// TODO: split off .map side line -> vmf node into a function
+			// -- replace with a dispdef check that switches between side & dispdef processing
 			writer.forEachLine( m_childID, solid, [](int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side){
 				double points[3][3];
 				char material[128];

@@ -531,6 +531,9 @@ public:
 				{
 					Valve220FaceTokenImporter<true> importer( face );
 					RETURN_FALSE_IF_FAIL( importer.importTokens( tokeniser ) );
+					// check next line for dispDef
+					// link to face if it exists
+					// otherwise ungetToken, hopefully nextline won't break things
 				}
 				break;
 			case eBrushTypeValve220:
