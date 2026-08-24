@@ -29,6 +29,8 @@
 #include "modulesystem/moduleregistry.h"
 #include "os/path.h"
 
+#include "entityinspector.h"
+
 const char* EClass_GetExtension(){
 	return "def";
 }
@@ -260,7 +262,8 @@ EntityClass *Eclass_InitFromText( const char *text ){
 			 || string_equal_prefix_nocase( Get_COM_Token(), "unused" ) ){
 				continue;
 			}
-			e->flagNames[i] = Get_COM_Token();
+			e->flags["spawnflags"].flags[i].displayName = Get_COM_Token();
+			g_entityFlagFields["spawnflags"] += 1;
 		}
 	}
 
@@ -284,6 +287,8 @@ EntityClass *Eclass_InitFromText( const char *text ){
 
 void Eclass_ScanFile( EntityClassCollector& collector, const char *filename ){
 	EntityClass *e;
+
+	g_entityFlagFields.clear();
 
 	TextFileInputStream inputFile( filename );
 	if ( inputFile.failed() ) {

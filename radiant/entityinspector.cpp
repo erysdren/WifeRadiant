@@ -40,6 +40,7 @@
 #include <QVBoxLayout>
 #include <QHBoxLayout>
 #include <QGridLayout>
+#include <QGroupBox>
 #include <QScrollArea>
 #include <QCheckBox>
 #include "gtkutil/lineedit.h"
@@ -717,6 +718,9 @@ public:
 	typedef MemberCaller<ListAttribute, void(), &ListAttribute::update> UpdateCaller;
 };
 
+// filled up by the eclass loaders
+// the size_t is just the number of times a field is used, and doesn't matter
+std::unordered_map<std::string, size_t> g_entityFlagFields;
 
 namespace
 {
@@ -725,7 +729,19 @@ bool g_entityInspector_windowConstructed = false;
 QTreeWidget* g_entityClassList;
 QPlainTextEdit* g_entityClassComment;
 
-QCheckBox* g_entitySpawnflagsCheck[MAX_FLAGS];
+struct EntityFlags {
+	std::string displayName;
+	std::array<QCheckBox*, MAX_FLAGS> checkBoxes;
+	QGroupBox* groupBox = nullptr;
+	// table: index, match spawnflag item to the spawnflag index (i.e. which bit)
+	int numFlags = 0;
+	std::array<int, MAX_FLAGS> flagTable;
+	// false if not used in the currently selected eclass
+	bool active = false;
+};
+
+// map flags field to EntityFlags class
+std::unordered_map<std::string, EntityFlags> g_entityFlags;
 
 QLineEdit* g_entityKeyEntry;
 QLineEdit* g_entityValueEntry;
@@ -737,14 +753,6 @@ QTreeWidget* g_entoutputs_store;
 const EntityClass* g_current_flags = 0;
 const EntityClass* g_current_comment = 0;
 const EntityClass* g_current_attributes = 0;
-
-// the number of active spawnflags
-int g_spawnflag_count;
-// table: index, match spawnflag item to the spawnflag index (i.e. which bit)
-int spawn_table[MAX_FLAGS];
-// we change the layout depending on how many spawn flags we need to display
-// the table is a 4x4 in which we need to put the comment box g_entityClassComment and the spawn flags..
-QGridLayout* g_spawnflagsTable;
 
 QGridLayout* g_attributeBox = nullptr;
 typedef std::vector<EntityAttribute*> EntityAttributes;
@@ -916,26 +924,33 @@ void SpawnFlags_setEntityClass( EntityClass* eclass ){
 
 	g_current_flags = eclass;
 
-	g_spawnflag_count = 0;
-
-	// do a first pass to count the spawn flags, don't touch the widgets, we don't know in what state they are
-	for ( int i = 0; i < MAX_FLAGS; ++i )
-	{
-		if ( !eclass->flagNames[i].empty() ) {
-			spawn_table[g_spawnflag_count++] = i;
+	// count up and display flag fields
+	for ( const auto& [key, value] : eclass->flags ) {
+		if ( !value.displayName.empty() ) {
+			g_entityFlags[key].displayName = value.displayName;
+		} else {
+			g_entityFlags[key].displayName = key;
 		}
-		// hide all boxes
-		g_entitySpawnflagsCheck[i]->hide();
-	}
-
-	for ( int i = 0; i < g_spawnflag_count; ++i )
-	{
-		QCheckBox *check = g_entitySpawnflagsCheck[i];
-		check->setText( eclass->flagNames[spawn_table[i]].c_str() );
-		check->show();
-
-		if( const EntityClassAttribute* attribute = eclass->flagAttributes[spawn_table[i]] ){
-			EntityAttribute_setTooltip( check, attribute->m_name.c_str(), attribute->m_description.c_str() );
+		g_entityFlags[key].numFlags = 0;
+		for ( int i = 0; i < MAX_FLAGS; i++ ) {
+			if ( !value.flags[i].displayName.empty() ) {
+				g_entityFlags[key].flagTable[g_entityFlags[key].numFlags] = i;
+				// set display text
+				g_entityFlags[key].checkBoxes[g_entityFlags[key].numFlags]->setText( value.flags[i].displayName.c_str() );
+				// set tooltip
+				if (value.flags[i].attribute) {
+					EntityAttribute_setTooltip( g_entityFlags[key].checkBoxes[g_entityFlags[key].numFlags], value.flags[i].attribute->m_name.c_str(), value.flags[i].attribute->m_description.c_str() );
+				}
+				g_entityFlags[key].checkBoxes[g_entityFlags[key].numFlags]->show();
+				g_entityFlags[key].numFlags++;
+			}
+		}
+		if (g_entityFlags[key].numFlags > 0) {
+			g_entityFlags[key].groupBox->setTitle(g_entityFlags[key].displayName.c_str());
+			g_entityFlags[key].groupBox->show();
+			g_entityFlags[key].active = true;
+		} else {
+			g_entityFlags[key].active = false;
 		}
 	}
 }
@@ -1034,35 +1049,40 @@ void EntityInspector_setEntityClass( EntityClass *eclass ){
 }
 
 void EntityInspector_updateSpawnflags(){
-	{
-		const int f = atoi( SelectedEntity_getValueForKey( "spawnflags" ) );
-		for ( int i = 0; i < g_spawnflag_count; ++i )
-		{
-			const bool v = !!( f & ( 1 << spawn_table[i] ) );
-
-			g_entitySpawnflagsCheck[i]->setChecked( v );
+	for ( const auto& [key, value] : g_entityFlags ) {
+		if (!value.active) {
+			continue;
+		}
+		const int f = atoi( SelectedEntity_getValueForKey( key.c_str() ) );
+		for ( int i = 0; i < value.numFlags; i++ ) {
+			const bool v = !!( f & ( 1 << value.flagTable[i] ) );
+			value.checkBoxes[i]->setChecked( v );
 		}
 	}
 }
 
 void EntityInspector_applySpawnflags(){
-	int f = 0;
+	for ( const auto& [key, value] : g_entityFlags ) {
+		if (!value.active) {
+			continue;
+		}
 
-	for ( int i = 0; i < g_spawnflag_count; ++i )
-	{
-		const int v = g_entitySpawnflagsCheck[i]->isChecked();
-		f |= v << spawn_table[i];
-	}
+		int f = 0;
 
-	char value[32] = {};
-	if( f != 0 )
-		snprintf( value, sizeof(value), "%i", f );
+		for ( int i = 0; i < value.numFlags; i++ )
+		{
+			const int v = value.checkBoxes[i]->isChecked();
+			f |= v << value.flagTable[i];
+		}
 
-	{
-		const auto command = StringStream<64>( "entitySetSpawnflags -flags ", f );
+		std::string flagsValue;
+		if( f != 0 )
+			flagsValue = std::format("{}", f);
+
+		const auto command = StringStream<64>( "entitySetFlags -key ", key, " -flags ", f );
 		UndoableCommand undo( command );
 
-		Scene_EntitySetKeyValue_Selected( "spawnflags", value );
+		Scene_EntitySetKeyValue_Selected( key.c_str(), flagsValue.c_str() );
 	}
 }
 
@@ -1474,16 +1494,25 @@ QWidget* EntityInspector_constructWindow( QWidget* toplevel ){
 		vbox->addLayout( g_attributeBox );
 
 		// spawnflags list
-		g_spawnflagsTable = new QGridLayout;
-		g_spawnflagsTable->setAlignment( Qt::AlignmentFlag::AlignLeft );
-		for ( int i = 0; i < MAX_FLAGS; ++i )
-		{
-			auto *check = g_entitySpawnflagsCheck[i] = new QCheckBox;
-			g_spawnflagsTable->addWidget( check, i, 0 );
-			check->hide();
-			QObject::connect( check, &QAbstractButton::clicked, EntityInspector_applySpawnflags );
+		for ( const auto& [key, value] : g_entityFlagFields ) {
+			auto* frame = g_entityFlags[key].groupBox = new QGroupBox( key.c_str() );
+			vbox->addWidget( frame );
+			auto* grid = new QGridLayout( frame );
+			grid->setAlignment( Qt::AlignmentFlag::AlignLeft );
+			int row = 0, col = 0;
+			for ( int i = 0; i < MAX_FLAGS; i++ )
+			{
+				auto* check = g_entityFlags[key].checkBoxes[i] = new QCheckBox;
+				grid->addWidget( check, row, col++ );
+				if (col >= 3) {
+					col = 0;
+					row++;
+				}
+				check->hide();
+				QObject::connect( check, &QAbstractButton::clicked, EntityInspector_applySpawnflags );
+			}
+			frame->hide();
 		}
-		vbox->addLayout( g_spawnflagsTable );
 
 		scroll->setWidget( containerWidget ); // widget's layout must be set b4 this!
 	}
