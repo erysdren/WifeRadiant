@@ -169,6 +169,72 @@ public:
 			return length;
 		}
 	};
+	static bool dispDef_from( kvpp::KV1 dispinfo, std::string *dispDef) {
+		std::string head = "dispDef\n{\n";
+
+		float startpos[3];
+		sscanf(
+			dispinfo["startposition"].getValue().data(), "[%f %f %f]",
+			&startpos[0], &startpos[1], &startpos[2]);
+
+		int power;
+		sscanf(
+			dispinfo["power"].getValue().data(), "%i",
+			&power);
+
+		std::string params = std::format(
+			"{} ( {} {} {} )\n",
+			power, startpos[0], startpos[1], startpos[2]);
+
+		int row_len = power * power;
+
+		float normals[row_len][row_len][3];
+		float distances[row_len][row_len];
+		float alphas[row_len][row_len];
+		// NOTE: ignoring offsets, offset_normals & triangle_tags
+		for (int row = 0; row < row_len; row++) {
+			std::string row_index = std::format("row{}", row);
+			// is this a valid lookup? what if the key is absent?
+			StringTokeniser normals_tokeniser(dispinfo["normals"][row_index].getValue().data());
+			StringTokeniser distances_tokeniser(dispinfo["distances"][row_index].getValue().data());
+			StringTokeniser alphas_tokeniser(dispinfo["alphas"][row_index].getValue().data());
+			for (int col = 0; col < row_len; col++) {
+				const char* normal_token_0 = normals_tokeniser.getToken();
+				const char* normal_token_1 = normals_tokeniser.getToken();
+				const char* normal_token_2 = normals_tokeniser.getToken();
+				const char* distance_token = distances_tokeniser.getToken();
+				const char* alpha_token = alphas_tokeniser.getToken();
+
+				if (!string_parse_float(normal_token_0, normals[row][col][0])
+			     || !string_parse_float(normal_token_1, normals[row][col][1])
+				 || !string_parse_float(normal_token_2, normals[row][col][2])
+				 || !string_parse_float(distance_token, distances[row][col])
+				 || !string_parse_float(alpha_token, alphas[row][col]) ) {
+					return false;  // empty token; panic!
+				}
+			}
+		}
+
+		std::string rows = "(\n";
+		for (int row = 0; row < row_len; row++) {
+			rows += "(";
+			for (int col = 0; col < row_len; col++) {
+				rows += " " + std::format(
+					"( {} {} {} {} )",
+					normals[row][col][0] * distances[row][col],
+					normals[row][col][1] * distances[row][col],
+					normals[row][col][2] * distances[row][col],
+					alphas[row][col]);
+			}
+			rows += " )\n";
+		}
+
+		std::string tail = ")\n}\n";
+
+		dispDef = head + params + rows + tail;
+		return true;
+	}
+	// TODO: kvpp::KV1 dispinfo_from(... dispDef);  // for writer
 	void readGraph( scene::Node& root, TextInputStream& inputStream, EntityCreator& entityTable ) const override {
 
 		char buffer[2048];
@@ -249,6 +315,18 @@ public:
 								MapImporter* importer = Node_getMapImporter( solid );
 								MapVMFTextInputStream istream( faceData );
 								importer->importTokens( NewScriptTokeniser( istream ) );
+
+								for ( auto sideelem : solidelem ) {
+									if (string_equal_nocase(sideelem.getKey().data(), "dispinfo")) {
+										std::string dispDef;
+										if ( dispDef_from( sideelem, &dispdef ) ) {
+											MapVMFTextInputStream istream_dd( dispDef );
+											importer->importTokens( NewScriptTokeniser( istream_dd ) );
+										} else {
+											globalWarningStream() << "FIXME: bad dispinfo in " << Node_getEntity( entity )->getClassName() << '\n';
+										}
+									}
+								}
 							}  else if (string_equal_nocase(solidelem.getKey().data(), "editor")) {
 								if ( solidelem.hasChild("visgroupid") ) {
 									int32_t visgroupid = solidelem["visgroupid"].getValue<int32_t>();
