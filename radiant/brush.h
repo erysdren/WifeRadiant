@@ -901,6 +901,7 @@ class Face final :
 		FacePlane::SavedState m_planeState;
 		FaceTexdef::SavedState m_texdefState;
 		FaceShader::SavedState m_shaderState;
+		// TODO: Disp::SavedState
 
 		SavedState( const Face& face ) : m_planeState( face.getPlane() ), m_texdefState( face.getTexdef() ), m_shaderState( face.getShader() ){
 		}
