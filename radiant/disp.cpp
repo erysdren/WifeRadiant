@@ -54,7 +54,7 @@ const Matrix4 &Disp::localToParent() const override {  // TransformNode
 /* public methods */
 
 unsigned int Disp::rowLength() const {
-    return (m_power * m_power) + 1;
+    return m_power * m_power;
 }
 
 
