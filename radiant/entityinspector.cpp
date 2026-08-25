@@ -1499,15 +1499,10 @@ QWidget* EntityInspector_constructWindow( QWidget* toplevel ){
 			vbox->addWidget( frame );
 			auto* grid = new QGridLayout( frame );
 			grid->setAlignment( Qt::AlignmentFlag::AlignLeft );
-			int row = 0, col = 0;
 			for ( int i = 0; i < MAX_FLAGS; i++ )
 			{
 				auto* check = g_entityFlags[key].checkBoxes[i] = new QCheckBox;
-				grid->addWidget( check, row, col++ );
-				if (col >= 3) {
-					col = 0;
-					row++;
-				}
+				grid->addWidget( check, i, 0 );
 				check->hide();
 				QObject::connect( check, &QAbstractButton::clicked, EntityInspector_applySpawnflags );
 			}
