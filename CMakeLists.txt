@@ -17,6 +17,7 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 include(CMakeDependentOption)
 
 option(RADIANT_GENERATE_GAMEPACKS "Generate gamepacks" ON)
+option(RADIANT_GENERATE_USER_GAMEPACKS "Generate user gamepacks" ON)
 option(RADIANT_USE_ASSIMP "Build Assimp model loader plugin" ON)
 option(RADIANT_SUPPORT_SOURCE "Support Source Engine formats" ON)
 option(RADIANT_SUPPORT_GOLDSRC "Generate GoldSrc engine gamepacks" ON)
@@ -450,7 +451,7 @@ endif()
 
 # gamepacks
 
-if(RADIANT_GENERATE_GAMEPACKS)
+if(RADIANT_GENERATE_GAMEPACKS OR RADIANT_GENERATE_USER_GAMEPACKS)
 	include(gamepacks)
 endif()
 

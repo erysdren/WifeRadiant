@@ -158,18 +158,22 @@ function(radiant_add_gamepack name)
 	)
 endfunction()
 
-# source engine gamepacks
-include(gamepacks/source)
+if(RADIANT_GENERATE_GAMEPACKS)
+	# source engine gamepacks
+	include(gamepacks/source)
 
-# goldsrc engine gamepacks
-include(gamepacks/goldsrc)
+	# goldsrc engine gamepacks
+	include(gamepacks/goldsrc)
 
-# idtech3 gamepacks
-include(gamepacks/idtech3)
+	# idtech3 gamepacks
+	include(gamepacks/idtech3)
 
-# idtech4 gamepacks
-include(gamepacks/idtech4)
+	# idtech4 gamepacks
+	include(gamepacks/idtech4)
+endif()
 
-# put your custom gamepacks in here:
-# cmake/gamepacks/user.cmake
-include(gamepacks/user OPTIONAL)
+if(RADIANT_GENERATE_USER_GAMEPACKS)
+	# put your custom gamepacks in here:
+	# cmake/gamepacks/user.cmake
+	include(gamepacks/user OPTIONAL)
+endif()
