@@ -11,8 +11,8 @@ function(add_module name)
 	endif()
 	set_target_properties(${name}
 		PROPERTIES
-			LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install/modules
-			RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install/modules
+			LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/modules
+			RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/modules
 			PREFIX ""
 	)
 	target_compile_definitions(${name} PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
