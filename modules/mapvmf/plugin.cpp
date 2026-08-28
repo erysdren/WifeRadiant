@@ -206,7 +206,7 @@ public:
 				const char* alpha_token = alphas_tokeniser.getToken();
 
 				if (!string_parse_float(normal_token_0, normals[row][col][0])
-			     || !string_parse_float(normal_token_1, normals[row][col][1])
+				 || !string_parse_float(normal_token_1, normals[row][col][1])
 				 || !string_parse_float(normal_token_2, normals[row][col][2])
 				 || !string_parse_float(distance_token, distances[row][col])
 				 || !string_parse_float(alpha_token, alphas[row][col]) ) {
