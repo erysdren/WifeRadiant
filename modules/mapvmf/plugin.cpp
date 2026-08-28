@@ -436,6 +436,43 @@ public:
 				}
 			}
 		};
+		static static writeSide(int64_t &childID, std::string &line, kvpp::KV1ElementWritable<std::string> &side) {
+			// parse line
+			double points[3][3];
+			char material[128];
+			double uaxis[4];
+			double vaxis[4];
+			double rotation;
+			double scale[2];
+			double lightmapscale;
+			sscanf(
+				line.c_str(),
+				"( %lf %lf %lf ) ( %lf %lf %lf ) ( %lf %lf %lf ) %128s [ %lf %lf %lf %lf ] [ %lf %lf %lf %lf ] %lf %lf %lf %lf",
+				&points[0][0], &points[0][1], &points[0][2],
+				&points[1][0], &points[1][1], &points[1][2],
+				&points[2][0], &points[2][1], &points[2][2],
+				material,
+				&uaxis[0], &uaxis[1], &uaxis[2], &uaxis[3],
+				&vaxis[0], &vaxis[1], &vaxis[2], &vaxis[3],
+				&rotation, &scale[0], &scale[1], &lightmapscale);
+			// write node
+			side["id"] = childID++;
+			side["plane"] = std::format(
+					"({} {} {}) ({} {} {}) ({} {} {})",
+					points[0][0], points[0][1], points[0][2],
+					points[1][0], points[1][1], points[1][2],
+					points[2][0], points[2][1], points[2][2]);
+			side["material"] = material;
+			side["uaxis"] = std::format(
+					"[{} {} {} {}] {}",
+					uaxis[0], uaxis[1], uaxis[2], uaxis[3], scale[0]);
+			side["vaxis"] = std::format(
+					"[{} {} {} {}] {}",
+					vaxis[0], vaxis[1], vaxis[2], vaxis[3], scale[1] );
+			side["rotation"] = std::format( "{}", rotation );
+			side["lightmapscale"] = std::format( "{}", lightmapscale );
+			side["smoothing_groups"] = 0; // FIXME: make configurable
+		}
 		void writeSolid( scene::Node& node, kvpp::KV1ElementWritable<std::string>& solid ) const {
 			solid["id"] = m_childID++;
 
@@ -445,30 +482,7 @@ public:
 			// FIXME: this sucks and could surely be done better.
 			MapVMFTokenWriter writer;
 			exporter->exportTokens( writer );
-			// TODO: split off .map side line -> vmf node into a function
-			// -- replace with a dispdef check that switches between side & dispdef processing
-			writer.forEachLine( m_childID, solid, [](int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side){
-				double points[3][3];
-				char material[128];
-				double uaxis[4];
-				double vaxis[4];
-				double rotation;
-				double scale[2];
-				double lightmapscale;
-				sscanf(line.c_str(), "( %lf %lf %lf ) ( %lf %lf %lf ) ( %lf %lf %lf ) %128s [ %lf %lf %lf %lf ] [ %lf %lf %lf %lf ] %lf %lf %lf %lf",
-					&points[0][0], &points[0][1], &points[0][2], &points[1][0], &points[1][1], &points[1][2], &points[2][0], &points[2][1], &points[2][2],
-					material, &uaxis[0], &uaxis[1], &uaxis[2], &uaxis[3], &vaxis[0], &vaxis[1], &vaxis[2], &vaxis[3], &rotation, &scale[0], &scale[1],
-					&lightmapscale
-				);
-				side["id"] = childID++;
-				side["plane"] = std::format( "({} {} {}) ({} {} {}) ({} {} {})", points[0][0], points[0][1], points[0][2], points[1][0], points[1][1], points[1][2], points[2][0], points[2][1], points[2][2] );
-				side["material"] = material;
-				side["uaxis"] = std::format( "[{} {} {} {}] {}", uaxis[0], uaxis[1], uaxis[2], uaxis[3], scale[0] );
-				side["vaxis"] = std::format( "[{} {} {} {}] {}", vaxis[0], vaxis[1], vaxis[2], vaxis[3], scale[1] );
-				side["rotation"] = std::format( "{}", rotation );
-				side["lightmapscale"] = std::format( "{}", lightmapscale );
-				side["smoothing_groups"] = 0; // FIXME: make configurable
-			});
+			writer.forEachLine( m_childID, solid, writeSide );
 		}
 		virtual bool pre( scene::Node& node ) const {
 			Entity* entity = Node_getEntity( node );
