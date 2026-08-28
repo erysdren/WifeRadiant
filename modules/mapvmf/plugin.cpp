@@ -428,32 +428,65 @@ public:
 			virtual void writeFloat( double f ) {
 				m_lines.back().append( std::format( "{} ", f ) );
 			}
-			void forEachLine( int64_t& childID, kvpp::KV1ElementWritable<std::string>& solid, std::function<void(int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side)> func ) {
-				for ( auto line : m_lines ) {
+			bool forEachLine(
+				int64_t& childID, kvpp::KV1ElementWritable<std::string>& solid,
+				std::function<bool(int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side)> side_func
+				std::function<bool(std::vector<std::string>& lines, int& i, kvpp::KV1ElementWritable<std::string>& disp)> disp_func
+			  ) {
+				// TODO: compile & test this splice works as intended
+				bool func_ok = true;  // lines we don't catch are ok
+				kvpp::KV1ElementWritable<std::string> *prev_side = NULL;
+				for (int i = 0; i < m_lines.size(); i++) {
+					std::string line = m_lines.at(i)
 					if ( line[0] == '(' ) {
-						func( childID, line, solid.addChild("side") );
+						prev_side = &solid.addChild("side");
+						func_ok = side_func( childID, line, *prev_side );
+					} else if ( line[0] == 'd' ) {  // ^dispDef
+						if (*prev_side == NULL)
+							return false;  // dispDef with no brushside! invalid solid
+			            func_ok = disp_func( m_lines, i, prev_side->addChild("dispinfo") )
 					}
+					if (!func_ok)
+						return false;
 				}
+				return true;
 			}
 		};
-		static static writeDisp(std::vector<std::string>& lines, int& i, kvpp::KV1ElementWritable<std::string> &disp) {
+		static bool writeDisp(std::vector<std::string>& lines, int& i, kvpp::KV1ElementWritable<std::string> &disp) {
+			// temp helper macros, undef'd at end of method
+			#define ASSERT_LINE(expected) \
+				if (line != expected) \
+					return false;
+
+			#define NEXT_LINE() \
+				i++; \
+				if ( i >= lines.size() ) \
+					return false; \
+				line = lines.at(i);
+
 			// parse dispDef lines
 			std::string line = lines.at(i);
-			// TODO: assert line == "dispDef\n"; line++
-			// TODO: assert line == "{\n"; line++
+			ASSERT_LINE( "dispDef\n" ); NEXT_LINE();
+			ASSERT_LINE( "{\n" ); NEXT_LINE();
+
 			int power;
 			double startpos[3];
 			sscanf(line.c_str(), "%d ( %lf %lf %lf )", &power, &startpos[0], &startpos[1], &startpos[2]);
+			NEXT_LINE();
+
+			ASSERT_LINE( "(\n" ); NEXT_LINE();
+
 			int num_rows = power * power;
-			// (
 			for (int j; j < num_rows; i++) {
-				// ( ( x y z a ) ... )
-				// ...
+				if ( (i + j) > lines.size() )
+					return false;
 				line = lines.at(i + j);
 				// TODO: parse row tokens
+				// ( ( x y z a ) ... repeat num_rows times ... )
 			}
-			// TODO: assert line == ")\n"; line++
-			// TODO: assert line == "}\n"; line++
+
+			ASSERT_LINE( ")\n" ); NEXT_LINE();
+			ASSERT_LINE( "}\n" );  // caller handles next line
 
 			// write dispinfo node
 			disp["power"] = power;
@@ -477,8 +510,11 @@ public:
 			// TODO: rows
 			kvpp::KV1ElementWritable<std::string> allowed_verts = disp.addChild("allowed_verts");
 			allowed_verts["10"] = "-1 -1 -1 -1 -1 -1 -1 -1 -1 -1";  // default; unused?
+
+			#undef ASSERT_LINE
+			#undef NEXT_LINE
 		}
-		static static writeSide(int64_t &childID, std::string &line, kvpp::KV1ElementWritable<std::string> &side) {
+		static bool writeSide(int64_t &childID, std::string &line, kvpp::KV1ElementWritable<std::string> &side) {
 			// parse line
 			double points[3][3];
 			char material[128];
@@ -497,6 +533,7 @@ public:
 				&uaxis[0], &uaxis[1], &uaxis[2], &uaxis[3],
 				&vaxis[0], &vaxis[1], &vaxis[2], &vaxis[3],
 				&rotation, &scale[0], &scale[1], &lightmapscale);
+			// TODO: return false if line doesn't fit the pattern
 			// write node
 			side["id"] = childID++;
 			side["plane"] = std::format(
@@ -514,6 +551,7 @@ public:
 			side["rotation"] = std::format( "{}", rotation );
 			side["lightmapscale"] = std::format( "{}", lightmapscale );
 			side["smoothing_groups"] = 0; // FIXME: make configurable
+			return true;
 		}
 		void writeSolid( scene::Node& node, kvpp::KV1ElementWritable<std::string>& solid ) const {
 			solid["id"] = m_childID++;
@@ -524,7 +562,8 @@ public:
 			// FIXME: this sucks and could surely be done better.
 			MapVMFTokenWriter writer;
 			exporter->exportTokens( writer );
-			writer.forEachLine( m_childID, solid, writeSide );
+			bool write_ok = writer.forEachLine( m_childID, solid, writeSide, writeDisp );
+			// TODO: error handling: message / discard solid if (!write_ok)
 		}
 		virtual bool pre( scene::Node& node ) const {
 			Entity* entity = Node_getEntity( node );
