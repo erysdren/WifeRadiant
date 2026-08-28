@@ -436,6 +436,48 @@ public:
 				}
 			}
 		};
+		static static writeDisp(std::vector<std::string>& lines, int& i, kvpp::KV1ElementWritable<std::string> &disp) {
+			// parse dispDef lines
+			std::string line = lines.at(i);
+			// TODO: assert line == "dispDef\n"; line++
+			// TODO: assert line == "{\n"; line++
+			int power;
+			double startpos[3];
+			sscanf(line.c_str(), "%d ( %lf %lf %lf )", &power, &startpos[0], &startpos[1], &startpos[2]);
+			int num_rows = power * power;
+			// (
+			for (int j; j < num_rows; i++) {
+				// ( ( x y z a ) ... )
+				// ...
+				line = lines.at(i + j);
+				// TODO: parse row tokens
+			}
+			// TODO: assert line == ")\n"; line++
+			// TODO: assert line == "}\n"; line++
+
+			// write dispinfo node
+			disp["power"] = power;
+			disp["startposition"] = std::format( "[{} {} {}]", startpos[0], startpos[1], startpos[2] );
+			// unimplemented:
+			disp["flags"] = 0;
+			disp["elevation"] = 0;
+			disp["subdiv"] = 0;
+			// child nodes
+			kvpp::KV1ElementWritable<std::string> normals = disp.addChild("normals");
+			// TODO: rows
+			kvpp::KV1ElementWritable<std::string> distances = disp.addChild("distances");
+			// TODO: rows
+			kvpp::KV1ElementWritable<std::string> offsets = disp.addChild("offsets");
+			// TODO: rows
+			kvpp::KV1ElementWritable<std::string> offset_normals = disp.addChild("offset_normals");
+			// TODO: rows
+			kvpp::KV1ElementWritable<std::string> alphas = disp.addChild("alphas");
+			// TODO: rows
+			kvpp::KV1ElementWritable<std::string> triangle_tags = disp.addChild("triangle_tags");  // unimplemented
+			// TODO: rows
+			kvpp::KV1ElementWritable<std::string> allowed_verts = disp.addChild("allowed_verts");
+			allowed_verts["10"] = "-1 -1 -1 -1 -1 -1 -1 -1 -1 -1";  // default; unused?
+		}
 		static static writeSide(int64_t &childID, std::string &line, kvpp::KV1ElementWritable<std::string> &side) {
 			// parse line
 			double points[3][3];
