@@ -36,6 +36,7 @@ radiant_add_gamepack(css
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # D.I.P.R.I.P. Warm Up
@@ -76,6 +77,7 @@ radiant_add_gamepack(diprip
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Day of Defeat: Source
@@ -112,6 +114,7 @@ radiant_add_gamepack(dods
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Garry's Mod
@@ -148,6 +151,7 @@ radiant_add_gamepack(garrysmod
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Half-Life 2
@@ -184,6 +188,7 @@ radiant_add_gamepack(hl2
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Half-Life 2: Episode One
@@ -220,6 +225,7 @@ radiant_add_gamepack(episodic
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Half-Life 2: Episode Two
@@ -256,6 +262,7 @@ radiant_add_gamepack(ep2
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Half-Life 2: Lost Coast
@@ -292,6 +299,7 @@ radiant_add_gamepack(lostcoast
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Half-Life 2: Deathmatch
@@ -328,6 +336,7 @@ radiant_add_gamepack(hl2mp
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Portal
@@ -364,6 +373,7 @@ radiant_add_gamepack(portal
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Portal 2
@@ -401,6 +411,7 @@ radiant_add_gamepack(portal2
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # SiN Episodes: Emergence
@@ -441,6 +452,7 @@ radiant_add_gamepack(sinepisodes
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Team Fortress 2
@@ -477,6 +489,7 @@ radiant_add_gamepack(tf2
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
 # Vampire: The Masquerade - Bloodlines
@@ -517,4 +530,5 @@ radiant_add_gamepack(vampire
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
+	SHADER_TRIGGER "materials/tools/toolstrigger"
 )

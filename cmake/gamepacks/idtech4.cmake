@@ -21,8 +21,6 @@ radiant_add_gamepack(doom3
 	BRUSH_TYPES "doom3"
 	PATCH_TYPES "doom3" "def2doom3"
 	DEFAULT_SCALE "0.5"
-	SHADER_CAULK "common/caulk"
-	SHADER_NODRAW "common/nodraw"
 	SUPPORT_PATCHES
 )
 
@@ -48,7 +46,5 @@ radiant_add_gamepack(q4
 	BRUSH_TYPES "quake4"
 	PATCH_TYPES "doom3" "def2doom3"
 	DEFAULT_SCALE "0.5"
-	SHADER_CAULK "common/caulk"
-	SHADER_NODRAW "common/nodraw"
 	SUPPORT_PATCHES
 )

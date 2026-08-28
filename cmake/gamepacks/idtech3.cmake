@@ -27,8 +27,9 @@ radiant_add_gamepack(q3
 	BRUSH_TYPES "quake3"
 	PATCH_TYPES "quake3"
 	DEFAULT_SCALE "0.5"
-	SHADER_CAULK "common/caulk"
-	SHADER_NODRAW "common/nodraw"
+	SHADER_CAULK "textures/common/caulk"
+	SHADER_NODRAW "textures/common/nodraw"
+	SHADER_TRIGGER "textures/common/trigger"
 	SUPPORT_PATCHES
 )
 
@@ -54,7 +55,8 @@ radiant_add_gamepack(jk2
 	BRUSH_TYPES "quake3"
 	PATCH_TYPES "quake3"
 	DEFAULT_SCALE "0.5"
-	SHADER_CAULK "common/caulk"
-	SHADER_NODRAW "common/nodraw"
+	SHADER_CAULK "textures/common/caulk"
+	SHADER_NODRAW "textures/common/nodraw"
+	SHADER_TRIGGER "textures/common/trigger"
 	SUPPORT_PATCHES
 )
