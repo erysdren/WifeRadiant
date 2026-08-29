@@ -442,9 +442,10 @@ public:
 						prev_side = &solid.addChild("side");
 						func_ok = side_func( childID, line, *prev_side );
 					} else if ( line[0] == 'd' ) {  // ^dispDef
-						if (*prev_side == NULL)
+						if (prev_side == NULL)
 							return false;  // dispDef with no brushside! invalid solid
-			            func_ok = disp_func( m_lines, i, prev_side->addChild("dispinfo") )
+						func_ok = disp_func( m_lines, i, prev_side->addChild("dispinfo") )
+						prev_side = NULL;
 					}
 					if (!func_ok)
 						return false;
