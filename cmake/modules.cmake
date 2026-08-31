@@ -198,7 +198,7 @@ add_module(mapxml
 		${PROJECT_SOURCE_DIR}/modules/mapxml/xmlparse.cpp
 		${PROJECT_SOURCE_DIR}/modules/mapxml/xmlwrite.cpp
 )
-target_link_libraries(mapxml PRIVATE LibXml2::LibXml2)
+target_link_libraries(mapxml PRIVATE pugixml::pugixml)
 
 add_module(shaders
 	SOURCES
@@ -206,7 +206,7 @@ add_module(shaders
 		${PROJECT_SOURCE_DIR}/modules/shaders/shaders.cpp
 )
 target_link_libraries(shaders PRIVATE commandlib)
-target_link_libraries(shaders PRIVATE LibXml2::LibXml2)
+target_link_libraries(shaders PRIVATE pugixml::pugixml)
 if(RADIANT_SUPPORT_SOURCE)
 	target_link_libraries(shaders PRIVATE sourcepp::kvpp)
 else()
@@ -219,5 +219,5 @@ add_module(vfspk3
 		${PROJECT_SOURCE_DIR}/modules/vfspk3/vfs.cpp
 		${PROJECT_SOURCE_DIR}/modules/vfspk3/vfspk3.cpp
 )
-target_link_libraries(vfspk3 PRIVATE LibXml2::LibXml2)
+target_link_libraries(vfspk3 PRIVATE pugixml::pugixml)
 target_link_libraries(vfspk3 PRIVATE filematch)

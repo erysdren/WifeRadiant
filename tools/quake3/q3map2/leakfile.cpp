@@ -30,7 +30,7 @@
 
 /* dependencies */
 #include "q3map2.h"
-#include <libxml/tree.h>
+#include "pugixml.hpp"
 
 
 
@@ -55,12 +55,11 @@
    TTimo: builds a polyline xml node
    =============
  */
-static xmlNodePtr LeakFile( const tree_t& tree ){
+static pugi::xml_node* LeakFile( const tree_t& tree ){
 	Vector3 mid;
 	FILE    *linefile;
 	const node_t  *node;
 	int count;
-	xmlNodePtr xml_node, point;
 
 	if ( !tree.outside_node.occupied ) {
 		return nullptr;
@@ -74,7 +73,8 @@ static xmlNodePtr LeakFile( const tree_t& tree ){
 	const auto filename = StringStream( source, ".lin" );
 	linefile = SafeOpenWrite( filename, "wt" );
 
-	xml_node = xmlNewNode( nullptr, (const xmlChar*)"polyline" );
+	auto* xmlnode = new pugi::xml_node();
+	xmlnode->set_name( "polyline" );
 
 	count = 0;
 	node = &tree.outside_node;
@@ -99,36 +99,36 @@ static xmlNodePtr LeakFile( const tree_t& tree ){
 		node = nextnode;
 		mid = WindingCenter( nextportal->winding );
 		fprintf( linefile, "%f %f %f\n", mid[0], mid[1], mid[2] );
-		point = xml_NodeForVec( mid );
-		xmlAddChild( xml_node, point );
+		auto point = xml_NodeForVec( mid );
+		xmlnode->append_copy( point );
 		count++;
 	}
 	// add the occupant center
 	mid = node->occupant->vectorForKey( "origin" );
 
 	fprintf( linefile, "%f %f %f\n", mid[0], mid[1], mid[2] );
-	point = xml_NodeForVec( mid );
-	xmlAddChild( xml_node, point );
+	auto point = xml_NodeForVec( mid );
+	xmlnode->append_copy( point );
 	Sys_FPrintf( SYS_VRB, "%9d point linefile\n", count + 1 );
 
 	fclose( linefile );
 
 	xml_Select( "Entity leaked", node->occupant->mapEntityNum, 0, false );
 
-	return xml_node;
+	return xmlnode;
 }
 
 void Leak_feedback( const tree_t& tree ){
 	Sys_FPrintf( SYS_NOXMLflag | SYS_ERR, "**********************\n" );
 	Sys_FPrintf( SYS_NOXMLflag | SYS_ERR, "******* leaked *******\n" );
 	Sys_FPrintf( SYS_NOXMLflag | SYS_ERR, "**********************\n" );
-	xmlNodePtr polyline = LeakFile( tree );
-	xmlNodePtr leaknode = xmlNewNode( nullptr, (const xmlChar*)"message" );
-	xmlNodeAddContent( leaknode, (const xmlChar*)"MAP LEAKED\n" );
-	xmlAddChild( leaknode, polyline );
+	pugi::xml_node* polyline = LeakFile( tree );
+	auto leaknode = polyline->append_child( "message" );
+	leaknode.set_value( "MAP LEAKED\n" );
 	char level[ 2 ];
 	level[0] = (int) '0' + SYS_ERR;
 	level[1] = 0;
-	xmlSetProp( leaknode, (const xmlChar*)"level", (const xmlChar*)level );
+	leaknode.append_attribute( "level" ) = level;
+
 	xml_SendNode( leaknode );
 }

@@ -87,8 +87,6 @@ typedef struct hashvert_s
 int vertexchain[MAX_MAP_VERTS];     // the next vertex in a hash chain
 int hashverts[HASH_SIZE * HASH_SIZE]; // a vertex number, or 0 for no verts
 
-face_t      *edgefaces[MAX_MAP_EDGES][2];
-
 //============================================================================
 
 
