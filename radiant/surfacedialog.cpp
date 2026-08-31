@@ -43,6 +43,8 @@
 #include <QToolButton>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <QButtonGroup>
+#include <QComboBox>
 
 #include "signal/isignal.h"
 #include "math/vector.h"
@@ -72,8 +74,153 @@
 #include "commands.h"
 #include "stream/stringstream.h"
 #include "grid.h"
+#include "groupdialog.h"
 #include "textureentry.h"
 
+//======
+// erysdren: copied from dialog.cpp
+namespace {
+template<
+    typename Type_,
+    typename Other_,
+    void( *Import ) ( Type_&, Other_ ),
+    void( *Export ) ( Type_&, const Callback<void(Other_)>& )
+    >
+class ImportExport
+{
+public:
+	typedef Type_ Type;
+	typedef Other_ Other;
+
+	typedef ReferenceCaller<Type, void(Other), Import> ImportCaller;
+	typedef ReferenceCaller<Type, void(const Callback<void(Other)>&), Export> ExportCaller;
+};
+
+typedef ImportExport<bool, bool, BoolImport, BoolExport> BoolImportExport;
+typedef ImportExport<int, int, IntImport, IntExport> IntImportExport;
+typedef ImportExport<std::size_t, std::size_t, SizeImport, SizeExport> SizeImportExport;
+typedef ImportExport<float, float, FloatImport, FloatExport> FloatImportExport;
+typedef ImportExport<CopiedString, const char*, StringImport, StringExport> StringImportExport;
+
+void BoolToggleImport( QCheckBox& widget, bool value ){
+	widget.setChecked( value );
+}
+void BoolToggleExport( QCheckBox& widget, const BoolImportCallback& importCallback ){
+	importCallback( widget.isChecked() );
+}
+typedef ImportExport<QCheckBox, bool, BoolToggleImport, BoolToggleExport> BoolToggleImportExport;
+
+
+void IntRadioImport( QButtonGroup& widget, int index ){
+	widget.button( index )->setChecked( true );
+}
+void IntRadioExport( QButtonGroup& widget, const IntImportCallback& importCallback ){
+	importCallback( widget.checkedId() );
+}
+typedef ImportExport<QButtonGroup, int, IntRadioImport, IntRadioExport> IntRadioImportExport;
+
+
+void TextEntryImport( QLineEdit& widget, const char* text ){
+	widget.setText( text );
+}
+void TextEntryExport( QLineEdit& widget, const StringImportCallback& importCallback ){
+	importCallback( widget.text().toLatin1().constData() );
+}
+typedef ImportExport<QLineEdit, const char*, TextEntryImport, TextEntryExport> TextEntryImportExport;
+
+
+void FloatSpinnerImport( QDoubleSpinBox& widget, float value ){
+	widget.setValue( value );
+}
+void FloatSpinnerExport( QDoubleSpinBox& widget, const FloatImportCallback& importCallback ){
+	importCallback( widget.value() );
+}
+typedef ImportExport<QDoubleSpinBox, float, FloatSpinnerImport, FloatSpinnerExport> FloatSpinnerImportExport;
+
+
+void IntSpinnerImport( QSpinBox& widget, int value ){
+	widget.setValue( value );
+}
+void IntSpinnerExport( QSpinBox& widget, const IntImportCallback& importCallback ){
+	importCallback( widget.value() );
+}
+typedef ImportExport<QSpinBox, int, IntSpinnerImport, IntSpinnerExport> IntSpinnerImportExport;
+
+
+void IntSliderImport( QSlider& widget, int value ){
+	widget.setValue( value );
+}
+void IntSliderExport( QSlider& widget, const IntImportCallback& importCallback ){
+	importCallback( widget.value() );
+}
+typedef ImportExport<QSlider, int, IntSliderImport, IntSliderExport> IntSliderImportExport;
+
+// QSlider operates on int values only, so using 10x range for floats
+void FloatSliderImport( QSlider& widget, float value ){
+	widget.setValue( value * 10.0 );
+}
+void FloatSliderExport( QSlider& widget, const FloatImportCallback& importCallback ){
+	importCallback( widget.value() / 10.0 );
+}
+typedef ImportExport<QSlider, float, FloatSliderImport, FloatSliderExport> FloatSliderImportExport;
+
+
+void IntComboImport( QComboBox& widget, int value ){
+	widget.setCurrentIndex( value );
+}
+void IntComboExport( QComboBox& widget, const IntImportCallback& importCallback ){
+	importCallback( widget.currentIndex() );
+}
+typedef ImportExport<QComboBox, int, IntComboImport, IntComboExport> IntComboImportExport;
+
+template<typename FirstArgument>
+class CallbackDialogData final : public DLG_DATA
+{
+public:
+	typedef Callback<void(FirstArgument)> ImportCallback;
+	typedef Callback<void(const ImportCallback&)> ExportCallback;
+
+private:
+	ImportCallback m_importWidget;
+	ExportCallback m_exportWidget;
+	ImportCallback m_importViewer;
+	ExportCallback m_exportViewer;
+
+public:
+	CallbackDialogData( const ImportCallback& importWidget, const ExportCallback& exportWidget, const ImportCallback& importViewer, const ExportCallback& exportViewer )
+		: m_importWidget( importWidget ), m_exportWidget( exportWidget ), m_importViewer( importViewer ), m_exportViewer( exportViewer ){
+	}
+	void release() override{
+		delete this;
+	}
+	void importData() const override {
+		m_exportViewer( m_importWidget );
+	}
+	void exportData() const override {
+		m_exportWidget( m_importViewer );
+	}
+};
+
+template<typename Widget, typename Viewer>
+class AddData
+{
+	DialogDataList& m_data;
+public:
+	AddData( DialogDataList& data ) : m_data( data ){
+	}
+	void apply( typename Widget::Type& widget, typename Viewer::Type& viewer ) const {
+		m_data.push_back(
+		    new CallbackDialogData<typename Widget::Other>(
+		        typename Widget::ImportCaller( widget ),
+		        typename Widget::ExportCaller( widget ),
+		        typename Viewer::ImportCaller( viewer ),
+		        typename Viewer::ExportCaller( viewer )
+		    )
+		);
+	}
+};
+}
+//======
 
 class Increment
 {
@@ -96,9 +243,13 @@ public:
 
 void SurfaceInspector_GridChange();
 
-class SurfaceInspector : public Dialog
+class SurfaceInspector
 {
-	void BuildDialog() override;
+	QWidget* m_window{};
+
+	DialogDataList m_data;
+
+	QWidget* BuildDialog();
 
 	NonModalEntry *m_textureEntry;
 
@@ -133,19 +284,46 @@ public:
 		m_fitHorizontal = 1;
 	}
 
-	void constructWindow( QWidget* main_window ){
-		Create( main_window );
+	~SurfaceInspector(){
+		for ( auto *data : m_data )
+		{
+			data->release();
+		}
+	}
+
+	QWidget* constructWindow( QWidget* main_window ){
+		m_window = new QWidget;
 		AddGridChangeCallback( FreeCaller<void(), SurfaceInspector_GridChange>() );
+		return BuildDialog();
 	}
 	void destroyWindow(){
-		Destroy();
+		// Destroy();
 	}
 	bool visible() const {
 		return GetWidget()->isVisible();
 	}
 	void queueDraw(){
-		if ( visible() ) {
-			m_idleDraw.queueDraw();
+		m_idleDraw.queueDraw();
+	}
+
+	QWidget* GetWidget(){
+		return m_window;
+	}
+	const QWidget* GetWidget() const {
+		return m_window;
+	}
+
+	void exportData(){
+		for ( const auto *data : m_data )
+		{
+			data->exportData();
+		}
+	}
+
+	void importData(){
+		for ( const auto *data : m_data )
+		{
+			data->importData();
 		}
 	}
 
@@ -171,6 +349,31 @@ public:
 
 	void ApplyFlags();
 	typedef MemberCaller<SurfaceInspector, void(), &SurfaceInspector::ApplyFlags> ApplyFlagsCaller;
+
+	void AddDialogData( QCheckBox& widget, bool& data ){
+		AddData<BoolToggleImportExport, BoolImportExport>( m_data ).apply( widget, data );
+	}
+	void AddDialogData( QButtonGroup& widget, int& data ){
+		AddData<IntRadioImportExport, IntImportExport>( m_data ).apply( widget, data );
+	}
+	void AddDialogData( QLineEdit& widget, CopiedString& data ){
+		AddData<TextEntryImportExport, StringImportExport>( m_data ).apply( widget, data );
+	}
+	void AddDialogData( QDoubleSpinBox& widget, float& data ){
+		AddData<FloatSpinnerImportExport, FloatImportExport>( m_data ).apply( widget, data );
+	}
+	void AddDialogData( QSpinBox& widget, int& data ){
+		AddData<IntSpinnerImportExport, IntImportExport>( m_data ).apply( widget, data );
+	}
+	void AddDialogData( QSlider& widget, int& data ){
+		AddData<IntSliderImportExport, IntImportExport>( m_data ).apply( widget, data );
+	}
+	void AddDialogData( QSlider& widget, float& data ){
+		AddData<FloatSliderImportExport, FloatImportExport>( m_data ).apply( widget, data );
+	}
+	void AddDialogData( QComboBox& widget, int& data ){
+		AddData<IntComboImportExport, IntImportExport>( m_data ).apply( widget, data );
+	}
 };
 
 namespace
@@ -183,8 +386,13 @@ inline SurfaceInspector& getSurfaceInspector(){
 }
 }
 
-void SurfaceInspector_constructWindow( QWidget* main_window ){
-	getSurfaceInspector().constructWindow( main_window );
+void SurfaceInspector_toggleShow(){
+	getSurfaceInspector().Update();
+	getSurfaceInspector().importData();
+}
+
+QWidget* SurfaceInspector_constructWindow( QWidget* main_window ){
+	return getSurfaceInspector().constructWindow( main_window );
 }
 void SurfaceInspector_destroyWindow(){
 	getSurfaceInspector().destroyWindow();
@@ -338,6 +546,7 @@ static void OnBtnMatchGrid(){
 	DoSnapTToGrid( hscale, vscale );
 }
 
+#if 0
 // DoSurface will always try to show the surface inspector
 // or update it because something new has been selected
 // Shamus: It does get called when the SI is hidden, but not when you select something new. ;-)
@@ -356,6 +565,7 @@ void SurfaceInspector_toggleShown(){
 		DoSurface();
 	}
 }
+#endif
 
 #include "camwindow.h"
 
@@ -647,7 +857,7 @@ g_pressedKeysFilter;
 // =============================================================================
 // SurfaceInspector class
 
-void SurfaceInspector::BuildDialog(){
+QWidget* SurfaceInspector::BuildDialog(){
 	GetWidget()->setWindowTitle( "Surface Inspector" );
 
 	g_guiSettings.addWindow( GetWidget(), "SurfaceInspector/geometry", 99, 99 );
@@ -875,11 +1085,13 @@ void SurfaceInspector::BuildDialog(){
 				box->addWidget( container );
 				auto *grid = new QGridLayout( container );
 
-				// QObject::connect( frame, &QGroupBox::clicked, container, &QWidget::setVisible );
+				QObject::connect( frame, &QGroupBox::clicked, container, &QWidget::setVisible );
+#if 0
 				QObject::connect( frame, &QGroupBox::clicked, [container, wnd = GetWidget()]( bool checked ){
 					container->setVisible( checked );
 					QTimer::singleShot( 0, [wnd](){ wnd->adjustSize(); wnd->resize( 99, 99 ); } );
 				} );
+#endif
 				container->setVisible( false );
 				{
 					QCheckBox** p = m_surfaceFlags;
@@ -908,10 +1120,13 @@ void SurfaceInspector::BuildDialog(){
 				box->addWidget( container );
 				auto *grid = new QGridLayout( container );
 
+				QObject::connect( frame, &QGroupBox::clicked, container, &QWidget::setVisible );
+#if 0
 				QObject::connect( frame, &QGroupBox::clicked, [container, wnd = GetWidget()]( bool checked ){
 					container->setVisible( checked );
 					QTimer::singleShot( 0, [wnd](){ wnd->adjustSize(); wnd->resize( 99, 99 ); } );
 				} );
+#endif
 				container->setVisible( false );
 				{
 					QCheckBox** p = m_contentFlags;
@@ -950,6 +1165,8 @@ void SurfaceInspector::BuildDialog(){
 		}
 		vbox->addStretch( 1 );
 	}
+
+	return GetWidget();
 }
 
 /*
@@ -1798,7 +2015,7 @@ void SurfaceInspector_registerCommands(){
 	GlobalCommands_insert( "TextureProjectAxial", makeCallbackF( SurfaceInspector_ProjectTexture_eProjectAxial ) );
 	GlobalCommands_insert( "TextureProjectOrtho", makeCallbackF( SurfaceInspector_ProjectTexture_eProjectOrtho ) );
 	GlobalCommands_insert( "TextureProjectCam", makeCallbackF( SurfaceInspector_ProjectTexture_eProjectCam ) );
-	GlobalCommands_insert( "SurfaceInspector", makeCallbackF( SurfaceInspector_toggleShown ), QKeySequence( "S" ) );
+	GlobalCommands_insert( "SurfaceInspector", makeCallbackF( SurfaceInspector_toggleShow ), QKeySequence( "S" ) );
 
 //	GlobalCommands_insert( "FaceCopyTexture", makeCallbackF( SelectedFaces_copyTexture ) );
 //	GlobalCommands_insert( "FacePasteTexture", makeCallbackF( SelectedFaces_pasteTexture ) );
