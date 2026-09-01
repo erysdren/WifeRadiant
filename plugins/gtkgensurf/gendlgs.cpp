@@ -35,15 +35,15 @@
 #define CHECK_WIDGET( name,check ) \
 	gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( g_object_get_data( G_OBJECT( g_pWnd ), name ) ), check )
 
-static GtkWidget *game_radios[NUMGAMES];
-static GtkWidget *wave_radios[5];
-static GtkWidget *plane_radios[6];
+static QWidget *game_radios[NUMGAMES];
+static QWidget *wave_radios[5];
+static QWidget *plane_radios[6];
 static unsigned int current_tab;
 static int OldPreview;
 static int WasDetail;
 static int FirstPassComplete = 0;
 
-void About( GtkWidget *parent ){
+void About( QWidget *parent ){
 /*
    char *icon_xpm[] = {
    "32 32 4 1",
@@ -87,7 +87,7 @@ void About( GtkWidget *parent ){
  */
 	// leo: I'm too lazy to create a nice about box
 	// ^Fishman - I am lazy too :P.
-	g_FuncTable.m_pfnMessageBox( parent, "GtkGenSurf 1.05\n\n"
+	GlobalRadiant().m_pfnMessageBox( parent, "GtkGenSurf 1.05\n\n"
 	                                     "Original version\n"
 	                                     "David Hyde (rascal@vicksburg.com)\n\n"
 	                                     "Porting\n"
@@ -639,7 +639,7 @@ static void ReadDlgValues( int tab ){
 // =============================================================================
 // main dialog callbacks
 
-static void switch_page( GtkNotebook *notebook, GtkWidget *page, unsigned int page_num, gpointer data ){
+static void switch_page( GtkNotebook *notebook, QWidget *page, unsigned int page_num, gpointer data ){
 	if ( current_tab != page_num ) {
 		if ( page_num == FIXPOINTS_TAB ) {
 			OldPreview = Preview;
@@ -674,68 +674,68 @@ static void switch_page( GtkNotebook *notebook, GtkWidget *page, unsigned int pa
 	}
 }
 
-static gint main_close( GtkWidget *widget, gpointer data ){
+static gint main_close( QWidget *widget, gpointer data ){
 	gtk_widget_hide( g_pWnd );
 	gtk_widget_hide( g_pWndPreview );
 
 	return true;
 }
 
-static void main_save( GtkWidget *widget, gpointer data ){
+static void main_save( QWidget *widget, gpointer data ){
 	ReadDlgValues( current_tab );
 	SaveSetup( g_pWnd );
 }
 
-static void main_open( GtkWidget *widget, gpointer data ){
+static void main_open( QWidget *widget, gpointer data ){
 	OpenSetup( g_pWnd, 0 );
 	for ( int i = 0; i < 5; i++ )
 		SetDlgValues( i );
 	ShowPreview();
 }
 
-static void main_defaults( GtkWidget *widget, gpointer data ){
+static void main_defaults( QWidget *widget, gpointer data ){
 	OpenSetup( g_pWnd, 1 );
 	for ( int i = 0; i < 5; i++ )
 		SetDlgValues( i );
 	ShowPreview();
 }
 
-static void main_preview( GtkWidget *widget, gpointer data ){
+static void main_preview( QWidget *widget, gpointer data ){
 	Preview = gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON( widget ) );
 	ShowPreview();
 }
 
 // ^Fishman - Antializing for the preview window.
-static void main_antialiasing( GtkWidget *widget, gpointer data ){
+static void main_antialiasing( QWidget *widget, gpointer data ){
 	Antialiasing = gtk_toggle_button_get_active( GTK_TOGGLE_BUTTON( widget ) );
 	UpdatePreview( true );
 }
 
-static void main_about( GtkWidget *widget, gpointer data ){
+static void main_about( QWidget *widget, gpointer data ){
 	About( g_pWnd );
 }
 
-static void main_go( GtkWidget *widget, gpointer data ){
-	GtkWidget *notebook = GTK_WIDGET( g_object_get_data( G_OBJECT( g_pWnd ), "notebook" ) );
+static void main_go( QWidget *widget, gpointer data ){
+	QWidget *notebook = GTK_WIDGET( g_object_get_data( G_OBJECT( g_pWnd ), "notebook" ) );
 	char Text[256];
 
 	ReadDlgValues( current_tab );
 	if ( NH < 1 || NH > MAX_ROWS ) {
 		sprintf( Text, "The number of divisions must be > 0 and no greater than %d.", MAX_ROWS );
-		g_FuncTable.m_pfnMessageBox( g_pWnd, Text, "GenSurf", eMB_OK, eMB_ICONWARNING );
+		GlobalRadiant().m_pfnMessageBox( g_pWnd, Text, "GenSurf", eMB_OK, eMB_ICONWARNING );
 		gtk_notebook_set_current_page( GTK_NOTEBOOK( notebook ), EXTENTS_TAB );
 		return;
 	}
 
 	if ( NV < 1 || NV > MAX_ROWS ) {
 		sprintf( Text, "The number of divisions must be > 0 and no greater than %d.", MAX_ROWS );
-		g_FuncTable.m_pfnMessageBox( g_pWnd, Text, "GenSurf", eMB_OK, eMB_ICONWARNING );
+		GlobalRadiant().m_pfnMessageBox( g_pWnd, Text, "GenSurf", eMB_OK, eMB_ICONWARNING );
 		gtk_notebook_set_current_page( GTK_NOTEBOOK( notebook ), EXTENTS_TAB );
 		return;
 	}
 
 	if ( Hll >= Hur ) {
-		g_FuncTable.m_pfnMessageBox( g_pWnd, "The \"lower-left\" values must be less than "
+		GlobalRadiant().m_pfnMessageBox( g_pWnd, "The \"lower-left\" values must be less than "
 		                                     "the corresponding \"upper-right\" values in "
 		                                     "the \"Extent\" box.","GenSurf", eMB_OK, eMB_ICONWARNING );
 		gtk_notebook_set_current_page( GTK_NOTEBOOK( notebook ), EXTENTS_TAB );
@@ -743,7 +743,7 @@ static void main_go( GtkWidget *widget, gpointer data ){
 	}
 
 	if ( Vll >= Vur ) {
-		g_FuncTable.m_pfnMessageBox( g_pWnd,"The \"lower-left\" values must be less than "
+		GlobalRadiant().m_pfnMessageBox( g_pWnd,"The \"lower-left\" values must be less than "
 		                                    "the corresponding \"upper-right\" values in "
 		                                    "the \"Extent\" box.","GenSurf", eMB_OK, eMB_ICONWARNING );
 		gtk_notebook_set_current_page( GTK_NOTEBOOK( notebook ), EXTENTS_TAB );
@@ -751,7 +751,7 @@ static void main_go( GtkWidget *widget, gpointer data ){
 	}
 
 	if ( !strlen( Texture[Game][0] ) ) {
-		g_FuncTable.m_pfnMessageBox( g_pWnd, "You must supply a texture name.", "GenSurf", eMB_OK, eMB_ICONWARNING );
+		GlobalRadiant().m_pfnMessageBox( g_pWnd, "You must supply a texture name.", "GenSurf", eMB_OK, eMB_ICONWARNING );
 		gtk_notebook_set_current_page( GTK_NOTEBOOK( notebook ), EXTENTS_TAB );
 		return;
 	}
@@ -874,7 +874,7 @@ static void extents_snaptogrid_spin( GtkAdjustment *adj, int *data ){
 // =============================================================================
 // bitmap tab callbacks
 
-static gint bitmap_file_entryfocusout( GtkWidget* widget, GdkEventFocus* event, gpointer data ){
+static gint bitmap_file_entryfocusout( QWidget* widget, GdkEventFocus* event, gpointer data ){
 	char filename[NAME_MAX];
 
 	strcpy( filename, gtk_entry_get_text( GTK_ENTRY( widget ) ) );
@@ -888,11 +888,11 @@ static gint bitmap_file_entryfocusout( GtkWidget* widget, GdkEventFocus* event, 
 	return false;
 }
 
-static void bitmap_browse( GtkWidget *widget, gpointer data ){
+static void bitmap_browse( QWidget *widget, gpointer data ){
 	const char *filename;
 	char *ptr;
 
-	filename = g_FuncTable.m_pfnFileDialog( g_pWnd, true, "Bitmap File", gbmp.defpath );
+	filename = GlobalRadiant().m_pfnFileDialog( g_pWnd, true, "Bitmap File", gbmp.defpath );
 
 	if ( filename != NULL ) {
 		strcpy( gbmp.name, filename );
@@ -908,7 +908,7 @@ static void bitmap_browse( GtkWidget *widget, gpointer data ){
 	}
 }
 
-static void bitmap_reload( GtkWidget *widget, gpointer data ){
+static void bitmap_reload( QWidget *widget, gpointer data ){
 	strcpy( gbmp.name, gtk_entry_get_text( GTK_ENTRY( g_object_get_data( G_OBJECT( g_pWnd ), "bmp_file" ) ) ) );
 	if ( strlen( gbmp.name ) ) {
 		OpenBitmap();
@@ -922,13 +922,13 @@ static void bitmap_reload( GtkWidget *widget, gpointer data ){
 // =============================================================================
 // fix points tab callbacks
 
-static gint fix_value_entryfocusout( GtkWidget* widget, GdkEventFocus *event, gpointer data ){
+static gint fix_value_entryfocusout( QWidget* widget, GdkEventFocus *event, gpointer data ){
 	int i = atoi( gtk_entry_get_text( GTK_ENTRY( widget ) ) ), k;
 	char Text[32];
 
 	if ( i < -65536 || i > 65536 ) {
 		gdk_beep();
-		g_FuncTable.m_pfnMessageBox( g_pWnd, "The value must be between -65536 and 65536, inclusive.",
+		GlobalRadiant().m_pfnMessageBox( g_pWnd, "The value must be between -65536 and 65536, inclusive.",
 		                             "GenSurf", eMB_OK, eMB_ICONWARNING );
 		sprintf( Text, "%d", (int)xyz[Vertex[0].i][Vertex[0].j].fixed_value );
 		gtk_entry_set_text( GTK_ENTRY( widget ), Text );
@@ -955,7 +955,7 @@ static void fix_value_changed( GtkAdjustment *adj, gpointer data ){
 	}
 }
 
-static gint fix_range_entryfocusout( GtkWidget *widget, GdkEventFocus *event, gpointer data ){
+static gint fix_range_entryfocusout( QWidget *widget, GdkEventFocus *event, gpointer data ){
 	int i = atoi( gtk_entry_get_text( GTK_ENTRY( widget ) ) ), k;
 
 	if ( i != xyz[Vertex[0].i][Vertex[0].j].range ) {
@@ -966,7 +966,7 @@ static gint fix_range_entryfocusout( GtkWidget *widget, GdkEventFocus *event, gp
 	return false;
 }
 
-static gint fix_rate_entryfocusout( GtkWidget *widget, GdkEventFocus *event, gpointer data ){
+static gint fix_rate_entryfocusout( QWidget *widget, GdkEventFocus *event, gpointer data ){
 	double r = atof( gtk_entry_get_text( GTK_ENTRY( widget ) ) );
 	int k;
 
@@ -978,7 +978,7 @@ static gint fix_rate_entryfocusout( GtkWidget *widget, GdkEventFocus *event, gpo
 	return false;
 }
 
-static void fix_free( GtkWidget *widget, gpointer data ){
+static void fix_free( QWidget *widget, gpointer data ){
 	int k;
 
 	for ( k = 0; k < NumVerticesSelected; k++ )
@@ -988,7 +988,7 @@ static void fix_free( GtkWidget *widget, gpointer data ){
 	UpdatePreview( true );
 }
 
-static void fix_freeall( GtkWidget *widget, gpointer data ){
+static void fix_freeall( QWidget *widget, gpointer data ){
 	int i, j;
 
 	for ( i = 0; i <= NH; i++ )
@@ -1068,7 +1068,7 @@ static void texture_set( int index, const char* name ){
 	strcpy( Texture[Game][index], name );
 }
 
-static gint texture_entryfocusout( GtkWidget* widget, GdkEventFocus* event, gpointer data ){
+static gint texture_entryfocusout( QWidget* widget, GdkEventFocus* event, gpointer data ){
 	texture_set( GPOINTER_TO_INT( data ), gtk_entry_get_text( GTK_ENTRY( widget ) ) );
 	return false;
 }
@@ -1085,7 +1085,7 @@ static void UpdateVariable( GtkEntry *entry, GdkEventFocus *event, double *data 
 	}
 }
 
-static gint doublevariable_entryfocusout( GtkWidget* widget, GdkEventFocus* event, gpointer data ){
+static gint doublevariable_entryfocusout( QWidget* widget, GdkEventFocus* event, gpointer data ){
 	UpdateVariable( GTK_ENTRY( widget ), event, reinterpret_cast<double*>( data ) );
 	return false;
 }
@@ -1255,9 +1255,9 @@ void create_tooltips(){
 // =============================================================================
 // create main dialog
 
-GtkWidget* create_main_dialog(){
-	GtkWidget *dlg, *vbox, *hbox, *hbox2, *button, *notebook, *frame, *table, *table2;
-	GtkWidget *check, *spin, *radio, *label, *entry, *scale;
+QWidget* create_main_dialog(){
+	QWidget *dlg, *vbox, *hbox, *hbox2, *button, *notebook, *frame, *table, *table2;
+	QWidget *check, *spin, *radio, *label, *entry, *scale;
 	GtkObject *adj;
 	int i;
 	const char *games[] = { "Quake 2", "Half-Life", "SiN", "Heretic 2", "Kingpin", "Genesis3D", "Quake 3 Arena" };
