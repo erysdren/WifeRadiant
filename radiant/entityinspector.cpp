@@ -1096,6 +1096,12 @@ public:
 void EntityInspector_updateKeyValues(){
 	g_selectedKeyValues.clear();
 	g_selectedDefaultKeyValues.clear();
+	for ( const auto& [key, value] : g_entityFlags ) {
+		for ( int i = 0; i < MAX_FLAGS; i++ ) {
+			value.checkBoxes[i]->hide();
+		}
+		value.groupBox->hide();
+	}
 	Entity_GetKeyValues_Selected( g_selectedKeyValues, g_selectedDefaultKeyValues );
 
 	EntityInspector_setEntityClass( GlobalEntityClassManager().findOrInsert( keyvalues_valueforkey( g_selectedKeyValues, "classname" ), false ) );
