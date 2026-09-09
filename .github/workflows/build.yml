@@ -47,8 +47,6 @@ jobs:
     - name: Build
       run: |
         cmake --build --preset DefaultNinja --target install
-        mkdir -p install/settings
-        touch install/settings/.gitkeep
 
     - name: Deploy
       run: |
@@ -95,8 +93,6 @@ jobs:
     - name: Build
       run: |
         cmake --build --preset DefaultNinja
-        mkdir -p install/settings
-        touch install/settings/.gitkeep
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v7
@@ -130,8 +126,6 @@ jobs:
     - name: Build
       run: |
         cmake --build --preset DefaultNinja
-        mkdir -p install/settings
-        touch install/settings/.gitkeep
 
     - name: Deploy
       run: |
