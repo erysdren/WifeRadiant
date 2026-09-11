@@ -48,7 +48,7 @@ if(RADIANT_SUPPORT_SOURCE)
 	FetchContent_Declare(
 		sourcepp
 		GIT_REPOSITORY https://github.com/craftablescience/sourcepp.git
-		GIT_TAG cdabda52e78f49b6c66c3824114b90c6bef97f12
+		GIT_TAG ffb7a52d27c0d83a2fb99bf10d3ef46bd545c431
 		EXCLUDE_FROM_ALL
 	)
 
