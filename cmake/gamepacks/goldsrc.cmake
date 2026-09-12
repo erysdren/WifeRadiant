@@ -3,7 +3,7 @@ if(NOT RADIANT_GENERATE_GOLDSRC_GAMEPACKS)
 endif()
 
 # Half-Life
-radiant_add_gamepack(hl
+radiant_add_gamepack(hl1
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -34,7 +34,7 @@ radiant_add_gamepack(hl
 )
 
 # Half-Life: Blue Shift
-radiant_add_gamepack(hlbs
+radiant_add_gamepack(hl1bs
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -69,7 +69,7 @@ radiant_add_gamepack(hlbs
 )
 
 # Half-Life: Opposing Force
-radiant_add_gamepack(hlop4
+radiant_add_gamepack(hl1op4
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
