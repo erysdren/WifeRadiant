@@ -1,4 +1,5 @@
 
+# Quake III Arena / Quake III: Team Arena
 radiant_add_gamepack(q3
 	GAME_TYPE "q3"
 	HAS_BASEGAME
@@ -6,7 +7,7 @@ radiant_add_gamepack(q3
 	BASE_GAMEDIR "baseq3"
 	TITLE "Quake III Arena / Quake III: Team Arena"
 	KNOWN_GAMEDIRS "missionpack"
-	KNOWN_TITLES "Quake III Team Arena"
+	KNOWN_TITLES "Quake III: Team Arena"
 	PATH_WIN32 "C:/Program Files (x86)/Quake III Arena/"
 	PATH_LINUX "/usr/local/games/quake3/"
 	PATH_MACOS "/Applications/Quake3/"
@@ -33,6 +34,42 @@ radiant_add_gamepack(q3
 	SUPPORT_PATCHES
 )
 
+# Quake Live
+radiant_add_gamepack(quakelive
+	GAME_TYPE "quakelive"
+	HAS_BASEGAME
+	BASE_TITLE "Quake Live"
+	BASE_GAMEDIR "baseq3"
+	TITLE "Quake Live"
+	KNOWN_GAMEDIRS "missionpack"
+	KNOWN_TITLES "Quake Live: Team Arena"
+	PATH_WIN32 "C:/Program Files (x86)/Quake III Arena/"
+	PATH_LINUX "/usr/local/games/quake3/"
+	PATH_MACOS "/Applications/Quake3/"
+	EXECUTABLE_WIN32 "quake3.exe"
+	EXECUTABLE_LINUX "quake3"
+	EXECUTABLE_MACOS "Quake3.app"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "def" "xml"
+	ENTITIES "quake3"
+	ENTITIES_FILENAME "entities.ent"
+	ARCHIVE_TYPES "pk3"
+	TEXTURE_TYPES "tga" "jpg" "png"
+	MODEL_TYPES "*"
+	SOUND_TYPES "wav" "ogg"
+	MAP_TYPES "mapq3"
+	BRUSH_TYPES "quake3"
+	PATCH_TYPES "quake3"
+	DEFAULT_SCALE "0.5"
+	SHADER_CAULK "textures/common/caulk"
+	SHADER_NODRAW "textures/common/nodraw"
+	SHADER_TRIGGER "textures/common/trigger"
+	SUPPORT_PATCHES
+)
+
+# Jedi Knight II: Jedi Outcast
 radiant_add_gamepack(jk2
 	GAME_TYPE "q3"
 	TITLE "Jedi Knight II: Jedi Outcast"

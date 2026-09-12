@@ -1,0 +1,53 @@
+<?xml version="1.0"?>
+<!--
+build commands
+[RadiantPath]: path to Radiant .. C:\Program Files\Gtkradiant
+[EnginePath]: path to the engine .. C:\quake3\ C:\Program Files\Quake III Arena\ /usr/local/games/quake3/
+-->
+<project version="2.0">
+<var name="q3map2">"[RadiantPath]q3map2.[ExecutableType]" -v<cond value="[MonitorAddress]"> -connect [MonitorAddress]</cond> -game quakelive -fs_basepath "[EnginePath]"<cond value="[GameName]"> -fs_game [GameName]</cond></var>
+<var name="mbspc">"[RadiantPath]mbspc.[ExecutableType]"</var>
+<build name="Single: bsp">
+<command>[q3map2] -meta "[MapFile]"</command>
+</build>
+<build name="Single: vis">
+<command>[q3map2] -vis -saveprt "[MapFile]"</command>
+</build>
+<build name="Single: light">
+<command>[q3map2] -light -fast "[MapFile]"</command>
+</build>
+<separator />
+<build name="[test] quick and very crude">
+<command>[q3map2] -meta -samplesize 64 "[MapFile]"</command>
+<command>[q3map2] -vis -fast -saveprt "[MapFile]"</command>
+<command>[q3map2] -light -fast -nogrid "[MapFile]"</command>
+</build>
+<separator />
+<build name="(Final)">
+<command>[q3map2] -meta "[MapFile]"</command>
+<command>[q3map2] -vis "[MapFile]"</command>
+<command>[q3map2] -light -fast -patchshadows -samples 2 -filter -bounce 8 "[MapFile]"</command>
+</build>
+<build name="QL-Official">
+<command>[q3map2] -meta "[MapFile]"</command>
+<command>[q3map2] -vis "[MapFile]"</command>
+<command>[q3map2] -light -bounce 8 -fastbounce -dark -dirtdepth 32 -dirtscale 3 -dirty -patchshadows -samples 3 -scale 1.2 -shade -cpma "[MapFile]"</command>
+</build>
+<separator />
+<build name="convert to .ASE">
+<command>[q3map2] -meta -patchmeta "[MapFile]"</command>
+<command>[q3map2] -convert -format ase -shadersasbitmap "[BspFile]"</command>
+</build>
+<build name="convert to .OBJ">
+<command>[q3map2] -meta -patchmeta "[MapFile]"</command>
+<command>[q3map2] -convert -format obj -shadersasbitmap "[BspFile]"</command>
+</build>
+<separator />
+<build name="make .pk3">
+<command>[q3map2] -pk3 -png "[BspFile]"</command>
+</build>
+<build name="make .aas">
+<command>[mbspc] -forcesidesvisible -optimize -bsp2aas &quot;[BspFile]&quot;</command>
+</build>
+</project>
+
