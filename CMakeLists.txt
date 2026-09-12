@@ -99,6 +99,13 @@ if(RADIANT_USE_ASSIMP)
 	set(ASSIMP_BUILD_MDC_IMPORTER OFF CACHE BOOL "" FORCE)
 	set(ASSIMP_BUILD_HMP_IMPORTER OFF CACHE BOOL "" FORCE)
 	FetchContent_MakeAvailable(assimp)
+
+	if(TARGET assimp)
+		find_path(MINIZIP_INCLUDE_DIR unzip.h PATH_SUFFIXES minizip)
+		if(MINIZIP_INCLUDE_DIR)
+			target_include_directories(assimp PRIVATE ${MINIZIP_INCLUDE_DIR})
+		endif()
+	endif()
 endif()
 
 # packages
