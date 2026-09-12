@@ -1,6 +1,3 @@
-if(NOT RADIANT_GENERATE_SOURCE_GAMEPACKS)
-	return()
-endif()
 
 # Counter-Strike: Source
 radiant_add_gamepack(css

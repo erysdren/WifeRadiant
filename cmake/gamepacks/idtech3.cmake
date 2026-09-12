@@ -1,6 +1,3 @@
-if(NOT RADIANT_GENERATE_IDTECH3_GAMEPACKS)
-	return()
-endif()
 
 radiant_add_gamepack(q3
 	GAME_TYPE "q3"

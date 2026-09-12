@@ -1,6 +1,3 @@
-if(NOT RADIANT_GENERATE_GOLDSRC_GAMEPACKS)
-	return()
-endif()
 
 # Half-Life
 radiant_add_gamepack(hl1
