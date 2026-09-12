@@ -194,7 +194,7 @@ radiant_add_gamepack(hl2
 )
 
 # Half-Life 2: Episode One
-radiant_add_gamepack(episodic
+radiant_add_gamepack(hl2ep1
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
@@ -231,7 +231,7 @@ radiant_add_gamepack(episodic
 )
 
 # Half-Life 2: Episode Two
-radiant_add_gamepack(ep2
+radiant_add_gamepack(hl2ep2
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES
@@ -268,7 +268,7 @@ radiant_add_gamepack(ep2
 )
 
 # Half-Life 2: Lost Coast
-radiant_add_gamepack(lostcoast
+radiant_add_gamepack(hl2lostcoast
 	SUPPORT_LIGHTMAP_SCALE
 	SUPPORT_OUTPUTS
 	WRITE_DEFAULT_KEYVALUES

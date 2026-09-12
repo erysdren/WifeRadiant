@@ -34,7 +34,7 @@ radiant_add_gamepack(hl
 )
 
 # Half-Life: Blue Shift
-radiant_add_gamepack(bshift
+radiant_add_gamepack(hlbs
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -69,7 +69,7 @@ radiant_add_gamepack(bshift
 )
 
 # Half-Life: Opposing Force
-radiant_add_gamepack(gearbox
+radiant_add_gamepack(hlop4
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -174,7 +174,7 @@ radiant_add_gamepack(dod
 )
 
 # Counter-Strike
-radiant_add_gamepack(cstrike
+radiant_add_gamepack(cs
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -244,7 +244,7 @@ radiant_add_gamepack(ricochet
 )
 
 # Gunman Chronicles
-radiant_add_gamepack(rewolf
+radiant_add_gamepack(gunmanchronicles
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
