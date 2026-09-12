@@ -1,4 +1,5 @@
 
+# Doom 3
 radiant_add_gamepack(doom3
 	GAME_TYPE "doom3"
 	TITLE "Doom 3"
@@ -24,6 +25,7 @@ radiant_add_gamepack(doom3
 	SUPPORT_PATCHES
 )
 
+# Quake 4
 radiant_add_gamepack(q4
 	GAME_TYPE "doom3"
 	TITLE "Quake 4"
@@ -44,6 +46,32 @@ radiant_add_gamepack(q4
 	SOUND_TYPES "wav"
 	MAP_TYPES "mapquake4"
 	BRUSH_TYPES "quake4"
+	PATCH_TYPES "doom3" "def2doom3"
+	DEFAULT_SCALE "0.5"
+	SUPPORT_PATCHES
+)
+
+# Prey
+radiant_add_gamepack(prey
+	GAME_TYPE "doom3"
+	TITLE "Prey"
+	GAMEDIR "base"
+	PATH_WIN32 "C:/Program Files/Human Head Studios/Prey/"
+	PATH_LINUX "/usr/local/games/prey/"
+	PATH_MACOS "/Applications/Prey/"
+	EXECUTABLE_WIN32 "Prey.exe"
+	EXECUTABLE_LINUX "Prey"
+	EXECUTABLE_MACOS "Prey.app"
+	SHADER_TYPE "doom3"
+	SHADER_PATH "materials"
+	ENTITY_CLASS "doom3"
+	ENTITIES "doom3"
+	ARCHIVE_TYPES "pk4"
+	TEXTURE_TYPES "tga" "jpg" "dds"
+	MODEL_TYPES "lwo" "ase" "md5mesh"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapdoom3"
+	BRUSH_TYPES "doom3"
 	PATCH_TYPES "doom3" "def2doom3"
 	DEFAULT_SCALE "0.5"
 	SUPPORT_PATCHES
