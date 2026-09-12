@@ -39,6 +39,7 @@ radiant_add_gamepack(css
 	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
+if(0)
 # D.I.P.R.I.P. Warm Up
 radiant_add_gamepack(diprip
 	SUPPORT_LIGHTMAP_SCALE
@@ -79,6 +80,7 @@ radiant_add_gamepack(diprip
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
+endif()
 
 # Day of Defeat: Source
 radiant_add_gamepack(dods
@@ -376,6 +378,7 @@ radiant_add_gamepack(portal
 	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
+if(0)
 # Portal 2
 radiant_add_gamepack(portal2
 	SUPPORT_LIGHTMAP_SCALE
@@ -413,7 +416,9 @@ radiant_add_gamepack(portal2
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
+endif()
 
+if(0)
 # SiN Episodes: Emergence
 radiant_add_gamepack(sinepisodes
 	SUPPORT_LIGHTMAP_SCALE
@@ -454,6 +459,7 @@ radiant_add_gamepack(sinepisodes
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
+endif()
 
 # Team Fortress 2
 radiant_add_gamepack(tf2
@@ -492,6 +498,7 @@ radiant_add_gamepack(tf2
 	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
 
+if(0)
 # Vampire: The Masquerade - Bloodlines
 radiant_add_gamepack(vampire
 	SUPPORT_LIGHTMAP_SCALE
@@ -532,3 +539,4 @@ radiant_add_gamepack(vampire
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
 )
+endif()
