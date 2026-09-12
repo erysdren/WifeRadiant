@@ -1,58 +1,41 @@
 {
-	"version": 10,
-	"cmakeMinimumRequired": {
-		"major": 3,
-		"minor": 21,
-		"patch": 0
-	},
+	"version": 3,
+	"cmakeMinimumRequired": { "major": 3, "minor": 19, "patch": 0 },
 	"configurePresets": [
 		{
-			"name": "Default",
-			"displayName": "Default",
-			"binaryDir": "build"
+			"name": "windows",
+			"displayName": "Windows",
+			"condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Windows" },
+			"binaryDir": "${sourceDir}/build"
 		},
 		{
-			"name": "DefaultNinja",
-			"displayName": "DefaultNinja",
-			"inherits": "Default",
-			"generator": "Ninja"
+			"name": "linux-debug",
+			"displayName": "Linux (debug)",
+			"condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
+			"binaryDir": "${sourceDir}/build",
+			"cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
 		},
 		{
-			"name": "Emscripten",
-			"displayName": "Emscripten",
-			"binaryDir": "build-emscripten",
-			"toolchainFile": "$env{EMSCRIPTEN_ROOT}/cmake/Modules/Platform/Emscripten.cmake",
-			"cacheVariables": {
-				"RADIANT_GENERATE_GAMEPACKS": true,
-				"RADIANT_USE_ASSIMP": false,
-				"RADIANT_SUPPORT_SOURCE": true,
-				"RADIANT_BUILD_MBSPC": false,
-				"RADIANT_BUILD_Q3MAP2": false
-			}
+			"name": "linux-release",
+			"displayName": "Linux (release)",
+			"condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Linux" },
+			"binaryDir": "${sourceDir}/build",
+			"cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
 		},
 		{
-			"name": "EmscriptenNinja",
-			"displayName": "EmscriptenNinja",
-			"inherits": "Emscripten",
-			"generator": "Ninja"
+			"name": "macos",
+			"displayName": "macOS",
+			"generator": "Xcode",
+			"condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Darwin" },
+			"binaryDir": "${sourceDir}/build"
 		}
 	],
 	"buildPresets": [
-		{
-			"name": "Default",
-			"configurePreset": "Default"
-		},
-		{
-			"name": "DefaultNinja",
-			"configurePreset": "DefaultNinja"
-		},
-		{
-			"name": "Emscripten",
-			"configurePreset": "Emscripten"
-		},
-		{
-			"name": "EmscriptenNinja",
-			"configurePreset": "EmscriptenNinja"
-		}
+		{ "name": "windows-debug", "configurePreset": "windows", "configuration": "Debug" },
+		{ "name": "windows-release", "configurePreset": "windows", "configuration": "Release" },
+		{ "name": "linux-debug", "configurePreset": "linux-debug" },
+		{ "name": "linux-release", "configurePreset": "linux-release" },
+		{ "name": "macos-debug", "configurePreset": "macos", "configuration": "Debug" },
+		{ "name": "macos-release", "configurePreset": "macos", "configuration": "Release" }
 	]
 }
