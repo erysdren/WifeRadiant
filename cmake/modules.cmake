@@ -49,14 +49,12 @@ add_module(archivepak
 		${PROJECT_SOURCE_DIR}/modules/archivepak/plugin.cpp
 )
 
-if(RADIANT_SUPPORT_SOURCE)
-	add_module(archivevpk
-		SOURCES
-			${PROJECT_SOURCE_DIR}/modules/archivevpk/archive.cpp
-			${PROJECT_SOURCE_DIR}/modules/archivevpk/plugin.cpp
-	)
-	target_link_libraries(archivevpk PRIVATE sourcepp::vpkpp)
-endif()
+add_module(archivevpk
+	SOURCES
+		${PROJECT_SOURCE_DIR}/modules/archivevpk/archive.cpp
+		${PROJECT_SOURCE_DIR}/modules/archivevpk/plugin.cpp
+)
+target_link_libraries(archivevpk PRIVATE sourcepp::vpkpp)
 
 add_module(archivezip
 	SOURCES
@@ -113,14 +111,12 @@ add_module(image
 )
 target_link_libraries(image PRIVATE ddslib etclib crnlib webplib)
 
-if(RADIANT_SUPPORT_SOURCE)
-	add_module(imagevtf
-		SOURCES
-			${PROJECT_SOURCE_DIR}/modules/imagevtf/imagevtf.cpp
-			${PROJECT_SOURCE_DIR}/modules/imagevtf/vtf.cpp
-	)
-	target_link_libraries(imagevtf PRIVATE sourcepp::vtfpp)
-endif()
+add_module(imagevtf
+	SOURCES
+		${PROJECT_SOURCE_DIR}/modules/imagevtf/imagevtf.cpp
+		${PROJECT_SOURCE_DIR}/modules/imagevtf/vtf.cpp
+)
+target_link_libraries(imagevtf PRIVATE sourcepp::vtfpp)
 
 add_module(imagepvr
 	SOURCES
@@ -171,11 +167,7 @@ add_module(model
 		${PROJECT_SOURCE_DIR}/modules/model/plugin.cpp
 )
 target_link_libraries(model PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
-if(RADIANT_SUPPORT_SOURCE)
-	target_link_libraries(model PRIVATE sourcepp::mdlpp)
-else()
-	target_compile_definitions(model PRIVATE NO_SOURCEMDL=1)
-endif()
+target_link_libraries(model PRIVATE sourcepp::mdlpp)
 
 add_module(mapq3
 	SOURCES
@@ -184,13 +176,11 @@ add_module(mapq3
 		${PROJECT_SOURCE_DIR}/modules/mapq3/write.cpp
 )
 
-if(RADIANT_SUPPORT_SOURCE)
-	add_module(mapvmf
-		SOURCES
-			${PROJECT_SOURCE_DIR}/modules/mapvmf/plugin.cpp
-	)
-	target_link_libraries(mapvmf PRIVATE sourcepp::kvpp)
-endif()
+add_module(mapvmf
+	SOURCES
+		${PROJECT_SOURCE_DIR}/modules/mapvmf/plugin.cpp
+)
+target_link_libraries(mapvmf PRIVATE sourcepp::kvpp)
 
 add_module(mapxml
 	SOURCES
@@ -207,11 +197,7 @@ add_module(shaders
 )
 target_link_libraries(shaders PRIVATE commandlib)
 target_link_libraries(shaders PRIVATE LibXml2::LibXml2)
-if(RADIANT_SUPPORT_SOURCE)
-	target_link_libraries(shaders PRIVATE sourcepp::kvpp)
-else()
-	target_compile_definitions(shaders PRIVATE NO_SOURCEVMT=1)
-endif()
+target_link_libraries(shaders PRIVATE sourcepp::kvpp)
 
 add_module(vfspk3
 	SOURCES

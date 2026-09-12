@@ -1,3 +1,6 @@
+if(NOT RADIANT_GENERATE_IDTECH4_GAMEPACKS)
+	return()
+endif()
 
 radiant_add_gamepack(doom3
 	GAME_TYPE "doom3"

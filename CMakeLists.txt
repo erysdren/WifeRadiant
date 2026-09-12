@@ -16,11 +16,13 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include(CMakeDependentOption)
 
+option(RADIANT_USE_ASSIMP "Build Assimp model loader plugin" ON)
 option(RADIANT_GENERATE_GAMEPACKS "Generate gamepacks" ON)
 option(RADIANT_GENERATE_USER_GAMEPACKS "Generate user gamepacks" ON)
-option(RADIANT_USE_ASSIMP "Build Assimp model loader plugin" ON)
-option(RADIANT_SUPPORT_SOURCE "Support Source Engine formats" ON)
-option(RADIANT_SUPPORT_GOLDSRC "Generate GoldSrc engine gamepacks" ON)
+option(RADIANT_GENERATE_IDTECH3_GAMEPACKS "Generate idTech 3 gamepacks" ON)
+option(RADIANT_GENERATE_IDTECH4_GAMEPACKS "Generate idTech 4 gamepacks" ON)
+option(RADIANT_GENERATE_SOURCE_GAMEPACKS "Generate Source Engine gamepacks" ON)
+option(RADIANT_GENERATE_GOLDSRC_GAMEPACKS "Generate GoldSrc gamepacks" ON)
 option(RADIANT_BUILD_MBSPC "Build mbspc" ON)
 cmake_dependent_option(RADIANT_BUILD_Q3MAP2 "Build q3map2" ON RADIANT_USE_ASSIMP OFF)
 option(RADIANT_BUILD_Q2MAP "Build q2map" ON)
@@ -44,30 +46,25 @@ cmake_policy(SET CMP0077 NEW)
 
 include(FetchContent)
 
-if(RADIANT_SUPPORT_SOURCE)
-	FetchContent_Declare(
-		sourcepp
-		GIT_REPOSITORY https://github.com/craftablescience/sourcepp.git
-		GIT_TAG ffb7a52d27c0d83a2fb99bf10d3ef46bd545c431
-		EXCLUDE_FROM_ALL
-	)
-
-	set(MZ_BZIP2 OFF CACHE BOOL "" FORCE)
-
-	set(SOURCEPP_LIBS_START_ENABLED OFF CACHE BOOL "" FORCE)
-	set(SOURCEPP_USE_KVPP ON CACHE BOOL "" FORCE) # for VMTs
-	set(SOURCEPP_USE_MDLPP ON CACHE BOOL "" FORCE) # for MDLs
-	set(SOURCEPP_USE_TOOLPP ON CACHE BOOL "" FORCE) # for FGDs
-	set(SOURCEPP_USE_VPKPP ON CACHE BOOL "" FORCE) # for VPKs
-	set(SOURCEPP_USE_VTFPP ON CACHE BOOL "" FORCE) # for VTFs
-	set(SOURCEPP_VTFPP_BUILD_WITH_COMPRESSONATOR OFF CACHE BOOL "" FORCE)
-	set(SOURCEPP_VTFPP_SUPPORT_EXR OFF CACHE BOOL "" FORCE)
-	set(SOURCEPP_VTFPP_SUPPORT_JXL OFF CACHE BOOL "" FORCE)
-	set(SOURCEPP_VTFPP_SUPPORT_QOI OFF CACHE BOOL "" FORCE)
-	set(SOURCEPP_VTFPP_SUPPORT_WEBP OFF CACHE BOOL "" FORCE)
-
-	FetchContent_MakeAvailable(sourcepp)
-endif()
+FetchContent_Declare(
+	sourcepp
+	GIT_REPOSITORY https://github.com/craftablescience/sourcepp.git
+	GIT_TAG ffb7a52d27c0d83a2fb99bf10d3ef46bd545c431
+	EXCLUDE_FROM_ALL
+)
+set(MZ_BZIP2 OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_LIBS_START_ENABLED OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_USE_KVPP ON CACHE BOOL "" FORCE) # for VMTs
+set(SOURCEPP_USE_MDLPP ON CACHE BOOL "" FORCE) # for MDLs
+set(SOURCEPP_USE_TOOLPP ON CACHE BOOL "" FORCE) # for FGDs
+set(SOURCEPP_USE_VPKPP ON CACHE BOOL "" FORCE) # for VPKs
+set(SOURCEPP_USE_VTFPP ON CACHE BOOL "" FORCE) # for VTFs
+set(SOURCEPP_VTFPP_BUILD_WITH_COMPRESSONATOR OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_VTFPP_SUPPORT_EXR OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_VTFPP_SUPPORT_JXL OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_VTFPP_SUPPORT_QOI OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_VTFPP_SUPPORT_WEBP OFF CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(sourcepp)
 
 find_package(ZLIB REQUIRED)
 
@@ -245,8 +242,7 @@ qt_add_executable(radiant WIN32
 	${PROJECT_SOURCE_DIR}/radiant/dialog.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass_def.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass_doom3.cpp
-	$<$<NOT:$<BOOL:${RADIANT_SUPPORT_SOURCE}>>:${PROJECT_SOURCE_DIR}/radiant/eclass_fgd.cpp>
-	$<$<BOOL:${RADIANT_SUPPORT_SOURCE}>:${PROJECT_SOURCE_DIR}/radiant/eclass_fgd_sourcepp.cpp>
+	${PROJECT_SOURCE_DIR}/radiant/eclass_fgd.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass_xml.cpp
 	${PROJECT_SOURCE_DIR}/radiant/entityinspector.cpp
@@ -396,7 +392,7 @@ target_include_directories(radiant PRIVATE
 target_link_libraries(radiant PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 target_link_libraries(radiant PRIVATE LibXml2::LibXml2)
 target_link_libraries(radiant PRIVATE commandlib gtkutil l_net xmllib quickhull)
-target_link_libraries(radiant PRIVATE $<$<BOOL:${RADIANT_SUPPORT_SOURCE}>:sourcepp::toolpp>)
+target_link_libraries(radiant PRIVATE sourcepp::toolpp)
 target_link_libraries(radiant PRIVATE $<$<BOOL:${WIN32}>:ws2_32> $<$<BOOL:${WIN32}>:dbghelp>)
 target_link_libraries(radiant PRIVATE $<$<PLATFORM_ID:Haiku>:network>)
 target_compile_options(radiant PRIVATE
