@@ -42,11 +42,11 @@ jobs:
 
     - name: Configure
       run: |
-        cmake -S. --preset DefaultNinja -DCMAKE_BUILD_TYPE=${{ matrix.type }} -DMINGW=TRUE -DCMAKE_INSTALL_PREFIX=install
+        cmake -S. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.type }} -DMINGW=TRUE -DCMAKE_INSTALL_PREFIX=install
 
     - name: Build
       run: |
-        cmake --build --preset DefaultNinja --target install
+        cmake --build build --target install
 
     - name: Deploy
       run: |
@@ -88,11 +88,11 @@ jobs:
 
     - name: Configure
       run: |
-        cmake -S. --preset DefaultNinja -DCMAKE_BUILD_TYPE=${{ matrix.type }}
+        cmake -S. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.type }}
 
     - name: Build
       run: |
-        cmake --build --preset DefaultNinja
+        cmake --build build
 
     - name: Upload Artifacts
       uses: actions/upload-artifact@v7
@@ -121,11 +121,11 @@ jobs:
 
     - name: Configure
       run: |
-        cmake -S. --preset DefaultNinja -DCMAKE_BUILD_TYPE=${{ matrix.type }} -DRADIANT_BUILD_Q2MAP=OFF -DRADIANT_BUILD_H2DATA=OFF -DRADIANT_BUILD_QDATA3=OFF
+        cmake -S. -Bbuild -GNinja -DCMAKE_BUILD_TYPE=${{ matrix.type }} -DRADIANT_BUILD_Q2MAP=OFF -DRADIANT_BUILD_H2DATA=OFF -DRADIANT_BUILD_QDATA3=OFF
 
     - name: Build
       run: |
-        cmake --build --preset DefaultNinja
+        cmake --build build
 
     - name: Deploy
       run: |
