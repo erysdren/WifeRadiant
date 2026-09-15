@@ -50,8 +50,9 @@ include(FetchContent)
 FetchContent_Declare(
 	sourcepp
 	GIT_REPOSITORY https://github.com/craftablescience/sourcepp.git
-	GIT_TAG ffb7a52d27c0d83a2fb99bf10d3ef46bd545c431
+	GIT_TAG "v2026.9.11"
 	EXCLUDE_FROM_ALL
+	GIT_SHALLOW TRUE
 	GIT_PROGRESS TRUE
 )
 set(MZ_BZIP2 OFF CACHE BOOL "" FORCE)
