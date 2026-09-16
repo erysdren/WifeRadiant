@@ -23,6 +23,7 @@ radiant_add_gamepack(doom3
 	PATCH_TYPES "doom3" "def2doom3"
 	DEFAULT_SCALE "0.5"
 	SUPPORT_PATCHES
+	SUPPORT_PATCH_TESSELATION
 )
 
 # Quake 4
@@ -49,6 +50,7 @@ radiant_add_gamepack(q4
 	PATCH_TYPES "doom3" "def2doom3"
 	DEFAULT_SCALE "0.5"
 	SUPPORT_PATCHES
+	SUPPORT_PATCH_TESSELATION
 )
 
 # Prey
@@ -75,4 +77,5 @@ radiant_add_gamepack(prey
 	PATCH_TYPES "doom3" "def2doom3"
 	DEFAULT_SCALE "0.5"
 	SUPPORT_PATCHES
+	SUPPORT_PATCH_TESSELATION
 )
