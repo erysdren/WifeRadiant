@@ -1,0 +1,30 @@
+
+# Quake
+radiant_add_gamepack(q1
+	SUPPORT_WADS
+	GAME_TYPE "q1"
+	TITLE "Quake"
+	GAMEDIR "id1"
+	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Quake/"
+	PATH_LINUX "~/.steam/steam/steamapps/common/Quake/"
+	EXECUTABLE_WIN32 "quake.exe"
+	EXECUTABLE_LINUX "quake"
+	EXECUTABLE_MACOS "Quake.app"
+	ENTITIES_FILENAME "quake.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "quake"
+	BUILD_MENU_FILENAME "default_build_menu_quake_ericwtools.xml"
+	ARCHIVE_TYPES "pak" "wad"
+	TEXTURE_TYPES "tga" "jpg" "png" "mip" "hlw" "spr" "mdl"
+	MODEL_TYPES "mdl" "md3" "obj"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapq1"
+	BRUSH_TYPES "quake"
+	PATCH_TYPES "quake3"
+	SHADER_CAULK "skip"
+	SHADER_NODRAW "skip"
+	SHADER_TRIGGER "trigger"
+)

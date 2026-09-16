@@ -1,0 +1,1876 @@
+// Copper Quake game definition file (.fgd)
+// for Worldcraft 1.6 and above
+
+// If something is wrong with this file, check
+//   >  http://lunaran.com/files/copper.fgd  <
+// for the very latest version before anything else
+
+// Based heavily on quake.fgd by autolycus/czg/et al
+// Generated from Copper QuakeC source comments on 10.31.2023
+
+//
+// defs.qc
+//
+@baseclass = Angle [ 
+	angle(integer) : "Direction (0-360 yaw, or -1 for up/-2 for down)"
+]
+@baseclass = Appearflags [
+	spawnflags(Flags) =
+	[
+		256 : "Not on Easy" : 0
+		512 : "Not on Normal" : 0
+		1024 : "Not on Hard+" : 0
+		2048 : "Not in Deathmatch" : 0
+		4096 : "Only in Coop" : 0
+		8192 : "Not in Coop" : 0
+	]
+]
+
+@baseclass = Targetname [ 
+	targetname(target_source) : "Name" 
+	impulse(integer) : "Can activate with this impulse" : 0
+]
+@baseclass = Target [ 
+	target(target_destination) : "Target: activate anything with a matching targetname" 
+	target2(target_destination) : "Target 2: activate anything with a matching targetname" 
+	target3(target_destination) : "Target 3: activate anything with a matching targetname" 
+	target4(target_destination) : "Target 4: activate anything with a matching targetname" 
+	killtarget(target_destination) : "Killtarget: REMOVE anything with a matching targetname"
+	delay(string) : "Delay before activating targets" : "0"
+]
+
+@baseclass = Deathtype [ deathtype(string) : "Obituary message. Printed after dead player's name, so format accordingly (ie 'was burnt to a crisp')" ]
+@baseclass size(16 16 16) = Bounds [ size(string) : "Bounds size, centered (x y z)" ]
+
+@baseclass = Phong [
+	_phong(integer) : "Use phong smoothing" : 0
+	_phong_angle(integer) : "Phong angle" : 88
+]
+
+@baseclass base(Phong) color(0 120 180) = Func []
+
+@baseclass = FuncInvis [
+	spawnflags(flags) = [
+		128 : "Start Invisible" : 0
+	]
+]
+@baseclass = AltTarget [
+	spawnflags(flags) = [
+		16384 : "Alt Target Pattern" : 0
+	]
+]
+=======
+
+
+//
+// ai.qc
+//
+@PointClass base(Appearflags, Targetname, Angle) size(16 16 16) color(128 80 0) = 
+	path_corner : 
+"Waypoint for platforms and monsters. Will stop here for good if no path_corner is targeted by this entity.
+Monsters who wait here will turn to face 'angle'.
+Checking the Bezier spawnflag will make this pathcorner act as a bilinear control point - meaning curved motion - between the previous and next pathcorner in the chain (train only, no monster patrols). 'count' will change the number of steps of interpolation along the curve the train will make."
+[
+	spawnflags(Flags) = [
+		16 : "Bezier point" : 0
+	]
+	target(target_destination) : "Target: next path_corner to move to" 
+	target2(target_destination) : "Target 2: trains will activate all matching on arrival" 
+	target3(target_destination) : "Target 3: trains will activate all matching on arrival" 
+	target4(target_destination) : "Target 4: trains will activate all matching on arrival" 
+	killtarget(target_destination) : "Killtarget: trains will remove all matching on arrival"
+	delay(string) : "Delay before activating targets" : "0"
+	wait(string) : "Wait time (seconds)" : "0"
+	speed(string) : "A visiting func_train to change its speed to this. If 'speed' is -1, the func_train's move when LEAVING that corner will be to snap instantly to the next corner." : "0"
+	count(integer) : "override steps of interpolation along this bezier curve segment"
+]
+
+
+//
+// meat.qc
+//
+@PointClass base(Appearflags, Targetname) size(32 32 32) color(180 0 50) = target_meat_fireworks : "trigger for meat"
+[
+	count(integer) : "Repeat meat" : 1
+	delay(string) : "Delay before first meat" : "0"
+	wait(string) : "Wait between meat" : "1"
+	rand(string) : "Random extra wait before meat" : "0"
+	size(string) : "Random location within bounds" : "0 0 0"
+	speed(integer) : "Speed of meat" : 128
+	mangle(string) : "Override meat vector" : "0 0 1"
+]
+
+
+//
+// items.qc
+//
+@baseclass base(Appearflags, Target, Targetname) = Item
+[
+	message(string) : "Override Pickup Message"
+	wait(string) : "Respawn interval. Default 0 is never respawn." : "0"
+	count(integer) : "Respawn count. Default 0 is respawn forever (if 'wait' is set). -4 will auto-scale the count to the number of clients in coop." : 0
+	spawnflags(flags) = 
+	[
+		4 : "Suspended" : 0
+	]
+]
+@PointClass base(Appearflags, Targetname) size(32 32 32) color(192 64 0) = target_drop : 
+"Target Drop. Causes all targeted items which are suspended to drop when triggered."
+[
+	target(target_destination) : "Target: acts on all items with a matching targetname" 
+	target2(target_destination) : "Target 2: acts on all items with a matching targetname" 
+	target3(target_destination) : "Target 3: acts on all items with a matching targetname" 
+	target4(target_destination) : "Target 4: acts on all items with a matching targetname" 
+]
+@baseclass = TrigItems [
+	svflags(flags) =
+	[
+		1 : "E1 complete" : 0
+		2 : "E2 complete" : 0
+		4 : "E3 complete" : 0
+		8 : "E4 complete" : 0
+		16 : "Unused" : 0
+		32 : "Unused" : 0
+		64 : "Unused" : 0
+		128 : "Unused" : 0
+	]
+	items(flags) =
+	[
+		1 : "Shotgun" : 0
+		2 : "Super Shotgun" : 0
+		4 : "Nailgun" : 0
+		8 : "Perforator" : 0
+		16 : "Grenade Laucher" : 0
+		32 : "Rocket Launcher" : 0
+		64 : "Lightning Gun" : 0
+		4096 : "Axe" : 0
+		131072 : "Silver Key" : 0
+		262144 : "Gold Key" : 0
+		524288 : "Ring" : 0
+		1048576 : "Pent" : 0
+		2097152 : "Biosuit" : 0
+		4194304 : "Quad" : 0
+	]
+	ammo_shells(integer) : "Shells" : 0
+	ammo_nails(integer) : "Nails" : 0
+	ammo_rockets(integer) : "Rockets" : 0
+	ammo_cells(integer) : "Cells" : 0
+	health(integer) : "Health" : 0
+	armorvalue(integer) : "Armor" : 0
+	armortype(choices) : "Armor Strength" = [
+		0.0 : "Ignore"
+		0.3 : "Green (30%)"
+		0.5 : "Yellow (50%)"
+		0.7 : "Red (70%)"
+	]
+]
+@PointClass base(Appearflags, Target, Targetname, TrigItems, Deathtype) size(32 32 32) color(192 64 0) = target_items : 
+"Target: Give. Adds weapons, ammo, items, health, armor, and/or runes to the activating player when triggered.
+
+Spawnflag Usage:
+'Take': subtract specified inventory amounts instead of adding
+  - subtracting enough health WILL kill the player
+  - will fire its targets if all items are successfully taken
+  - will print 'message' if fewer than all items are successfully taken
+'Override': force the player's inventory to all specified amounts (mainly useful triggered from spawnpoints), specify -1 for any keyvalue to force a 0 (-1 does not work for items or health)
+'Test Only': behaves like TAKE, but without taking anything 
+  - fires targets if activator has the matching inventory
+  - prints 'message' if not
+  - TEST with TAKE will reverse the test (fire if player doesn't have)
+  - beware of how this interacts with triggers: it will only test the first client to touch a trigger in coop!
+'Minimum': for numeric amounts, give the player enough to have a minimum of the amount specified
+'Flash screen': flash the recipient's screen when triggered, defaults to being stealthy"
+[
+	length(integer) : "Override powerup duration" : 0
+	message(string) : "Message to print if Take was unsuccessful"
+	spawnflags(flags) =
+	[
+		1 : "Take instead" : 0
+		2 : "Override instead" : 0
+		4 : "Flash screen" : 0
+		8 : "Test only" : 0
+		16 : "Minimum" : 0
+	]
+	weapon(choices) : "Force Select Weapon" = 
+	[
+		0 : "Don't"
+		1 : "Shotgun"
+		2 : "Super Shotgun"
+		4 : "Nailgun"
+		8 : "Perforator"
+		16 : "Grenade Laucher"
+		32 : "Rocket Launcher"
+		64 : "Lightning Gun"
+		4096 : "Axe"
+	]
+	noise(string) : "wav file to play on activator"
+]
+
+
+//
+// item_health_armor.qc
+//
+@PointClass size(0 0 0, 32 32 24) color(0 128 128) base(Item) 
+	model(
+        {{
+            spawnflags & 2 ->   ":maps/b_bh100.bsp",
+            spawnflags & 1 ->   ":maps/b_bh10.bsp",
+                                ":maps/b_bh25.bsp"
+        }}
+    ) =
+    item_health : "Health pack, +25" 
+[
+	spawnflags(flags) = 
+	[
+		1 : "Small, +15" : 0
+		2 : "Megahealth, +100" : 0
+	]
+]
+@PointClass size(-16 -16 0, 16 16 56) color(0 180 180) base(Item) model({ "path": ":progs/armor.mdl" }) =
+	item_armor1 : "Green armor (100pts, 30%)" []
+@PointClass size(-16 -16 0, 16 16 56) color(180 0 180) base(Item) model({ "path": ":progs/armor.mdl", "skin": 1 }) =
+	item_armor2 : "Yellow armor (150pts, 50%)" []
+@PointClass size(-16 -16 0, 16 16 56) color(180 0 0) base(Item) model({ "path": ":progs/armor.mdl", "skin": 2 }) =
+	item_armorInv : "Red armor (200pts, 70%)" []
+
+
+//
+// item_weap_ammo.qc
+//
+@baseclass size(-16 -16 0, 16 16 56) color(0 0 200) base(Item) = Weapon []
+@PointClass base(Weapon) model({ "path": ":progs/g_shotgn.mdl" }) = weapon_shotgun : "Shotgun. 
+5 Shells." []
+@PointClass base(Weapon) model({ "path": ":progs/g_shot.mdl" }) = weapon_supershotgun : "Double-barreled shotgun.
+10 shells." []
+@PointClass base(Weapon) model({ "path": ":progs/g_nail.mdl" }) = weapon_nailgun : "Nailgun.
+30 nails." []
+@PointClass base(Weapon) model({ "path": ":progs/g_nail2.mdl" }) = weapon_supernailgun : "Perforator (Super Nailgun).
+30 nails." []
+@PointClass base(Weapon) model({ "path": ":progs/g_rock.mdl" }) = weapon_grenadelauncher : "Grenade launcher.
+5 rockets." []
+@PointClass base(Weapon) model({ "path": ":progs/g_rock2.mdl" }) = weapon_rocketlauncher : "Rocket launcher.
+5 rockets." []
+@PointClass base(Weapon) model({ "path": ":progs/g_light.mdl" }) = weapon_lightning : "Thunderbolt.
+12 cells." []
+@PointClass base(Weapon) model({ "path": ":progs/g_axe.mdl" }) = weapon_axe : "Axe." []
+@baseclass size(0 0 0, 32 32 32) color(0 160 160) base(Item) = Ammo [ spawnflags(flags) =  [ 1 : "Large box (2x)" : 0 ] ]
+@PointClass base(Ammo)
+    model(
+        {{
+            spawnflags & 1 ->   ":maps/b_shell1.bsp",
+                                ":maps/b_shell0.bsp"
+        }}
+    ) = item_shells : "Shells, 20/40" []
+@PointClass base(Ammo) 
+    model(
+        {{
+            spawnflags & 1 ->   ":maps/b_nail1.bsp",
+                                ":maps/b_nail0.bsp"
+        }}
+    ) = item_spikes : "Nailgun/Perforator ammo, 25/50" []
+@PointClass base(Ammo) 
+    model(
+        {{
+            spawnflags & 1 ->   ":maps/b_rock1.bsp",
+                                ":maps/b_rock0.bsp"
+        }}
+    ) =
+    item_rockets : "Rockets, 4/8" []
+@PointClass base(Ammo) 
+    model(
+        {{
+            spawnflags & 1 ->   ":maps/b_batt1.bsp",
+                                ":maps/b_batt0.bsp"
+        }}
+    ) =
+    item_cells : "Thunderbolt Ammo, 6/12 cells" []
+
+
+//
+// item_powerups.qc
+//
+@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/invul.mdl" }) =
+	item_artifact_invulnerability : "Pentagram of Protection. Player is invulnerable for 30 seconds (both health and armor)." []
+@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/suit.mdl" }) =
+	item_artifact_envirosuit : "Envirosuit. Player takes no damage from water or slime for 30 seconds. Lava damage is reduced by one height step, enabling wading in foot-deep lava." []
+@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/invis.mdl" }) = 
+	item_artifact_invisibility : "Ring of Shadows. Player is invisible for 30 seconds. Monsters will not awaken on sight, but they will on hearing sound (like gunfire). Awakened monsters will try to attack an invisible player and do an inaccurate job, possibly starting infights. 
+monster_dog can still smell an invisible player, but monster_tarbaby can't find the player at all." []
+@PointClass size(-16 -16 -24, 16 16 32) color(255 0 0) base(Item) model({ "path": ":progs/quaddama.mdl" }) = item_artifact_super_damage : 
+	"Quad Damage. Player's attacks do 4x damage and they stop paying attention to anything else." []
+
+
+//
+// item_keys_runes.qc
+//
+@PointClass size(-16 -16 -24, 16 16 32) color(0 128 128) base(Item) model({ "path": ":progs/w_s_key.mdl" }) = 
+	item_key1 : "Silver Key. Player can carry up to 15. Remember to set worldtype on worldspawn!" []
+@PointClass size(-16 -16 -24, 16 16 32) color(128 128 0) base(Item) model({ "path": ":progs/w_g_key.mdl" }) = 
+	item_key2 : "Gold Key. Player can carry up to 15. Remember to set worldtype on worldspawn!" []
+@baseclass = svFlags [
+	svflags(Flags) =
+	[
+		1		: "Episode 1" : 0
+		2		: "Episode 2" : 0
+		4		: "Episode 3" : 0
+		8		: "Episode 4" : 0
+		16		: "Bit 5" :  0
+		32		: "Bit 6" :  0
+		64		: "Bit 7" :  0
+		128		: "Bit 8" :  0
+		256		: "Bit 9" :  0
+		512		: "Bit 10" : 0
+		1024	: "Bit 11" : 0
+		2048	: "Bit 12" : 0
+		4096	: "Bit 13" : 0
+		8192	: "Bit 14" : 0
+		16384	: "Bit 15" : 0
+		32768	: "Bit 16" : 0
+		65536	: "Bit 17" : 0
+		131072	: "Bit 18" : 0
+		262144	: "Bit 19" : 0
+		524288	: "Bit 20" : 0
+		1048576	: "Bit 21" : 0
+	]
+]
+
+@PointClass size(-16 -16 -24, 16 16 32) color(128 0 128) base(Item, svFlags) model({ "path": ":progs/end1.mdl" }) = 
+	item_sigil : "End of episode rune.  Can be customized through keyvalue manipulation to serve as any generic cross-map inventory item."
+[
+	noise(string) : "Override pickup noise"
+	model(string) : "Override model"
+	spawnflags(Flags) =
+	[
+		1 : "Episode 1" : 1
+		2 : "Episode 2" : 0
+		4 : "Episode 3" : 0
+		8 : "Episode 4" : 0
+		16 : "Suspended" : 0
+	]
+]
+
+
+//
+// item_backpack.qc
+//
+@PointClass base(Item) size(-16 -16 0, 16 16 40) color(0 128 128) 
+	model({ "path": ":progs/backpack.mdl" }) 
+	= item_backpack : 
+"A forgotten explorer's backpack. Grants a paltry sum of shells and nails (about half a small pack of each). Grants armor instead of any ammo the player already has maxed."
+[
+	spawnflags(flags) =	[
+		1 : "Big (2x, red, +2 rockets/4 cells)" : 0
+	]
+]
+
+
+//
+// world.qc
+//
+@SolidClass color(240 240 240) = worldspawn : "World entity"
+[
+	message(string) : "Map name"
+	worldtype(choices) : "Key Style" : 0 =
+	[
+		0 : "Medieval"
+		1 : "Runemetal"
+		2 : "Base"
+	]
+	sounds(integer) : "CD track to play" : 0
+	light(integer) : "Ambient light"
+	gravity(integer) : "Gravity"
+	sky(string) : "Skybox"
+	_skyfog(string) : "Sky fog strength"
+	_wateralpha(string) : "Water alpha"
+	_lavaalpha(string) : "Lava alpha" : "1.0"
+	_telealpha(string) : "Tele alpha" : "1.0"
+	_sunlight(integer) : "Sunlight"
+	_sun_mangle(string) : "Sun mangle (Yaw pitch roll)"
+	_sunlight_color(string) : "Sun color"
+	_dirt(integer) : "use dirtmapping" : 0
+	_dirtdepth(integer) : "length of dirt rays" : 128
+	_dirtscale(string) : "Scale factor used in dirt calculations, higher is darker" : "1.0"
+	_dirtgain(string) : "Exponent used in dirt calculation, lower is darker" : "1.0"
+]
+
+
+//
+// client.qc
+//
+@baseclass base(Appearflags, Angle, Fog, Target) size(-16 -16 -24, 16 16 32) 
+	color(0 255 0) model({ "path": ":progs/player.mdl" }) = PlayerClass []
+@PointClass base(PlayerClass) = info_player_start : "Player 1 start. Fires targets when a player spawns here." []
+@PointClass base(PlayerClass) = info_player_start2 : "Player episode return point. Fires targets when a player spawns here." [
+	svflags(Flags) =
+	[
+		1		: "Episode 1" : 0
+		2		: "Episode 2" : 0
+		4		: "Episode 3" : 0
+		8		: "Episode 4" : 0
+		16		: "Bit 5" :  0
+		32		: "Bit 6" :  0
+		64		: "Bit 7" :  0
+		128		: "Bit 8" :  0
+		256		: "Bit 9" :  0
+		512		: "Bit 10" : 0
+		1024	: "Bit 11" : 0
+		2048	: "Bit 12" : 0
+		4096	: "Bit 13" : 0
+		8192	: "Bit 14" : 0
+		16384	: "Bit 15" : 0
+		32768	: "Bit 16" : 0
+		65536	: "Bit 17" : 0
+		131072	: "Bit 18" : 0
+		262144	: "Bit 19" : 0
+		524288	: "Bit 20" : 0
+		1048576	: "Bit 21" : 0
+	]
+	style(Choices) : "Requirement" : 0 =
+	[
+		0 : "Have Any"
+		1 : "Must Have All"
+		2 : "Must Not Have Any"
+	]
+]
+@PointClass base(PlayerClass) = info_player_start_test : "Developer-only spawn point" [
+	spawnflags(flags) = [
+		1 : "Spawn at this one plz" : 0
+	]
+]
+@PointClass base(PlayerClass) = info_player_deathmatch : "Deathmatch start" []
+@PointClass base(PlayerClass, Targetname) = info_player_coop : "Player cooperative start" [
+	spawnflags(flags) = [
+		1 : "Trigger first" : 0
+	]
+]
+
+
+//
+// monsters.qc
+//
+@baseclass base(Angle, Appearflags, Target, Targetname, Deathtype, AltTarget) color(220 0 0) = Monster 
+[
+	spawnflags(Flags) = 
+	[
+		1 : "Ambush" : 0
+		16 : "Triggered Spawn" : 0
+		32 : "No Teleflash on Spawn" : 0
+		64 : "Don't Spawn If Would Telefrag" : 0
+		128 : "Spawn Angry" : 0
+	]
+	movedir(string) : "Auto jump velocity on spawn/awaken (x y z, in worldspace)"
+	rmovedir(string) : "Angle-relative auto jump velocity on spawn/awaken (forward right up)"
+	count(integer) : "If triggered: Number of times a spawn can be triggered before stopping. -1 for infinite spawns, -4 to auto-scale the count to the number of clients in coop."
+	wait(string) : "If triggered: Pause before spawning" : "0"
+	rand(string) : "If triggered: Random extra time before spawning" : "0"
+	netname(string) : "If triggered: Spawned monster(s) will have this targetname"
+]
+
+
+//
+// doors.qc
+//
+@SolidClass base(Angle, Appearflags, Targetname, Target, Func, FuncInvis, AltTarget) = func_door : 
+"Door. Opens; closes. 
+If two doors touch, they are assumed to be connected and operate as a unit. Targets, targetnames, and the Crusher and Toggle spawnflags are safely shared between linked doors automatically.
+Doors will not link if either has the 'don't link' spawnflag, if they have different targetnames, or different key requirements.
+
+Alt Target Pattern: 'target' when starting to open, 'target2' when opened, 'target3' when starting to close, 'target4' when closed." 
+[
+	speed(integer) : "Speed" : 100
+	speed2(integer) : "Close Speed (if different from open speed)" : 0
+	sounds(choices) : "Sound" : 0 = 
+	[
+        0: "Silent"
+		1: "Stone"
+		2: "Machine"
+		3: "Stone Chain"
+		4: "Screechy Metal"
+		5: "Winchy secret door"
+		6: "Base secret door"
+	]
+	noise1(string) : "Override stop sound"
+	noise2(string) : "Override move sound"
+	noise3(string) : "Override key-required sound"
+	noise4(string) : "Override key-unlocked sound"
+	wait(string) : "Wait before close" : "3" 
+	lip(integer) : "Lip remaining at end of move" : 8
+	distance(string) : "Distance to travel (overrides Lip)" : "0.0"
+	dmg(integer) : "Damage inflicted when blocked" : 2
+	message(string) : "Message printed when the door is touched if it is a trigger door and it hasn't been fired yet. If locked, will print this instead of default silver/gold message."
+	health(integer) : "Health (shootable)" : 0
+	targetname(target_source) : "Name. If set, no touch field will be spawned and a remote button or trigger must activates the door, UNLESS the door is only targeted by a target_lock."
+	spawnflags(flags) =
+	[
+		1 : "Starts Open" : 0
+		4 : "Don't link with touching" : 0
+		8 : "Gold Key" : 0
+        16 : "Silver Key" : 0
+        32 : "Toggle" : 0
+        64 : "Crusher" : 0
+	]
+]
+@SolidClass base(Appearflags, Targetname, Target, Func) = func_door_secret : 
+"Secret door. Slides back, then to the side. 
+
+There are three ways to configure how this door moves:
+1) Set 'Angle'. The secret door will first move to the right of that angle by t_width units, then in the direction of that angle by t_length units. t_width and t_length default to the size of the door on those axes if left blank. The first move can be altered with the 'move left first' or 'move down first' spawnflags.
+2) Set 'dest1' and 'dest2'. These are (x y z) vectors in worldspace corresponding to the first and second move, which will be scaled to the size of t_width and t_length.
+3) Target a path_corner which targets a second path_corner. The door will move by its minimum corner like a func_train.
+
+Activating this door with a trigger while it is opening will have no effect. Activating it while it is waiting open will reset its wait time (holding it open). Activating it while it is closing will cause it to reverse direction and open again. This lets you put a trigger_multiple in a secret room behind a func_door_secret to hold it open as long as a player is inside."
+[
+	angle(integer) : "Determines direction of SECOND move. FIRST move is to the RIGHT relative to 'angle'."
+	t_width(integer) : "First move length"
+	t_length(integer) : "Second move length"
+	dmg(integer) : "Damage when blocked" : 2
+	speed(integer) : "Speed of first move" : 50
+	speed2(integer) : "Speed of second move" : 50
+	wait(string) : "Wait before closing" : "2"
+	dest1(string) : "Force vector for first move (requires dest2)"
+	dest2(string) : "Force vector for second move (requires dest1)"
+	sounds(choices) : "Sounds" : 3 =
+	[
+		1: "Medieval"
+		2: "Metal"
+		3: "Base"
+	]
+	message(string) : "Message"
+	spawnflags(flags) = 
+	[
+		1 : "Open once" : 0
+		2 : "Move left first" : 0
+		4 : "Move down first" : 0
+		8 : "Not shootable" : 0
+        16 : "Always shootable" : 0
+	]
+]
+
+
+//
+// buttons.qc
+//
+@SolidClass base(Appearflags, Angle, Target, Targetname, Func, FuncInvis, AltTarget) = func_button : 
+"Button. When a button is touched, it moves some distance in the direction of its angle, triggers all of its targets, waits some time, then returns to its original position where it can be triggered again.
+Acts as if touched when triggered. Depresses itself when locked by a target_lock to look inactive.
+
+Alt Target Pattern: 'target' when touched, 'target2' when fully depressed, 'target3' when returning, 'target4' when fully out." 
+[
+	speed(integer) : "Speed" : 40
+	health(integer) : "Health (shootable if > 0)"
+	lip(integer) : "Lip remaining at end of move" : 4
+	distance(string) : "Distance to travel (overrides Lip)" : "0.0"
+	sounds(choices) : "Sounds" = 
+	[
+		-1 : "None/Custom (set 'noise')"
+		0 : "Steam metal"
+		1 : "Wooden clunk"
+		2 : "Metallic clink"
+		3 : "In-out"
+		4 : "Trigger noise (big light switch)"
+	]
+	wait(string) : "Delay before reset" : "1"
+	message(string) : "Message" 
+	noise(string) : "Wav to play if sounds is -1" 
+]
+@SolidClass base(Appearflags, Angle, Target, Func, AltTarget) = func_button_skill : 
+"Special button for selecting skill level. Will always be pressed when the skill corresponding to the chosen spawnflag is set. Changes its state automatically when other skill buttons are pressed, when trigger_setskills are touched, or when skill is changed live at the console.
+
+Alt Target Pattern: 'target' when touched, 'target2' when fully depressed, 'target3' when returning, 'target4' when fully out." 
+[
+	spawnflags(Flags) = [
+		1 : "Easy" : 0
+		2 : "Normal" : 1
+		4 : "Hard" : 0
+		8 : "Nightmaaare" : 0
+		16 : "No centerprint" : 0
+	]
+	speed(integer) : "Speed" : 40
+	health(integer) : "Health (shootable if > 0)"
+	lip(integer) : "Lip remaining at end of move" : 4
+	distance(string) : "Distance to travel (overrides Lip)" : "0.0"
+	sounds(choices) : "Sounds" = 
+	[
+		-1 : "None/Custom (set 'noise')"
+		0 : "Steam metal"
+		1 : "Wooden clunk"
+		2 : "Metallic clink"
+		3 : "In-out"
+		4 : "Trigger noise (big light switch)"
+	]
+	message(string) : "Override skill selected message" 
+	noise(string) : "Wav to play if sounds is -1" 
+]
+
+
+//
+// triggers.qc
+//
+@baseclass = TriggerSounds
+[
+	sounds(choices) : "Sounds" : 2 =
+	[
+		0 : "None"
+		1 : "Secret"
+		2 : "Doot doot"
+		3 : "Large switch"
+		-1 : "Force silent print"
+	]
+	noise(string) : "Choose wav to play"
+]
+@baseclass color(128 128 0) base(Appearflags, Targetname) = TriggerNoTargets
+[
+	spawnflags(Flags) = [
+		4 : "trigger first"
+	]
+]
+@baseclass base(TriggerNoTargets, Target) = Trigger 
+[
+	message(string) : "message to display when triggered"
+]
+@baseclass base(Trigger, TriggerSounds, Angle) = TriggerMulti
+[
+	health(integer) : "solid, must be killed to activate"
+	count(integer) : "limit uses before self destructing" : 0
+	angle(integer) : "Direction player must be facing to trigger (0-360 yaw, or -1 for up/-2 for down)"
+	angles(string) : "Direction player must be facing to trigger, specifically (pitch yaw roll)"
+	distance(integer) : "Width of facing cone (in degrees) if angle or angles is set" : 180
+	spawnflags(Flags) = [
+		1 : "No touch" : 0
+		8 : "Monsters Will Fire" : 0
+	]
+]
+@SolidClass base(TriggerMulti) = trigger_multiple : "Trigger multiple. Variable sized repeatable trigger.
+Must be targeted at one or more entities.
+
+Spawnflags:
+'No Touch': only triggered by other entities, not by touching (legacy; just use a trigger relay)
+'All Clients': will trigger once per client touching it on the same frame before waiting (default behavior is to trigger only for the first touch event, ie the lowest-numbered client). use if you want to trigger a target_items or target_heal and have every client in the trigger affected by the result.
+'Trigger First': won't be touchable until triggered once by something else
+'Monsters Will Activate': monsters will fire this trigger (and count as activator, so be careful)" 
+[
+	wait(string) : "Retriggering Interval" : "0.2"
+]
+@PointClass base(TriggerMulti, Bounds) = trigger_multiple_box : "Trigger multiple. Variable sized repeatable trigger.
+Must be targeted at one or more entities.
+
+Quoth2-style edict-saving bounding box trigger: define size with 'size', and the trigger volume will be that size centered on the trigger's origin.
+
+Spawnflags:
+'No Touch': only triggered by other entities, not by touching (legacy; just use a trigger relay)
+'All Clients': will trigger once per client touching it on the same frame before waiting (default behavior is to trigger only for the first touch event, ie the lowest-numbered client). use if you want to trigger a target_items or target_heal and have every client in the trigger affected by the result.
+'Trigger First': won't be touchable until triggered once by something else
+'Monsters Will Activate': monsters will fire this trigger (and count as activator, so be careful)"
+[
+	wait(string) : "Retriggering Interval" : "0.2"
+]
+@SolidClass base(TriggerMulti) = trigger_once : "Trigger multiple. Variable sized trigger.
+Must be targeted at one or more entities. Wait is always -1: removes itself after one use.
+
+Spawnflags:
+'No Touch': only triggered by other entities, not by touching (legacy; just use a trigger relay)
+'All Clients': will trigger once per client touching it on the same frame before waiting (default behavior is to trigger only for the first touch event, ie the lowest-numbered client). use if you want to trigger a target_items or target_heal and have every client in the trigger affected by the result.
+'Trigger First': won't be touchable until triggered once by something else
+'Monsters Will Activate': monsters will fire this trigger (and count as activator, so be careful)"
+[]
+@PointClass base(TriggerMulti, Bounds) = trigger_once_box : "Trigger multiple. Variable sized trigger.
+Must be targeted at one or more entities. Wait is always -1: removes itself after one use.
+
+Quoth2-style edict-saving bounding box trigger: define size with 'size', and the trigger volume will be that size centered on the trigger's origin.
+
+Spawnflags:
+'No Touch': only triggered by other entities, not by touching (legacy; just use a trigger relay)
+'All Clients': will trigger once per client touching it on the same frame before waiting (default behavior is to trigger only for the first touch event, ie the lowest-numbered client). use if you want to trigger a target_items or target_heal and have every client in the trigger affected by the result.
+'Trigger First': won't be touchable until triggered once by something else
+'Monsters Will Activate': monsters will fire this trigger (and count as activator, so be careful)"
+[]
+@baseclass = Secret
+[
+	spawnflags(flags) = [
+		2 : "Supersecret" : 0
+	]
+	sounds(choices) : "Sounds" : 1 =
+	[
+		0 : "None"
+		1 : "secret"
+		2 : "beep beep"
+		3 : "large switch"
+	]
+	message(string) : "Message"
+]
+@PointClass base(Secret, Targetname) color(160 0 160) = target_secret : "Secret counter trigger.  Player gets a secret credit when triggered.  Note when using a target_secret: if triggered by touching an item, and the item can't be picked up (because of health/armor/ammo limits already being met, etc), it won't fire its targets and thus the target_secret won't give credit. Use a trigger in that case.
+
+Set the 'supersecret' spawnflag to hide its existence in the total until it's found. Think very carefully if you actually want to use this." []
+@SolidClass base(Trigger, Secret) = trigger_secret : "Secret counter trigger. Player gets a secret credit when touched." 
+[
+	spawnflags(flags) = [
+		1 : "Notouch (legacy)" : 0
+	]
+]
+@PointClass base(Trigger, Secret, Bounds) = trigger_secret_box : "Trigger : Secret
+Counts as a secret, trigger to give credit" []
+@baseclass = Setskill [
+	message(choices) : "Skill" : 0 = [
+		0 : "Easy"
+		1 : "Normal"
+		2 : "Hard"
+		3 : "NIGHTMAAARE"
+	]
+]
+@PointClass base(Setskill, Targetname) color(160 0 160) = target_setskill : "Target: Set Skill" []
+@SolidClass base(Setskill, Trigger) = trigger_setskill : "Trigger: Set Skill" []
+@SolidClass base(Trigger) = trigger_onlyregistered : "Trigger: Registered only" []
+@baseclass base(TriggerNoTargets) = Hurt [
+	spawnflags(flags) = [
+		1 : "Just Kill Them" : 0
+		2 : "Biosuits are Immune" : 0
+		8 : "Don't Hurt Monsters" : 0
+	]
+	dmg(integer) : "Damage" : 5
+	delay(string) : "Interval (seconds)" : "1"
+]
+@SolidClass base(Hurt) = trigger_hurt : "Trigger: Hurt. Any creature touching this will be damaged.
+Resist the urge to put a tiny one of these on every light_flame." []
+@PointClass base(Hurt,Bounds) = trigger_hurt_box : "Trigger: Hurt. Any creature touching this will be damaged.
+Quoth2-style edict-saving bounding box trigger: define size with 'size', and the trigger volume will be that size centered on the trigger's origin.
+Resist the urge to put a tiny one of these on every light_flame." []
+@SolidClass base(Angle, TriggerNoTargets) = trigger_push : "Trigger: Push.
+Entities that come in contact with this are pushed. 
+
+The 'Add Velocity' spawnflag will add to the player's velocity rather than overriding it (like wind tunnels do), so the player can still move around and push against the current. Good for flowing water. Players will not be accelerated faster than 'speed2' if it is set.
+The 'Tunnel Center' spawnflag will suck players towards the center of the brush in the direction of travel to avoid them getting hung up on corners."
+[
+	spawnflags(flags) = [
+		1: "Push once" : 0
+		2: "Add Velocity" : 0
+		4: "Trigger First" : 0
+		8: "Tunnel Center" : 0
+	]
+	speed(integer) : "Speed (will be divided by 10, sorry, blame id software)" : 1000
+	speed2(integer) : "Speed Limit" : 0
+	noise(string) : "Looping sound" : "ambience/windfly.wav"
+	angles(string) : "Specific direction (pitch yaw roll)" : "0 0 0"
+]
+@baseclass base(TriggerNoTargets, Angle) = Monsterjump [
+	spawnflags(flags) = [
+		1 : "No large monsters" : 0
+		2 : "No small monsters" : 0
+		8 : "Only melee monsters" : 0
+		16 : "Only if target in front" : 0
+		32 : "Only if target below" : 0
+		64 : "Additive push" : 0
+	]
+	wait(string) : "Interval (-1 for once only)" : "0"
+	speed(integer) : "Jump Speed" : 200
+	height(integer) : "Jump Height" : 200
+	include(string) : "Allow this classname of monster, or monsters with this targetname, no matter what"
+	exclude(string) : "Ignore this classname of monster, or monsters with this targetname, no matter what"
+	distance(integer) : "Width of facing cone (in degrees) if 'only in front' is set" : 120
+]
+@SolidClass base(Monsterjump) = trigger_monsterjump : "Trigger: Monster jump. Monsters that touch this will 'jump' in the direction of the trigger's angle, if they meet its conditions.
+
+Use the 'Only if target in front'/'below' spawnflags to prevent monsters from being thrown off of ledges away from the player after the player has climbed up there.
+
+Use the 'no large monsters', 'no small monsters', and 'only melee monsters' spawnflags to fine-tune which monsters jump and which don't if necessary. If this isn't fine-grained enough, the 'include' and 'exclude' keys can be set to specific monster classnames, or targetnames, to exempt matching monsters from those rules. If that isn't fine-grained enough, consider two overlapping monsterjumps with different, more specific rules." []
+@PointClass base(Monsterjump, Bounds) = trigger_monsterjump_box : "Trigger: Monster jump. Monsters that touch this will 'jump' in the direction of the trigger's angle, if they meet its conditions.
+
+Use the 'Only if target in front'/'below' spawnflags to prevent monsters from being thrown off of ledges away from the player after the player has climbed up there. 
+
+Use the 'no large monsters', 'no small monsters', and 'only melee monsters' spawnflags to fine-tune which monsters jump and which don't if necessary. If this isn't fine-grained enough, the 'include' and 'exclude' keys can be set to specific monster classnames, or targetnames, to exempt matching monsters from those rules. If that isn't fine-grained enough, consider two overlapping monsterjumps with different, more specific rules.
+
+Quoth2-style edict-saving bounding box trigger: define bounds size with 'size' - trigger volume will be centered on the trigger's origin." []
+
+
+//
+// t_tele.qc
+//
+@PointClass size(-16 -16 0, 16 16 48) color(240 0 255) base(Appearflags, Angle, Targetname, Fog) model({ "path": ":progs/player.mdl" }) = info_teleport_destination : "Teleporter destination" []
+@PointClass size(-16 -16 -8, 16 16 40) base(Appearflags, Angle, Fog, Trigger) = info_teleport_target : "Triggerable Teleporter destination
+This is a usable destination marker that acts as its own teleporter.  When triggered, the activator is teleported to this spot.
+
+If 'Act On Targets' is set, teleports its targets intead of firing them and ignores the activator.
+
+If 'Player only' or 'Monsters only' is checked, this can only be activated by players or monsters respectively.
+Set 'Push forward' if you want the teleport-exit forward velocity effect, or 'No teleflash' to plop an entity here silently.
+
+PLAYER_ONLY		only players will teleport
+PUSH			chuck the player forward like a trigger_teleport does
+TRIGGER_FIRST	first use turns it on, and every subsequent use teleports
+NOFLASH			don't spawn telefog or make noise
+MONSTER_ONLY	only monsters will teleport" 
+[
+	spawnflags(flags) = [
+		1 : "Player only" : 0
+		2 : "Push forward" : 0
+		8 : "Act On Targets" : 0
+		16 : "No teleflash" : 0
+		32 : "Monsters only" : 0
+	]
+	count(integer) : "Remove after this many uses"
+]
+@baseclass base(Appearflags, Target, Targetname) = Teleport [
+	spawnflags(Flags) =
+	[
+		1 : "Player only" : 0
+		2 : "Silent" : 0
+		8 : "Not triggerable (ignore targetname)" : 0
+		16 : "No teleflash" : 0
+		32 : "Monsters only" : 0
+	]
+	count(integer) : "Limited uses" : -1
+]
+@SolidClass base(Trigger, Teleport) = trigger_teleport : "Trigger: Teleporter. 
+Any object touching this will be transported to the corresponding info_teleport_destination entity.
+
+The 'Not Triggerable' spawnflag: default behavior for a teleporter with a targetname is to only teleport what's touching it when triggered. this will preserve ordinary no-targetname behavior (if you're using the teleporter's targetname for a killtarget for example)." []
+@PointClass base(Trigger, Teleport, Bounds) = trigger_teleport_box : "Trigger: Teleporter.
+Any object touching this will be transported to the corresponding info_teleport_destination entity.
+
+Quoth2-style edict-saving bounding box trigger: define bounds size with 'size' - trigger volume will be centered on the trigger's origin.
+
+The 'Not Triggerable' spawnflag: default behavior for a teleporter with a targetname is to only teleport what's touching it when triggered. this will preserve ordinary no-targetname behavior (if you're using the teleporter's targetname for a killtarget for example)." []
+
+
+//
+// t_level.qc
+//
+@baseclass = ChangeLevel [
+	map(string) : "Next map"
+	message(string) : "Intermission text (limit one page)"
+	spawnflags(flags) =
+	[
+		1: "No intermission" : 0
+	]
+]
+@SolidClass base(Trigger, ChangeLevel) = trigger_changelevel : "Trigger: Change level.
+When the player touches this, he gets sent to the map listed in the 'map' variable. The view will go to the info_intermission spot and display stats."
+[]
+@PointClass base(Appearflags, Targetname, ChangeLevel) color(160 0 160) size(32 32 32) = target_changelevel : "Target: Change level.
+When this is triggered, the player is sent to the map listed in the 'map' variable. The view will go to the info_intermission spot and display stats."
+[]
+@PointClass size(16 16 16) color(192 64 64) base(Fog, Appearflags) = info_intermission : "Intermission camera" 
+[
+	angles(string) : "Camera angle (Pitch Yaw Roll, positive pitch down)"
+	mangle(string) : "Camera angle (Pitch Yaw Roll, positive pitch down)"
+]
+
+
+//
+// t_ctrl.qc
+//
+@PointClass size(16 16 16) color(160 0 160) base(Appearflags, TriggerSounds, Target, Targetname) = trigger_relay : "Trigger: Relay.
+This fixed size trigger cannot be touched, it can only be fired by other events. Target this with a target_lock to selectively disable/reenable it for logic fun."
+[
+	spawnflags(flags) =	[
+		1 : "Only print message once" : 0
+		2 : "Choose one target at random" : 0
+	]
+	message(string) : "Print when triggered"
+	count(integer) : "Limit uses (then self destruct)" : 0
+]
+@PointClass size(16 16 16) color(255 0 255) base(Appearflags, Target, Targetname) = target_state : "Target : State. 
+Holds a numeric variable, or tests other entities for theirs before firing targets. 
+Set 'state' to initial value. triggering this will cycle the value (swapping 0 and 1).
+
+If 'Relay' spawnflag is checked, it acts as a relay instead of holding state. It fires its targets based on the value of the 'state' member of another entity, specified by setting 'state' to the value it has to match and 'include' to that entity's targetname. This can be another target_state, or any other entity which has a 'state', such as doors or plats.
+  0: off (lights/etc)/top (plats)/open (doors)/pushed (buttons)
+  1: on (lights/etc)/bottom (plats)/closed (doors)/unpushed (buttons)
+  2: going up (plats)/opening (doors)/pushing (buttons)
+  3: going down (plats)/closing (doors)/unpushing (buttons)
+A trigger_counter's 'state' is its current trigger count.
+If 'Inverse' spawnflag is set, will decrement when triggered instead of increment. If both 'Relay' and 'Inverse', will fire targets if the state of 'include' is anything other than a match."
+[
+	spawnflags(flags) =	[
+		1 : "Relay" : 0
+		2 : "Inverse" : 0
+	]
+	style(choices) : "Comparison operator for relay" = [
+		1 : "self = include"
+		2 : "self < include"
+		3 : "self <= include"
+		4 : "self > include"
+		5 : "self >= include"
+	]
+	include(target_destination) : "Targetname of entity to monitor"
+	count(integer) : "Max state value to cycle to. if > 1, state will be incremented on each trigger to a maximum of 'count' before cycling to 0." : 1
+	state(integer) : "Value"
+]
+@Pointclass base(Targetname, Appearflags) color(192 64 0) size(16 16 16) = target_lock : 
+"Locks and unlocks targeted entities independent of their toggle/start_open/etc states.  Works on various entities:
+  - A locked func_door won't respond to touches or triggers. Use this for doors behind temporary bars.
+  - A locked func_plat behaves as an unreleased LOW_TRIGGER plat
+  - A locked trigger_relay will not fire or evaluate at all
+  - Locked path_corners are not considered valid patrol/train destinations
+  - Locked trigger volumes (once/multi/teleport/secret/changelevel/push/monsterjump) will not activate when touched or triggered
+If 'wait' is set, will automatically undo itself after 'wait' seconds."
+[
+	spawnflags(flags) = [
+		1: "Targeted entities start locked" : 0
+		2: "Lock only" : 0
+		4: "Unlock only" : 0
+	]
+	target(target_destination) : "Target: acts on all with matching targetname" 
+	target2(target_destination) : "Target 2: acts on all with matching targetname" 
+	target3(target_destination) : "Target 3: acts on all with matching targetname" 
+	target4(target_destination) : "Target 4: acts on all with matching targetname" 
+	wait(string) : "Wait before undoing" : 0
+	rand(string) : "Additional random wait" : 0
+]
+@PointClass size(16 16 16) color(160 0 160) base(Appearflags, Target, Targetname) = trigger_counter : "Trigger: Counter.
+Acts as an intermediary for an action that takes multiple inputs. 
+If nomessage is not set, it will print '1 more...' etc when triggered and 'sequence complete' when finished. After the counter has been triggered 'count' times, it will fire all of it's targets and remove itself, unless 'repeat' has been set, in which case it resets after 'wait' seconds.
+
+If the 'Eager Reset' spawnflag is set, the relay will reset 'wait' seconds after ANY input, which has the effect of requiring all triggering inputs to happen within a window of 'wait' seconds." 
+[
+	spawnflags(flags) = [ 
+		1: "No Message" : 0
+		2: "Repeat" : 0
+		4: "Eager Reset" : 0
+	]
+	count(integer) : "Count before trigger" : 2
+	message(string) : "Message"
+]
+@PointClass size(32 32 32) color(160 0 160) base(Appearflags, Target, Targetname) = trigger_timer : "Trigger: Timer
+Fires its targets once every 'wait' seconds once activated. If 'count' is set, it will only fire that many times and then stop. Set 'rand' to add a random extra delay to the wait interval." 
+[
+	spawnflags(flags) = [ 
+		1: "Start On" : 0
+	]
+	count(integer) : "Limit" : 0
+	wait(string) : "Interval"
+	rand(string) : "Random Extra Interval"
+]
+@PointClass size(16 16 16) color(128 128 128) base(Appearflags, Target, Targetname) = target_playercount : "Target: Playercount.
+Checks the number of players currently connected when triggered, and fires exclusively one of target/2/3/4 depending on the count. If one player is connected, it only fires 'target', if two are connected it fires 'target2', and so on.
+
+If 'Less Or Equal' is set, fires all targetnames UP TO the current player count (so with four players connected, all four targets would fire instead of just target4).
+If 'Two Players Per' is set, requires double the number of players for each threshhold (for scaling up to 8 players).
+" 
+[
+	spawnflags(flags) = [ 
+		1: "Less Or Equal" : 0
+		1: "Two Players Per" : 0
+	]
+]
+
+
+//
+// plats.qc
+//
+@SolidClass base(Appearflags, Targetname, Func, Target, AltTarget) = func_plat : "Elevator platform.
+Plats are always drawn in the extended position, so they will light correctly.
+If the plat is the target of another trigger or button, it will start out disabled in the top position until it is triggered, when it will lower and become a normal plat.
+If the plat targets a trigger once/multiple/multiple_box, it will override the plat's default activation zone (consuming the trigger).
+
+Movement distance can be defined with 'height' or 'lip'. By instead setting 'pos1' & 'pos2' you can directly override the top and bottom positions, allowing the plat to be built anywhere else in the map. This is useful for building a plat where it will be lit the best.
+
+The 'low trigger volume' spawnflag will put the activation zone only at the bottom of the movement course, instead of the whole vertical.
+
+Alt Target Pattern: 'target' upon rising, 'target2' upon reaching top, 'target3' upon descending, 'target4' upon reaching bottom." 
+[	
+	spawnflags(Flags) =
+	[
+		1 : "Low trigger volume" : 0
+	]
+	target(target_destination) : "Custom activation trigger"
+	speed(integer) : "Speed" : 150
+	height(integer) : "Travel altitude (can be negative)" : 0
+	lip(integer) : "Lip remaining at bottom of move" : 8
+	dmg(integer) : "Punishment for banging your head" : 1
+	wait(string) : "Apex pause time" : "3"
+	pos1(string) : "Override top position (x y z)"
+	pos2(string) : "Override bottom position (x y z)"
+	sounds(choices) : "Sound" : 2 =
+	[
+		-1: "Silent"
+		1: "Base fast"
+		2: "Chain Slow"
+	]
+]
+@baseclass = TrainSounds [
+	sounds(choices) : "Sound" : 1 =
+	[
+		0: "Silent/Override"
+		1: "Ratchet Metal"
+		2: "Base Lift"
+	]
+]
+@baseclass base(Appearflags, Targetname, TrainSounds, Func, AltTarget) = Train [
+	speed(integer) : "Speed (units per second)" : 64
+	target(target_source) : "Target to start at"
+	dmg(integer) : "Damage on block" : 2
+	noise(string) : "Override stop sound"
+	noise1(string) : "Override move sound"
+	pausetime(string) : "Default wait time" : "0.1"
+]
+@baseclass base(Train) = Flytrain [
+	width(string) : "Horizontal drift range" : "8"
+	height(string) : "Vertical drift range" : "8"
+]
+@SolidClass base(Flytrain) = func_flytrain : 
+"Acts as a func_train with PATH_SPEED and SMOOTH_SPEED set, with additional random motion and and gentle smoothing at stops, starts, and hard corners. Will fire all targets of a pathcorner on arrival, but does not normally fire its own targets.
+
+Alt Target Pattern: 'target' selects path start, 'target2' on each pathcorner arrival, 'target3' on each departure, 'target4' on termination"
+[
+	width(string) : "Horizontal drift range" : "8"
+	height(string) : "Vertical drift range" : "8"
+]
+@PointClass base(Flytrain) size(16 16 16) = func_flytrain_point : 
+"Acts as a func_train with PATH_SPEED and SMOOTH_SPEED set, with additional random motion and and gentle smoothing at stops, starts, and hard corners. Will fire all targets of a pathcorner on arrival, but does not normally fire its own targets.
+
+Alt Target Pattern: 'target' selects path start, 'target2' on each pathcorner arrival, 'target3' on each departure, 'target4' on termination"
+[
+	model(string) : "Model to use"
+]
+@SolidClass base(Train) = func_train : "Moving platform that players can ride. 
+Its origin is the min corner of the train. 
+The train spawns at the first target it is pointing at. If the train is the target of a button or trigger, it will not begin moving until activated.
+Will fire all targets of a pathcorner on arrival, but does not normally fire its own targets.
+
+
+If 'Speed from path' is set, the train will inherit the 'speed' value from path_corners as it reaches them. If 'blend speed smoothly' is also set, the train will instead smoothly blend to its destination's 'speed' as it travels to it.
+If a path_corner's speed is -1, the func_train's move when LEAVING that corner will be to snap instantly to the next corner.
+The 'Toggle' spawnflag allows starting and stopping the motion anywhere on the train's path (default is to ignore triggerings when in motion).
+Setting 'health' will allow the train to be shot to trigger it whenever it could normally be triggered (toggle spawnflag applies). 
+
+Alt Target Pattern: 'target' selects path start, 'target2' on each pathcorner arrival, 'target3' on each departure, 'target4' on termination"
+[
+	spawnflags(Flags) = [
+		1 : "Speed from path" : 0
+		2 : "Toggle" : 0
+		4 : "Blend speed smoothly" : 0
+	]
+	health(integer) : "Health (shootable if > 0)"
+]
+@PointClass base(Train) = func_train_point : "Moving platform that players can ride. 
+The point entity is the origin, even if a model is specified.
+The train spawns at the first target it is pointing at. If the train is the target of a button or trigger, it will not begin moving until activated.
+Will fire all targets of a pathcorner on arrival, but does not normally fire its own targets.
+
+If 'Speed from path' is set, the train will inherit the 'speed' value from path_corners as it reaches them. If 'blend speed smoothly' is also set, the train will instead smoothly blend to its destination's 'speed' as it travels to it.
+If a path_corner's speed is -1, the func_train's move when LEAVING that corner will be to snap instantly to the next corner.
+The 'Toggle' spawnflag allows starting and stopping the motion anywhere on the train's path (default is to ignore triggerings when in motion).
+
+Alt Target Pattern: 'target' selects path start, 'target2' on each pathcorner arrival, 'target3' on each departure, 'target4' on termination"
+[
+	model(string) : "Model to use"
+	spawnflags(Flags) = [
+		1 : "Speed from path" : 0
+		2 : "Toggle" : 0
+		4 : "Blend speed smoothly" : 0
+	]
+]
+@baseclass base(Appearflags, Targetname, TrainSounds, Angle, Func, FuncInvis) = Bob
+[
+	spawnflags(flags) = [
+		1 : "Start off" : 0
+		2 : "Crusher (no reverse)" : 0
+		4 : "Don't stop until low pos" : 0
+		8 : "Don't stop until mid pos" : 0
+		16 : "Don't stop until high pos" : 0
+	]
+	wait(string) : "Period (Wavelength)" : "4"
+	distance(integer) : "Length (Amplitude)" : 64
+	delay(string) : "Starting offset (0-1) (Phase)" : "0.0"
+	dmg(integer) : "Damage when blocked" : 2
+	noise(string) : "Override stop sound"
+	noise1(string) : "Override move sound"
+	pos1(string) : "Override peak position (relative)"
+	pos2(string) : "Override trough position (relative)"
+]
+@SolidClass base(Bob) = func_bobbing : "Bobbing platform.
+Moves in a smooth sine wave. Build at the center of motion, specify 'wait' for the wavelength in seconds and 'distance' for the amplitude (distance from end to end) in units. Use 'delay' to set a phase offset (0-1).
+Trigger to freeze in place or reactivate. If any 'don't stop until' spawnflags are checked, the bobber will keep oscillating until it reaches one of the designated positions and stop there.
+
+Set both 'pos1' & 'pos2' to override the two apex positions (ends of the bob) to build and light your plat wherever."  []
+@PointClass size(16 16 16) base(Bob) = func_bobbing_point : "Bobbing platform.
+Moves in a smooth sine wave. Build at the center of motion, specify 'wait' for the wavelength in seconds and 'distance' for the amplitude (distance from end to end) in units. Use 'delay' to set a phase offset (0-1).
+Trigger to freeze in place or reactivate. If any 'don't stop until' spawnflags are checked, the bobber will keep oscillating until it reaches one of the designated positions and stop there.
+
+Set both 'pos1' & 'pos2' to override the two apex positions (ends of the bob) to build and light your plat wherever."  [
+	model(string) : "Model to use"
+]
+@PointClass base(Flytrain) size(32 32 32) color(0 128 200) model({ "path": ":progs/teleport.mdl" }) = misc_teleporttrain : "Flying teleporter destination
+Annoying spiky ball which players who have beaten Quake understand as a moving teleport target. The teleball itself behaves like a func_flytrain."
+[
+	target(string) : "First stop target"
+	spawnflags(flags) =
+	[
+		1 : "Start invisible" : 0
+	]
+]
+
+
+//
+// lights.qc
+//
+@baseclass base() color(255 255 80) size(-8 -8 -8, 8 8 8) = Light [
+	light(integer) : "Brightness" : 300
+	_color(string) : "Color" : "1 1 1"
+	wait(string) : "Fade distance multiplier" : "1"
+	mangle(string) : "Spotlight aim (yaw pitch roll, neg. pitch is down)"
+	angle(integer) : "Spotlight cone angle"
+	_softangle(integer) : "Spotlight inner cone angle"
+	_dirt(integer) : "Override dirt"
+	message(string) : "override the style string directly for the assigned style (clashes will overwrite each other)"
+	target(string) : "Entity to aim at"
+	delay(choices) : "Attenuation" =
+	[
+		0 : "Linear falloff (Default)"
+		1 : "Inverse distance falloff"
+		2 : "Inverse distance squared"
+		3 : "No falloff"
+		4 : "Local minlight"
+		5 : "Inverse distance squared B"
+	]
+	style(Choices) : "Appearance" : 0 =
+	[
+		0 : "Normal"
+		10: "Fluorescent flicker"
+		2 : "Slow, strong pulse"
+		11: "Slow pulse, black"
+		5 : "Gentle pulse, no black"
+		1 : "Flicker A"
+		6 : "Flicker B"
+		3 : "Candle A"
+		7 : "Candle B"
+		8 : "Candle C"
+		4 : "Fast strobe"
+		9 : "Slow strobe"
+	]
+]
+@baseclass base(Light, Targetname) = LightTriggerable [
+	spawnflags(flags) = [
+		1 : "Start off" : 0
+	]
+]
+@baseclass base() = Flame [
+	volume(string) : "Crackle Volume" : "1"
+	distance(choices) : "Crackle Range" : 0 =
+	[
+		0 : "Ambient"
+		1 : "Monster Idle"
+		2 : "Monster Bark"
+		3 : "Global (plz no)"
+	]
+	spawnflags(flags) = [
+		2 : "Silent" : 0
+	]
+]
+@PointClass base(LightTriggerable) = light : "Invisible light source" []
+@PointClass base(LightTriggerable) = light_fluoro : "Humming fluorescent light source" []
+@PointClass base(Light) = light_fluorospark : "Sparking flickering light source" []
+@PointClass base(Light) size(24 24 24) = light_globe : "Globe light" []
+@PointClass base(Light, Flame) size(-4 -4 -12, 4 4 20) model({ "path": ":progs/flame.mdl" }) = 
+	light_torch_small_walltorch : "Small walltorch" []
+@PointClass base(Light, Flame) size(-8 -8 -12, 8 8 20) model({ "path": ":progs/flame2.mdl" }) = 
+	light_flame_large_yellow : "Large yellow flame" []
+@PointClass base(Light, Flame) size(-4 -4 -12, 4 4 20) model({ "path": ":progs/flame2.mdl" }) = 
+	light_flame_small_yellow : "Small yellow flame"  []
+@PointClass base(Light, Flame) size(-4 -4 -12, 4 4 20) model({ "path": ":progs/flame2.mdl" }) = 
+	light_flame_small_white : "Small white flame (same as light_flame_small_yellow)" []
+@PointClass base(LightTriggerable) size(-4 -4 0, 4 4 16) model({ "path": ":progs/candle2.mdl" }) = 
+	light_candle : "Animated candle. Trigger to turn on or off.
+If triggered to turn on and off, all candles with a matching targetname will ignite or go out as well.
+Choose size with 'width' and 'height' (leave either at 0 for random selection)."
+[
+	width(choices) : "Width" : 0 =
+	[
+		0: "Random"
+		1: "Narrow"
+		2: "Medium"
+		3: "Thick"
+	]
+	height(choices) : "Height" : 0 =
+	[
+		0: "Random"
+		1: "Short"
+		2: "Medium"
+		3: "Tall"
+	]
+]
+@PointClass base(Appearflags, Targetname) color(128 210 128) = target_lightstyle : 
+"Target : Lightstyle
+Changes a global lightstyle when triggered."
+[
+	message(string) : "Brightness pattern"
+	style(integer) : "Lightstyle to change (0-63)" : 0
+	count(integer) : "Limit uses" : 0
+	delay(string) : "Delay before activation" : "0"
+	target(target_destination) : "Target: acts on all with matching targetname" 
+	target2(target_destination) : "Target 2: acts on all with matching targetname" 
+	target3(target_destination) : "Target 3: acts on all with matching targetname" 
+	target4(target_destination) : "Target 4: acts on all with matching targetname" 
+]
+
+
+//
+// explobox.qc
+//
+@baseclass base(Appearflags, Target, Targetname) color(210 40 0) = Explobox [
+	health(integer) : "Hit points (-1 to be immune and trigger-only)" : 18
+	wait(string) : "Respawn interval. Default 0 is never respawn." : "0"
+	count(integer) : "Respawn count. Default 0 is respawn forever (if 'wait' is set). -4 will auto-scale the count to the number of clients in coop." : 0
+]
+@PointClass base(Explobox, FuncInvis) size(0 0 0, 32 32 64) model({ "path": ":maps/b_explob.bsp" }) = misc_explobox : 
+"Large exploding container, 150 damage. 
+Explodes when triggered or shot. Fires targets when it explodes.
+will do enough damage to set off other barrels at up to ~172u distance (center to center)." 
+[]
+@PointClass base(Explobox, FuncInvis) size(0 0 0, 32 32 32) model({ "path": ":maps/b_exbox2.bsp" }) = misc_explobox2 : "Small exploding container, 100 damage. 
+Explodes when triggered or shot. Fires targets when it explodes.
+will do enough damage to set off other barrels at up to ~128u distance (center to center)." 
+[]
+@SolidClass base(Explobox, FuncInvis) = func_explobox : "Customizable exploding container. 
+Explodes when triggered or shot. Fires targets when it explodes." 
+[
+	dmg(integer) : "Explosion damage (-1 will force 0)" : 150
+]
+
+
+//
+// misc.qc
+//
+@PointClass base(Targetname) size(8 8 8) color(0 150 0) = info_null : "info_null (spotlight target)
+Not present in game." []
+@PointClass base(Appearflags, Target, Targetname) size(8 8 8) color(0 150 0) = info_notnull : "Wildcard entity" // I love you too
+[
+	use(string) : "self.use"
+	think(string) : "self.think"
+	nextthink(integer) : "nextthink"
+	noise(string) : "noise"
+	touch(string) : "self.touch"
+]
+@PointClass color(160 180 200) = misc_external_map : "Put another map in your map" [
+	_external_map(string) : "Filename of .map to import"
+	_external_map_classname(string) : "Classname to turn imported worldspawn into"
+	_external_map_angles(string) : "Rotation (pitch yaw roll, negative pitch is up)"
+	_external_map_angle(string) : "Rotation (yaw only)"
+	_external_map_scale(string) : "Scale (one value or x y z)"
+]
+@PointClass base(Appearflags, Targetname) size(16 16 16) color(160 192 224) model({ 
+	"path": model,
+    "skin": skin,
+    "frame": frame
+}) = misc_model : 
+"Display a model. Will not be solid! Use clip to block players/monsters, or a func_wall made of skip to block weapons."
+[
+	spawnflags(flags) = [
+		1 : "Trigger Visibility" : 0
+		2 : "Start Invisible" : 0
+		4 : "Play 2nd anim once" : 0	
+	]
+	model(string) : "Filename of model (mdl or bsp)"
+	mangle(string) : "Orientation (pitch yaw roll, positive pitch is down)"
+	frame(integer) : "frame of mdl to display" : 0
+	skin(integer) : "skin of mdl to display" : 0
+	pos1(string) : "override frame with an animation (firstframe startframe lastframe)"
+	pos2(string) : "if triggerable, second animation to toggle to"
+	ideal_yaw(choices) : "Randomize orientation" = [
+		0 : "Set Orientation"
+		1 : "Random yaw"
+	]
+]
+@Pointclass base(Targetname, Appearflags) color(192 64 0) size(32 32 32) = target_heal : "Target : Heal.
+Heals activator for 'healamount' when triggered. Use for healing pools, first aid dispensers, etc.
+If it has any targets, it heals them instead, even doors and buttons. This will not reset 'dead' doors or buttons with a wait of -1.
+
+If 'trigger first' and 'auto set count' are set, will choose 'count' based on how much health the activator needs when first triggered, for dirty lazy automatic game balance. Use 'lip' and 'max_health' to constrain this." 
+[
+	spawnflags(flags) = [
+		1 : "Overheal (ignore max)" : 0
+		2 : "Ignore non-players" : 0
+		4 : "First trigger activates" : 0
+		8 : "Auto-set 'count' on trigger-first" : 0
+	]
+	target(target_destination) : "Target: acts on all with matching targetname" 
+	target2(target_destination) : "Target 2: acts on all with matching targetname" 
+	target3(target_destination) : "Target 3: acts on all with matching targetname" 
+	target4(target_destination) : "Target 4: acts on all with matching targetname" 
+	healamount(integer) : "Healing per use" : 5
+	count(integer) : "Lifetime healing limit" : -1
+	strength(string) : "Scale auto-limit (-4 to scale by number of clients)" : "1"
+	lip(integer) : "Minimum target health for auto-limit"
+	max_health(integer) : "Maximum target health for auto-limit"
+]
+@Pointclass base(Targetname, Appearflags) color(192 64 0) size(16 16 16) = target_kill : 
+"Removes all targets when triggered. for targets you really don't like." [
+	spawnflags(flags) =	[
+		1 : "Murder monsters instead of removing" : 0
+		2 : "Remove one target at random" : 0
+	]	
+	target(target_destination) : "Target: removes all with matching targetname" 
+	target2(target_destination) : "Target 2: removes all with matching targetname" 
+	target3(target_destination) : "Target 3: removes all with matching targetname" 
+	target4(target_destination) : "Target 4: removes all with matching targetname" 
+	killtarget(target_destination) : "Killtarget: removes all with matching targetname" 
+	delay(string) : "Delay before removing" : "0"
+]
+@Pointclass base(Targetname, Appearflags) color(255 0 128) size(32 32 32) = target_autosave : 
+"Saves the game when triggered by a player. Never appears in multiplayer. 
+the bprint tends to stomp any other prints on screen in most quake clients, so use a delayed trigger_relay if you fire this from an important pickup/trigger_counter/something else that puts text on screen more important than the autosave blurb." 
+[
+	message(string) : "Change save filename" : "auto"
+]
+@PointClass size(16 16 16) color(160 80 0) base(Appearflags, Targetname) model({ "path": ":progs/lavaball.mdl" }) = misc_fireball : "Lavaball Launcher. 
+Fires randomly. Trigger to toggle on/off." 
+[
+	spawnflags(flags) = [
+		1 : "Start off" : 0
+		2 : "Launch when triggered (no toggle)" : 0
+		4 : "Explode on contact" : 0
+	]
+	delay(string) : "Pause before first ball" : "0"
+	wait(string) : "Pause between balls" : "3"
+	rand(string) : "Random extra pause before ball" : "5"
+	speed(integer) : "Speed" : 1000
+	movedir(string) : "Launch Dir" : "0 0 1"
+	mangle(string) : "Random velocity addition (x y z)" : "50 50 100"
+	dmg(integer) : "Contact damage" : 20
+]
+@PointClass color(128 128 128) size(16 16 16) base(Appearflags, Targetname, Target) = target_multiprint : 
+"Target : Multiprint
+This entity will print a different string every time it's triggered.  Prints 'message', 'noise', 'noise1', 'noise2', 'noise3', then 'noise4.'  Once all strings are used up, it will fire its targets instead (so several of these can be chained if you really need that 
+many prints in a row)."
+[
+	spawnflags(flags) = [
+		1 : "Silent" : 0
+	]
+	message(string) : "First print"
+	noise(string) : "Second print"
+	noise1(string) : "Third print"
+	noise2(string) : "Fourth print"
+	noise3(string) : "Fifth print"
+	noise4(string) : "Sixth print"
+]
+
+
+//
+// shooters.qc
+//
+@baseclass base(Appearflags, Target, Targetname, Angle) color(220 150 150) = Shooter
+[
+	spawnflags(Flags) = 
+	[
+		1 : "Spike" : 0
+		2 : "Laser" : 0
+		4 : "Ogre Grenade" : 0
+		16 : "Fire At Activator" : 0
+	]
+	movedir(string) : "Override launch vector (x y z)"
+	volume(string) : "Override sound volume" : "1.0"
+	delay(string) : "Pause before first shot" : "0"
+	speed(integer) : "Launch velocity for grenades"
+]
+@PointClass base(Shooter) = trap_spikeshooter : "Triggered shooter. Trigger to fire one shot." []
+@PointClass base(Shooter) = trap_shooter : "Continuous shooter. Trigger to turn on and off."
+[
+	delay(string) : "Delay before first shot, so multiple shooters can be staggered"
+	wait(string) : "Interval between shots"
+	rand(string) : "Random extra time between shots"
+]
+@PointClass base(Appearflags, Target, Targetname, Angle) color(220 150 150) = trap_lightning : "Lightning shooter. Trigger to turn on, trigger again to turn off. Fires 10 times per second, unless 'One-shot' spawnflag is checked.
+
+You can choose from three power levels, set by selecting 'strength':
+1: 10dmg/100dps. Does not penetrate targets. Uses thin LG beam. One-shot lasts 0.1 seconds. Default.
+2: 30dmg/300dps. Penetrates targets. Uses thick Shambler beam. One-shot lasts 0.3 seconds.
+3: Instakill. Penetrates targets. Uses fat Chthon beam. One-shot lasts 1 second. Does 1k damage to a Chthon and 10k damage to a Shub." [
+	spawnflags(Flags) = 
+	[
+		1 : "One-shot" : 0
+		2 : "Aim At Activator" : 0
+	]
+	movedir(string) : "Override aim vector (x y z) - length of vector sets distance"
+	delay(string) : "Pause before firing, if oneshot" : "0"
+	strength(choices) : "Beam Power" = 
+	[
+		1 : "Small, 10dmg"
+		2 : "Medium, 30dmg"
+		3 : "Large, instagib"
+	]
+
+]
+
+
+//
+// walls.qc
+//
+@baseclass base(Appearflags, Targetname, Func) = Wall [
+	spawnflags(flags) = [
+		1 : "Illusionary" : 0
+		2 : "Toggle Visible+Solid" : 0
+		4 : "Start Invisible" : 0
+	]
+	noise(string) : "Sound to play when triggered"
+	noise2(string) : "Sound to accompany touch message"
+	message(string) : "Message when touched"
+	wait(string) : "Flip back after this long" : "0"
+	alpha(string) : "Opacity (GLQuake+ only) (-1 = 0)" : "1"
+]
+@SolidClass base(Wall) = func_wall : "Wall. Changes its texture(s) to alternate ones (e.g. basebtn), if triggered.
+Not static: Use a func_static for inconsequential bmodels.
+
+If 'Illusionary' is set, wall will always be nonsolid.
+If 'Toggle Visibility' is set, will disappear and reappear when triggered instead of flipping texture."
+[]
+@PointClass base(Wall) = func_wall_point : "Wall. Changes its texture(s) to alternate ones (e.g. basebtn), if triggered.
+Not static: Use a func_static for inconsequential bmodels.
+
+Select a .bsp or .mdl to show with 'model'. 
+
+If 'Illusionary' is set, wall will always be nonsolid. If you use a .mdl you MUST set this flag (or consider a misc_model instead?)
+If 'Toggle Visibility' is set, will disappear and reappear when triggered instead of flipping texture." [
+	model(string) : "External model"
+	mangle(string) : "Orientation of external model"
+]
+@SolidClass base(Appearflags, Func) = func_illusionary : "Nonsolid, untriggerable static wall"  [
+	alpha(string) : "Opacity (GLQuake only) (-1 = 0)" : "1"
+]
+@SolidClass base(Appearflags, Target, Func, svFlags) = func_episodegate : 
+"Episode Gate. 
+If players have completed the episode, it fires its targets.
+If players have NOT completed the episode, it self-removes.
+Match svflags to the svflags of an item_sigil to respond to that rune instead.
+If multiple svflags or episode spawnflags are set, gate will spawn if the player has ANY of those runes. To require them all, check 'Require All Specified'."
+[
+	spawnflags(Flags) =
+	[
+		1 : "Episode 1" : 1
+		2 : "Episode 2" : 0
+		4 : "Episode 3" : 0
+		8 : "Episode 4" : 0
+		16 : "Reverse Outcome" : 0
+		32 : "Require All Specified" : 0
+	]
+]
+@SolidClass base(Appearflags, Target, Func) = func_bossgate : 
+"Boss Gate. 
+If players have NOT completed all episodes, it fires its targets.
+If players have completed all episodes, it self-removes." 
+[]
+@baseclass base(Phong) color(72 144 200) = FuncOffline []
+
+@SolidClass base(FuncOffline) = func_group : "Group of brushes for in-editor use" []
+@SolidClass base(FuncOffline) = func_detail : "Group of brushes which aren't abusive to bsp" []
+@SolidClass base(FuncOffline) = func_detail_wall : "Group of brushes which aren't abusive to bsp or geometry" []
+@SolidClass base(FuncOffline) = func_detail_illusionary : "Group of brushes which aren't solid, or abusive to bsp or geometry" []
+@SolidClass base(FuncOffline) = func_detail_fence : "Group of brushes which aren't solid, or abusive to bsp or geometry, and are two-sided" []
+
+
+//
+// sound.qc
+//
+@baseclass base(Appearflags) = Ambient [
+	distance(choices) : "Attenuation" : 0 = [
+		0 : "Ambient"
+		1 : "Monster Idle"
+		2 : "Monster Bark"
+		3 : "Global"
+	]
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_sound : "Custom ambient sound"
+[
+	noise(string) : "path to .wav"
+	volume(string) : "Volume" : "1"
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_suck_wind : "Wind sound" [
+	volume(string) : "Volume" : "1"
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_drone : "Engine/machinery sound" [
+	volume(string) : "Volume" : "0.55"
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_flouro_buzz : "Fluorescent buzzing sound" [
+	volume(string) : "Volume" : "1"
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_drip : "Dripping sound" [
+	volume(string) : "Volume" : "0.75"
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_comp_hum : "Computer background sounds" [
+	volume(string) : "Volume" : "1"
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_thunder : "Thunder sound" [
+	volume(string) : "Volume" : "0.5"
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_light_buzz : "Buzzing sound from light" [
+	volume(string) : "Volume" : "0.85"
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_swamp1 : "Frogs croaking" [
+	volume(string) : "Volume" : "0.75"
+]
+@PointClass base(Ambient) color(150 0 150) = ambient_swamp2 : "Frogs croaking B" [
+	volume(string) : "Volume" : "0.5"
+]
+@PointClass base(Ambient, Targetname) color(150 0 150) = target_sound : "Custom triggered sound. Will play one sound every time it is triggered.
+You can set up to five sounds on this entity to cycle through in order (or shuffle, with the 'random' spawnflag). They will not cut each other off, so triggering this entity more frequently than the length of the sounds will overlap them."
+[
+	noise(string) : "path to .wav"
+	noise1(string) : "optional additional .wav to cycle"
+	noise2(string) : "optional additional .wav to cycle"
+	noise3(string) : "optional additional .wav to cycle"
+	noise4(string) : "optional additional .wav to cycle"
+	volume(string) : "Volume" : "1"
+	delay(string) : "Delay" : "1"
+	count(integer) : "Limit Uses" : 0
+	wait(string) : "Time between sounds, if toggle" : 0
+	rand(string) : "Random extra time between sounds, if toggle" : 0
+	style(integer) : "Force sound channel" : 0
+	spawnflags(flags) = 
+	[
+		1 : "Random next sound" : 0
+		2 : "Play on player" : 0
+		4 : "Toggle" : 0
+	]
+	target(target_source) : "Optional target to play sound on"
+]
+
+
+//
+// fog.qc
+//
+@baseclass = Fog [ 
+	fog_density(string) : "Fog Density (-1 for clear)" 
+	fog_color(string) : "Fog Color" 
+	fog_sky(string) : "Sky Fog Density (-1 for clear sky)" 
+]
+@baseclass = FogShift [ 
+	fog_density(string) : "Start Fog Density (-1 for clear)" 
+	fog_color(string) : "Start Fog Color" 
+	fog_sky(string) : "Start Sky Fog Density (-1 for clear sky)" 
+	fog_density2(string) : "End Fog Density (-1 for clear)" 
+	fog_color2(string) : "End Fog Color" 
+	fog_sky2(string) : "End Sky Fog Density (-1 for clear sky)" 
+]
+@SolidClass color(128 128 0) base(Appearflags, Targetname, FogShift) = trigger_fogblend : 
+"Trigger: Fog Blend
+Acts as a smoothly blending portal between two zones of different fog. Sets the fog for any client passing through it, blending their global fog settings between start and end values proportional to their position within the trigger.
+fog_sky/fog_sky2 will affect r_skyfog at the same time if both are non-zero. Use -1 if you really want 0.
+
+- will 'stuffcmd' up to 20 times per frame so try not to make these huge, but as an optimization, Copper will avoid sending the stuffcmd if it determines that the fog difference frame over frame is not visually significant.
+- a bug in most quake engine ports will reset the eye position smoothing that happens when climbing stairs or riding a plat on every frame that a 'stuffcmd' is sent, so fog transitions during upwards motion will cause noticeable stuttering." 
+[
+	distance(integer) : "Length of blend distance (defaults to size of trigger)"
+	angle(integer) : "Axis of motion of blend (points toward end values)"
+]
+@PointClass base(Appearflags, Targetname, FogShift) color(128 128 50) = target_fogblend : 
+"Target: Fog Blend
+Activator's fog will be blended over time from start to end values.
+
+- will 'stuffcmd' up to 20 times per frame so try not to make this take too long, but as an optimization, Copper will avoid sending the stuffcmd if it determines that the fog difference frame over frame is not visually significant.
+- a bug in most quake engine ports will reset the eye position smoothing that happens when climbing stairs or riding a plat on every frame that a 'stuffcmd' is sent, so fog transitions during upwards motion will cause noticeable stuttering." 
+[
+	spawnflags(flags) = [
+		1 : "One-Way Only" : 0
+		2 : "Reverse Start/End" : 0
+		4 : "All clients" : 0
+	]
+	delay(string) : "Pause before starting blend"
+	speed(string) : "Time to blend (-1 for instant)"
+	speed2(string) : "Time to blend back, if different (-1 for instant)"
+]
+
+
+//
+// t_void.qc
+//
+@SolidClass base(Target, Appearflags) color(128 50 0) = func_void : 
+"for holes into which one should not fall
+
+Texture this with black (or sky?) and cover the bottom of the pit with it.  Automatically offsets its own visual model upward, to hide pesky heads and scrag corpses underneath.  Also automatically spawns a start-of-plunge trigger of the same size 'height' units above itself that plays a yell sound and fades out the view of clients as they start to fall in.
+
+The player's view will have faded completely by the time they touch the bottom, so we hold them in stasis for a little while longer there before splatting them, to imply the pit is deeper than it really is. The player can therefore feel like they fall for a long time before crash landing in darkness without you having to build a pit that deep.
+
+Fires all targets when a client touches the plunge trigger (ie the yell, not the splat).
+
+If the func_void's first target is an info_teleport_destination, it will hurt the player and teleport him to the destination. If the damage is enough to kill the player, it continues with the fade and splat as normal without teleporting."
+[
+	delay(string) : "how long the player should 'fall' before the splat" : "3"
+	height(integer) : "how high above the func_void the plunge trigger should spawn. do not make this high enough that players will touch it without falling in or they'll hear random screaming noises as they walk around and that'll be strange." : 128
+	lip(integer) : "distance to raise the visual model" : 32
+	dmg(integer) : "pain to apply before salvation teleport" : 60
+	fadecolor(string) : "color to fade the screen to while falling" : "0 0 0"
+	noise(string) : "fall sound" : "player/q3fall.wav"
+	noise2(string) : "splat sound" : "player/splat1.wav"
+]
+
+
+//
+// fx.qc
+//
+@baseclass color(0 128 224) = Particlefield [
+	spawnflags(flags) = [
+		1 : "Start on" : 0
+		2 : "Suck inward" : 0
+		4 : "Blow outward" : 0
+		8 : "Single burst when triggered" : 0
+	]
+	speed(integer) : "Clumps per second" : 10
+	speed2(integer) : "Dots per clump" : 16
+	health(choices) : "Color" = [
+		0   : "Dark grey"
+		8   : "Light grey"
+		16  : "Dark dirt brown"
+		24  : "Light dirt brown"
+		32  : "Dark sky blue"
+		40  : "Light sky blue"
+		48  : "Dark grass green"
+		56  : "Light grass green"
+		64  : "Dark red"
+		72  : "Red"
+		80  : "Dark green"
+		88  : "Greenish orange "
+		96  : "Copper"
+		104 : "Gold"
+		112 : "Dark flesh"
+		120 : "Light flesh"
+		128 : "Pale purple"
+		136 : "Dull purple"
+		144 : "Reddish purple"
+		152 : "Dark reddish purple"
+		160 : "Eggshell"
+		168 : "Dark eggshell"
+		176 : "Turquoise"
+		184 : "Dark turquoise"
+		192 : "Yellow"
+		200 : "Dark yellow"
+		208 : "Rich blue"
+		216 : "Dark blue"
+		224 : "Deep lava"
+		232 : "Bright lava"
+		240 : "Cyan/yellow/white confetti"
+		248 : "Red/yellow/white confetti"
+	]
+	movedir(string) : "Velocity of particles (x y z)"
+	wait(string) : "Interval" : "0.1"
+	velocity(string) : "Direction of optional sweep effect (x y z)"
+	distance(integer) : "Sleep if all players are further than this distance"
+	target(target_source) : "Optional name of entity to center effect on"
+]
+
+@Pointclass base(Targetname, Appearflags, Bounds, Particlefield) size(16 16 16) = misc_particlefield_box : 
+"Makes dots appear continuously within its bounds. Trigger to toggle on/off." []
+
+@Solidclass base(Targetname, Appearflags, Particlefield) = misc_particlefield : 
+"Makes dots appear continuously within its bounds. Trigger to toggle on/off." []
+@Pointclass base(Targetname, Appearflags) color(0 128 224) size(16 16 16) = target_screenshake : 
+"Shakes the screen. Jostles the view of all clients, but doesn't physically move their bounding boxes or apply velocities.
+Total shake duration is length + delay + wait." 
+[
+	length(string) : "Duration of full intensity (sustain)"
+	delay(string) : "Time to ramp up from 0 (attack)"
+	wait(string) : "Time to ramp down quake intensity to 0."
+	strength(string) : "Intensity of quake. 1 is a hearty rumble, 10 is spasmodic bordering on hilarious." : "1.0"
+	distance(integer) : "Attenuation distance; 0 is global" : 0
+]
+@Pointclass base(Targetname, Appearflags, Deathtype) color(0 128 224) size(16 16 16) = target_explosion : 
+"Causes one or more explosions when triggered, same appearance as a rocket/grenade blast." 
+[
+	spawnflags(flags) = [
+		1 : "Tarbaby blast " : 0
+		1 : "Puff blast" : 0
+	]
+	count(integer) : "Repeat count" : 1
+	delay(string) : "Delay before first blast" : "0"
+	wait(string) : "Wait between blasts" : "1"
+	rand(string) : "Random extra wait before blasts" : "0"
+	size(string) : "Explode somewhere randomly chosen within a box of this size (x y z)" : "0 0 0"
+	dmg(integer) : "Splash damage" : 0
+]
+@Pointclass base(Targetname, Appearflags) color(0 128 224) size(16 16 16) = target_telefog : 
+"Causes a flash of teleport fog." 
+[
+	count(integer) : "Repeat count" : 1
+	delay(string) : "Delay before first flash" : "0"
+	wait(string) : "Wait between flashes" : "1"
+	size(string) : "Flash somewhere randomly chosen within a box of this size (x y z)" : "0 0 0"
+	rand(string) : "Random extra before flashes" : "0"
+]
+@PointClass base(Appearflags, Targetname) color(0 150 220) = air_bubbles : "Air bubble emitter." 
+[
+	spawnflags(flags) = [
+		1 : "Start off" : 0
+		8 : "Single burst when triggered" : 0
+	]
+	wait(string) : "Bubble interval" : "1"
+	rand(string) : "Random extra interval" : "1"
+	size(string) : "Emit from random places within a box of this size" : "0 0 0"
+	count(integer) : "Bubbles to emit at once if single burst" : 1
+	distance(integer) : "Sleep if all players are further than this distance"
+]
+@PointClass base(Appearflags, Targetname) size(16 16 16) color(180 180 180) = target_debris : "Emits debris chunks"
+[
+	count(integer) : "Number of chunks" : 3
+	delay(string) : "Delay before first emit" : "0"
+	size(string) : "Random location within bounds" : "0 0 0"
+	speed(integer) : "Speed of chunks" : 128
+	mangle(string) : "Specify chunk direction" : "0 0 0"
+	frame(integer) : "Set frame on all debris" : 0
+	skin(choices) : "Set skin on all debris" =
+	[
+		0 : "Wizbrick brown"
+		1 : "Plaster brown"
+		2 : "Runic grey"
+		3 : "Rusty metal"
+		4 : "Gloom red"
+		5 : "Swampy green"
+		6 : "Elder blue"
+		7 : "Hottt"
+	]
+	alpha(string) : "Set alpha on all debris" : "1"
+	model(string) : "Choose a model for debris" : ""
+	model2(string) : "Choose a second model for debris" : ""
+	model3(string) : "Choose a third model for debris" : ""
+	noise(string) : "Play a sound when triggered" : ""
+]
+@PointClass base(Appearflags, Targetname, Target, AltTarget) color(128 128 50) = target_fade : 
+"Target: Fade
+Changes the alpha of its targets over time from 'alpha' to 'alpha2'.
+If this targets brushmodels with switchable shadows or lightstyles, the lighting will fade appropriately.
+If 'Blend By Distance' is set, it will set alpha immediately based on how far the activator is from its origin.
+'One Way' in distance mode constrains motion along 'angle' to the positive direction, instead of symmetrically.
+
+Alt Target Pattern: in distance mode, target is fading object, target2 on begin fade (enter distance range), target3 on complete fade (enter lip range), target4 on exit distance range" 
+[
+	spawnflags(flags) = [
+		1 : "One Way" : 0
+		2 : "Reverse alpha/alpha2" : 0
+		2 : "Blend By Distance" : 0
+	]
+	delay(string) : "Pause before starting blend"
+	alpha(string) : "Start alpha" : "1.0"
+	alpha2(string) : "End alpha" : "0.0"
+	speed(string) : "Time to blend (-1 for instant)"
+	speed2(string) : "Time to blend back, if different (-1 for instant)"
+	distance(integer) : "Max distance for 'alpha'"
+	lip(integer) : "Min distance for 'alpha2'"
+	angle(integer) : "Constrain distance to this axis"
+	noise(string) : "Sound to play on begin fade"
+	noise2(string) : "Sound to play on end fade"
+	noise3(string) : "Sound to play on begin reverse fade"
+	noise4(string) : "Sound to play on end reverse fade"
+]
+
+
+//
+// m_ogre.qc
+//
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/ogre.mdl" }) = monster_ogre : "Ogre" []
+
+
+//
+// m_demon.qc
+//
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/demon.mdl" }) = monster_demon1 : "Fiend" []
+
+
+//
+// m_shambler.qc
+//
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shambler.mdl" }) = monster_shambler : "Shambler" []
+
+
+//
+// m_knight.qc
+//
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/knight.mdl" }) = monster_knight : "Knight" []
+
+
+//
+// m_soldier.qc
+//
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/soldier.mdl" }) = monster_army : "Grunt" []
+
+
+//
+// m_wizard.qc
+//
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/wizard.mdl" }) = monster_wizard : "Scrag" []
+
+
+//
+// m_dog.qc
+//
+@PointClass base(Monster) size(-32 -32 -24, 32 32 40) model({ "path": ":progs/dog.mdl" }) = monster_dog : "Rottweiler" []
+
+
+//
+// m_zombie.qc
+//
+@PointClass base(Monster) size(-16 -16 -24, 16 16 32) model({ "path": ":progs/zombie.mdl" }) = monster_zombie : "Zombie" 
+[
+	spawnflags(Flags) = 
+	[
+		1 : "Crucified" : 0
+		2 : "Ambush" : 0
+		4 : "Spawn Prone" : 0
+	]
+]
+
+
+//
+// m_boss.qc
+//
+@PointClass base(Angle, Appearflags, Target, Targetname, Deathtype) size(-128 -128 -24, 128 128 256) color(240 0 0) model({ "path": ":progs/boss.mdl" }) = monster_boss : "Ch'thon. Throws lava bombs until electrocuted to death.
+The more health he's lost, and the higher the skill level the player is on, the more accurately he leads his shots.
+The E1M7 boss fight requires an event_lightning.
+
+If 'shootable' is set, he'll bleed when shot, and die the old-fashioned way when shot enough. Can even be telefragged. Health defaults to 1000."
+[
+	spawnflags(Flags) =
+	[
+		1 : "Shootable" : 0
+	]
+	health(integer) : "Hit points, if shootable" : 1000
+]
+@PointClass base(Appearflags, Target, Targetname) color(0 255 255) = event_lightning : "Chthon lightning. Fires targets on a successful zap.
+Setup is weird and special: it must find two func_doors each with a 'target' (not targetname) of 'lightning', and it will branch the lightning between the bottom center of each door. If both doors are closed it won't hurt Ch'thon, but if both are open, it will, and otherwise lightning won't happen at all. Lightning doesn't actually have to go through Ch'thon." []
+
+
+//
+// m_tarbaby.qc
+//
+@PointClass base(Monster) size(-16 -16 -24, 16 16 24) model({ "path": ":progs/tarbaby.mdl" }) = monster_tarbaby : "Spawn" []
+
+
+//
+// m_hknight.qc
+//
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/hknight.mdl" }) = monster_hell_knight : "Death knight" []
+
+
+//
+// m_fish.qc
+//
+@PointClass base(Monster) size(-16 -16 -16, 16 16 16) model({ "path": ":progs/fish.mdl" }) = monster_fish : "Rotfish" []
+
+
+//
+// m_shalrath.qc
+//
+@PointClass base(Monster) size(-32 -32 -24, 32 32 64) model({ "path": ":progs/shalrath.mdl" }) = monster_shalrath : "Vore" []
+
+
+//
+// m_enforcer.qc
+//
+@PointClass base(Monster) size(-16 -16 -24, 16 16 40) model({ "path": ":progs/enforcer.mdl" }) = monster_enforcer : "Enforcer" []
+
+
+//
+// m_oldone.qc
+//
+@PointClass base(Appearflags, Target, Targetname, Angle) color(220 0 0) size(-128 -128 -24, 128 128 256) model({ "path": ":progs/oldone.mdl" }) = monster_oldone : 
+"Shubby
+can be killed by traditional telefrag or in several new ways:
+- being triggered 'strength' times
+- being damaged for more than 10000 hp 'strength' times
+both of the above cause one thrashy roary anim that flickers the lights and causes a screenshake.
+death will trigger the finale cutscene, unless 'Don't end level' is checked, in which case Shub will just die like any other monster."
+[
+	spawnflags(flags) = [
+		1 : "Don't end level" : 0
+	]
+	strength(integer) : "Health, in hits" : 3
+	map(string) : "Map to exit to" : "start"
+	message(string) : "Intermission text" : "congratulations and well done etc..."
+]
+

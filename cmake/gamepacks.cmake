@@ -176,6 +176,10 @@ if(RADIANT_GENERATE_GOLDSRC_GAMEPACKS)
 	include(gamepacks/goldsrc)
 endif()
 
+if(RADIANT_GENERATE_IDTECH2_GAMEPACKS)
+	include(gamepacks/idtech2)
+endif()
+
 if(RADIANT_GENERATE_IDTECH3_GAMEPACKS)
 	include(gamepacks/idtech3)
 endif()
