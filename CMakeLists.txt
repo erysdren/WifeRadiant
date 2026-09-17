@@ -26,6 +26,7 @@ cmake_dependent_option(RADIANT_GENERATE_SOURCE_GAMEPACKS "Generate Source Engine
 cmake_dependent_option(RADIANT_GENERATE_GOLDSRC_GAMEPACKS "Generate GoldSrc gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
 option(RADIANT_BUILD_MBSPC "Build mbspc" ON)
 cmake_dependent_option(RADIANT_BUILD_Q3MAP2 "Build q3map2" ON RADIANT_USE_ASSIMP OFF)
+cmake_dependent_option(RADIANT_BUILD_WRMAP "Build wrmap" ON RADIANT_USE_ASSIMP OFF)
 option(RADIANT_BUILD_Q2MAP "Build q2map" ON)
 option(RADIANT_BUILD_H2DATA "Build h2data" ON)
 option(RADIANT_BUILD_QDATA3 "Build qdata3" ON)
@@ -40,6 +41,9 @@ set(RADIANT_MINOR_VERSION ${PROJECT_VERSION_MINOR})
 set(RADIANT_PATCH_VERSION ${PROJECT_VERSION_PATCH})
 set(RADIANT_ABOUTMSG "fix your hearts or die" CACHE STRING "")
 set(Q3MAP_VERSION "2.5.17n" CACHE STRING "")
+set(Q3MAP_MOTD "Your map saw the pretty lights from q3map2's BFG" CACHE STRING "")
+set(WRMAP_VERSION "2.5.17n" CACHE STRING "")
+set(WRMAP_MOTD "your map saw my transgender boobs" CACHE STRING "")
 
 # external dependencies
 
@@ -481,6 +485,14 @@ endif()
 
 if(RADIANT_BUILD_Q3MAP2)
 	include(q3map2)
+endif()
+
+# wrmap
+
+if(RADIANT_BUILD_WRMAP)
+	set(BUILD_WRMAP TRUE)
+	include(q3map2)
+	unset(BUILD_WRMAP)
 endif()
 
 # mbspc
