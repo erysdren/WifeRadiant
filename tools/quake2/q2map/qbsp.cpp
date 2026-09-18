@@ -22,6 +22,10 @@
 
 #include "qbsp.h"
 
+#include "pugixml.hpp"
+#include "pugixml.hpp"
+#include "pugixml.hpp"
+
 extern float subdivide_size;
 
 char source[1024];
@@ -161,8 +165,9 @@ void ProcessWorldModel( void ){
 	entity_t    *e;
 	tree_t      *tree;
 	qboolean leaked;
-	xmlNodePtr polyline, leaknode;
 	char level[ 2 ];
+	level[0] = (int) '0' + SYS_ERR;
+	level[1] = 0;
 
 	e = &entities[entity_num];
 
@@ -239,13 +244,10 @@ void ProcessWorldModel( void ){
 			Sys_FPrintf( SYS_NOXML, "**********************\n" );
 			Sys_FPrintf( SYS_NOXML, "******* leaked *******\n" );
 			Sys_FPrintf( SYS_NOXML, "**********************\n" );
-			polyline = LeakFile( tree );
-			leaknode = xmlNewNode( NULL, (const xmlChar*)"message" );
-			xmlNodeAddContent( leaknode, (const xmlChar*)"MAP LEAKED\n" );
-			xmlAddChild( leaknode, polyline );
-			level[0] = (int) '0' + SYS_ERR;
-			level[1] = 0;
-			xmlSetProp( leaknode, (const xmlChar*)"level", (const xmlChar*)level );
+			auto polyline = LeakFile( tree );
+			pugi::xml_node leaknode = polyline->append_child( "message" );
+			leaknode.set_value( "MAP LEAKED\n" );
+			leaknode.append_attribute( "level" ) = level;
 			xml_SendNode( leaknode );
 			if ( leaktest ) {
 				Sys_Printf( "--- MAP LEAKED, ABORTING LEAKTEST ---\n" );

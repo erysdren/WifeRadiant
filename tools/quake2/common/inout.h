@@ -22,13 +22,12 @@
 #ifndef __INOUT__
 #define __INOUT__
 
-// inout is the only stuff relying on xml, include the headers there
-#include "libxml/tree.h"
+#include "pugixml.hpp"
 #include "mathlib.h"
 
 // some useful xml routines
-xmlNodePtr xml_NodeForVec( vec3_t v );
-void xml_SendNode( xmlNodePtr node );
+pugi::xml_node* xml_NodeForVec( vec3_t v );
+void xml_SendNode( pugi::xml_node node );
 // print a message in q3map output and send the corresponding select information down the xml stream
 // bError: do we end with an error on this one or do we go ahead?
 void xml_Select( char *msg, int entitynum, int brushnum, qboolean bError );

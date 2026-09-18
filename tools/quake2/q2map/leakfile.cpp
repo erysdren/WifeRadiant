@@ -19,7 +19,9 @@
    Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
  */
 
+#include "pugixml.hpp"
 #include "qbsp.h"
+#include "pugixml.hpp"
 
 /*
    ==============================================================================
@@ -111,13 +113,12 @@
    TTimo: builds a polyline xml node
    =============
  */
-xmlNodePtr LeakFile( tree_t *tree ){
+pugi::xml_node* LeakFile( tree_t *tree ){
 	vec3_t mid;
 	FILE    *linefile;
 	char filename[1024];
 	node_t  *node;
 	int count;
-	xmlNodePtr xml_node, point;
 
 	if ( !tree->outside_node.occupied ) {
 		return NULL;
@@ -134,7 +135,8 @@ xmlNodePtr LeakFile( tree_t *tree ){
 		Error( "Couldn't open %s\n", filename );
 	}
 
-	xml_node = xmlNewNode( NULL, (const xmlChar*)"polyline" );
+	auto* xmlnode = new pugi::xml_node();
+	xmlnode->set_name( "polyline" );
 
 	count = 0;
 	node = &tree->outside_node;
@@ -160,19 +162,19 @@ xmlNodePtr LeakFile( tree_t *tree ){
 		node = nextnode;
 		WindingCenter( nextportal->winding, mid );
 		fprintf( linefile, "%f %f %f\n", mid[0], mid[1], mid[2] );
-		point = xml_NodeForVec( mid );
-		xmlAddChild( xml_node, point );
+		auto* point = xml_NodeForVec( mid );
+		xmlnode->append_copy( *point );
 		count++;
 	}
 	// add the occupant center
 	GetVectorForKey( node->occupant, "origin", mid );
 
 	fprintf( linefile, "%f %f %f\n", mid[0], mid[1], mid[2] );
-	point = xml_NodeForVec( mid );
-	xmlAddChild( xml_node, point );
+	auto* point = xml_NodeForVec( mid );
+	xmlnode->append_copy( *point );
 	Sys_FPrintf( SYS_VRB, "%9d point linefile\n", count + 1 );
 
 	fclose( linefile );
 
-	return xml_node;
+	return xmlnode;
 }

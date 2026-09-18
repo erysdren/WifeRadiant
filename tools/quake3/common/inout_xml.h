@@ -26,10 +26,11 @@ typedef struct _xmlNode xmlNode;
 typedef xmlNode *xmlNodePtr;
 
 #include "math/vectorfwd.h"
+#include "pugixml.hpp"
 
 // some useful xml routines
-xmlNodePtr xml_NodeForVec( const Vector3& v );
-void xml_SendNode( xmlNodePtr node );
+pugi::xml_node xml_NodeForVec( const Vector3& v );
+void xml_SendNode( pugi::xml_node node );
 // print a message in q3map output and send the corresponding select information down the xml stream
 // bError: do we end with an error on this one or do we go ahead?
 void xml_Select( const char *msg, int entitynum, int brushnum, bool bError );

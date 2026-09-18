@@ -58,24 +58,24 @@ $(ODIR)/tables.o : tables.c
 	cc $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i
 	cc $(CFLAGS) -o $@ /tmp/temp.i
 
-$(ODIR)/cmdlib.o : ../common/cmdlib.c
+$(ODIR)/cmdlib.o : ../common/cmdlib.cpp
 	cc $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i
 	cc $(CFLAGS) -o $@ /tmp/temp.i
-$(ODIR)/scriplib.o : ../common/scriplib.c
+$(ODIR)/scriplib.o : ../common/scriplib.cpp
 	cc $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i
 	cc $(CFLAGS) -o $@ /tmp/temp.i
-$(ODIR)/lbmlib.o : ../common/lbmlib.c
+$(ODIR)/lbmlib.o : ../common/lbmlib.cpp
 	cc $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i
 	cc $(CFLAGS) -o $@ /tmp/temp.i
-$(ODIR)/mathlib.o : ../common/mathlib.c
+$(ODIR)/mathlib.o : ../common/mathlib.cpp
 	cc $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i
 	cc $(CFLAGS) -o $@ /tmp/temp.i
-$(ODIR)/trilib.o : ../common/trilib.c
+$(ODIR)/trilib.o : ../common/trilib.cpp
 	cc $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i
 	cc $(CFLAGS) -o $@ /tmp/temp.i
-$(ODIR)/l3dslib.o : ../common/l3dslib.c
+$(ODIR)/l3dslib.o : ../common/l3dslib.cpp
 	cc $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i
 	cc $(CFLAGS) -o $@ /tmp/temp.i
-$(ODIR)/threads.o : ../common/threads.c
+$(ODIR)/threads.o : ../common/threads.cpp
 	cc $(CFLAGS) -E $? | tr -d '\015' > /tmp/temp.i
 	cc $(CFLAGS) -o $@ /tmp/temp.i

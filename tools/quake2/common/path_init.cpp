@@ -162,7 +162,7 @@ void LokiInitPaths( char *argv0 ){
 
 			/* verify the path */
 			if ( access( temp, X_OK ) == 0 ) {
-				found++;
+				found = true;
 			}
 			path = last + 1;
 		}

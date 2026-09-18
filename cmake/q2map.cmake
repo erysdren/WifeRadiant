@@ -2,41 +2,41 @@
 # q2map
 
 add_executable(q2map
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/bspfile.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/cmdlib.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/inout.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/l3dslib.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/lbmlib.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/mathlib.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/md4.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/path_init.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/polylib.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/scriplib.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/threads.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/common/trilib.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/brushbsp.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/csg.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/faces.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/flow.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/glfile.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/leakfile.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/lightmap.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/main.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/map.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/nodraw.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/patches.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/portals.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/prtfile.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/qbsp.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/qrad.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/qvis.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/textures.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/trace.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/tree.c
-	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/writebsp.c
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/bspfile.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/cmdlib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/inout.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/l3dslib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/lbmlib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/mathlib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/md4.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/path_init.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/polylib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/scriplib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/threads.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/common/trilib.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/brushbsp.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/csg.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/faces.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/flow.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/glfile.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/leakfile.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/lightmap.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/main.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/map.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/nodraw.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/patches.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/portals.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/prtfile.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/qbsp.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/qrad.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/qvis.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/textures.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/trace.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/tree.cpp
+	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/writebsp.cpp
 )
 target_link_libraries(q2map PRIVATE l_net $<$<BOOL:${WIN32}>:ws2_32>)
-target_link_libraries(q2map PRIVATE LibXml2::LibXml2)
+target_link_libraries(q2map PRIVATE pugixml::pugixml)
 target_include_directories(q2map PRIVATE
 	${PROJECT_SOURCE_DIR}/tools/quake2/common
 	${PROJECT_SOURCE_DIR}/include
