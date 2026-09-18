@@ -698,7 +698,7 @@ public:
 	void realise() override {
 		if ( --m_unrealised == 0 ) {
 			globalOutputStream() << "searching vfs directory " << Quoted( "def" ) << " for *.def\n";
-			GlobalFileSystem().forEachFile( "def/", "def", makeCallbackF( EntityClassDoom3_loadFile ) );
+			GlobalFileSystem().forEachFile( "def/", "def", makeCallbackF( EntityClassDoom3_loadFile ), 99 );
 
 			{
 				for ( auto& [ name, model ] : g_models )

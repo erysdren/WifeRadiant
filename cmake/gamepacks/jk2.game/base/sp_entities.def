@@ -1,0 +1,2313 @@
+/*QUAKED weapon_***** ( 0 0 0 ) (-16 -16 -16) (16 16 16) suspended
+DO NOT USE THIS CLASS, IT JUST HOLDS GENERAL INFORMATION for weapons, ammo, and item pickups.
+The suspended flag will allow items to hang in the air, otherwise they are dropped to the next surface.
+The STARFLEET flag allows only starfleets to pick it up.
+The MONSTER flag allows only NON-starfleets to pick it up.
+
+If an item is the target of another entity, it will spawn as normal, use INVISIBLE to hide it.
+
+An item fires all of its targets when it is picked up.  If the toucher can't carry it, the targets won't be fired.
+
+"wait"	override the default wait before respawning.  -1 = never respawn automatically, which can be used with targeted spawning.
+"random" random number of plus or minus seconds varied from the respawn time
+"count" override quantity or duration on most items.
+*/
+
+
+/*QUAKED weapon_stun_baton (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/stun_baton/baton.md3"
+*/
+
+
+/*QUAKED weapon_saber (.3 .3 1) (-16 -16 -8) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/sabre/sabre_w.md3"
+*/
+
+
+/*QUAKED weapon_bryar_pistol (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/briar_pistol/briar_pistol.md3"
+*/
+
+
+/*QUAKED weapon_blaster (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/blaster_r/blaster.md3"
+*/
+
+
+/*QUAKED weapon_disruptor (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/disruptor/disruptor.md3"
+*/
+
+
+/*QUAKED weapon_bowcaster (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/bowcaster/bowcaster.md3"
+*/
+
+
+/*QUAKED weapon_repeater (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/heavy_repeater/heavy_repeater.md3"
+*/
+
+
+/*QUAKED weapon_demp2 (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/demp2/demp2.md3"
+*/
+
+
+/*QUAKED weapon_flechette (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/golan_arms/golan_arms.md3"
+*/
+
+
+/*QUAKED weapon_rocket_launcher (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/merr_sonn/merr_sonn.md3"
+*/
+
+
+/*QUAKED weapon_thermal (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/thermal/thermal.md3"
+*/
+
+
+/*QUAKED weapon_trip_mine (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/laser_trap/laser_trap.md3"
+*/
+
+
+/*QUAKED weapon_det_pack (.3 .3 1) (-16 -16 -2) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+model="/models/weapons2/detpack/det_pack.md3"
+*/
+
+
+/*QUAKED item_seeker (.3 .3 1) (-8 -8 -4) (8 8 16) suspended
+30 seconds of seeker drone
+*/
+
+
+/*QUAKED item_shield (.3 .3 1) (-8 -8 0) (8 8 16) suspended
+Personal shield
+*/
+
+
+/*QUAKED item_bacta (.3 .3 1) (-8 -8 0) (8 8 16) suspended
+model="/models/items/bacta.md3"
+*/
+
+
+/*QUAKED item_datapad (.3 .3 1) (-8 -8 0) (8 8 16) suspended
+model="/models/items/datapad.md3"
+*/
+
+
+/*QUAKED item_binoculars (.3 .3 1) (-8 -8 0) (8 8 16) suspended
+model="/models/items/binoculars.md3"
+*/
+
+
+/*QUAKED item_sentry_gun (.3 .3 1) (-8 -8 0) (8 8 16) suspended
+*/
+
+
+/*QUAKED item_la_goggles (.3 .3 1) (-8 -8 0) (8 8 16) suspended
+*/
+
+
+/*QUAKED ammo_force (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+Ammo for the force.
+*/
+
+
+/*QUAKED ammo_blaster (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+Ammo for the Bryar and Blaster pistols.
+*/
+
+
+/*QUAKED ammo_powercell (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+Ammo for Tenloss Disruptor, Wookie Bowcaster, and the Destructive Electro Magnetic Pulse (demp2 ) guns
+*/
+
+
+/*QUAKED ammo_metallic_bolts (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+Ammo for Imperial Heavy Repeater and the Golan Arms Flechette
+*/
+
+
+/*QUAKED ammo_rockets (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+Ammo for Merr-Sonn portable missile launcher
+*/
+
+
+/*QUAKED ammo_thermal (.3 .5 1) (-16 -16 -0) (16 16 16) SUSPEND STARFLEET MONSTER NOTSOLID
+Belt of thermal detonators
+*/
+
+
+/*QUAKED ammo_tripmine (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+3 pack of tripmines
+*/
+
+
+/*QUAKED ammo_detpack (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+3 pack of detpacks
+*/
+
+
+/*QUAKED item_medpak_instant (.3 .3 1) (-8 -8 -4) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+*/
+
+
+/*QUAKED item_shield_sm_instant (.3 .3 1) (-8 -8 -4) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+*/
+
+
+/*QUAKED item_shield_lrg_instant (.3 .3 1) (-8 -8 -4) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID VERTICAL INVISIBLE
+*/
+
+
+/*QUAKED item_goodie_key (.3 .3 1) (-8 -8 0) (8 8 16) suspended
+*/
+
+
+/*QUAKED item_security_key (.3 .3 1) (-8 -8 0) (8 8 16) suspended
+message - used to differentiate one key from another.
+*/
+
+
+/*QUAKED item_battery (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+battery pickup item
+model="/models/items/battery.md3"
+*/
+
+
+/*QUAKED holocron_force_heal (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+force heal pickup item
+
+"count"     level of force power this holocron gives activator ( range: 0-3, default 1)
+*/
+
+
+/*QUAKED holocron_force_levitation (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+force levitation pickup item
+
+"count"     level of force power this holocron gives activator ( range: 0-3, default 1)
+*/
+
+
+/*QUAKED holocron_force_speed (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+force speed pickup item
+
+"count"     level of force power this holocron gives activator ( range: 0-3, default 1)
+*/
+
+
+/*QUAKED holocron_force_push (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+force push pickup item
+
+"count"     level of force power this holocron gives activator ( range: 0-3, default 1)
+*/
+
+
+/*QUAKED holocron_force_pull (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+force pull pickup item
+
+"count"     level of force power this holocron gives activator ( range: 0-3, default 1)
+*/
+
+
+/*QUAKED holocron_force_telepathy (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+force telepathy pickup item
+
+"count"     level of force power this holocron gives activator ( range: 0-3, default 1)
+*/
+
+
+/*QUAKED holocron_force_grip (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+force grip pickup item
+
+"count"     level of force power this holocron gives activator ( range: 0-3, default 1)
+*/
+
+
+/*QUAKED holocron_force_lightining (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+force lighting pickup item
+
+"count"     level of force power this holocron gives activator ( range: 0-3, default 1)
+*/
+
+
+/*QUAKED holocron_force_saberthrow (.3 .5 1) (-8 -8 -0) (8 8 16) SUSPEND STARFLEET MONSTER NOTSOLID
+force saberthrow pickup item
+
+"count"     level of force power this holocron gives activator ( range: 0-3, default 1)
+*/
+
+
+/*QUAKED func_breakable (0 .8 .5) ? INVINCIBLE IMPACT CRUSHER THIN SABERONLY HEAVY_WEAP USE_NOT_BREAK PLAYER_USE NO_EXPLOSION
+INVINCIBLE - can only be broken by being used
+IMPACT - does damage on impact
+CRUSHER - won't reverse movement when hit an obstacle
+THIN - can be broken by impact damage, like glass
+SABERONLY - only takes damage from sabers
+HEAVY_WEAP - only takes damage by a heavy weapon, like an emplaced gun or AT-ST gun.
+USE_NOT_BREAK - Using it doesn't make it break, still can be destroyed by damage
+PLAYER_USE - Player can use it with the use button
+NO_EXPLOSION - Does not play an explosion effect, though will still create chunks if specified
+
+When destroyed, fires it's trigger and chunks and plays sound "noise" or sound for type if no noise specified
+
+"targetname" entities with matching target will fire it
+"paintarget" target to fire when hit (but not destroyed)
+"wait"		how long minimum to wait between firing paintarget each time hit
+"delay"		When killed or used, how long (in seconds) to wait before blowing up (none by default)
+"model2"	.md3 model to also draw
+"target"	all entities with a matching targetname will be used when this is destoryed
+"health"	default is 10
+"radius"  Chunk code tries to pick a good volume of chunks, but you can alter this to scale the number of spawned chunks. (default 1)  (.5) is half as many chunks, (2) is twice as many chunks
+
+Damage: default is none
+"splashDamage" - damage to do
+"splashRadius" - radius for above damage
+
+"team" - This cannot take damage from members of this team:
+	"player"
+	"neutral"
+	"enemy"
+
+Don't know if these work:  
+"color"		constantLight color
+"light"		constantLight radius
+
+"material" - default is "0 - MAT_METAL" - choose from this list:
+0 = MAT_METAL		(basic blue-grey scorched-DEFAULT)
+1 = MAT_GLASS		
+2 = MAT_ELECTRICAL	(sparks only)
+3 = MAT_ELEC_METAL	(METAL2 chunks and sparks)
+4 =	MAT_DRK_STONE	(brown stone chunks)
+5 =	MAT_LT_STONE	(tan stone chunks)
+6 =	MAT_GLASS_METAL (glass and METAL2 chunks)
+7 = MAT_METAL2		(electronic type of metal)
+8 = MAT_NONE		(no chunks)
+9 = MAT_GREY_STONE	(grey colored stone)
+10 = MAT_METAL3		(METAL and METAL2 chunk combo)
+11 = MAT_CRATE1		(yellow multi-colored crate chunks)
+12 = MAT_GRATE1		(grate chunks--looks horrible right now)
+13 = MAT_ROPE		(for yavin_trial, no chunks, just wispy bits )
+14 = MAT_CRATE2		(red multi-colored crate chunks)
+15 = MAT_WHITE_METAL (white angular chunks for Stu, NS_hideout )
+
+*/
+
+
+/*QUAKED misc_model_breakable (1 0 0) (-16 -16 -16) (16 16 16) SOLID AUTOANIMATE DEADSOLID NO_DMODEL NO_SMOKE USE_MODEL USE_NOT_BREAK PLAYER_USE NO_EXPLOSION
+SOLID - Movement is blocked by it, if not set, can still be broken by explosions and shots if it has health
+AUTOANIMATE - Will cycle it's anim
+DEADSOLID - Stay solid even when destroyed (in case damage model is rather large).
+NO_DMODEL - Makes it NOT display a damage model when destroyed, even if one exists
+USE_MODEL - When used, will toggle to it's usemodel (model name + "_u1.md3")... this obviously does nothing if USE_NOT_BREAK is not checked
+USE_NOT_BREAK - Using it, doesn't make it break, still can be destroyed by damage
+PLAYER_USE - Player can use it with the use button
+NO_EXPLOSION - By default, will explode when it dies...this is your override.
+
+"model"		arbitrary .md3 file to display
+"health"	how much health to have - default is zero (not breakable)  If you don't set the SOLID flag, but give it health, it can be shot but will not block NPCs or players from moving
+"targetname" when used, dies and displays damagemodel, if any (if not, removes itself)
+"target" What to use when it dies
+"target2" What to use when it's repaired
+"target3" What to use when it's used while it's broken
+"paintarget" target to fire when hit (but not destroyed)
+"count"  the amount of armor/health/ammo given (default 50)
+"gravity"	if set to 1, this will be affected by gravity
+"radius"  Chunk code tries to pick a good volume of chunks, but you can alter this to scale the number of spawned chunks. (default 1)  (.5) is half as many chunks, (2) is twice as many chunks
+
+Damage: default is none
+"splashDamage" - damage to do (will make it explode on death)
+"splashRadius" - radius for above damage
+
+"team" - This cannot take damage from members of this team:
+	"player"
+	"neutral"
+	"enemy"
+
+"material" - default is "8 - MAT_NONE" - choose from this list:
+0 = MAT_METAL		(grey metal)
+1 = MAT_GLASS		
+2 = MAT_ELECTRICAL	(sparks only)
+3 = MAT_ELEC_METAL	(METAL chunks and sparks)
+4 =	MAT_DRK_STONE	(brown stone chunks)
+5 =	MAT_LT_STONE	(tan stone chunks)
+6 =	MAT_GLASS_METAL (glass and METAL chunks)
+7 = MAT_METAL2		(blue/grey metal)
+8 = MAT_NONE		(no chunks-DEFAULT)
+9 = MAT_GREY_STONE	(grey colored stone)
+10 = MAT_METAL3		(METAL and METAL2 chunk combo)
+11 = MAT_CRATE1		(yellow multi-colored crate chunks)
+12 = MAT_GRATE1		(grate chunks--looks horrible right now)
+13 = MAT_ROPE		(for yavin_trial, no chunks, just wispy bits )
+14 = MAT_CRATE2		(red multi-colored crate chunks)
+15 = MAT_WHITE_METAL (white angular chunks for Stu, NS_hideout )
+FIXME/TODO: 
+set size better?
+multiple damage models?
+custom explosion effect/sound?
+*/
+
+
+/*QUAKED func_glass (0 .8 .5) ? INVINCIBLE
+When destroyed, fires it's target, breaks into glass chunks and plays glass noise
+For now, instantly breaks on impact
+
+INVINCIBLE - can only be broken by being used
+
+"targetname" entities with matching target will fire it
+"target"	all entities with a matching targetname will be used when this is destroyed
+"health"	default is 1
+*/
+
+
+/*QUAKED info_player_start (1 0 0) (-16 -16 -24) (16 16 32) KEEP_PREV DROPTOFLOOR x x x STUN_BATON NOWEAPON x
+KEEP_PREV - keep previous health/ammo/etc
+DROPTOFLOOR - Player will start on the first solid structure under it
+STUN_BATON - Gives player the stun baton and bryar pistol, but not the saber, plus any weapons they may have carried over from previous levels.
+
+Targets will be fired when someone spawns in on them.
+equivalant to info_player_deathmatch
+*/
+
+
+/*QUAKED fx_runner (0 0 1) (-8 -8 -8) (8 8 8) STARTOFF ONESHOT DAMAGE
+Runs the specified effect, can also be targeted at an info_notnull to orient the effect
+
+	STARTOFF - effect starts off, toggles on/off when used
+	ONESHOT - effect fires only when used
+	DAMAGE - does radius damage around effect every "delay" milliseonds
+
+	"fxFile" - name of the effect file to play
+	"target" - direction to aim the effect in, otherwise defaults to up
+	"target2" - uses its target2 when the fx gets triggered
+	"delay"  - how often to call the effect, don't over-do this ( default 200 )
+	"random" - random amount of time to add to delay, ( default 0, 200 = 0ms to 200ms )
+	"splashRadius" - only works when damage is checked ( default 16 )
+	"splashDamage" - only works when damage is checked ( default 5 )
+	"soundset"	- bmodel set to use, plays start sound when toggled on, loop sound while on ( doesn't play on a oneshot), and a stop sound when turned off
+*/
+
+
+/*QUAKED fx_snow (1 0 0) (-16 -16 -16) (16 16 16)
+This world effect will spawn snow globally into the level.
+
+"count" the number of snow particles (default of 1000)
+*/
+
+
+/*QUAKED fx_rain (1 0 0) (-16 -16 -16) (16 16 16)
+This world effect will spawn rain globally into the level.
+
+"count" the number of rain particles (default of 500)
+*/
+
+
+/*QUAKED fx_explosion_trail (0 0 1) (-8 -8 -8) (8 8 8) GRAVITY
+Creates an explosion type trail using the specified effect file, damaging things as it moves through the environment
+Can also be used for something like a meteor, just add an impact effect ( fxFile2 ) and a splashDamage and splashRadius
+
+  GRAVITY - object uses gravity instead of linear motion
+
+  "fxFile" - name of the effect to play for the trail ( default "env/exp_trail_comp" )
+  "fxFile2" - effect file to play on impact
+
+  "model" - model to attach to the trail
+
+  "target" - direction to aim the trail in, required unless you specify angles
+  "targetname" - (required) trail effect spawns only when used.
+  "speed" - velocity through the world, ( default 350 )
+
+  "radius" - damage radius around trail as it travels through the world ( default 128 )
+  "damage" - radius damage ( default 128 )
+  "splashDamage" - damage when thing impacts ( default 0 )
+  "splashRadius" - damage radius on impact ( default 0 )
+  "soundset" - soundset to use, start sound plays when explosion trail starts, loop sound plays on explosion trail, end sound plays when it impacts
+
+*/
+
+
+/*QUAKED fx_target_beam (1 0.5 0.5) (-8 -8 -8) (8 8 8) STARTOFF OPEN NO_KNOCKBACK ONE_SHOT NO_IMPACT
+ Emits specified effect file, doing damage if required
+
+STARTOFF - must be used before it's on
+OPEN - will draw all the way to the target, regardless of where the trace hits
+NO_KNOCKBACK - beam damage does no knockback
+
+ "fxFile" - Effect used to draw the beam, ( default "env/targ_beam" )
+ "fxFile2" - Effect used for the beam impact effect, ( default "env/targ_beam_impact" )
+ "targetname" - Fires only when used
+ "duration" - How many seconds each burst lasts, -1 will make it stay on forever
+ "wait" - If always on, how long to wait between blasts, in MILLISECONDS - default/min is 100 (1 frame at 10 fps), -1 means it will never fire again
+ "random" - random amount of seconds added to/subtracted from "wait" each firing
+ "damage" - How much damage to inflict PER FRAME (so probably want it kind of low), default is none
+ "target" - ent to point at- you MUST have this.  This can be anything you want, including a moving ent - for static beams, just use info_null
+*/
+
+
+/*QUAKED fx_cloudlayer (1 0.3 0.5) (-8 -8 -8) (8 8 8) TUBE ALT
+
+  Creates a scalable scrolling cloud layer, mostly for bespin undercity but could be used other places
+
+  TUBE - creates cloud layer with tube opening in the middle, must an INNER radius also
+  ALT - uses slightly different shader, good if using two layers sort of close together
+
+"radius" - outer radius of cloud layer, (default 2048)
+"random" - inner radius of cloud layer, (default 128) only works for TUBE type
+"wait" - adds curvature as it moves out to the edge of the layer.  ( default 0 ), 1 = small up, 3 = up more, -1 = small down, -3 = down more, etc.
+
+*/
+
+
+/*QUAKED func_group (0 0 0) ?
+Used to group brushes together just for editor convenience.  They are turned into normal brushes by the utilities.
+
+q3map_onlyvertexlighting 1	=	brush only gets vertex lighting (reduces bsp size!)
+*/
+
+
+/*QUAKED info_null (0 0.5 0) (-4 -4 -4) (4 4 4)
+Used as a positional target for calculations in the utilities (spotlights, etc), but removed during gameplay.
+*/
+
+
+/*QUAKED info_notnull (0 0.5 0) (-4 -4 -4) (4 4 4)
+Used as a positional target for in-game calculation, like jumppad targets.
+target_position does the same thing
+*/
+
+
+/*QUAKED light (0 1 0) (-8 -8 -8) (8 8 8) linear noIncidence START_OFF
+Non-displayed light.
+"light" overrides the default 300 intensity. - affects size
+a negative "light" will subtract the light's color
+'Linear' checkbox gives linear falloff instead of inverse square
+'noIncidence' checkbox makes lighting smoother
+Lights pointed at a target will be spotlights.
+"radius" overrides the default 64 unit radius of a spotlight at the target point.
+"scale" multiplier for the light intensity - does not affect size (default 1)
+		greater than 1 is brighter, between 0 and 1 is dimmer.
+"color" sets the light's color
+"targetname" to indicate a switchable light - NOTE that all lights with the same targetname will be grouped together and act as one light (ie: don't mix colors, styles or start_off flag)
+"style" to specify a specify light style, even for switchable lights!
+"style_off" light style to use when switched off (Only for switchable lights)
+
+   1 FLICKER (first variety)
+   2 SLOW STRONG PULSE
+   3 CANDLE (first variety)
+   4 FAST STROBE
+   5 GENTLE PULSE 1
+   6 FLICKER (second variety)
+   7 CANDLE (second variety)
+   8 CANDLE (third variety)
+   9 SLOW STROBE (fourth variety)
+   10 FLUORESCENT FLICKER
+   11 SLOW PULSE NOT FADE TO BLACK
+   12 FAST PULSE FOR JEREMY
+   13 Test Blending
+*/
+
+
+/*QUAKED misc_model (1 0 0) (-16 -16 -16) (16 16 16)
+"model"		arbitrary .md3 or .ase file to display
+turns into map triangles - not solid
+*/
+
+
+/*QUAKED misc_portal_surface (0 0 1) (-8 -8 -8) (8 8 8)
+The portal surface nearest this entity will show a view from the targeted misc_portal_camera, or a mirror view if untargeted.
+This must be within 64 world units of the surface!
+
+targetname - When used, cycles to the next misc_portal_camera it's targeted
+wait - makes it auto-cycle between all cameras it's pointed at at intevervals of specified number of seconds.
+
+  cameras will be cycled through in the order they were created on the map.
+*/
+
+
+/*QUAKED misc_portal_camera (0 0 1) (-8 -8 -8) (8 8 8) slowrotate fastrotate
+The target for a misc_portal_surface.  You can set either angles or target another entity (NOT an info_null) to determine the direction of view.
+"roll" an angle modifier to orient the camera around the target vector;
+*/
+
+
+/*QUAKED misc_camera (0 0 1) (-8 -8 -12) (8 8 16) VULNERABLE
+A model in the world that can be used by the player to look through it's viewpoint
+
+There will be a video overlay instead of the regular HUD and the FOV will be wider
+
+VULNERABLE - allow camera to be destroyed
+
+"target" - camera will remain pointed at this entity (if it's a train or some other moving object, it will keep following it)
+"target2" - when player is in this camera and hits the use button, it will cycle to this next camera (if no target2, returns to normal view )
+"target3" - thing to use when player enters this camera view
+"target4" - thing to use when player leaves this camera view
+"closetarget" - (sigh...) yet another target, fired this when it's destroyed
+"wait"    - how long to wait between being used (default 0.5)
+*/
+
+
+/*QUAKED object_cargo_barrel1 (1 0 0) (-16 -16 -16) (16 16 29) SMALLER KLINGON NO_SMOKE POWDERKEG
+Cargo Barrel
+if given a targetname, using it makes it explode
+
+SMALLER - (-8, -8, -16) (8, 8, 8)
+KLINGON - klingon style barrel
+NO_SMOKE - will not leave lingering smoke cloud when killed
+POWDERKEG - wooden explosive barrel
+
+health		 default = 20 
+splashDamage default = 100
+splashRadius default = 200
+*/
+
+
+/*QUAKED misc_dlight (0.2 0.8 0.2) (-4 -4 -4) (4 4 4) STARTOFF FADEON FADEOFF PULSE
+Dynamic light, toggles on and off when used
+  
+STARTOFF - Starts off
+FADEON - Fades from 0 Radius to start Radius
+FADEOFF - Fades from current Radius to 0 Radius before turning off
+PULSE - This flag must be checked if you want it to fade/switch between start and final RGBA, otherwise it will just sit at startRGBA
+
+ownername - Will display the light at the origin of the entity with this targetname
+
+startRGBA - Red Green Blue Radius to start with - This MUST be set or your light won't do anything
+
+These next values are used only if you want to fade/switch between 2 values (PULSE flag on)
+finalRGBA - Red Green Blue Radius to end with
+speed - how long to take to fade from start to final and final to start.  Also how long to fade on and off if appropriate flags are checked (seconds)
+finaltime - how long to hold at final (seconds)
+starttime - how long to hold at start (seconds)
+
+TODO: Add random to speed/radius?
+*/
+
+
+/*QUAKED misc_trip_mine (0.2 0.8 0.2) (-4 -4 -4) (4 4 4) START_ON BROADCAST
+Place in a map and point the angles at whatever surface you want it to attach to.
+
+START_ON - If you give it a targetname to make it toggle-able, but want it to start on, set this flag
+BROADCAST - ONLY USE THIS IF YOU HAVE TO!  causes the trip wire and loop sound to always happen, use this if the beam drops out in certain situations
+
+The trip mine will attach to that surface and fire it's beam away from the surface at an angle perpendicular to it.
+
+targetname - starts off, when used, turns on (toggles)
+
+FIXME: sometimes we want these to not be shootable... maybe just put them behind a force field?
+*/
+
+
+/*QUAKED misc_maglock (0 .5 .8) (-8 -8 -8) (8 8 8) x x x x x x x x
+Place facing a door (using the angle, not a targetname) and it will lock that door.  Can only be destroyed by lightsaber and will automatically unlock the door it's attached to
+
+NOTE: place these half-way in the door to make it flush with the door's surface.
+
+"target"	thing to use when destoryed (not doors - it automatically unlocks the door it was angled at)
+"health"	default is 10
+*/
+
+
+/*QUAKED misc_model_shield_power_converter (1 0 0) (-16 -16 -16) (16 16 16) x x x USETARGET
+model="models/items/psd_big.md3"
+Gives shield energy when used.
+
+USETARGET - when used it fires off target
+
+"health" - how much health the model has - default 60 (zero makes non-breakable)
+"targetname" - dies and displays damagemodel when used, if any (if not, removes itself)
+"target" - what to use when it dies
+"paintarget" - target to fire when hit (but not destroyed)
+"count" - the amount of ammo given when used (default 100)
+*/
+
+
+/*QUAKED misc_shield_floor_unit (1 0 0) (-16 -16 0) (16 16 32) x x x USETARGET
+model="/models/items/a_shield_converter.md3"
+Gives shield energy when used.
+
+USETARGET - when used it fires off target
+
+"health" - how much health the model has - default 60 (zero makes non-breakable)
+"targetname" - dies and displays damagemodel when used, if any (if not, removes itself)
+"target" - what to use when it dies
+"paintarget" - target to fire when hit (but not destroyed)
+"count" - the amount of ammo given when used (default 100)
+*/
+
+
+/*QUAKED misc_model_ammo_power_converter (1 0 0) (-16 -16 -16) (16 16 16) x x x USETARGET
+model="models/items/power_converter.md3"
+Gives ammo energy when used.
+
+USETARGET - when used it fires off target
+
+"health" - how much health the model has - default 60 (zero makes non-breakable)
+"targetname" - dies and displays damagemodel when used, if any (if not, removes itself)
+"target" - what to use when it dies
+"paintarget" - target to fire when hit (but not destroyed)
+"count" - the amount of ammo given when used (default 100)
+*/
+
+
+/*QUAKED misc_ammo_floor_unit (1 0 0) (-16 -16 0) (16 16 32) x x x USETARGET
+model="models/items/a_pwr_converter.md3"
+Gives ammo energy when used.
+
+USETARGET - when used it fires off target
+
+"health" - how much health the model has - default 60 (zero makes non-breakable)
+"targetname" - dies and displays damagemodel when used, if any (if not, removes itself)
+"target" - what to use when it dies
+"paintarget" - target to fire when hit (but not destroyed)
+"count" - the amount of ammo given when used (default 100)
+*/
+
+
+/*QUAKED misc_model_welder (1 0 0) (-16 -16 -16) (16 16 16) START_OFF 
+model="models/map_objects/cairn/welder.md3"
+When 'on' emits sparks from it's welding points
+
+START_OFF  - welder starts off, using it toggles it on/off
+
+*/
+
+
+/*QUAKED misc_model_jabba_cam (1 0 0) ( 0 -8 0) (60 8 16) EXTENDED
+model="models/map_objects/nar_shaddar/jabacam.md3"
+
+The eye camera that popped out of Jabba's front door
+
+  EXTENDED - Starts in the extended position
+
+  targetname - Toggles it on/off
+  
+*/
+
+
+/*QUAKED misc_exploding_crate (1 0 0.25) (-24 -24 0) (24 24 64)
+model="models/map_objects/nar_shaddar/crate_xplode.md3"
+Basic exploding crate
+
+"health" - how much health the model has - default 40 (zero makes non-breakable)
+
+"splashRadius" - radius to do damage in - default 128
+"splashDamage" - amount of damage to do when it explodes - default 50
+
+"targetname" - auto-explodes
+"target" - what to use when it dies
+
+*/
+
+
+/*QUAKED misc_gas_tank (1 0 0.25) (-4 -4 0) (4 4 40)
+model="models/map_objects/imp_mine/tank.md3"
+Basic exploding oxygen tank
+
+"health" - how much health the model has - default 20 (zero makes non-breakable)
+
+"splashRadius" - radius to do damage in - default 48
+"splashDamage" - amount of damage to do when it explodes - default 32
+
+"targetname" - auto-explodes
+"target" - what to use when it dies
+
+*/
+
+
+/*QUAKED misc_crystal_crate (1 0 0.25) (-34 -34 0) (34 34 44) NON_SOLID
+model="models/map_objects/imp_mine/crate_open.md3"
+Open crate of crystals that explode when shot
+
+NON_SOLID - can only be shot 
+
+"health" - how much health the crate has, default 80 
+
+"splashRadius" - radius to do damage in, default 80
+"splashDamage" - amount of damage to do when it explodes, default 40
+
+"targetname" - auto-explodes
+"target" - what to use when it dies
+
+*/
+
+
+/*QUAKED misc_atst_drivable (1 0 0.25) (-40 -40 -24) (40 40 248)
+model="models/players/atst/model.glm"
+
+Drivable ATST, when used by player, they become the ATST.  When the player hits use again, they get out.
+
+"health" - how much health the atst has - default 800
+
+"target" - what to use when it dies
+*/
+
+
+/*QUAKED misc_model_ghoul (1 0 0) (-16 -16 -37) (16 16 32)
+"model"		arbitrary .glm file to display
+"health" - how much health the model has - default 60 (zero makes non-breakable)
+*/
+
+
+/*QUAKED misc_model_gun_rack (1 0 0.25) (-14 -14 -4) (14 14 30) BLASTER REPEATER ROCKET
+model="models/map_objects/kejim/weaponsrack.md3"
+
+NOTE: can mix and match these spawnflags to get multi-weapon racks.  If only one type is checked the rack will be full of those weapons
+BLASTER - Puts one or more blaster guns on the rack.
+REPEATER - Puts one or more repeater guns on the rack.
+ROCKET - Puts one or more rocket launchers on the rack.
+*/
+
+
+/*QUAKED misc_model_ammo_rack (1 0 0.25) (-14 -14 -4) (14 14 30) BLASTER METAL_BOLTS ROCKETS WEAPON HEALTH PWR_CELL NO_FILL
+model="models/map_objects/kejim/weaponsrung.md3"
+
+NOTE: can mix and match these spawnflags to get multi-ammo racks.  If only one type is checked the rack will be full of that ammo.  Only three ammo packs max can be displayed.
+
+
+BLASTER - Adds one or more ammo packs that are compatible with Blasters and the Bryar pistol.
+METAL_BOLTS - Adds one or more metal bolt ammo packs that are compatible with the heavy repeater and the flechette gun
+ROCKETS - Puts one or more rocket packs on a rack.
+WEAPON - adds a weapon matching a selected ammo type to the rack.
+HEALTH - adds a health pack to the top shelf of the ammo rack
+PWR_CELL - Adds one or more power cell packs that are compatible with the Disuptor, bowcaster, and demp2
+NO_FILL - Only puts selected ammo on the rack, it never fills up all three slots if only one or two items were checked
+*/
+
+
+/*QUAKED misc_model_cargo_small (1 0 0.25) (-14 -14 -4) (14 14 30) MEDPACK SHIELDS BACTA BATTERIES
+model="models/map_objects/kejim/cargo_small.md3"
+
+  Cargo crate that can only be destroyed by heavy class weapons ( turrets, emplaced guns, at-st )  Can spawn useful things when it breaks
+
+MEDPACK - instant use medpacks
+SHIELDS - instant shields
+BACTA - bacta tanks
+BATTERIES -
+
+"health" - how much damage to take before blowing up ( default 25 )
+"splashRadius" - damage range when it explodes ( default 96 )
+"splashDamage" - damage to do within explode range ( default 1 )
+
+*/
+
+
+/*QUAKED func_door (0 .5 .8) ? START_OPEN FORCE_ACTIVATE CRUSHER TOGGLE LOCKED GOODIE PLAYER_USE INACTIVE
+START_OPEN	the door to moves to its destination when spawned, and operate in reverse.  It is used to temporarily or permanently close off an area when triggered (not useful for touch or takedamage doors).
+FORCE_ACTIVATE	Can only be activated by a force push or pull
+CRUSHER		?
+TOGGLE		wait in both the start and end states for a trigger event - does NOT work on Trek doors.
+LOCKED		Starts locked, with the shader animmap at the first frame and inactive.  Once used, the animmap changes to the second frame and the door operates normally.  Note that you cannot use the door again after this.
+GOODIE		Door will not work unless activator has a "goodie key" in his inventory
+PLAYER_USE	Player can use it with the use button
+INACTIVE	must be used by a target_activate before it can be used
+
+"target"     Door fires this when it starts moving from it's closed position to its open position.
+"opentarget" Door fires this after reaching its "open" position
+"target2"    Door fires this when it starts moving from it's open position to its closed position.
+"closetarget" Door fires this after reaching its "closed" position
+"model2"	.md3 model to also draw
+"angle"		determines the opening direction
+"targetname" if set, no touch field will be spawned and a remote button or trigger field activates the door.
+"speed"		movement speed (100 default)
+"wait"		wait before returning (3 default, -1 = never return)
+"delay"		when used, how many seconds to wait before moving - default is none
+"lip"		lip remaining at end of move (8 default)
+"dmg"		damage to inflict when blocked (2 default, set to negative for no damage)
+"color"		constantLight color
+"light"		constantLight radius
+"health"	if set, the door must be shot open
+"sounds" - sound door makes when opening/closing
+"linear"	set to 1 and it will move linearly rather than with acceleration (default is 0)
+0 - no sound (default)
+*/
+
+
+/*QUAKED func_plat (0 .5 .8) ? x x x x x x PLAYER_USE INACTIVE
+PLAYER_USE	Player can use it with the use button
+INACTIVE	must be used by a target_activate before it can be used
+
+Plats are always drawn in the extended position so they will light correctly.
+
+"lip"		default 8, protrusion above rest position
+"height"	total height of movement, defaults to model height
+"speed"		overrides default 200.
+"dmg"		overrides default 2
+"model2"	.md3 model to also draw
+"color"		constantLight color
+"light"		constantLight radius
+*/
+
+
+/*QUAKED func_button (0 .5 .8) ? x x x x x x PLAYER_USE INACTIVE
+PLAYER_USE	Player can use it with the use button
+INACTIVE	must be used by a target_activate before it can be used
+
+When a button is touched, it moves some distance in the direction of it's angle, triggers all of it's targets, waits some time, then returns to it's original position where it can be triggered again.
+
+"model2"	.md3 model to also draw
+"angle"		determines the opening direction
+"target"	all entities with a matching targetname will be used
+"speed"		override the default 40 speed
+"wait"		override the default 1 second wait (-1 = never return)
+"lip"		override the default 4 pixel lip remaining at end of move
+"health"	if set, the button must be killed instead of touched
+"color"		constantLight color
+"light"		constantLight radius
+*/
+
+
+/*QUAKED path_corner (.5 .3 0) (-8 -8 -8) (8 8 8) TURN_TRAIN INVISIBLE YAW_TRAIN ROLL_TRAIN
+
+TURN_TRAIN	func_train moving on this path will turn to face the next path_corner within 2 seconds
+INVISIBLE - train will become invisible ( but still solid ) when it reaches this path_corner.  
+		It will become visible again at the next path_corner that does not have this option checked
+
+Train path corners.
+Target: next path corner and other targets to fire
+"speed" speed to move to the next corner
+"wait" seconds to wait before behining move to next corner
+*/
+
+
+/*QUAKED func_train (0 .5 .8) ? START_ON TOGGLE BLOCK_STOPS x x LOOP PLAYER_USE INACTIVE TIE
+
+LOOP - if it's a ghoul2 model, it will just loop the animation
+PLAYER_USE	Player can use it with the use button
+INACTIVE	must be used by a target_activate before it can be used
+TIE  flying Tie-fighter hack, should be made more flexible so other things can use this if needed
+
+A train is a mover that moves between path_corner target points.
+Trains MUST HAVE AN ORIGIN BRUSH.
+The train spawns at the first target it is pointing at.
+"model2"	.md3 model to also draw
+"speed"		default 100
+"dmg"		default	2
+"health"	default 0
+"noise"		looping sound to play when the train is in motion
+"targetname" will not start until used
+"target"	next path corner
+"target3" what to use when it breaks
+"color"		constantLight color
+"light"		constantLight radius
+"linear" set to 1 and it will move linearly rather than with acceleration (default is 0)
+"startframe" default 0...ghoul2 animation start frame
+"endframe" default 0...ghoul2 animation end frame
+*/
+
+
+/*QUAKED func_static (0 .5 .8) ? F_PUSH F_PULL SWITCH_SHADER CRUSHER IMPACT x PLAYER_USE INACTIVE BROADCAST
+F_PUSH		Will be used when you Force-Push it
+F_PULL		Will be used when you Force-Pull it
+SWITCH_SHADER	Toggle the shader anim frame between 1 and 2 when used
+CRUSHER		Make it do damage when it's blocked
+IMPACT		Make it do damage when it hits any entity
+PLAYER_USE	Player can use it with the use button
+INACTIVE	must be used by a target_activate before it can be used
+BROADCAST   don't ever use this, it's evil
+
+A bmodel that just sits there, doing nothing.  Can be used for conditional walls and models.
+"model2"	.md3 model to also draw
+"color"		constantLight color
+"light"		constantLight radius
+"dmg"		how much damage to do when it crushes (use with CRUSHER spawnflag)
+"linear" set to 1 and it will move linearly rather than with acceleration (default is 0)
+*/
+
+
+/*QUAKED func_rotating (0 .5 .8) ? START_ON TOUCH_KILL X_AXIS Y_AXIS x x PLAYER_USE INACTIVE
+PLAYER_USE	Player can use it with the use button
+TOUCH_KILL  Inflicts massive damage upon touching it, disitegrates bodies
+INACTIVE	must be used by a target_activate before it can be used
+
+You need to have an origin brush as part of this entity.  The center of that brush will be
+the point around which it is rotated. It will rotate around the Z axis by default.  You can
+check either the X_AXIS or Y_AXIS box to change that.
+
+"model2"	.md3 model to also draw
+"speed"		determines how fast it moves; default value is 100.
+"dmg"		damage to inflict when blocked (2 default)
+"color"		constantLight color
+"light"		constantLight radius
+*/
+
+
+/*QUAKED func_bobbing (0 .5 .8) ? X_AXIS Y_AXIS START_OFF x x x PLAYER_USE INACTIVE
+PLAYER_USE	Player can use it with the use button
+INACTIVE	must be used by a target_activate before it can be used
+
+Normally bobs on the Z axis
+"model2"	.md3 model to also draw
+"height"	amplitude of bob (32 default)
+"speed"		seconds to complete a bob cycle (4 default)
+"phase"		the 0.0 to 1.0 offset in the cycle to start at
+"dmg"		damage to inflict when blocked (2 default)
+"color"		constantLight color
+"light"		constantLight radius
+"targetname" turns on/off when used
+*/
+
+
+/*QUAKED func_pendulum (0 .5 .8) ? x x x x x x PLAYER_USE INACTIVE
+PLAYER_USE	Player can use it with the use button
+INACTIVE	must be used by a target_activate before it can be used
+
+You need to have an origin brush as part of this entity.
+Pendulums always swing north / south on unrotated models.  Add an angles field to the model to allow rotation in other directions.
+Pendulum frequency is a physical constant based on the length of the beam and gravity.
+"model2"	.md3 model to also draw
+"speed"		the number of degrees each way the pendulum swings, (30 default)
+"phase"		the 0.0 to 1.0 offset in the cycle to start at
+"dmg"		damage to inflict when blocked (2 default)
+"color"		constantLight color
+"light"		constantLight radius
+*/
+
+
+/*QUAKED func_wall (0 .5 .8) ? START_OFF AUTOANIMATE x x x x PLAYER_USE INACTIVE
+PLAYER_USE	Player can use it with the use button
+INACTIVE	must be used by a target_activate before it can be used
+
+A bmodel that just sits there, doing nothing.  Can be used for conditional walls and models.
+"model2"	.md3 model to also draw
+"color"		constantLight color
+"light"		constantLight radius
+
+START_OFF - the wall will not be there
+AUTOANIMATE - if a model is used it will animate				
+*/
+
+
+/*QUAKED misc_security_panel (0 .5 .8) (-8 -8 -8) (8 8 8) x x x x x x x INACTIVE
+model="models/map_objects/kejim/sec_panel.md3"
+  A model that just sits there and opens when a player uses it and has right key
+
+INACTIVE - Start off, has to be activated to be usable
+
+"message"	name of the key player must have
+"target"	thing to use when successfully opened
+"target2"	thing to use when player uses the panel without the key
+*/
+
+
+/*QUAKED waypoint  (0.7 0.7 0) (-16 -16 -24) (16 16 32) SOLID_OK
+a place to go.
+
+SOLID_OK - only use if placing inside solid is unavoidable in map, but may be clear in-game (ie: at the bottom of a tall, solid lift that starts at the top position)
+
+radius is automatically calculated in-world.
+*/
+
+
+/*QUAKED waypoint_small  (0.7 0.7 0) (-2 -2 -24) (2 2 32) SOLID_OK
+SOLID_OK - only use if placing inside solid is unavoidable in map, but may be clear in-game (ie: at the bottom of a tall, solid lift that starts at the top position)
+*/
+
+
+/*QUAKED waypoint_navgoal (0.3 1 0.3) (-16 -16 -24) (16 16 32) SOLID_OK
+A waypoint for script navgoals
+Not included in navigation data
+
+SOLID_OK - only use if placing inside solid is unavoidable in map, but may be clear in-game (ie: at the bottom of a tall, solid lift that starts at the top position)
+
+targetname - name you would use in script when setting a navgoal (like so:)
+
+  For example: if you give this waypoint a targetname of "console", make an NPC go to it in a script like so:
+
+  set ("navgoal", "console");
+
+radius - how far from the navgoal an ent can be before it thinks it reached it - default is "0" which means no radius check, just have to touch it
+*/
+
+
+/*QUAKED waypoint_navgoal_8 (0.3 1 0.3) (-8 -8 -24) (8 8 32) SOLID_OK
+A waypoint for script navgoals, 8 x 8 size
+Not included in navigation data
+
+SOLID_OK - only use if placing inside solid is unavoidable in map, but may be clear in-game (ie: at the bottom of a tall, solid lift that starts at the top position)
+
+targetname - name you would use in script when setting a navgoal (like so:)
+
+  For example: if you give this waypoint a targetname of "console", make an NPC go to it in a script like so:
+
+  set ("navgoal", "console");
+
+You CANNOT set a radius on these navgoals, they are touch-reach ONLY
+*/
+
+
+/*QUAKED waypoint_navgoal_4 (0.3 1 0.3) (-4 -4 -24) (4 4 32) SOLID_OK
+A waypoint for script navgoals, 4 x 4 size
+Not included in navigation data
+
+SOLID_OK - only use if placing inside solid is unavoidable in map, but may be clear in-game (ie: at the bottom of a tall, solid lift that starts at the top position)
+
+targetname - name you would use in script when setting a navgoal (like so:)
+
+  For example: if you give this waypoint a targetname of "console", make an NPC go to it in a script like so:
+
+  set ("navgoal", "console");
+
+You CANNOT set a radius on these navgoals, they are touch-reach ONLY
+*/
+
+
+/*QUAKED waypoint_navgoal_2 (0.3 1 0.3) (-2 -2 -24) (2 2 32) SOLID_OK
+A waypoint for script navgoals, 2 x 2 size
+Not included in navigation data
+
+SOLID_OK - only use if placing inside solid is unavoidable in map, but may be clear in-game (ie: at the bottom of a tall, solid lift that starts at the top position)
+
+targetname - name you would use in script when setting a navgoal (like so:)
+
+  For example: if you give this waypoint a targetname of "console", make an NPC go to it in a script like so:
+
+  set ("navgoal", "console");
+
+You CANNOT set a radius on these navgoals, they are touch-reach ONLY
+*/
+
+
+/*QUAKED waypoint_navgoal_1 (0.3 1 0.3) (-1 -1 -24) (1 1 32) SOLID_OK
+A waypoint for script navgoals, 1 x 1 size
+Not included in navigation data
+
+SOLID_OK - only use if placing inside solid is unavoidable in map, but may be clear in-game (ie: at the bottom of a tall, solid lift that starts at the top position)
+
+targetname - name you would use in script when setting a navgoal (like so:)
+
+  For example: if you give this waypoint a targetname of "console", make an NPC go to it in a script like so:
+
+  set ("navgoal", "console");
+
+You CANNOT set a radius on these navgoals, they are touch-reach ONLY
+*/
+
+
+/*QUAKED ref_tag (0.5 0.5 1) (-8 -8 -8) (8 8 8)
+
+Reference tags which can be positioned throughout the level.
+These tags can later be refered to by the scripting system
+so that their origins and angles can be referred to.
+
+If you set angles on the tag, these will be retained.
+
+If you target a ref_tag at an entity, that will set the ref_tag's
+angles toward that entity.
+
+If you set the ref_tag's ownername to the ownername of an entity,
+it makes that entity is the owner of the ref_tag.  This means 
+that the owner, and only the owner, may refer to that tag.
+
+Tags may not have the same name as another tag with the same
+owner.  However, tags with different owners may have the same
+name as one another.  In this way, scripts can generically 
+refer to tags by name, and their owners will automatically
+specifiy which tag is being referred to.
+
+targetname	- the name of this tag
+ownername	- the owner of this tag
+target		- use to point the tag at something for angles
+*/
+
+
+/*QUAKED worldspawn (0 0 0) ?
+Every map should have exactly one worldspawn.
+"music"     path to WAV or MP3 files (e.g. "music\intro.mp3 music\loopfile.mp3")
+"gravity"   800 is default gravity
+"message"   Text to print during connection
+"soundSet"  Ambient sound set to play
+"spawnscript" runs this script
+
+BSP Options
+"gridsize"     size of lighting grid to "X Y Z". default="64 64 128"
+"ambient"      scale of global light (from _color)
+"fog"          shader name of the global fog texture - must include the full path, such as "textures/rj/fog1"
+"distancecull" value for vis for the maximum viewing distance
+"chopsize"     value for bsp on the maximum polygon / portal size
+"ls_Xr"	override lightstyle X with this pattern for Red.
+"ls_Xg"	green (valid patterns are "a-z")
+"ls_Xb"	blue (a is OFF, z is ON)
+*/
+
+
+/*QUAKED target_give (1 0 0) (-8 -8 -8) (8 8 8)
+Gives the activator all the items pointed to.
+*/
+
+
+/*QUAKED target_delay (1 0 0) (-8 -8 -8) (8 8 8)
+"wait" seconds to pause before firing targets.
+"random" delay variance, total delay = delay +/- random seconds
+*/
+
+
+/*QUAKED target_score (1 0 0) (-8 -8 -8) (8 8 8)
+"count" number of points to add, default 1
+
+The activator is given this many points.
+*/
+
+
+/*QUAKED target_print (1 0 0) (-8 -8 -8) (8 8 8)
+"message"	text to print
+If "private", only the activator gets the message.  If no checks, all clients get the message.
+*/
+
+
+/*QUAKED target_speaker (1 0 0) (-8 -8 -8) (8 8 8) looped-on looped-off global activator
+"noise"		wav file to play
+
+"sounds" va() min max, so if your sound string is borgtalk%d.wav, and you set a "sounds" value of 4, it will randomly play borgtalk1.wav - borgtalk4.wav when triggered
+to use this, you must store the wav name in "soundGroup", NOT "noise"
+
+A global sound will play full volume throughout the level.
+Activator sounds will play on the player that activated the target.
+Global and activator sounds can't be combined with looping.
+Normal sounds play each time the target is used.
+Looped sounds will be toggled by use functions.
+Multiple identical looping sounds will just increase volume without any speed cost.
+"wait" : Seconds between triggerings, 0 = don't auto trigger
+"random"	wait variance, default is 0
+*/
+
+
+/*QUAKED target_laser (0 .5 .8) (-8 -8 -8) (8 8 8) START_ON
+When triggered, fires a laser.  You can either set a target or a direction.
+*/
+
+
+/*QUAKED target_relay (.5 .5 .5) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM x x x x INACTIVE
+This doesn't perform any actions except fire its targets.
+The activator can be forced to be from a certain team.
+if RANDOM is checked, only one of the targets will be fired, not all of them
+
+INACTIVE  Can't be used until activated
+
+  "delay" - Will actually fire this many seconds after being used
+  "wait" - Cannot be fired again until this many seconds after the last time it was used
+*/
+
+
+/*QUAKED target_kill (.5 .5 .5) (-8 -8 -8) (8 8 8) FALLING ELECTRICAL
+Kills the activator.
+*/
+
+
+/*QUAKED target_position (0 0.5 0) (-4 -4 -4) (4 4 4)
+Used as a positional target for in-game calculation, like jumppad targets.
+info_notnull does the same thing
+*/
+
+
+/*QUAKED target_location (0 0.5 0) (-8 -8 -8) (8 8 8)
+Set "message" to the name of this location.
+Set "count" to 0-7 for color.
+0:white 1:red 2:green 3:yellow 4:blue 5:cyan 6:magenta 7:white
+
+Closest target_location in sight used for the location, if none
+in site, closest in distance
+*/
+
+
+/*QUAKED target_counter (1.0 0 0) (-4 -4 -4) (4 4 4) x x x x x x x INACTIVE
+Acts as an intermediary for an action that takes multiple inputs.
+
+INACTIVE cannot be used until used by a target_activate
+
+target2 - what the counter should fire each time it's incremented and does NOT reach it's count
+
+After the counter has been triggered "count" times (default 2), it will fire all of it's targets and remove itself.
+
+bounceCount - number of times the counter should reset to it's full count when it's done
+*/
+
+
+/*QUAKED target_random (.5 .5 .5) (-4 -4 -4) (4 4 4) USEONCE
+Randomly fires off only one of it's targets each time used
+
+USEONCE	set to never fire again
+*/
+
+
+/*QUAKED target_scriptrunner (1 0 0) (-4 -4 -4) (4 4 4) runonactivator x x x x x x INACTIVE
+--- SPAWNFLAGS ---
+runonactivator - Will run the script on the entity that used this or tripped the trigger that used this
+INACTIVE - start off
+
+----- KEYS ------
+Usescript - Script to run when used
+count - how many times to run, -1 = infinite.  Default is once
+wait - can't be used again in this amount of seconds (Default is 1 second if it's multiple-use)
+delay - how long to wait after use to run script
+
+*/
+
+
+/*QUAKED target_gravity_change (1 0 0) (-4 -4 -4) (4 4 4) GLOBAL
+
+"gravity" - Normal = 800, Valid range: any
+
+GLOBAL - Apply to entire world, not just the activator
+*/
+
+
+/*QUAKED target_friction_change (1 0 0) (-4 -4 -4) (4 4 4)
+
+"friction" Normal = 6, Valid range 0 - 10
+
+*/
+
+
+/*QUAKED target_level_change (1 0 0) (-4 -4 -4) (4 4 4) HUB HIDEINFO
+HUB - Will save the current map's status and load the next map with any saved status it may have
+
+"mapname" - Name of map to change to
+"target" - Name of spawnpoint to start at in the new map
+*/
+
+
+/*QUAKED target_change_parm (1 0 0) (-4 -4 -4) (4 4 4)
+Copies any parms set on this ent to the entity that  fired the trigger/button/whatever that uses this
+parm1
+parm2
+parm3
+parm4
+parm5
+parm6
+parm7
+parm8
+parm9
+parm10
+parm11
+parm12
+parm13
+parm14
+parm15
+parm16
+*/
+
+
+/*QUAKED target_play_music (1 0 0) (-4 -4 -4) (4 4 4)
+target_play_music
+Plays the requested music files when this target is used.
+
+"targetname"
+"music"		music WAV or MP3 file ( music/introfile.mp3 [optional]  music/loopfile.mp3 )
+
+If an intro file and loop file are specified, the intro plays first, then the looping
+portion will start and loop indefinetly.  If no introfile is entered, only the loopfile
+will play.
+*/
+
+
+/*QUAKED target_autosave (1 0 0) (-4 -4 -4) (4 4 4)
+Auto save the game right now.  Might be a slight chug to capture the thumbnail.
+Make sure it won't trigger during dialogue or cinematic or it will stutter!
+*/
+
+
+/*QUAKED target_secret (1 0 1) (-4 -4 -4) (4 4 4)
+You found a Secret!
+"count" - how many secrets on this level,
+          if more than one on a level, be sure they all have the same count!
+*/
+
+
+/*QUAKED trigger_multiple (.1 .5 .1) ? PLAYERONLY FACING USE_BUTTON FIRE_BUTTON NPCONLY x x INACTIVE MULTIPLE
+PLAYERONLY - only a player can trigger this by touch
+FACING - Won't fire unless triggering ent's view angles are within 45 degrees of trigger's angles (in addition to any other conditions)
+USE_BUTTON - Won't fire unless player is in it and pressing use button (in addition to any other conditions)
+FIRE_BUTTON - Won't fire unless player/NPC is in it and pressing fire button (in addition to any other conditions)
+NPCONLY - only non-player NPCs can trigger this by touch
+INACTIVE - Start off, has to be activated to be touchable/usable
+MULTIPLE - multiple entities can touch this trigger in a single frame *and* if needed, the trigger can have a wait of > 0
+
+"wait"		Seconds between triggerings, 0 default, number < 0 means one time only.
+"random"	wait variance, default is 0
+"delay"		how many seconds to wait to fire targets after tripped
+"hiderange" As long as NPC's head is in this trigger, NPCs out of this hiderange cannot see him.  If you set an angle on the trigger, they're only hidden from enemies looking in that direction.  the player's crouch viewheight is 36, his standing viewheight is 54.  So a trigger thast should hide you when crouched but not standing should be 48 tall.
+"target2"	The trigger will fire this only when the trigger has been activated and subsequently 'cleared'( once any of the conditions on the trigger have not been satisfied).  This will not fire the "target" more than once until the "target2" is fired (trigger field is 'cleared')
+"speed"		How many seconds to wait to fire the target2, default is 1
+"noise"		Sound to play when the trigger fires (plays at activator's origin)
+
+Variable sized repeatable trigger.  Must be targeted at one or more entities.
+so, the basic time between firing is a random time between
+(wait - random) and (wait + random)
+
+"NPC_targetname" - If set, only an NPC with a matching NPC_targetname will trip this trigger
+"team" - If set, only this team can trip this trigger
+	player
+	enemy
+	neutral
+
+"soundSet"	Ambient sound set to play when this trigger is activated
+*/
+
+
+/*QUAKED trigger_once (.5 1 .5) ? PLAYERONLY FACING USE_BUTTON FIRE_BUTTON NPCONLY x x INACTIVE MULTIPLE
+PLAYERONLY - only a player can trigger this by touch
+FACING - Won't fire unless triggering ent's view angles are within 45 degrees of trigger's angles (in addition to any other conditions)
+USE_BUTTON - Won't fire unless player is in it and pressing use button (in addition to any other conditions)
+FIRE_BUTTON - Won't fire unless player/NPC is in it and pressing fire button (in addition to any other conditions)
+NPCONLY - only non-player NPCs can trigger this by touch
+INACTIVE - Start off, has to be activated to be touchable/usable
+MULTIPLE - multiple entities can touch this trigger in a single frame *and* if needed, the trigger can have a wait of > 0
+
+"random"	wait variance, default is 0
+"delay"		how many seconds to wait to fire targets after tripped
+Variable sized repeatable trigger.  Must be targeted at one or more entities.
+so, the basic time between firing is a random time between
+(wait - random) and (wait + random)
+"noise"		Sound to play when the trigger fires (plays at activator's origin)
+
+"NPC_targetname" - If set, only an NPC with a matching NPC_targetname will trip this trigger
+"team" - If set, only this team can trip this trigger
+	player
+	enemy
+	neutral
+
+"soundSet"	Ambient sound set to play when this trigger is activated
+*/
+
+
+/*QUAKED trigger_bidirectional (.1 .5 .1) ? PLAYER_ONLY x x x x x x INACTIVE
+NOT IMPLEMENTED
+INACTIVE - Start off, has to be activated to be touchable/usable
+
+set "angle" for forward direction
+Fires "target" when someone moves through it in direction of angle
+Fires "backwardstarget" when someone moves through it in the opposite direction of angle
+
+"NPC_targetname" - If set, only an NPC with a matching NPC_targetname will trip this trigger
+
+"wait" - how long to wait between triggerings
+
+  TODO:
+	count
+*/
+
+
+/*QUAKED trigger_location (.1 .5 .1) ? 
+When an ent is asked for it's location, it will return this ent's "message" field if it is in it.
+  "message" - location name
+
+  NOTE: always rectangular
+*/
+
+
+/*QUAKED trigger_always (.1 .5 .1) (-8 -8 -8) (8 8 8)
+This trigger will always fire.  It is activated by the world.
+*/
+
+
+/*QUAKED trigger_push (.1 .5 .1) ? PLAYERONLY CHECKCLEAR LINEAR NPCONLY RELATIVE CONVEYOR x INACTIVE MULTIPLE
+Must point at a target_position, which will be the apex of the leap.
+This will be client side predicted, unlike target_push
+PLAYERONLY - only the player is affected
+LINEAR - Instead of tossing the client at the target_position, it will push them towards it.  Must set a "speed" (see below)
+CHECKCLEAR - Every 1 second, it will check to see if it can trace to the target_position, if it can, the trigger is touchable, if it can't, the trigger is not touchable
+NPCONLY - only NPCs are affected
+RELATIVE - instead of pushing you in a direction that is always from the center of the trigger to the target_position, it pushes *you* toward the target position, relative to your current location (can use with "speed"... if don't set a speed, it will use the distance from you to the target_position)
+CONVEYOR - acts like a conveyor belt, will only push if player is on the ground ( should probably use RELATIVE also, if you want a true conveyor belt )
+INACTIVE - not active until targeted by a target_activate
+MULTIPLE - multiple entities can touch this trigger in a single frame *and* if needed, the trigger can have a wait of > 0
+
+wait - how long to wait between pushes: -1 = push only once
+speed - when used with the LINEAR spawnflag, pushes the client toward the position at a constant speed (default is 1000)
+*/
+
+
+/*QUAKED target_push (.5 .5 .5) (-8 -8 -8) (8 8 8) ENERGYNOISE CONSTANT NO_DAMAGE
+When triggered, pushes the activator in the direction of angles
+"speed"		defaults to 1000
+ENERGYNOISE plays energy noise
+CONSTANT will push activator in direction of 'target' at constant 'speed'
+NO_DAMAGE the activator won't take falling damage after being pushed
+*/
+
+
+/*QUAKED trigger_teleport (.1 .5 .1) ? SNAP_ANGLES NO_MISSILES NO_NPCS STASIS DEAD_OK x x INACTIVE
+Allows client side prediction of teleportation events.
+Must point at a target_position, which will be the teleport destination.
+
+SNAP_ANGLES - Make the entity that passes through snap to the target_position's angles
+NO_MISSILES - Missiles and thrown objects cannot pass through
+NO_NPCS - NPCs cannot pass through
+STASIS - will play stasis teleport sound and fx instead of starfleet
+DEAD_OK - even if dead, you will teleport
+*/
+
+
+/*QUAKED trigger_hurt (.1 .5 .1) ? START_OFF PLAYERONLY SILENT NO_PROTECTION LOCKCAM FALLING ELECTRICAL INACTIVE MULTIPLE
+Any entity that touches this will be hurt.
+It does dmg points of damage each server frame
+
+PLAYERONLY		only the player is hurt by it
+SILENT			supresses playing the sound
+NO_PROTECTION	*nothing* stops the damage
+LOCKCAM			Falling death results in camera locking in place
+FALLING			Forces a falling scream and anim
+ELECTRICAL		does electrical damage
+INACTIVE		Cannot be triggered until used by a target_activate
+MULTIPLE        multiple entities can touch this trigger in a single frame *and* if needed, the trigger can have a wait of > 0
+
+"dmg"			default 5 (whole numbers only)
+"delay"			How many seconds it takes to get from 0 to "dmg" (default is 0)
+"wait"			Use in instead of "SLOW" - determines how often the player gets hurt, 0.1 is every frame, 1.0 is once per second.  -1 will stop after one use
+"count"			If set, FALLING death causes a fade to black in this many milliseconds (default is 10000 = 10 seconds)
+"NPC_targetname" - If set, only an NPC with a matching NPC_targetname will trip this trigger
+"noise"         sound to play when it hurts something ( default: "sound/world/electro" )
+*/
+
+
+/*QUAKED func_timer (0.3 0.1 0.6) (-8 -8 -8) (8 8 8) START_ON
+This should be renamed trigger_timer...
+Repeatedly fires its targets.
+Can be turned on or off by using.
+
+"wait"			base time between triggering all targets, default is 1
+"random"		wait variance, default is 0
+so, the basic time between firing is a random time between
+(wait - random) and (wait + random)
+
+*/
+
+
+/*QUAKED trigger_entdist (.1 .5 .1) (-8 -8 -8) (8 8 8) PLAYER NPC
+fires if the given entity is within the given distance.  Sets itself inactive after one use.
+----- KEYS -----
+distance - radius entity can be away to fire trigger
+target - fired if entity is within distance
+target2 - fired if entity not within distance
+
+NPC_target - NPC_types to look for
+ownername - If any, who to calc the distance from- default is the trigger_entdist himself
+example: target "biessman telsia" will look for the biessman and telsia NPC
+if it finds either of these within distance it will fire.
+
+  todo - 
+  add delay, count
+  add monster classnames?????
+  add LOS to it???
+*/
+
+
+/*QUAKED trigger_visible (.1 .5 .1) (-8 -8 -8) (8 8 8) NOTRACE x x x x x x INACTIVE
+
+  Only fires when player is looking at it, fires only once then removes itself.
+
+  NOTRACE - Doesn't check to make sure the line of sight is completely clear (penetrates walls, forcefields, etc)
+  INACTIVE - won't check for player visibility until activated
+
+  radius - how far this ent can be from player's eyes, max, and still be considered "seen"
+  FOV - how far off to the side of the player's field of view this can be, max, and still be considered "seen".  Player FOV is 80, so the default for this value is 30.
+
+  "target" - What to use when it fires.
+*/
+
+
+/*QUAKED misc_turret (1 0 0) (-8 -8 -22) (8 8 0) START_OFF UPSIDE_DOWN
+Turret that hangs from the ceiling, will aim and shoot at enemies
+
+  START_OFF - Starts off
+  UPSIDE_DOWN - make it rest on a surface/floor instead of hanging from the ceiling
+
+  radius - How far away an enemy can be for it to pick it up (default 512)
+  wait	- Time between shots (default 150 ms)
+  dmg	- How much damage each shot does (default 5)
+  health - How much damage it can take before exploding (default 100)
+  
+  splashDamage - How much damage the explosion does
+  splashRadius - The radius of the explosion
+  NOTE: If either of the above two are 0, it will not make an explosion
+  
+  targetname - Toggles it on/off
+  target - What to use when destroyed
+  target2 - What to use when it decides to start shooting at an enemy
+
+  team - team that is not targeted by and does not take damage from this turret
+	"player",
+	"enemy",	(default)
+	"neutral"
+*/
+
+
+/*QUAKED misc_ns_turret (1 0 0) (-8 -8 -32) (8 8 29) START_OFF
+NS turret that only hangs from the ceiling, will aim and shoot at enemies
+
+  START_OFF - Starts off
+
+  radius - How far away an enemy can be for it to pick it up (default 512)
+  wait	- Time between shots (default 150 ms)
+  dmg	- How much damage each shot does (default 5)
+  health - How much damage it can take before exploding (default 100)
+  
+  splashDamage - How much damage the explosion does
+  splashRadius - The radius of the explosion
+  NOTE: If either of the above two are 0, it will not make an explosion
+  
+  targetname - Toggles it on/off
+  target - What to use when destroyed
+
+  team - team that is not targeted by and does not take damage from this turret
+	"player",
+	"enemy",	(default)
+	"neutral"
+*/
+
+
+/*QUAKED misc_laser_arm (1 0 0) (-8 -8 -8) (8 8 8) 
+
+What it does when used depends on it's "count" (can be set by a script)
+	count:
+		0 (default) - Fire in direction facing
+		1 turn left
+		2 turn right
+		3 aim up
+		4 aim down
+
+  speed - How fast it turns (degrees per second, default 30)
+  dmg	- How much damage the laser does 10 times a second (default 5 = 50 points per second)
+  wait  - How long the beam lasts, in seconds (default is 3)
+  
+  targetname - to use it
+  target - What thing for it to be pointing at to start with
+
+  "startRGBA" - laser color, Red Green Blue Alpha, range 0 to 1 (default  1.0 0.85 0.15 0.75 = Yellow-Orange)
+*/
+
+
+/*QUAKED misc_sentry_turret (1 0 0) (-16 -16 0) (16 16 24) START_OFF RESERVED
+personal assault sentry, like the ones you can carry in your inventory
+
+  RESERVED - do no use this flag for anything, does nothing..etc.
+
+  radius - How far away an enemy can be for it to pick it up (default 512)
+  count - number of shots before thing deactivates. -1 = infinite, default 150
+  health - How much damage it can take before exploding (default 50)
+  
+  splashDamage - How much damage the explosion does
+  splashRadius - The radius of the explosion
+  NOTE: If either of the above two are 0, it will not make an explosion
+  
+  target - What to use when destroyed
+  target2 - What to use when it decides to fire at an enemy
+
+  team - team that does not take damage from this item
+	"player",
+	"enemy",
+	"neutral"
+
+*/
+
+
+/*QUAKED misc_ion_cannon (1 0 0) (-140 -140 0) (140 140 320) START_OFF BURSTS SHIELDED
+Huge ion cannon, like the ones at the rebel base on Hoth.
+
+  START_OFF - Starts off
+  BURSTS - adds more variation, shots come out in bursts
+  SHIELDED - cannon is shielded, any kind of shot bounces off.
+
+  wait	- How fast it shoots (default 1500 ms between shots, can't be less than 500 ms)
+  random - milliseconds wait variation (default 400 ms...up to plus or minus .4 seconds)
+  delay	- Number of milliseconds between bursts (default 6000 ms, can't be less than 1000 ms, only works when BURSTS checked)
+
+  health - default 2000
+  splashDamage - how much damage to do when it dies, must be greater than 0 to actually work
+  splashRadius - damage radius, must be greater than 0 to actually work
+
+  targetname - Toggles it on/off
+  target - What to use when destroyed
+  target2 - What to use when it fires a shot.
+*/
+
+
+/*QUAKED misc_spotlight (1 0 0) (-10 -10 0) (10 10 10) START_OFF
+model="models/map_objects/imp_mine/spotlight.md3"
+Search spotlight that must be targeted at a func_train or other entity
+Uses its target2 when it detects the player
+
+  START_OFF - Starts off
+
+  targetname - Toggles it on/off
+  target - What to point at
+  target2 - What to use when detects player
+*/
+
+
+/*QUAKED misc_panel_turret (0 0 1) (-8 -8 -12) (8 8 16) HEALTH
+Creates a turret that, when the player uses a panel, takes control of this turret and adopts the turret view
+
+  HEALTH - gun turret has health and displays a hud with its current health
+
+"target" - thing to use when player enters the turret view
+"target2" - thing to use when player leaves the turret view
+"target3" - thing to use when it dies.
+
+  radius - the max yaw range in degrees, (default 90) which means you can move 90 degrees on either side of the start angles.
+  random - the max pitch range in degrees, (default 60) which means you can move 60 degrees above or below the start angles.
+  delay - time between shots, in milliseconds (default 200).
+  damage - amount of damage shots do, (default 50).
+  speed - missile speed, (default 3000)
+
+  heatlh - how much heatlh the thing has, (default 200) only works if HEALTH is checked, otherwise it can't be destroyed. 
+*/
+
+
+/*QUAKED func_usable (0 .5 .8) ? STARTOFF AUTOANIMATE ANIM_ONCE ALWAYS_ON BLOCKCHECK NPC_USE PLAYER_USE INACTIVE
+START_OFF - the wall will not be there
+AUTOANIMATE - if a model is used it will animate				
+ANIM_ONCE - When turned on, goes through anim once
+ALWAYS_ON - Doesn't toggle on and off when used, just runs usescript and fires target
+NPC_ONLY - Only NPCs can directly use this
+PLAYER_USE - Player can use it with the use button
+BLOCKCHECK - Will not turn on while something is inside it
+
+A bmodel that just sits there, doing nothing.  Can be used for conditional walls and models.
+"targetname" - When used, will toggle on and off
+"target"	Will fire this target every time it is toggled OFF
+"target2"	Will fire this target every time it is toggled ON
+"model2"	.md3 model to also draw
+"color"		constantLight color
+"light"		constantLight radius
+"usescript" script to run when turned on
+"deathscript"  script to run when turned off
+"wait"		amount of time before the object is usable again (only valid with ALWAYS_ON flag)
+"health"	if it has health, it will be used whenever shot at/killed - if you want it to only be used once this way, set health to 1
+"endframe"	Will make it animate to next shader frame when used, not turn on/off... set this to number of frames in the shader, minus 1
+*/
+
+
+/*QUAKED target_activate (1 0 0) (-4 -4 -4) (4 4 4)
+Will set the target(s) to be usable/triggerable
+*/
+
+
+/*QUAKED target_deactivate (1 0 0) (-4 -4 -4) (4 4 4)
+Will set the target(s) to be non-usable/triggerable
+*/
+
+
+/*QUAKED emplaced_gun (0 0 1) (-24 -24 0) (24 24 64) INACTIVE FACING VULNERABLE
+
+ INACTIVE cannot be used until used by a target_activate
+ FACING - player must be facing relatively in the same direction as the gun in order to use it
+ VULNERABLE - allow the gun to take damage
+
+ count - how much ammo to give this gun ( default 999 )
+ health - how much damage the gun can take before it blows ( default 250 )
+ delay - ONLY AFFECTS NPCs - time between shots ( default 200 on hardest setting )
+ wait - ONLY AFFECTS NPCs - time between bursts ( default 800 on hardest setting )
+ splashdamage - how much damage a blowing up gun deals ( default 80 )
+ splashradius - radius for exploding damage ( default 128 )
+*/
+
+
+/*QUAKED point_combat (0.7 0 0.7) (-16 -16 -24) (16 16 32) DUCK FLEE INVESTIGATE SQUAD LEAN SNIPE
+NPCs in bState BS_COMBAT_POINT will find their closest empty combat_point
+
+DUCK - NPC will duck and fire from this point, NOT IMPLEMENTED?
+FLEE - Will choose this point when running
+INVESTIGATE - Will look here if a sound is heard near it
+SQUAD - NOT IMPLEMENTED
+LEAN - Lean-type cover, NOT IMPLEMENTED
+SNIPE - Snipers look for these first, NOT IMPLEMENTED
+*/
+
+
+/*QUAKED target_interest (1 0.8 0.5) (-4 -4 -4) (4 4 4)
+A point that a squadmate will look at if standing still
+
+target - thing to fire when someone looks at this thing
+*/
+
+
+/*QUAKED NPC_spawner (1 0 0) (-16 -16 -24) (16 16 32) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+targetname - name this NPC goes by for targetting
+target - NPC will fire this when it spawns it's last NPC (should this be when the last NPC it spawned dies?)
+
+If targeted, will only spawn a NPC when triggered
+count - how many NPCs to spawn (only if targetted) default = 1
+
+NPC_type - name of NPC (in NPCs.cfg) to spawn
+
+NPC_targetname - NPC's targetname AND script_targetname
+NPC_target - NPC's target to fire when killed
+health - starting health (default = 100)
+playerTeam - Who not to shoot! (default is TEAM_STARFLEET)
+	TEAM_FREE (none) = 0
+	TEAM_RED = 1
+	TEAM_BLUE = 2
+	TEAM_GOLD = 3
+	TEAM_GREEN = 4
+	TEAM_STARFLEET = 5
+	TEAM_BORG = 6
+	TEAM_SCAVENGERS = 7
+	TEAM_STASIS = 8
+	TEAM_NPCS = 9
+	TEAM_HARVESTER, = 10
+	TEAM_FORGE = 11
+enemyTeam - Who to shoot (all but own if not set)
+
+spawnscript - default script to run once spawned (none by default)
+usescript - default script to run when used (none by default)
+awakescript - default script to run once awoken (none by default)
+angerscript - default script to run once angered (none by default)
+painscript - default script to run when hit (none by default)
+fleescript - default script to run when hit and below 50% health (none by default)
+deathscript - default script to run when killed (none by default)
+
+These strings can be used to activate behaviors instead of scripts - these are checked
+first and so no scripts should be names with these names:
+    default - 0: whatever
+	idle - 1: Stand around, do abolutely nothing
+	roam - 2: Roam around, collect stuff
+	walk - 3: Crouch-Walk toward their goals
+	run - 4: Run toward their goals
+	standshoot - 5: Stay in one spot and shoot- duck when neccesary
+	standguard - 6: Wait around for an enemy
+	patrol - 7: Follow a path, looking for enemies
+	huntkill - 8: Track down enemies and kill them
+	evade - 9: Run from enemies
+	evadeshoot - 10: Run from enemies, shoot them if they hit you
+	runshoot - 11: Run to your goal and shoot enemy when possible
+	defend - 12: Defend an entity or spot?
+	snipe - 13: Stay hidden, shoot enemy only when have perfect shot and back turned
+	combat - 14: Attack, evade, use cover, move about, etc.  Full combat AI - id NPC code
+	medic - 15: Go for lowest health buddy, hide and heal him.
+	takecover - 16: Find nearest cover from enemies
+	getammo - 17: Go get some ammo
+	advancefight - 18: Go somewhere and fight along the way
+	face - 19: turn until facing desired angles
+	wait - 20: do nothing
+	formation - 21: Maintain a formation
+	crouch - 22: Crouch-walk toward their goals
+
+delay - after spawned or triggered, how many seconds to wait to spawn the NPC
+*/
+
+
+
+
+/*QUAKED NPC_Kyle (1 0 0) (-16 -16 -24) (16 16 32) x RIFLEMAN PHASER TRICORDER DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Lando(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Jan(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Luke(1 0 0) (-16 -16 -24) (16 16 40) x x x x CEILING CINEMATIC NOTSOLID STARTINSOLID SHY
+CEILING - Sticks to the ceiling until he sees an enemy or takes pain
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_MonMothma(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Tavion (1 0 0) (-16 -16 -24) (16 16 32) x x x x CEILING CINEMATIC NOTSOLID STARTINSOLID SHY
+CEILING - Sticks to the ceiling until he sees an enemy or takes pain
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Reelo(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Galak(1 0 0) (-16 -16 -24) (16 16 40) MECH x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+MECH - will be the armored Galak
+
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Desann(1 0 0) (-16 -16 -24) (16 16 40) x x x x CEILING CINEMATIC NOTSOLID STARTINSOLID SHY
+CEILING - Sticks to the ceiling until he sees an enemy or takes pain
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Bartender(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_MorganKatarn(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Jedi(1 0 0) (-16 -16 -24) (16 16 40) TRAINER x x x CEILING CINEMATIC NOTSOLID STARTINSOLID SHY
+TRAINER - Special Jedi- instructor
+CEILING - Sticks to the ceiling until he sees an enemy or takes pain
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+Ally Jedi NPC Buddy - tags along with player
+*/
+
+
+/*QUAKED NPC_Prisoner(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Rebel(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Stormtrooper(1 0 0) (-16 -16 -24) (16 16 40) OFFICER COMMANDER ALTOFFICER ROCKET DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+30 health, blaster
+
+OFFICER - 60 health, flechette
+COMMANDER - 60 health, heavy repeater
+ALTOFFICER - 60 health, alt-fire flechette (grenades)
+ROCKET - 60 health, rocket launcher
+
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Tie_Pilot(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+30 health, blaster
+
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Ugnaught(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Gran(1 0 0) (-16 -16 -24) (16 16 40) SHOOTER BOXER x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+Uses grenade
+
+SHOOTER - uses blaster instead of 
+BOXER - uses fists only
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Rodian(1 0 0) (-16 -16 -24) (16 16 40) BLASTER NO_HIDE x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+BLASTER uses a blaster instead of sniper rifle, different skin
+NO_HIDE (only applicable with snipers) does not duck and hide between shots
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Weequay(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Trandoshan(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_SwampTrooper(1 0 0) (-16 -16 -24) (16 16 40) REPEATER x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+REPEATER - Swaptrooper who uses the repeater
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Imperial(1 0 0) (-16 -16 -24) (16 16 40) OFFICER COMMANDER x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+
+Greyshirt grunt, uses blaster pistol, 20 health.
+
+OFFICER - Brownshirt Officer, uses blaster rifle, 40 health
+COMMANDER - Blackshirt Commander, uses rapid-fire blaster rifle, 80 healt
+
+"message" - if a COMMANDER, turns on his key surface.  This is the name of the key you get when you walk over his body.  This must match the "message" field of the func_security_panel you want this key to open.  Set to "goodie" to have him carrying a goodie key that player can use to operate doors with "GOODIE" spawnflag.
+
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_ImpWorker(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_BespinCop(1 0 0) (-16 -16 -24) (16 16 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Reborn(1 0 0) (-16 -16 -24) (16 16 40) FORCE FENCER ACROBAT BOSS CEILING CINEMATIC NOTSOLID STARTINSOLID SHY
+
+Default Reborn is A poor lightsaber fighter, acrobatic and uses no force powers.  Yellow saber, 40 health.
+
+FORCE - Uses force powers but is not the best lightsaber fighter and not acrobatic.  Purple saber, 75 health.
+FENCER - A good lightsaber fighter, but not acrobatic and uses no force powers.  Yellow saber, 100 health.
+ACROBAT - quite acrobatic, but not the best lightsaber fighter and uses no force powers.  Red saber, 100 health.
+BOSS - quite acrobatic, good lightsaber fighter and uses force powers.  Orange saber, 150 health.
+
+NOTE: Saber colors are temporary until they have different by skins to tell them apart
+
+CEILING - Sticks to the ceiling until he sees an enemy or takes pain
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_ShadowTrooper(1 0 0) (-16 -16 -24) (16 16 40) x x x x CEILING CINEMATIC NOTSOLID STARTINSOLID SHY
+CEILING - Sticks to the ceiling until he sees an enemy or takes pain
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Monster_Murjj (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Monster_Swamp (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Monster_Howler (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_MineMonster (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Monster_Claw (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Monster_Glider (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Monster_Flier2 (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Monster_Lizard (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Monster_Fish (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Droid_Interrogator (1 0 0) (-12 -12 -24) (12 12 0) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Droid_Probe (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+Imperial Probe Droid - the multilegged floating droid that Han and Chewie shot on the ice planet Hoth
+*/
+
+
+/*QUAKED NPC_Droid_Mark1 (1 0 0) (-36 -36 -24) (36 36 80) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+Big walking droid
+
+*/
+
+
+/*QUAKED NPC_Droid_Mark2 (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+Small rolling droid with one gun.
+
+*/
+
+
+/*QUAKED NPC_Droid_ATST (1 0 0) (-40 -40 -24) (40 40 248) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+*/
+
+
+/*QUAKED NPC_Droid_Remote (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+Remote Droid - the floating round droid used by Obi Wan to train Luke about the force while on the Millenium Falcon.
+*/
+
+
+/*QUAKED NPC_Droid_Seeker (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+Seeker Droid - floating round droids that shadow troopers spawn
+*/
+
+
+/*QUAKED NPC_Droid_Sentry (1 0 0) (-24 -24 -24) (24 24 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+Sentry Droid - Large, armored floating Imperial droids with 3 forward-facing gun turrets
+*/
+
+
+/*QUAKED NPC_Droid_Gonk (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+Gonk Droid - the droid that looks like a walking ice machine. Was in the Jawa land crawler, walking around talking to itself.
+
+NOTARGET by default
+*/
+
+
+/*QUAKED NPC_Droid_Mouse (1 0 0) (-12 -12 -24) (12 12 40) x x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+Mouse Droid - small, box shaped droid, first seen on the Death Star. Chewie yelled at it and it backed up and ran away.
+
+NOTARGET by default
+*/
+
+
+/*QUAKED NPC_Droid_R2D2 (1 0 0) (-12 -12 -24) (12 12 40) IMPERIAL x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+R2D2 Droid - you probably know this one already. 
+
+NOTARGET by default
+*/
+
+
+/*QUAKED NPC_Droid_R5D2 (1 0 0) (-12 -12 -24) (12 12 40) IMPERIAL ALWAYSDIE x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+ALWAYSDIE - won't go into spinning zombie AI when at low health.
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+R5D2 Droid - the droid originally chosen by Uncle Owen until it blew a bad motivator, and they took R2D2 instead.
+
+NOTARGET by default
+*/
+
+
+/*QUAKED NPC_Droid_Protocol (1 0 0) (-12 -12 -24) (12 12 40) IMPERIAL x x x DROPTOFLOOR CINEMATIC NOTSOLID STARTINSOLID SHY
+DROPTOFLOOR - NPC can be in air, but will spawn on the closest floor surface below it
+CINEMATIC - Will spawn with no default AI (BS_CINEMATIC)
+NOTSOLID - Starts not solid
+STARTINSOLID - Don't try to fix if spawn in solid
+SHY - Spawner is shy
+
+NOTARGET by default
+*/
+
+

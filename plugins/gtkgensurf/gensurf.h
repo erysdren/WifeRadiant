@@ -27,24 +27,12 @@
 #include "qerplugin.h"
 
 #include "iscenegraph.h"
-#define USE_QERTABLE_DEFINE
 #include "iplugin.h"
-extern _QERFuncTable_1 g_FuncTable;
-
 #include "irender.h"
 #include "iselection.h"
-
-#define USE_ENTITYTABLE_DEFINE
 #include "ientity.h"
-extern _QEREntityTable __ENTITYTABLENAME;
-
-#define USE_PATCHTABLE_DEFINE
 #include "ipatch.h"
-extern _QERPatchTable __PATCHTABLENAME;
-
-#define USE_BRUSHTABLE_DEFINE
 #include "ibrush.h"
-extern _QERBrushTable __BRUSHTABLENAME;
 
 #include "igl.h"
 #include "ientity.h"
@@ -284,8 +272,8 @@ void PlaneFromPoints( float *, float *, float *, PLANE * );
 //void CrossProduct (vec3 v1, vec3 v2, vec3 cross);
 //vec VectorNormalize (vec3 in, vec3 out);
 //--------------- gendlg.c -----------------------------
-GtkWidget* create_main_dialog();
-void About( GtkWidget *parent );
+QWidget* create_main_dialog();
+void About( QWidget *parent );
 //--------------- genmap.c -----------------------------
 double AtLeast( double,double );
 bool CanEdit( int, int );
@@ -310,8 +298,8 @@ scene::Node* MakePatch( void );
 bool GenSurfInit();
 void ReadIniFile( const char * );
 void WriteIniFile( const char * );
-void OpenSetup( GtkWidget*,int );
-void SaveSetup( GtkWidget* );
+void OpenSetup( QWidget*,int );
+void SaveSetup( QWidget* );
 //---------------- heretic.c ---------------------------
 int GetDefSurfaceProps( char * );
 //---------------- view.c ------------------------------
@@ -328,10 +316,6 @@ void UpdatePreview( bool );
 //---------------- plugin.c -----------------------------
 void UseFaceBounds();
 
-extern _QERFuncTable_1 g_FuncTable;
-extern _QERQglTable g_GLTable;
-extern _QERUIGtkTable g_UIGtkTable;
-extern _QEREntityTable g_EntityTable;
 //#define MAX_ROWS 64
 #define MAX_ROWS 128
 
@@ -419,12 +403,12 @@ extern int SP;       // ^Fishman - Snap to grid.
    extern HCURSOR   ghCursorDefault;
    extern HCURSOR   ghCursorVertex;
    extern HINSTANCE ghInst;*/
-extern GtkWidget *g_pRadiantWnd;
-extern GtkWidget *g_pWnd;
+extern QWidget *g_pRadiantWnd;
+extern QWidget *g_pWnd;
 /*extern HWND      ghwndAngles;
    extern HWND      ghwndFix;
- */extern GtkWidget     *g_pWndPreview;
-extern GtkWidget *g_pPreviewWidget;
+ */extern QWidget     *g_pWndPreview;
+extern QWidget *g_pPreviewWidget;
 extern MYBITMAP gbmp;
 extern NODE      *gNode;
 extern TRI       *gTri;

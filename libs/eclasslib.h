@@ -123,6 +123,21 @@ public:
 	CopiedString flagNames[MAX_FLAGS];
 	const EntityClassAttribute* flagAttributes[MAX_FLAGS];
 
+	struct Flag {
+		std::string displayName;
+		const EntityClassAttribute* attribute = nullptr;
+	};
+
+	struct FlagList {
+		std::string displayName;
+		std::array<Flag, MAX_FLAGS> flags;
+	};
+
+	// typedef std::pair<std::string, const EntityClassAttribute*> Flag;
+	// typedef std::array<Flag, MAX_FLAGS> FlagList;
+
+	std::unordered_map<std::string, FlagList> flags;
+
 	CopiedString m_modelpath;
 	CopiedString m_skin;
 

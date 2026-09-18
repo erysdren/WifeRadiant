@@ -21,6 +21,8 @@
 
 #pragma once
 
+extern std::unordered_map<std::string, size_t> g_entityFlagFields;
+
 class QWidget* EntityInspector_constructWindow( QWidget* parent );
 void EntityInspector_construct();
 void EntityInspector_destroy();

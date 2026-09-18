@@ -57,6 +57,11 @@
 #include "watchbsp.h"
 #include "autosave.h"
 
+#include "os/dir.h"
+
+#include <fstream>
+#include <kvpp/kvpp.h>
+
 QEGlobals_t g_qeglobals;
 
 
@@ -83,7 +88,6 @@ void QE_InitVFS(){
 			paths.emplace_back( newPath );
 	};
 
-
 	for( const auto& path : ExtraResourcePaths_get() )
 		paths_push( path.c_str() );
 
@@ -96,6 +100,87 @@ void QE_InitVFS(){
 	paths_push( str( userRoot, basegame, '/' ) ); // userBasePath
 	// <fs_basepath>/<fs_main>
 	paths_push( str( globalRoot, basegame, '/' ) ); // globalBasePath
+
+	// load source engine gameinfo.txt
+	if ( string_equal( g_pGameDescription->getKeyValue( "read_gameinfo_txt" ), "1" ) ) {
+		std::filesystem::path gameinfoPath = globalRoot;
+		gameinfoPath /= gamename;
+		gameinfoPath /= "gameinfo.txt";
+		if ( std::filesystem::exists(gameinfoPath) ) {
+			std::ifstream gameinfoFile(gameinfoPath);
+			std::stringstream gameinfoString;
+			gameinfoString << gameinfoFile.rdbuf();
+			kvpp::KV1 kv1(gameinfoString.str());
+			globalOutputStream() << "gameinfo.txt found" << '\n';
+			// dig down into it
+			const auto& GameInfo = kv1["GameInfo"];
+			if ( GameInfo ) {
+				const auto& FileSystem = GameInfo["FileSystem"];
+				if ( FileSystem ) {
+					const auto& SearchPaths = FileSystem["SearchPaths"];
+					if ( SearchPaths ) {
+						// clear previously added paths, we're going off gameinfo.txt now!
+						paths.clear();
+						for ( const auto& SearchPath : SearchPaths ) {
+							// resolve path
+							auto resolvePaths = [&globalRoot, &gamename](std::string_view path){
+								const char* ptr = path.data();
+								std::vector<std::string> resolvedPaths;
+								std::string tempPath;
+								if ( string_equal_suffix_nocase( ptr, ".vpk" ) ) {
+									// FIXME: mount VPKs directly
+								} else if ( string_equal_prefix_nocase( ptr, "|all_source_engine_paths|" ) ) {
+									ptr += string_length("|all_source_engine_paths|");
+									tempPath = std::format("{}{}", globalRoot, ptr);
+								} else if( string_equal_prefix_nocase( ptr, "|gameinfo_path|" ) ) {
+									ptr += string_length("|gameinfo_path|");
+									tempPath = std::format("{}{}/{}", globalRoot, gamename, ptr);
+								} else {
+									tempPath = std::format("{}{}", globalRoot, ptr);
+								}
+								if ( string_equal_suffix_nocase( tempPath.c_str(), "*" ) ) {
+									tempPath.pop_back();
+									Directory_forEach(tempPath.c_str(), [&resolvedPaths, &tempPath](const char* path){
+										std::string resolvedPath = std::format("{}{}", tempPath, path);
+										if ( std::filesystem::is_directory( resolvedPath ) ) {
+											resolvedPaths.push_back(resolvedPath.c_str());
+										}
+									});
+								} else {
+									if ( string_equal_suffix_nocase( tempPath.c_str(), "." ) ) {
+										tempPath.pop_back();
+									}
+									resolvedPaths.push_back(tempPath);
+								}
+								return resolvedPaths;
+							};
+							auto resolvedPaths = resolvePaths( SearchPath.getValue() );
+							// tokenize key
+							StringTokeniser tokeniser( SearchPath.getKey().data(), "+" );
+							const char* token = tokeniser.getToken();
+							while ( !resolvedPaths.empty() && !string_empty( token ) ) {
+								if ( string_equal_nocase( token, "game" ) || string_equal_nocase( token, "mod" ) || string_equal_nocase( token, "platform" ) ) {
+									for ( auto& resolvedPath : resolvedPaths ) {
+										paths_push( resolvedPath.c_str() );
+									}
+									break;
+								}
+								token = tokeniser.getToken();
+							}
+						}
+					} else {
+						globalErrorStream() << "gameinfo.txt is invalid: missing SearchPaths block" << '\n';
+					}
+				} else {
+					globalErrorStream() << "gameinfo.txt is invalid: missing FileSystem block" << '\n';
+				}
+			} else {
+				globalErrorStream() << "gameinfo.txt is invalid: missing GameInfo block" << '\n';
+			}
+		} else {
+			globalWarningStream() << "gameinfo.txt not found" << '\n';
+		}
+	}
 
 	for( const auto& path : paths )
 		GlobalFileSystem().initDirectory( path.c_str() );

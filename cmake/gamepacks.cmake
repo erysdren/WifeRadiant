@@ -1,18 +1,20 @@
 
 function(radiant_add_gamepack name)
 	cmake_parse_arguments(PARSE_ARGV 1 ARG
-		"WRITE_DEFAULT_KEYVALUES;HAS_BASEGAME;USE_NEW_OUTPUT_SEPARATOR;SUPPORT_PATCHES;SUPPORT_OUTPUTS;SUPPORT_LIGHTMAP_SCALE;SUPPORT_WADS"
-		"SHADER_NODRAW;SHADER_CAULK;BUILD_MENU_FILENAME;MAP_BACKUP_EXTENSION;MAP_EXTENSION;SHADER_PATH;DEFAULT_SCALE;DEFAULT_LIGHTMAP_SCALE;ENTITY_CLASS_TYPES;ENTITY_CLASS;SHADER_TYPE;GAME_TYPE;ENTITIES_FILENAME;ENTITIES;BASE_TITLE;BASE_GAMEDIR;TITLE;GAMEDIR;PATH_WIN32;PATH_LINUX;PATH_MACOS;EXECUTABLE_WIN32;EXECUTABLE_LINUX;EXECUTABLE_MACOS"
-		"ARCHIVE_TYPES;TEXTURE_TYPES;MODEL_TYPES;SOUND_TYPES;MAP_TYPES;BRUSH_TYPES;PATCH_TYPES;KNOWN_TITLES;KNOWN_GAMEDIRS"
+		"SUPPORT_PATCH_TESSELATION;READ_GAMEINFO_TXT;WRITE_DEFAULT_KEYVALUES;HAS_BASEGAME;USE_NEW_OUTPUT_SEPARATOR;SUPPORT_PATCHES;SUPPORT_OUTPUTS;SUPPORT_LIGHTMAP_SCALE;SUPPORT_WADS"
+		"SHADER_TRIGGER;SHADER_NODRAW;SHADER_CAULK;BUILD_MENU_FILENAME;MAP_BACKUP_EXTENSION;MAP_EXTENSION;SHADER_PATH;DEFAULT_SCALE;DEFAULT_LIGHTMAP_SCALE;ENTITY_CLASS;SHADER_TYPE;GAME_TYPE;ENTITIES_FILENAME;ENTITIES;BASE_TITLE;BASE_GAMEDIR;TITLE;GAMEDIR;PATH_WIN32;PATH_LINUX;PATH_MACOS;EXECUTABLE_WIN32;EXECUTABLE_LINUX;EXECUTABLE_MACOS"
+		"ARCHIVE_TYPES;TEXTURE_TYPES;MODEL_TYPES;SOUND_TYPES;MAP_TYPES;BRUSH_TYPES;PATCH_TYPES;KNOWN_TITLES;KNOWN_GAMEDIRS;ENTITY_CLASS_TYPES"
 	)
-	file(MAKE_DIRECTORY "${PROJECT_SOURCE_DIR}/install/gamepacks/games/")
-	file(MAKE_DIRECTORY "${PROJECT_SOURCE_DIR}/install/gamepacks/${name}.game/")
+	file(MAKE_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks/games/")
+	file(MAKE_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}.game/")
 	if(EXISTS "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${name}.game/")
-		file(COPY "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${name}.game/" DESTINATION "${PROJECT_SOURCE_DIR}/install/gamepacks/${name}.game/")
+		file(COPY "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${name}.game/" DESTINATION "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}.game/")
+	elseif(EXISTS "${PROJECT_SOURCE_DIR}/cmake/gamepacks/user/${name}.game/")
+		file(COPY "${PROJECT_SOURCE_DIR}/cmake/gamepacks/user/${name}.game/" DESTINATION "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}.game/")
 	endif()
 	if(ARG_BUILD_MENU_FILENAME)
-		file(COPY "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${ARG_BUILD_MENU_FILENAME}" DESTINATION "${PROJECT_SOURCE_DIR}/install/gamepacks/${name}.game/")
-		file(RENAME "${PROJECT_SOURCE_DIR}/install/gamepacks/${name}.game/${ARG_BUILD_MENU_FILENAME}" "${PROJECT_SOURCE_DIR}/install/gamepacks/${name}.game/default_build_menu.xml")
+		file(COPY "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${ARG_BUILD_MENU_FILENAME}" DESTINATION "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}.game/")
+		file(RENAME "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}.game/${ARG_BUILD_MENU_FILENAME}" "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}.game/default_build_menu.xml")
 	endif()
 	set(target gamepack_${name})
 	add_custom_target(${target})
@@ -29,6 +31,11 @@ function(radiant_add_gamepack name)
 		set_property(TARGET ${target} PROPERTY USE_NEW_OUTPUT_SEPARATOR 1)
 	else()
 		set_property(TARGET ${target} PROPERTY USE_NEW_OUTPUT_SEPARATOR 0)
+	endif()
+	if(ARG_SUPPORT_PATCH_TESSELATION) # note: reversed
+		set_property(TARGET ${target} PROPERTY SUPPORT_PATCH_TESSELATION 0)
+	else()
+		set_property(TARGET ${target} PROPERTY SUPPORT_PATCH_TESSELATION 1)
 	endif()
 	if(ARG_SUPPORT_PATCHES) # note: reversed
 		set_property(TARGET ${target} PROPERTY SUPPORT_PATCHES 0)
@@ -55,6 +62,11 @@ function(radiant_add_gamepack name)
 	else()
 		set_property(TARGET ${target} PROPERTY WRITE_DEFAULT_KEYVALUES 0)
 	endif()
+	if(ARG_READ_GAMEINFO_TXT)
+		set_property(TARGET ${target} PROPERTY READ_GAMEINFO_TXT 1)
+	else()
+		set_property(TARGET ${target} PROPERTY READ_GAMEINFO_TXT 0)
+	endif()
 	set_property(TARGET ${target} PROPERTY GAME_TYPE ${ARG_GAME_TYPE})
 	set_property(TARGET ${target} PROPERTY TITLE ${ARG_TITLE})
 	set_property(TARGET ${target} PROPERTY GAMEDIR ${ARG_GAMEDIR})
@@ -68,6 +80,7 @@ function(radiant_add_gamepack name)
 	set_property(TARGET ${target} PROPERTY ENTITIES_FILENAME ${ARG_ENTITIES_FILENAME})
 	set_property(TARGET ${target} PROPERTY SHADER_CAULK ${ARG_SHADER_CAULK})
 	set_property(TARGET ${target} PROPERTY SHADER_NODRAW ${ARG_SHADER_NODRAW})
+	set_property(TARGET ${target} PROPERTY SHADER_TRIGGER ${ARG_SHADER_TRIGGER})
 	if(ARG_DEFAULT_SCALE)
 		set_property(TARGET ${target} PROPERTY DEFAULT_SCALE ${ARG_DEFAULT_SCALE})
 	else()
@@ -100,7 +113,7 @@ function(radiant_add_gamepack name)
 	set_property(TARGET ${target} PROPERTY BRUSH_TYPES ${ARG_BRUSH_TYPES})
 	set_property(TARGET ${target} PROPERTY PATCH_TYPES ${ARG_PATCH_TYPES})
 	file(GENERATE
-		OUTPUT "${PROJECT_SOURCE_DIR}/install/gamepacks/games/${name}.game"
+		OUTPUT "${RADIANT_INSTALL_PREFIX}/gamepacks/games/${name}.game"
 		CONTENT
 [[<?xml version="1.0"?>
 <game
@@ -139,31 +152,42 @@ function(radiant_add_gamepack name)
   no_autocaulk="1"
   no_outputs="$<TARGET_PROPERTY:SUPPORT_OUTPUTS>"
   no_lightmapscale="$<TARGET_PROPERTY:SUPPORT_LIGHTMAP_SCALE>"
+  no_patch_tesselation="$<TARGET_PROPERTY:SUPPORT_PATCH_TESSELATION>"
   write_default_keyvalues="$<TARGET_PROPERTY:WRITE_DEFAULT_KEYVALUES>"
+  read_gameinfo_txt="$<TARGET_PROPERTY:READ_GAMEINFO_TXT>"
   show_wads="$<TARGET_PROPERTY:SUPPORT_WADS>"
   mapextension="$<TARGET_PROPERTY:MAP_EXTENSION>"
   mapbackupextension="$<TARGET_PROPERTY:MAP_BACKUP_EXTENSION>"
   use_new_output_separator="$<TARGET_PROPERTY:USE_NEW_OUTPUT_SEPARATOR>"
   shader_caulk="$<TARGET_PROPERTY:SHADER_CAULK>"
   shader_nodraw="$<TARGET_PROPERTY:SHADER_NODRAW>"
+  shader_trigger="$<TARGET_PROPERTY:SHADER_TRIGGER>"
 />
 ]]
 	TARGET ${target}
 	)
 endfunction()
 
-# source engine gamepacks
-include(gamepacks/source)
+if(RADIANT_GENERATE_SOURCE_GAMEPACKS)
+	include(gamepacks/source)
+endif()
 
-# goldsrc engine gamepacks
-include(gamepacks/goldsrc)
+if(RADIANT_GENERATE_GOLDSRC_GAMEPACKS)
+	include(gamepacks/goldsrc)
+endif()
 
-# idtech3 gamepacks
-include(gamepacks/idtech3)
+if(RADIANT_GENERATE_IDTECH2_GAMEPACKS)
+	include(gamepacks/idtech2)
+endif()
 
-# idtech4 gamepacks
-include(gamepacks/idtech4)
+if(RADIANT_GENERATE_IDTECH3_GAMEPACKS)
+	include(gamepacks/idtech3)
+endif()
 
-# put your custom gamepacks in here:
-# cmake/gamepacks/user.cmake
-include(gamepacks/user OPTIONAL)
+if(RADIANT_GENERATE_IDTECH4_GAMEPACKS)
+	include(gamepacks/idtech4)
+endif()
+
+if(RADIANT_GENERATE_USER_GAMEPACKS)
+	include(gamepacks/user OPTIONAL)
+endif()

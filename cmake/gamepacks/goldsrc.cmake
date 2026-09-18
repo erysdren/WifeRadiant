@@ -1,9 +1,6 @@
-if(NOT RADIANT_SUPPORT_GOLDSRC)
-	return()
-endif()
 
 # Half-Life
-radiant_add_gamepack(hl
+radiant_add_gamepack(hl1
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -30,10 +27,11 @@ radiant_add_gamepack(hl
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
+	SHADER_TRIGGER "aaatrigger"
 )
 
 # Half-Life: Blue Shift
-radiant_add_gamepack(bshift
+radiant_add_gamepack(hl1bs
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -64,10 +62,11 @@ radiant_add_gamepack(bshift
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
+	SHADER_TRIGGER "aaatrigger"
 )
 
 # Half-Life: Opposing Force
-radiant_add_gamepack(gearbox
+radiant_add_gamepack(hl1op4
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -98,6 +97,7 @@ radiant_add_gamepack(gearbox
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
+	SHADER_TRIGGER "aaatrigger"
 )
 
 # Team Fortress Classic
@@ -132,6 +132,7 @@ radiant_add_gamepack(tfc
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
+	SHADER_TRIGGER "aaatrigger"
 )
 
 # Day of Defeat
@@ -166,10 +167,11 @@ radiant_add_gamepack(dod
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
+	SHADER_TRIGGER "aaatrigger"
 )
 
 # Counter-Strike
-radiant_add_gamepack(cstrike
+radiant_add_gamepack(cs
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -200,6 +202,7 @@ radiant_add_gamepack(cstrike
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
+	SHADER_TRIGGER "aaatrigger"
 )
 
 # Ricochet
@@ -234,10 +237,11 @@ radiant_add_gamepack(ricochet
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
+	SHADER_TRIGGER "aaatrigger"
 )
 
 # Gunman Chronicles
-radiant_add_gamepack(rewolf
+radiant_add_gamepack(gunmanchronicles
 	WRITE_DEFAULT_KEYVALUES
 	SUPPORT_WADS
 	GAME_TYPE "hl"
@@ -264,4 +268,5 @@ radiant_add_gamepack(rewolf
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
+	SHADER_TRIGGER "aaatrigger"
 )

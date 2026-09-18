@@ -47,34 +47,34 @@ void texfont_init();
 void texfont_write( const char *text, int l, int t );
 
 #define PEN_GRID { \
-		g_GLTable.m_pfn_qglLineWidth( 1 ); \
-		g_GLTable.m_pfn_qglColor3f( 0, 1, 0 ); \
-		g_GLTable.m_pfn_qglDisable( GL_LINE_STIPPLE ); }
+		gl().glLineWidth( 1 ); \
+		gl().glColor3f( 0, 1, 0 ); \
+		gl().glDisable( GL_LINE_STIPPLE ); }
 
 #define PEN_RED { \
-		g_GLTable.m_pfn_qglLineWidth( 2 ); \
-		g_GLTable.m_pfn_qglColor3f( 1, 0, 0 ); \
-		g_GLTable.m_pfn_qglDisable( GL_LINE_STIPPLE ); }
+		gl().glLineWidth( 2 ); \
+		gl().glColor3f( 1, 0, 0 ); \
+		gl().glDisable( GL_LINE_STIPPLE ); }
 
 #define PEN_DASH { \
-		g_GLTable.m_pfn_qglLineWidth( 1 ); \
-		g_GLTable.m_pfn_qglColor3f( 0, 1, 0 ); \
-		g_GLTable.m_pfn_qglLineStipple( 1, 0xF0F0 ); \
-		g_GLTable.m_pfn_qglEnable( GL_LINE_STIPPLE ); }
+		gl().glLineWidth( 1 ); \
+		gl().glColor3f( 0, 1, 0 ); \
+		gl().glLineStipple( 1, 0xF0F0 ); \
+		gl().glEnable( GL_LINE_STIPPLE ); }
 
 #define DRAW_QUAD( rc,r,g,b ) {	\
-		g_GLTable.m_pfn_qglBegin( GL_QUADS ); \
-		g_GLTable.m_pfn_qglColor3f( 0,1,0 ); \
-		g_GLTable.m_pfn_qglVertex2i( rc.left - 1, rc.bottom ); \
-		g_GLTable.m_pfn_qglVertex2i( rc.right, rc.bottom );	\
-		g_GLTable.m_pfn_qglVertex2i( rc.right, rc.top + 1 ); \
-		g_GLTable.m_pfn_qglVertex2i( rc.left - 1, rc.top + 1 );	\
-		g_GLTable.m_pfn_qglColor3f( r,g,b ); \
-		g_GLTable.m_pfn_qglVertex2i( rc.left, rc.bottom + 1 ); \
-		g_GLTable.m_pfn_qglVertex2i( rc.right - 1, rc.bottom + 1 );	\
-		g_GLTable.m_pfn_qglVertex2i( rc.right - 1, rc.top ); \
-		g_GLTable.m_pfn_qglVertex2i( rc.left, rc.top );	\
-		g_GLTable.m_pfn_qglEnd(); }
+		gl().glBegin( GL_QUADS ); \
+		gl().glColor3f( 0,1,0 ); \
+		gl().glVertex2i( rc.left - 1, rc.bottom ); \
+		gl().glVertex2i( rc.right, rc.bottom );	\
+		gl().glVertex2i( rc.right, rc.top + 1 ); \
+		gl().glVertex2i( rc.left - 1, rc.top + 1 );	\
+		gl().glColor3f( r,g,b ); \
+		gl().glVertex2i( rc.left, rc.bottom + 1 ); \
+		gl().glVertex2i( rc.right - 1, rc.bottom + 1 );	\
+		gl().glVertex2i( rc.right - 1, rc.top ); \
+		gl().glVertex2i( rc.left, rc.top );	\
+		gl().glEnd(); }
 
 
 #ifndef ISOMETRIC
@@ -105,23 +105,23 @@ static void draw_preview(){
 	gtk_widget_get_allocation( g_pPreviewWidget, &allocation );
 	int width = allocation.width, height = allocation.height;
 
-	g_GLTable.m_pfn_qglClearColor( 0, 0, 0, 1 );
-	g_GLTable.m_pfn_qglViewport( 0, 0, width, height );
-	g_GLTable.m_pfn_qglMatrixMode( GL_PROJECTION );
-	g_GLTable.m_pfn_qglLoadIdentity();
-	g_GLTable.m_pfn_qglOrtho( 0, width, 0, height, -1, 1 );
-	g_GLTable.m_pfn_qglClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
+	gl().glClearColor( 0, 0, 0, 1 );
+	gl().glViewport( 0, 0, width, height );
+	gl().glMatrixMode( GL_PROJECTION );
+	gl().glLoadIdentity();
+	gl().glOrtho( 0, width, 0, height, -1, 1 );
+	gl().glClear( GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT );
 
 	// ^Fishman - Antializing for the preview window.
 	if ( Antialiasing ) {
-		g_GLTable.m_pfn_qglEnable( GL_BLEND );
-		g_GLTable.m_pfn_qglBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
-		g_GLTable.m_pfn_qglEnable( GL_LINE_SMOOTH );
+		gl().glEnable( GL_BLEND );
+		gl().glBlendFunc( GL_SRC_ALPHA, GL_ONE_MINUS_SRC_ALPHA );
+		gl().glEnable( GL_LINE_SMOOTH );
 	}
 	else
 	{
-		g_GLTable.m_pfn_qglDisable( GL_BLEND );
-		g_GLTable.m_pfn_qglDisable( GL_LINE_SMOOTH );
+		gl().glDisable( GL_BLEND );
+		gl().glDisable( GL_LINE_SMOOTH );
 	}
 
 	texfont_init();
@@ -142,10 +142,10 @@ static void draw_preview(){
 	if ( VertexMode ) {
 		rcUpper.bottom = rcUpper.top / 2;
 		DrawPreview( rcUpper );
-		g_GLTable.m_pfn_qglBegin( GL_LINES );
-		g_GLTable.m_pfn_qglVertex2i( rcUpper.left, rcUpper.bottom );
-		g_GLTable.m_pfn_qglVertex2i( rcUpper.right, rcUpper.bottom );
-		g_GLTable.m_pfn_qglEnd();
+		gl().glBegin( GL_LINES );
+		gl().glVertex2i( rcUpper.left, rcUpper.bottom );
+		gl().glVertex2i( rcUpper.right, rcUpper.bottom );
+		gl().glEnd();
 		rcLower.top = rcUpper.bottom - 1;
 		DrawGrid( rcLower );
 		rcCoord.left = rcLower.left;
@@ -164,7 +164,7 @@ static void draw_preview(){
 	}
 }
 
-static gint expose( GtkWidget *widget, GdkEventExpose *event, gpointer data ){
+static gint expose( QWidget *widget, GdkEventExpose *event, gpointer data ){
 	if ( event->count > 0 ) {
 		return true;
 	}
@@ -182,7 +182,7 @@ static gint expose( GtkWidget *widget, GdkEventExpose *event, gpointer data ){
 	return true;
 }
 
-static void button_press( GtkWidget *widget, GdkEventButton *event, gpointer data ){
+static void button_press( QWidget *widget, GdkEventButton *event, gpointer data ){
 	GtkAllocation allocation;
 	gtk_widget_get_allocation( widget, &allocation );
 	Point pt = { (long)event->x, allocation.height - (long)event->y };
@@ -293,7 +293,7 @@ static void button_press( GtkWidget *widget, GdkEventButton *event, gpointer dat
 	vertex_selected();
 }
 
-static void motion( GtkWidget *widget, GdkEventMotion *event, gpointer data ){
+static void motion( QWidget *widget, GdkEventMotion *event, gpointer data ){
 	GtkAllocation allocation;
 	gtk_widget_get_allocation( widget, &allocation );
 	Point pt = { (long)event->x, allocation.height - (long)event->y };
@@ -307,10 +307,10 @@ static void motion( GtkWidget *widget, GdkEventMotion *event, gpointer data ){
 		return;
 	}
 
-	g_GLTable.m_pfn_qglEnable( GL_SCISSOR_TEST );
-	g_GLTable.m_pfn_qglScissor( rcCoord.left, rcCoord.bottom, rcCoord.right - rcCoord.left,
+	gl().glEnable( GL_SCISSOR_TEST );
+	gl().glScissor( rcCoord.left, rcCoord.bottom, rcCoord.right - rcCoord.left,
 	                            rcCoord.top - rcCoord.bottom );
-	g_GLTable.m_pfn_qglClear( GL_COLOR_BUFFER_BIT );
+	gl().glClear( GL_COLOR_BUFFER_BIT );
 
 	if ( PtInRect( &rcGrid,pt ) ) {
 		GdkCursor *cursor = gdk_cursor_new( GDK_CROSS );
@@ -345,10 +345,10 @@ static void motion( GtkWidget *widget, GdkEventMotion *event, gpointer data ){
 
 	g_UIGtkTable.m_pfn_glwidget_swap_buffers( g_pPreviewWidget );
 	g_GLTable.m_pfn_QE_CheckOpenGLForErrors();
-	g_GLTable.m_pfn_qglDisable( GL_SCISSOR_TEST );
+	gl().glDisable( GL_SCISSOR_TEST );
 }
 
-static gint preview_close( GtkWidget *widget, gpointer data ){
+static gint preview_close( QWidget *widget, gpointer data ){
 	gtk_toggle_button_set_active( GTK_TOGGLE_BUTTON( g_object_get_data( G_OBJECT( g_pWnd ), "main_preview" ) ), false );
 	return true;
 }
@@ -358,7 +358,7 @@ static void preview_focusout( GtkSpinButton *spin, GdkEventFocus *event, double 
 	UpdatePreview( false );
 }
 
-static gint doublevariable_spinfocusout( GtkWidget* widget, GdkEventFocus* event, gpointer data ){
+static gint doublevariable_spinfocusout( QWidget* widget, GdkEventFocus* event, gpointer data ){
 	preview_focusout( GTK_SPIN_BUTTON( widget ), event, reinterpret_cast<double*>( data ) );
 	return false;
 }
@@ -369,7 +369,7 @@ static void preview_spin( GtkAdjustment *adj, double *data ){
 }
 
 void CreateViewWindow(){
-	GtkWidget *dlg, *vbox, *hbox, *label, *spin, *frame;
+	QWidget *dlg, *vbox, *hbox, *label, *spin, *frame;
 	GtkObject *adj;
 
 #ifndef ISOMETRIC
@@ -493,9 +493,9 @@ void DrawPreview( Rect rc ){
 
 	GetScaleFactor( rc );
 	//PEN_GRID
-	g_GLTable.m_pfn_qglLineWidth( 1 );
-	g_GLTable.m_pfn_qglColor3f( 0, 1, 0 );
-	g_GLTable.m_pfn_qglDisable( GL_LINE_STIPPLE );
+	gl().glLineWidth( 1 );
+	gl().glColor3f( 0, 1, 0 );
+	gl().glDisable( GL_LINE_STIPPLE );
 
 	if ( Decimate > 0 && ( Game != QUAKE3 || UsePatches == 0 ) ) {
 		XYZ  *vv;
@@ -513,12 +513,12 @@ void DrawPreview( Rect rc ){
 			for ( j = 0; j < 3; j++ )
 				Scale( rc,vv[gTri[i].v[j]],&pt[j] );
 
-			g_GLTable.m_pfn_qglBegin( GL_LINE_STRIP );
-			g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
-			g_GLTable.m_pfn_qglVertex2i( pt[1].x, pt[1].y );
-			g_GLTable.m_pfn_qglVertex2i( pt[2].x, pt[2].y );
-			g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
-			g_GLTable.m_pfn_qglEnd();
+			gl().glBegin( GL_LINE_STRIP );
+			gl().glVertex2i( pt[0].x, pt[0].y );
+			gl().glVertex2i( pt[1].x, pt[1].y );
+			gl().glVertex2i( pt[2].x, pt[2].y );
+			gl().glVertex2i( pt[0].x, pt[0].y );
+			gl().glEnd();
 		}
 		free( vv );
 	}
@@ -566,17 +566,17 @@ void DrawPreview( Rect rc ){
 				for ( ii = 0; ii <= SUBDIVS; ii++ )
 				{
 					if ( ii == 0 || ii == SUBDIVS / 2 || ii == SUBDIVS ) {
-						g_GLTable.m_pfn_qglLineWidth( 1 );
-						g_GLTable.m_pfn_qglColor3f( 0, 1, 0 );
-						g_GLTable.m_pfn_qglDisable( GL_LINE_STIPPLE );
+						gl().glLineWidth( 1 );
+						gl().glColor3f( 0, 1, 0 );
+						gl().glDisable( GL_LINE_STIPPLE );
 						// PEN_GRID
 					}
 					else
 					{
-						g_GLTable.m_pfn_qglLineWidth( 1 );
-						g_GLTable.m_pfn_qglColor3f( 0, 1, 0 );
-						g_GLTable.m_pfn_qglLineStipple( 1, 0xF0F0 );
-						g_GLTable.m_pfn_qglEnable( GL_LINE_STIPPLE );
+						gl().glLineWidth( 1 );
+						gl().glColor3f( 0, 1, 0 );
+						gl().glLineStipple( 1, 0xF0F0 );
+						gl().glEnable( GL_LINE_STIPPLE );
 						// PEN_DASH
 					}
 
@@ -599,8 +599,8 @@ void DrawPreview( Rect rc ){
 					VectorCopy( Ctrl[0].p,out.p );
 					project( &out );
 					Scale( rc,out,&pt[0] );
-					g_GLTable.m_pfn_qglBegin( GL_LINE_STRIP );
-					g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
+					gl().glBegin( GL_LINE_STRIP );
+					gl().glVertex2i( pt[0].x, pt[0].y );
 					for ( jj = 1; jj <= SUBDIVS; jj++ )
 					{
 						v = (float)( jj ) / (float)( SUBDIVS );
@@ -618,24 +618,24 @@ void DrawPreview( Rect rc ){
 						}
 						project( &out );
 						Scale( rc,out,&pt[0] );
-						g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
+						gl().glVertex2i( pt[0].x, pt[0].y );
 					}
-					g_GLTable.m_pfn_qglEnd();
+					gl().glEnd();
 				}
 				for ( jj = 0; jj <= SUBDIVS; jj++ )
 				{
 					if ( jj == 0 || jj == SUBDIVS / 2 || jj == SUBDIVS ) {
-						g_GLTable.m_pfn_qglLineWidth( 1 );
-						g_GLTable.m_pfn_qglColor3f( 0, 1, 0 );
-						g_GLTable.m_pfn_qglDisable( GL_LINE_STIPPLE );
+						gl().glLineWidth( 1 );
+						gl().glColor3f( 0, 1, 0 );
+						gl().glDisable( GL_LINE_STIPPLE );
 						// PEN_GRID
 					}
 					else
 					{
-						g_GLTable.m_pfn_qglLineWidth( 1 );
-						g_GLTable.m_pfn_qglColor3f( 0, 1, 0 );
-						g_GLTable.m_pfn_qglLineStipple( 1, 0xF0F0 );
-						g_GLTable.m_pfn_qglEnable( GL_LINE_STIPPLE );
+						gl().glLineWidth( 1 );
+						gl().glColor3f( 0, 1, 0 );
+						gl().glLineStipple( 1, 0xF0F0 );
+						gl().glEnable( GL_LINE_STIPPLE );
 						// PEN_DASH
 					}
 
@@ -658,8 +658,8 @@ void DrawPreview( Rect rc ){
 					VectorCopy( Ctrl[0].p,out.p );
 					project( &out );
 					Scale( rc,out,&pt[0] );
-					g_GLTable.m_pfn_qglBegin( GL_LINE_STRIP );
-					g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
+					gl().glBegin( GL_LINE_STRIP );
+					gl().glVertex2i( pt[0].x, pt[0].y );
 					for ( ii = 1; ii <= SUBDIVS; ii++ )
 					{
 						u = (float)( ii ) / (float)( SUBDIVS );
@@ -677,9 +677,9 @@ void DrawPreview( Rect rc ){
 						}
 						project( &out );
 						Scale( rc,out,&pt[0] );
-						g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
+						gl().glVertex2i( pt[0].x, pt[0].y );
 					}
-					g_GLTable.m_pfn_qglEnd();
+					gl().glEnd();
 				}
 			}
 		}
@@ -689,26 +689,26 @@ void DrawPreview( Rect rc ){
 		for ( i = 0; i <= NH; i++ )
 		{
 			Scale( rc,xyz[i][0],&pt[0] );
-			g_GLTable.m_pfn_qglBegin( GL_LINE_STRIP );
-			g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
+			gl().glBegin( GL_LINE_STRIP );
+			gl().glVertex2i( pt[0].x, pt[0].y );
 			for ( j = 1; j <= NV; j++ )
 			{
 				Scale( rc,xyz[i][j],&pt[0] );
-				g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
+				gl().glVertex2i( pt[0].x, pt[0].y );
 			}
-			g_GLTable.m_pfn_qglEnd();
+			gl().glEnd();
 		}
 		for ( j = 0; j <= NV; j++ )
 		{
 			Scale( rc,xyz[0][j],&pt[0] );
-			g_GLTable.m_pfn_qglBegin( GL_LINE_STRIP );
-			g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
+			gl().glBegin( GL_LINE_STRIP );
+			gl().glVertex2i( pt[0].x, pt[0].y );
 			for ( i = 1; i <= NH; i++ )
 			{
 				Scale( rc,xyz[i][j],&pt[0] );
-				g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
+				gl().glVertex2i( pt[0].x, pt[0].y );
 			}
-			g_GLTable.m_pfn_qglEnd();
+			gl().glEnd();
 		}
 	}
 
@@ -737,10 +737,10 @@ void DrawPreview( Rect rc ){
 				project( &v[0] );
 #endif
 				Scale( rc,v[0],&pt[1] );
-				g_GLTable.m_pfn_qglBegin( GL_LINE_STRIP );
-				g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
-				g_GLTable.m_pfn_qglVertex2i( pt[1].x, pt[1].y );
-				g_GLTable.m_pfn_qglEnd();
+				gl().glBegin( GL_LINE_STRIP );
+				gl().glVertex2i( pt[0].x, pt[0].y );
+				gl().glVertex2i( pt[1].x, pt[1].y );
+				gl().glEnd();
 			}
 		}
 		VectorCopy( xyz[ 0][ 0].p, v[0].p );
@@ -773,23 +773,23 @@ void DrawPreview( Rect rc ){
 		project( &v[3] );
 #endif
 		Scale( rc,v[3],&pt[0] );
-		g_GLTable.m_pfn_qglBegin( GL_LINE_STRIP );
-		g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
+		gl().glBegin( GL_LINE_STRIP );
+		gl().glVertex2i( pt[0].x, pt[0].y );
 		for ( i = 0; i < 3; i++ )
 		{
 #ifndef ISOMETRIC
 			project( &v[i] );
 #endif
 			Scale( rc,v[i],&pt[1] );
-			g_GLTable.m_pfn_qglVertex2i( pt[1].x, pt[1].y );
+			gl().glVertex2i( pt[1].x, pt[1].y );
 		}
-		g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
-		g_GLTable.m_pfn_qglEnd();
+		gl().glVertex2i( pt[0].x, pt[0].y );
+		gl().glEnd();
 	}
 
-	g_GLTable.m_pfn_qglLineWidth( 1 );
-	g_GLTable.m_pfn_qglColor3f( 0, 1, 0 );
-	g_GLTable.m_pfn_qglDisable( GL_LINE_STIPPLE );
+	gl().glLineWidth( 1 );
+	gl().glColor3f( 0, 1, 0 );
+	gl().glDisable( GL_LINE_STIPPLE );
 
 #ifdef ISOMETRIC
 	// Draw small depiction of coordinate axes
@@ -842,19 +842,19 @@ void DrawPreview( Rect rc ){
 
 	for ( i = 1; i <= 3; i++ )
 	{
-		g_GLTable.m_pfn_qglBegin( GL_LINES );
-		g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
-		g_GLTable.m_pfn_qglVertex2i( pt[i].x, pt[i].y );
-		g_GLTable.m_pfn_qglEnd();
+		gl().glBegin( GL_LINES );
+		gl().glVertex2i( pt[0].x, pt[0].y );
+		gl().glVertex2i( pt[i].x, pt[i].y );
+		gl().glEnd();
 		texfont_write( axis[i - 1], pt[i].x - cxChar / 2,pt[i].y + cyChar / 2 );
 	}
 #endif
 
 	// Draw player model's bounding box in red to give a sense of scale
 	// PEN_RED
-	g_GLTable.m_pfn_qglLineWidth( 2 );
-	g_GLTable.m_pfn_qglColor3f( 1, 0, 0 );
-	g_GLTable.m_pfn_qglDisable( GL_LINE_STIPPLE );
+	gl().glLineWidth( 2 );
+	gl().glColor3f( 1, 0, 0 );
+	gl().glDisable( GL_LINE_STIPPLE );
 
 	switch ( Plane )
 	{
@@ -944,27 +944,27 @@ void DrawPreview( Rect rc ){
 #endif
 		Scale( rc,v[i],&pt[i] );
 	}
-	g_GLTable.m_pfn_qglBegin( GL_LINE_STRIP );
-	g_GLTable.m_pfn_qglVertex2i( pt[3].x, pt[3].y );
+	gl().glBegin( GL_LINE_STRIP );
+	gl().glVertex2i( pt[3].x, pt[3].y );
 	for ( i = 0; i <= 3; i++ )
-		g_GLTable.m_pfn_qglVertex2i( pt[i].x, pt[i].y );
-	g_GLTable.m_pfn_qglEnd();
-	g_GLTable.m_pfn_qglBegin( GL_LINE_STRIP );
-	g_GLTable.m_pfn_qglVertex2i( pt[7].x, pt[7].y );
+		gl().glVertex2i( pt[i].x, pt[i].y );
+	gl().glEnd();
+	gl().glBegin( GL_LINE_STRIP );
+	gl().glVertex2i( pt[7].x, pt[7].y );
 	for ( i = 4; i <= 7; i++ )
-		g_GLTable.m_pfn_qglVertex2i( pt[i].x, pt[i].y );
-	g_GLTable.m_pfn_qglEnd();
-	g_GLTable.m_pfn_qglBegin( GL_LINES );
+		gl().glVertex2i( pt[i].x, pt[i].y );
+	gl().glEnd();
+	gl().glBegin( GL_LINES );
 	for ( i = 0; i <= 3; i++ )
 	{
-		g_GLTable.m_pfn_qglVertex2i( pt[i].x,pt[i].y );
-		g_GLTable.m_pfn_qglVertex2i( pt[i + 4].x,pt[i + 4].y );
+		gl().glVertex2i( pt[i].x,pt[i].y );
+		gl().glVertex2i( pt[i + 4].x,pt[i + 4].y );
 	}
-	g_GLTable.m_pfn_qglEnd();
+	gl().glEnd();
 
-	g_GLTable.m_pfn_qglLineWidth( 1 );
-	g_GLTable.m_pfn_qglColor3f( 0, 1, 0 );
-	g_GLTable.m_pfn_qglDisable( GL_LINE_STIPPLE );
+	gl().glLineWidth( 1 );
+	gl().glColor3f( 0, 1, 0 );
+	gl().glDisable( GL_LINE_STIPPLE );
 }
 //=============================================================
 void DrawGrid( Rect rc ){
@@ -983,44 +983,44 @@ void DrawGrid( Rect rc ){
 	X0G = (int)( rc.left + rc.right - (int)( SFG * ( Hur - Hll ) ) ) / 2;
 	Y0G = (int)( rc.top + rc.bottom + cyChar - (int)( SFG * ( Vur - Vll ) ) ) / 2;
 
-	g_GLTable.m_pfn_qglLineWidth( 2 );
-	g_GLTable.m_pfn_qglColor3f( 0, 1, 0 );
-	g_GLTable.m_pfn_qglDisable( GL_LINE_STIPPLE );
+	gl().glLineWidth( 2 );
+	gl().glColor3f( 0, 1, 0 );
+	gl().glDisable( GL_LINE_STIPPLE );
 
 	pt[0].y = Y0G;
 	pt[1].y = Y0G + (int)( SFG * ( Vur - Vll ) );
-	g_GLTable.m_pfn_qglBegin( GL_LINES );
+	gl().glBegin( GL_LINES );
 	for ( i = 0; i <= NH; i++ )
 	{
 		x = Hll + i * dh;
 		pt[0].x = X0G + (int)( SFG * ( x - Hll ) );
-		g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[0].y );
-		g_GLTable.m_pfn_qglVertex2i( pt[0].x, pt[1].y );
+		gl().glVertex2i( pt[0].x, pt[0].y );
+		gl().glVertex2i( pt[0].x, pt[1].y );
 	}
-	g_GLTable.m_pfn_qglEnd();
+	gl().glEnd();
 	pt[0].x = X0G;
 	pt[1].x = X0G + (int)( SFG * ( Hur - Hll ) );
-	g_GLTable.m_pfn_qglBegin( GL_LINES );
+	gl().glBegin( GL_LINES );
 	for ( i = 0; i <= NV; i++ )
 	{
 		y = Vll + i * dv;
 		pt[0].y = Y0G + (int)( SFG * ( Vur - y ) );
-		g_GLTable.m_pfn_qglVertex2i( pt[0].x,pt[0].y );
-		g_GLTable.m_pfn_qglVertex2i( pt[1].x,pt[0].y );
+		gl().glVertex2i( pt[0].x,pt[0].y );
+		gl().glVertex2i( pt[1].x,pt[0].y );
 	}
-	g_GLTable.m_pfn_qglEnd();
+	gl().glEnd();
 
-	g_GLTable.m_pfn_qglLineWidth( 1 );
+	gl().glLineWidth( 1 );
 
 	// Draw axes
 	pt[0].x = rc.right  - cyChar - cxChar - cyChar / 2;
 	pt[0].y = rc.bottom + cyChar / 2;
 	pt[1].x = pt[0].x + cyChar;
 	pt[1].y = pt[0].y;
-	g_GLTable.m_pfn_qglBegin( GL_LINES );
-	g_GLTable.m_pfn_qglVertex2i( pt[0].x,pt[0].y );
-	g_GLTable.m_pfn_qglVertex2i( pt[1].x,pt[1].y );
-	g_GLTable.m_pfn_qglEnd();
+	gl().glBegin( GL_LINES );
+	gl().glVertex2i( pt[0].x,pt[0].y );
+	gl().glVertex2i( pt[1].x,pt[1].y );
+	gl().glEnd();
 	switch ( Plane )
 	{
 	case PLANE_YZ0:
@@ -1032,10 +1032,10 @@ void DrawGrid( Rect rc ){
 	}
 	pt[1].x = pt[0].x;
 	pt[1].y = pt[0].y + cyChar;
-	g_GLTable.m_pfn_qglBegin( GL_LINES );
-	g_GLTable.m_pfn_qglVertex2i( pt[0].x,pt[0].y );
-	g_GLTable.m_pfn_qglVertex2i( pt[1].x,pt[1].y );
-	g_GLTable.m_pfn_qglEnd();
+	gl().glBegin( GL_LINES );
+	gl().glVertex2i( pt[0].x,pt[0].y );
+	gl().glVertex2i( pt[1].x,pt[1].y );
+	gl().glEnd();
 	switch ( Plane )
 	{
 	case PLANE_XY0:

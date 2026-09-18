@@ -1,0 +1,773 @@
+/*QUAKED item_***** ( 0 0 0 ) (-16 -16 -16) (16 16 16) suspended
+DO NOT USE THIS CLASS, IT JUST HOLDS GENERAL INFORMATION.
+The suspended flag will allow items to hang in the air, otherwise they are dropped to the next surface.
+
+If an item is the target of another entity, it will not spawn in until fired.
+
+An item fires all of its targets when it is picked up.  If the toucher can't carry it, the targets won't be fired.
+
+"notfree" if set to 1, don't spawn in free for all games
+"notteam" if set to 1, don't spawn in team games
+"notsingle" if set to 1, don't spawn in single player games
+"wait"	override the default wait before respawning.  -1 = never respawn automatically, which can be used with targeted spawning.
+"random" random number of plus or minus seconds varied from the respawn time
+"count" override quantity or duration on most items.
+*/
+
+
+/*QUAKED misc_shield_floor_unit (1 0 0) (-16 -16 0) (16 16 40)
+model="/models/items/a_shield_converter.md3"
+Gives shield energy when used.
+
+"count" - max charge value (default 50)
+"chargerate" - rechage 1 point every this many milliseconds (default 3000)
+*/
+
+
+/*QUAKED item_shield_sm_instant (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Instant shield pickup, restores 25
+*/
+
+
+/*QUAKED item_shield_lrg_instant (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Instant shield pickup, restores 100
+*/
+
+
+/*QUAKED item_medpak_instant (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Instant medpack pickup, heals 25
+*/
+
+
+/*QUAKED item_seeker (.3 .3 1) (-8 -8 -0) (8 8 16) suspended
+30 seconds of seeker drone
+*/
+
+
+/*QUAKED item_shield (.3 .3 1) (-8 -8 -0) (8 8 16) suspended
+Portable shield
+model="/models/map_objects/mp/shield.md3"
+*/
+
+
+/*QUAKED item_medpac (.3 .3 1) (-8 -8 -0) (8 8 16) suspended
+Bacta canister pickup, heals 25 on use
+model="/models/map_objects/mp/bacta.md3"
+*/
+
+
+/*QUAKED item_datapad (.3 .3 1) (-8 -8 -0) (8 8 16) suspended
+Do not place this.
+model="/models/items/datapad.md3"
+*/
+
+
+/*QUAKED item_binoculars (.3 .3 1) (-8 -8 -0) (8 8 16) suspended
+These will be standard equipment on the player - DO NOT PLACE
+model="/models/items/binoculars.md3"
+*/
+
+
+/*QUAKED item_sentry_gun (.3 .3 1) (-8 -8 -0) (8 8 16) suspended
+Sentry gun inventory pickup.
+*/
+
+
+/*QUAKED item_force_enlighten_light (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Adds one rank to all Force powers temporarily. Only light jedi can use.
+*/
+
+
+/*QUAKED item_force_enlighten_dark (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Adds one rank to all Force powers temporarily. Only dark jedi can use.
+*/
+
+
+/*QUAKED item_force_boon (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Unlimited Force Pool for a short time.
+model="/models/map_objects/mp/force_boon.md3"
+*/
+
+
+/*QUAKED item_ysalimari (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+A small lizard carried on the player, which prevents the possessor from using any Force power.  However, he is unaffected by any Force power.
+model="/models/map_objects/mp/ysalimari.md3"
+*/
+
+
+/*QUAKED weapon_stun_baton (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Don't place this
+model="/models/weapons2/stun_baton/baton.md3"
+*/
+
+
+/*QUAKED weapon_saber (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Don't place this
+model="/models/weapons2/sabre/sabre_w.md3"
+*/
+
+
+/*QUAKED weapon_bryar_pistol (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Don't place this
+model="/models/weapons2/briar_pistol/briar_pistol.md3"
+*/
+
+
+/*QUAKED weapon_blaster (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+model="/models/weapons2/blaster_r/blaster.md3"
+*/
+
+
+/*QUAKED weapon_disruptor (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+model="/models/weapons2/disruptor/disruptor.md3"
+*/
+
+
+/*QUAKED weapon_bowcaster (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+model="/models/weapons2/bowcaster/bowcaster.md3"
+*/
+
+
+/*QUAKED weapon_repeater (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+model="/models/weapons2/heavy_repeater/heavy_repeater.md3"
+*/
+
+
+/*QUAKED weapon_demp2 (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+NOTENOTE This weapon is not yet complete.  Don't place it.
+model="/models/weapons2/demp2/demp2.md3"
+*/
+
+
+/*QUAKED weapon_flechette (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+model="/models/weapons2/golan_arms/golan_arms.md3"
+*/
+
+
+/*QUAKED weapon_rocket_launcher (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+model="/models/weapons2/merr_sonn/merr_sonn.md3"
+*/
+
+
+/*QUAKED ammo_thermal (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+
+
+/*QUAKED ammo_tripmine (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+
+
+/*QUAKED ammo_detpack (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+
+
+/*QUAKED weapon_thermal (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+model="/models/weapons2/thermal/thermal.md3"
+*/
+
+
+/*QUAKED weapon_trip_mine (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+model="/models/weapons2/laser_trap/laser_trap.md3"
+*/
+
+
+/*QUAKED weapon_det_pack (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+model="/models/weapons2/detpack/det_pack.md3"
+*/
+
+
+/*QUAKED weapon_emplaced (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+*/
+
+
+/*QUAKED ammo_force (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Don't place this
+*/
+
+
+/*QUAKED ammo_blaster (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Ammo for the Bryar and Blaster pistols.
+*/
+
+
+/*QUAKED ammo_powercell (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Ammo for Tenloss Disruptor, Wookie Bowcaster, and the Destructive Electro Magnetic Pulse (demp2 ) guns
+*/
+
+
+/*QUAKED ammo_metallic_bolts (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Ammo for Imperial Heavy Repeater and the Golan Arms Flechette
+*/
+
+
+/*QUAKED ammo_rockets (.3 .3 1) (-16 -16 -16) (16 16 16) suspended
+Ammo for Merr-Sonn portable missile launcher
+*/
+
+
+/*QUAKED team_CTF_redflag (1 0 0) (-16 -16 -16) (16 16 16)
+Only in CTF games
+model="/models/flags/r_flag.md3"
+*/
+
+
+/*QUAKED team_CTF_blueflag (0 0 1) (-16 -16 -16) (16 16 16)
+Only in CTF games
+model="/models/flags/b_flag.md3"
+*/
+
+
+/*QUAKED team_CTF_neutralflag (0 0 1) (-16 -16 -16) (16 16 16)
+Only in One Flag CTF games
+*/
+
+
+/*QUAKED info_player_deathmatch (1 0 1) (-16 -16 -24) (16 16 32) initial
+potential spawning position for deathmatch games.
+The first time a player enters the game, they will be at an 'initial' spot.
+Targets will be fired when someone spawns in on them.
+"nobots" will prevent bots from using this spot.
+"nohumans" will prevent non-bots from using this spot.
+*/
+
+
+/*QUAKED info_player_start (1 0 0) (-16 -16 -24) (16 16 32)
+equivelant to info_player_deathmatch
+*/
+
+
+/*QUAKED info_player_imperial (1 0 0) (-16 -16 -24) (16 16 32)
+saga start point - imperial
+*/
+
+
+/*QUAKED info_player_rebel (1 0 0) (-16 -16 -24) (16 16 32)
+saga start point - rebel
+*/
+
+
+/*QUAKED info_player_intermission (1 0 1) (-16 -16 -24) (16 16 32)
+The intermission will be viewed from this point.  Target an info_notnull for the view direction.
+*/
+
+
+/*QUAKED info_jedimaster_start (1 0 0) (-16 -16 -24) (16 16 32)
+"jedi master" saber spawn point
+*/
+
+
+/*QUAKED func_group (0 0 0) ?
+Used to group brushes together just for editor convenience.  They are turned into normal brushes by the utilities.
+*/
+
+
+/*QUAKED info_camp (0 0.5 0) (-4 -4 -4) (4 4 4)
+Used as a positional target for calculations in the utilities (spotlights, etc), but removed during gameplay.
+*/
+
+
+/*QUAKED info_null (0 0.5 0) (-4 -4 -4) (4 4 4)
+Used as a positional target for calculations in the utilities (spotlights, etc), but removed during gameplay.
+*/
+
+
+/*QUAKED info_notnull (0 0.5 0) (-4 -4 -4) (4 4 4)
+Used as a positional target for in-game calculation, like jumppad targets.
+target_position does the same thing
+*/
+
+
+/*QUAKED light (0 1 0) (-8 -8 -8) (8 8 8) linear
+Non-displayed light.
+"light" overrides the default 300 intensity.
+Linear checbox gives linear falloff instead of inverse square
+Lights pointed at a target will be spotlights.
+"radius" overrides the default 64 unit radius of a spotlight at the target point.
+*/
+
+
+/*QUAKED misc_teleporter_dest (1 0 0) (-32 -32 -24) (32 32 -16)
+Point teleporters at these.
+Now that we don't have teleport destination pads, this is just
+an info_notnull
+*/
+
+
+/*QUAKED misc_model (1 0 0) (-16 -16 -16) (16 16 16)
+"model"		arbitrary .md3 file to display
+*/
+
+
+/*QUAKED misc_G2model (1 0 0) (-16 -16 -16) (16 16 16)
+"model"		arbitrary .glm file to display
+*/
+
+
+/*QUAKED misc_portal_surface (0 0 1) (-8 -8 -8) (8 8 8)
+The portal surface nearest this entity will show a view from the targeted misc_portal_camera, or a mirror view if untargeted.
+This must be within 64 world units of the surface!
+*/
+
+
+/*QUAKED misc_portal_camera (0 0 1) (-8 -8 -8) (8 8 8) slowrotate fastrotate noswing
+The target for a misc_portal_director.  You can set either angles or target another entity to determine the direction of view.
+"roll" an angle modifier to orient the camera around the target vector;
+*/
+
+
+/*QUAKED misc_holocron (0 0 1) (-8 -8 -8) (8 8 8)
+count	Set to type of holocron (based on force power value)
+	HEAL = 0
+	JUMP = 1
+	SPEED = 2
+	PUSH = 3
+	PULL = 4
+	TELEPATHY = 5
+	GRIP = 6
+	LIGHTNING = 7
+	RAGE = 8
+	PROTECT = 9
+	ABSORB = 10
+	TEAM HEAL = 11
+	TEAM FORCE = 12
+	DRAIN = 13
+	SEE = 14
+	SABERATTACK = 15
+	SABERDEFEND = 16
+	SABERTHROW = 17
+*/
+
+
+/*QUAKED shooter_blaster (1 0 0) (-16 -16 -16) (16 16 16)
+Fires at either the target or the current direction.
+"random" is the number of degrees of deviance from the taget. (1.0 default)
+*/
+
+
+/*QUAKED misc_model_shield_power_converter (1 0 0) (-16 -16 -16) (16 16 16)
+model="models/items/psd_big.md3"
+Gives shield energy when used.
+
+"count" - the amount of ammo given when used (default 100)
+*/
+
+
+/*QUAKED misc_model_ammo_power_converter (1 0 0) (-16 -16 -16) (16 16 16)
+model="models/items/power_converter.md3"
+Gives ammo energy when used.
+
+"count" - the amount of ammo given when used (default 100)
+*/
+
+
+/*QUAKED misc_model_health_power_converter (1 0 0) (-16 -16 -16) (16 16 16)
+model="models/items/power_converter.md3"
+Gives ammo energy when used.
+
+"count" - the amount of ammo given when used (default 100)
+*/
+
+
+/*QUAKED fx_runner (0 0 1) (-8 -8 -8) (8 8 8) STARTOFF ONESHOT
+	STARTOFF - effect starts off, toggles on/off when used
+	ONESHOT - effect fires only when used
+
+    "angles"   - 3-float vector, angle the effect should play (unless fxTarget is supplied)
+	"fxFile"   - name of the effect file to play
+	"fxTarget" - aim the effect toward this object, otherwise defaults to up
+	"target"   - uses its target when the fx gets triggered
+	"delay"    - how often to call the effect, don't over-do this ( default 400 )
+			     note that it has to send an event each time it plays, so don't kill bandwidth or I will cry
+	"random"   - random amount of time to add to delay, ( default 0, 200 = 0ms to 200ms )
+*/
+
+
+/*QUAKED func_door (0 .5 .8) ? START_OPEN x CRUSHER
+TOGGLE		wait in both the start and end states for a trigger event.
+START_OPEN	the door to moves to its destination when spawned, and operate in reverse.  It is used to temporarily or permanently close off an area when triggered (not useful for touch or takedamage doors).
+NOMONSTER	monsters will not trigger this door
+
+"model2"	.md3 model to also draw
+"angle"		determines the opening direction
+"targetname" if set, no touch field will be spawned and a remote button or trigger field activates the door.
+"speed"		movement speed (100 default)
+"wait"		wait before returning (3 default, -1 = never return)
+"lip"		lip remaining at end of move (8 default)
+"dmg"		damage to inflict when blocked (2 default)
+"color"		constantLight color
+"light"		constantLight radius
+"health"	if set, the door must be shot open
+"soundstart"	Sound door makes when it starts
+"soundmove"	Sound door makes when it starts
+"soundstop"	Sound door makes when it stops
+"sound"		Set to 0 to disable sounds on door, 1 to enable. Default is 1.
+*/
+
+
+/*QUAKED func_plat (0 .5 .8) ?
+Plats are always drawn in the extended position so they will light correctly.
+
+"lip"		default 8, protrusion above rest position
+"height"	total height of movement, defaults to model height
+"speed"		overrides default 200.
+"dmg"		overrides default 2
+"model2"	.md3 model to also draw
+"color"		constantLight color
+"light"		constantLight radius
+"delay"		After reaching pos2, plat will go back to pos1 after this many ms.
+			Once plat goes to pos1 form pos2, it will also wait this many ms before
+			it will activate and return to pos2.
+"soundmove"	Sound door makes when it moves
+"soundstart"	Sound door makes when it moves
+"soundstop"	Sound door makes when it stops
+"sound"		Set to 0 to disable sounds on door, 1 to enable. Default is 1.
+*/
+
+
+/*QUAKED func_button (0 .5 .8) ?
+When a button is touched, it moves some distance in the direction of it's angle, triggers all of it's targets, waits some time, then returns to it's original position where it can be triggered again.
+
+"model2"	.md3 model to also draw
+"angle"		determines the opening direction
+"target"	all entities with a matching targetname will be used
+"speed"		override the default 40 speed
+"wait"		override the default 1 second wait (-1 = never return)
+"lip"		override the default 4 pixel lip remaining at end of move
+"health"	if set, the button must be killed instead of touched
+"color"		constantLight color
+"light"		constantLight radius
+"sounduse"	Sound when used
+"sound"		Set to 0 to disable sounds on button, 1 to enable. Default is 1.
+*/
+
+
+/*QUAKED path_corner (.5 .3 0) (-8 -8 -8) (8 8 8)
+Train path corners.
+Target: next path corner and other targets to fire
+"speed" speed to move to the next corner
+"wait" seconds to wait before behining move to next corner
+*/
+
+
+/*QUAKED func_train (0 .5 .8) ? START_ON TOGGLE BLOCK_STOPS ? ? CRUSH_THROUGH
+A train is a mover that moves between path_corner target points.
+Trains MUST HAVE AN ORIGIN BRUSH.
+The train spawns at the first target it is pointing at.
+CRUSH_THROUGH spawnflag combined with a dmg value will make the train pass through
+entities and damage them on contact as well.
+"model2"	.md3 model to also draw
+"speed"		default 100
+"dmg"		default	2
+"noise"		looping sound to play when the train is in motion
+"target"	next path corner
+"color"		constantLight color
+"light"		constantLight radius
+*/
+
+
+/*QUAKED func_static (0 .5 .8) ?
+A bmodel that just sits there, doing nothing.  Can be used for conditional walls and models.
+"model2"	.md3 model to also draw
+"color"		constantLight color
+"light"		constantLight radius
+*/
+
+
+/*QUAKED func_rotating (0 .5 .8) ? START_ON - X_AXIS Y_AXIS
+You need to have an origin brush as part of this entity.  The center of that brush will be
+the point around which it is rotated. It will rotate around the Z axis by default.  You can
+check either the X_AXIS or Y_AXIS box to change that.
+
+"model2"	.md3 model to also draw
+"speed"		determines how fast it moves; default value is 100.
+"dmg"		damage to inflict when blocked (2 default)
+"color"		constantLight color
+"light"		constantLight radius
+*/
+
+
+/*QUAKED func_bobbing (0 .5 .8) ? X_AXIS Y_AXIS
+Normally bobs on the Z axis
+"model2"	.md3 model to also draw
+"height"	amplitude of bob (32 default)
+"speed"		seconds to complete a bob cycle (4 default)
+"phase"		the 0.0 to 1.0 offset in the cycle to start at
+"dmg"		damage to inflict when blocked (2 default)
+"color"		constantLight color
+"light"		constantLight radius
+*/
+
+
+/*QUAKED func_pendulum (0 .5 .8) ?
+You need to have an origin brush as part of this entity.
+Pendulums always swing north / south on unrotated models.  Add an angles field to the model to allow rotation in other directions.
+Pendulum frequency is a physical constant based on the length of the beam and gravity.
+"model2"	.md3 model to also draw
+"speed"		the number of degrees each way the pendulum swings, (30 default)
+"phase"		the 0.0 to 1.0 offset in the cycle to start at
+"dmg"		damage to inflict when blocked (2 default)
+"color"		constantLight color
+"light"		constantLight radius
+*/
+
+
+/*QUAKED func_breakable (0 .5 .8) ? INVINCIBLE
+Breakable brush
+
+INVINCIBLE		Can only be destroyed by being used
+
+"target"		target to fire when destroyed
+"targetname"	entities with matching target will fire it
+"model2"		.md3 model to also draw
+"color"			constantLight color
+"light"			constantLight radius
+"health"		object's health
+"dmg"			Specifying this will make the object explode when destroyed
+"dmgrad"		Radius for explosion of dmg is set
+"debrismodel"	Model of debris chunks to throw when object is destroyed.
+				There are special cases for this item rather than using a
+				model name also, they are:
+
+  rock
+  chunks
+  wood
+  glass
+  none
+
+  Using one of these types will throw random chunks of that type rather
+  than one model, except for "none" which will make it so no debris is
+  spawned.
+
+"debrissound"	Sound to play when debris hits a surface. Default is none.
+"breaksound"	Sound to play when destroyed
+"wait"			Time to wait (in ms) before activating once used
+*/
+
+
+/*QUAKED func_glass (0 .5 .8) ?
+Breakable glass
+"model2"	.md3 model to also draw
+"color"		constantLight color
+"light"		constantLight radius
+"maxshards"	Max number of shards to spawn on glass break
+*/
+
+
+/*QUAKED func_usable (0 .5 .8) ? STARTOFF x x ALWAYS_ON x x x x
+START_OFF - the wall will not be there
+ALWAYS_ON - Doesn't toggle on and off when used, just runs usescript and fires target
+
+A bmodel that just sits there, doing nothing.  Can be used for conditional walls and models.
+"targetname" - When used, will toggle on and off
+"target"	Will fire this target every time it is toggled OFF
+"model2"	.md3 model to also draw
+"color"		constantLight color
+"light"		constantLight radius
+"usescript" script to run when turned on
+"deathscript"  script to run when turned off
+"wait"		amount of time before the object is usable again (only valid with ALWAYS_ON flag)
+"health"	if it has health, it will be used whenever shot at/killed - if you want it to only be used once this way, set health to 1
+"endframe"	Will make it animate to next shader frame when used, not turn on/off... set this to number of frames in the shader, minus 1
+*/
+
+
+/*QUAKED info_saga_objective (1 0 1) (-16 -16 -24) (16 16 32)
+"objective" - specifies the objective to complete upon activation
+"side" - set to 1 to specify an imperial goal, 2 to specify rebels
+*/
+
+
+/*QUAKED worldspawn (0 0 0) ?
+
+Every map should have exactly one worldspawn.
+"music"		music wav file
+"gravity"	800 is default gravity
+"message"	Text to print during connection process
+*/
+
+
+/*QUAKED target_give (1 0 0) (-8 -8 -8) (8 8 8)
+Gives the activator all the items pointed to.
+*/
+
+
+/*QUAKED target_remove_powerups (1 0 0) (-8 -8 -8) (8 8 8)
+takes away all the activators powerups.
+Used to drop flight powerups into death puts.
+*/
+
+
+/*QUAKED target_delay (1 0 0) (-8 -8 -8) (8 8 8) NO_RETRIGGER
+
+NO_RETRIGGER - Keeps the delay from resetting the time if it is
+activated again while it is counting down to an event.
+
+"wait" seconds to pause before firing targets.
+"random" delay variance, total delay = delay +/- random seconds
+*/
+
+
+/*QUAKED target_score (1 0 0) (-8 -8 -8) (8 8 8)
+"count" number of points to add, default 1
+
+The activator is given this many points.
+*/
+
+
+/*QUAKED target_print (1 0 0) (-8 -8 -8) (8 8 8) redteam blueteam private
+"message"	text to print
+If "private", only the activator gets the message.  If no checks, all clients get the message.
+*/
+
+
+/*QUAKED target_speaker (1 0 0) (-8 -8 -8) (8 8 8) looped-on looped-off global activator
+"noise"		wav file to play
+
+A global sound will play full volume throughout the level.
+Activator sounds will play on the player that activated the target.
+Global and activator sounds can't be combined with looping.
+Normal sounds play each time the target is used.
+Looped sounds will be toggled by use functions.
+Multiple identical looping sounds will just increase volume without any speed cost.
+"wait" : Seconds between auto triggerings, 0 = don't auto trigger
+"random"	wait variance, default is 0
+*/
+
+
+/*QUAKED target_laser (0 .5 .8) (-8 -8 -8) (8 8 8) START_ON
+When triggered, fires a laser.  You can either set a target or a direction.
+*/
+
+
+/*QUAKED target_teleporter (1 0 0) (-8 -8 -8) (8 8 8)
+The activator will be teleported away.
+*/
+
+
+/*QUAKED target_relay (.5 .5 .5) (-8 -8 -8) (8 8 8) RED_ONLY BLUE_ONLY RANDOM
+This doesn't perform any actions except fire its targets.
+The activator can be forced to be from a certain team.
+if RANDOM is checked, only one of the targets will be fired, not all of them
+*/
+
+
+/*QUAKED target_kill (.5 .5 .5) (-8 -8 -8) (8 8 8)
+Kills the activator.
+*/
+
+
+/*QUAKED target_position (0 0.5 0) (-4 -4 -4) (4 4 4)
+Used as a positional target for in-game calculation, like jumppad targets.
+*/
+
+
+/*QUAKED target_location (0 0.5 0) (-8 -8 -8) (8 8 8)
+Set "message" to the name of this location.
+Set "count" to 0-7 for color.
+0:white 1:red 2:green 3:yellow 4:blue 5:cyan 6:magenta 7:white
+
+Closest target_location in sight used for the location, if none
+in site, closest in distance
+*/
+
+
+/*QUAKED team_CTF_redplayer (1 0 0) (-16 -16 -16) (16 16 32)
+Only in CTF games.  Red players spawn here at game start.
+*/
+
+
+/*QUAKED team_CTF_blueplayer (0 0 1) (-16 -16 -16) (16 16 32)
+Only in CTF games.  Blue players spawn here at game start.
+*/
+
+
+/*QUAKED team_CTF_redspawn (1 0 0) (-16 -16 -24) (16 16 32)
+potential spawning position for red team in CTF games.
+Targets will be fired when someone spawns in on them.
+*/
+
+
+/*QUAKED team_CTF_bluespawn (0 0 1) (-16 -16 -24) (16 16 32)
+potential spawning position for blue team in CTF games.
+Targets will be fired when someone spawns in on them.
+*/
+
+
+/*QUAKED trigger_multiple (.5 .5 .5) ? USE_BUTTON RED_ONLY BLUE_ONLY
+USE_BUTTON - Won't fire unless player is in it and pressing use button (in addition to any other conditions)
+RED_ONLY - Only red team can use
+BLUE_ONLY - Only blue team can use
+
+"roffname"		If set, will play a roff upon activation
+"rofftarget"	If set with roffname, will activate the roff an entity with
+				this as its targetname. Otherwise uses roff on activating entity.
+"wait" : Seconds between triggerings, 0.5 default, -1 = one time only.
+"random"	wait variance, default is 0
+Variable sized repeatable trigger.  Must be targeted at one or more entities.
+so, the basic time between firing is a random time between
+(wait - random) and (wait + random)
+*/
+
+
+/*QUAKED trigger_always (.5 .5 .5) (-8 -8 -8) (8 8 8)
+This trigger will always fire.  It is activated by the world.
+*/
+
+
+/*QUAKED trigger_push (.5 .5 .5) ?
+Must point at a target_position, which will be the apex of the leap.
+This will be client side predicted, unlike target_push
+*/
+
+
+/*QUAKED target_push (.5 .5 .5) (-8 -8 -8) (8 8 8) bouncepad
+Pushes the activator in the direction.of angle, or towards a target apex.
+"speed"		defaults to 1000
+if "bouncepad", play bounce noise instead of windfly
+*/
+
+
+/*QUAKED trigger_teleport (.5 .5 .5) ? SPECTATOR
+Allows client side prediction of teleportation events.
+Must point at a target_position, which will be the teleport destination.
+
+If spectator is set, only spectators can use this teleport
+Spectator teleporters are not normally placed in the editor, but are created
+automatically near doors to allow spectators to move through them
+*/
+
+
+/*QUAKED trigger_hurt (.5 .5 .5) ? START_OFF CAN_TARGET SILENT NO_PROTECTION SLOW
+Any entity that touches this will be hurt.
+It does dmg points of damage each server frame
+Targeting the trigger will toggle its on / off state.
+
+SILENT			supresses playing the sound
+SLOW			changes the damage rate to once per second
+NO_PROTECTION	*nothing* stops the damage
+
+"dmg"			default 5 (whole numbers only)
+If dmg is set to -1 this brush will use the fade-kill method
+
+*/
+
+
+/*QUAKED func_timer (0.3 0.1 0.6) (-8 -8 -8) (8 8 8) START_ON
+This should be renamed trigger_timer...
+Repeatedly fires its targets.
+Can be turned on or off by using.
+
+"wait"			base time between triggering all targets, default is 1
+"random"		wait variance, default is 0
+so, the basic time between firing is a random time between
+(wait - random) and (wait + random)
+
+*/
+
+
+/*QUAKED emplaced_gun (0 0 1) (-30 -20 8) (30 20 60) CANRESPAWN
+
+ count - if CANRESPAWN spawnflag, decides how long it is before gun respawns (in ms)
+*/
+
+

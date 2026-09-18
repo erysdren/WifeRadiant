@@ -18,32 +18,31 @@
  */
 
 #include "gensurf.h"
+#include "modulesystem/singletonmodule.h"
 
 // Global plugin FuncTable
-_QERFuncTable_1 g_FuncTable;
-_QERQglTable g_GLTable;
-_QERUIGtkTable g_UIGtkTable;
-_QEREntityTable __ENTITYTABLENAME;
-_QERBrushTable __BRUSHTABLENAME;
-_QERPatchTable __PATCHTABLENAME;
 bool SingleBrushSelected;
 bool g_bInitDone;
 
 #include "iplugin.h"
 
 const char* QERPlug_Init( void* hApp, void* pMainWidget ){
-	g_pRadiantWnd = (GtkWidget*)pMainWidget;
-
-	return "GenSurf for Q3Radiant";
+	g_pRadiantWnd = static_cast<QWidget*>( pMainWidget );
+	ASSERT_NOTNULL( g_pRadiantWnd );
+	return "GenSurf for WifeRadiant";
 }
 
 const char* QERPlug_GetName(){
-	return "GtkGenSurf";
+	return "GenSurf";
 }
 
 const char* QERPlug_GetCommandList(){
 	return "Wall facing 270...;Wall facing 180...;Wall facing 90...;Wall facing 0...;"
 	       "Ceiling...;Ground surface...;-;About...";
+}
+
+const char* QERPlug_GetCommandTitleList(){
+	return "Export selected as Wavefront Object;About";
 }
 
 // vMin/vMax provide the bounds of the selection, they are zero if there is no selection
@@ -140,10 +139,55 @@ void QERPlug_Dispatch( const char *p, vec3_t vMin, vec3_t vMax, bool bSingleBrus
 			UseFaceBounds();
 		}
 
-		gtk_widget_show( g_pWnd );
+		g_pWnd->show();
 	}
 }
 
+// =============================================================================
+// RADIANT
+
+class GenSurfDependencies :
+	public GlobalRadiantModuleRef,
+	public GlobalFiletypesModuleRef,
+	public GlobalBrushModuleRef,
+	public GlobalFileSystemModuleRef,
+	public GlobalSceneGraphModuleRef,
+	public GlobalSelectionModuleRef
+{
+public:
+	GenSurfDependencies()
+		: GlobalBrushModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "brushtypes" ) )
+	{}
+};
+
+class GenSurfModule : public TypeSystemRef
+{
+	_QERPluginTable m_plugin;
+public:
+	typedef _QERPluginTable Type;
+	STRING_CONSTANT( Name, "gensurf" );
+
+	GenSurfModule(){
+		m_plugin.m_pfnQERPlug_Init = QERPlug_Init;
+		m_plugin.m_pfnQERPlug_GetName = QERPlug_GetName;
+		m_plugin.m_pfnQERPlug_GetCommandList = QERPlug_GetCommandList;
+		m_plugin.m_pfnQERPlug_GetCommandTitleList = QERPlug_GetCommandTitleList;
+		m_plugin.m_pfnQERPlug_Dispatch = QERPlug_Dispatch;
+	}
+	_QERPluginTable* getTable(){
+		return &m_plugin;
+	}
+};
+
+typedef SingletonModule<GenSurfModule, GenSurfDependencies> SingletonGenSurfModule;
+SingletonGenSurfModule g_GenSurfModule;
+
+extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
+	initialiseModule( server );
+	g_GenSurfModule.selfRegister();
+}
+
+#if 0
 // =============================================================================
 // SYNAPSE
 
@@ -200,3 +244,4 @@ bool GenSurfSynapseClient::RequestAPI( APIDescriptor_t *pAPI ){
 const char* GenSurfSynapseClient::GetInfo(){
 	return "GtkGenSurf - built " __DATE__ " " RADIANT_VERSION;
 }
+#endif

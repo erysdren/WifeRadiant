@@ -1265,7 +1265,7 @@ static QMenu* TextureBrowser_constructViewMenu(){
 
 
 	// we always want to show shaders but don't want a "Show Shaders" menu for doom3 and .wad file games
-	if ( g_pGameDescription->mGameType == "doom3" || TextureBrowser::wads ) {
+	if ( g_pGameDescription->mGameType == "source" || g_pGameDescription->mGameType == "doom3" || TextureBrowser::wads ) {
 		g_TexBro.m_showShaders = true;
 	}
 	else

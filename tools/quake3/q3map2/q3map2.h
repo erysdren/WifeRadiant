@@ -31,11 +31,20 @@
 
 
 /* version */
+#ifdef __WRMAP__
+#ifndef WRMAP_VERSION
+#error no WRMAP_VERSION defined
+#endif
+#ifndef WRMAP_MOTD
+#error no WRMAP_MOTD defined
+#endif
+#endif
 #ifndef Q3MAP_VERSION
 #error no Q3MAP_VERSION defined
 #endif
-#define Q3MAP_MOTD      "Your map saw the pretty lights from q3map2's BFG"
-
+#ifndef Q3MAP_MOTD
+#error no Q3MAP_MOTD defined
+#endif
 
 
 

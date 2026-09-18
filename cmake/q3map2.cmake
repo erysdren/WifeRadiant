@@ -1,7 +1,13 @@
 
-# q3map2
+# q3map2 / wrmap
 
-add_executable(q3map2
+if(BUILD_WRMAP)
+	set(EXECUTABLE_NAME wrmap)
+else()
+	set(EXECUTABLE_NAME q3map2)
+endif()
+
+add_executable(${EXECUTABLE_NAME}
 	${PROJECT_SOURCE_DIR}/tools/quake3/common/cmdlib.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/common/qimagelib.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/common/inout.cpp
@@ -58,28 +64,32 @@ add_executable(q3map2
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/vis.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
 )
-target_link_libraries(q3map2 PRIVATE l_net filematch ddslib etclib crnlib webplib)
-target_link_libraries(q3map2 PRIVATE pugixml::pugixml)
-target_link_libraries(q3map2 PRIVATE assimp $<$<BOOL:${WIN32}>:ws2_32>)
-target_include_directories(q3map2 PRIVATE
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE l_net filematch ddslib etclib crnlib webplib)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE pugixml::pugixml)
+target_link_libraries(${EXECUTABLE_NAME} PRIVATE assimp $<$<BOOL:${WIN32}>:ws2_32>)
+target_include_directories(${EXECUTABLE_NAME} PRIVATE
 	${PROJECT_SOURCE_DIR}/include
 	${PROJECT_SOURCE_DIR}/libs
 	${PROJECT_SOURCE_DIR}/tools/quake3/common
 )
-target_compile_definitions(q3map2 PRIVATE
+target_compile_definitions(${EXECUTABLE_NAME} PRIVATE
 	RADIANT_VERSION=\"${RADIANT_VERSION}\"
 	RADIANT_MAJOR_VERSION=\"${RADIANT_MAJOR_VERSION}\"
 	RADIANT_MINOR_VERSION=\"${RADIANT_MINOR_VERSION}\"
 	RADIANT_PATCH_VERSION=\"${RADIANT_PATCH_VERSION}\"
 	RADIANT_ABOUTMSG=\"${RADIANT_ABOUTMSG}\"
+	$<$<BOOL:${BUILD_WRMAP}>:__WRMAP__>
+	$<$<BOOL:${BUILD_WRMAP}>:WRMAP_VERSION=\"${WRMAP_VERSION}\">
+	$<$<BOOL:${BUILD_WRMAP}>:WRMAP_MOTD=\"${WRMAP_MOTD}\">
 	Q3MAP_VERSION=\"${Q3MAP_VERSION}\"
+	Q3MAP_MOTD=\"${Q3MAP_MOTD}\"
 )
-set_target_properties(q3map2
+set_target_properties(${EXECUTABLE_NAME}
 	PROPERTIES
-		LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
-		RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
+		LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
+		RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
 )
-target_compile_options(q3map2 PRIVATE
+target_compile_options(${EXECUTABLE_NAME} PRIVATE
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
@@ -93,33 +103,54 @@ target_compile_options(q3map2 PRIVATE
 )
 
 if(WIN32)
-	install(CODE [[
-		file(GET_RUNTIME_DEPENDENCIES
-			RESOLVED_DEPENDENCIES_VAR _resolved_deps
-			UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
-			EXECUTABLES
-				$<TARGET_FILE:q3map2>
-			PRE_EXCLUDE_REGEXES
-				"api-ms-" "ext-ms-" "Qt6"
-			POST_EXCLUDE_REGEXES
-				".*system32/.*\\.dll"
-			DIRECTORIES
-				$<TARGET_RUNTIME_DLL_DIRS:q3map2>
-		)
-		if(_unresolved_deps)
-			message(WARNING "q3map2 unresolved dependencies: ${_unresolved_deps}")
-		endif()
-		file(COPY ${_resolved_deps} DESTINATION $<TARGET_FILE_DIR:q3map2>)
-	]])
+	if(BUILD_WRMAP)
+		install(CODE [[
+			file(GET_RUNTIME_DEPENDENCIES
+				RESOLVED_DEPENDENCIES_VAR _resolved_deps
+				UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
+				EXECUTABLES
+					$<TARGET_FILE:wrmap>
+				PRE_EXCLUDE_REGEXES
+					"api-ms-" "ext-ms-" "Qt6"
+				POST_EXCLUDE_REGEXES
+					".*system32/.*\\.dll"
+				DIRECTORIES
+					$<TARGET_RUNTIME_DLL_DIRS:wrmap>
+			)
+			if(_unresolved_deps)
+				message(WARNING "wrmap unresolved dependencies: ${_unresolved_deps}")
+			endif()
+			file(COPY ${_resolved_deps} DESTINATION $<TARGET_FILE_DIR:wrmap>)
+		]])
+	else()
+		install(CODE [[
+			file(GET_RUNTIME_DEPENDENCIES
+				RESOLVED_DEPENDENCIES_VAR _resolved_deps
+				UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
+				EXECUTABLES
+					$<TARGET_FILE:q3map2>
+				PRE_EXCLUDE_REGEXES
+					"api-ms-" "ext-ms-" "Qt6"
+				POST_EXCLUDE_REGEXES
+					".*system32/.*\\.dll"
+				DIRECTORIES
+					$<TARGET_RUNTIME_DLL_DIRS:q3map2>
+			)
+			if(_unresolved_deps)
+				message(WARNING "q3map2 unresolved dependencies: ${_unresolved_deps}")
+			endif()
+			file(COPY ${_resolved_deps} DESTINATION $<TARGET_FILE_DIR:q3map2>)
+		]])
+	endif()
 endif()
 
-target_compile_definitions(q3map2 PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
+target_compile_definitions(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
 if(WIN32)
-	target_compile_definitions(q3map2 PRIVATE RADIANT_EXECUTABLE=\"exe\")
+	target_compile_definitions(${EXECUTABLE_NAME} PRIVATE RADIANT_EXECUTABLE=\"exe\")
 elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
 	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
-	target_compile_definitions(q3map2 PRIVATE RADIANT_EXECUTABLE=\"${SYSTEM_PROCESSOR}\")
-	set_target_properties(q3map2 PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
+	target_compile_definitions(${EXECUTABLE_NAME} PRIVATE RADIANT_EXECUTABLE=\"${SYSTEM_PROCESSOR}\")
+	set_target_properties(${EXECUTABLE_NAME} PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
 else()
-	target_compile_definitions(q3map2 PRIVATE RADIANT_EXECUTABLE=\"unknown\")
+	target_compile_definitions(${EXECUTABLE_NAME} PRIVATE RADIANT_EXECUTABLE=\"unknown\")
 endif()

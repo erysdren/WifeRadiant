@@ -25,6 +25,9 @@
 
 #include <map>
 #include <set>
+#include <format>
+
+#include "texwindow.h"
 
 #include "iscriplib.h"
 
@@ -36,642 +39,269 @@
 #include "stream/textfilestream.h"
 #include "math/vector.h"
 
-namespace
-{
+#include "entityinspector.h"
+
+#include <toolpp/toolpp.h>
+
 typedef std::map<const char*, EntityClass*, RawStringLessNoCase> EntityClasses;
-EntityClasses g_EntityClassFGD_classes;
-typedef std::map<const char*, EntityClass*, RawStringLessNoCase> BaseClasses;
-BaseClasses g_EntityClassFGD_bases;
+static EntityClasses g_EntityClassFGD_classes;
 typedef std::map<CopiedString, ListAttributeType> ListAttributeTypes;
 ListAttributeTypes g_listTypesFGD;
 
-const auto pathLess = []( const CopiedString& one, const CopiedString& other ){
-	return path_less( one.c_str(), other.c_str() );
-};
-std::set<CopiedString, decltype( pathLess )> g_loadedFgds( pathLess );
-}
-
-
-void EntityClassFGD_clear(){
-	for ( auto [ name, eclass ] : g_EntityClassFGD_bases )
-	{
-		eclass_capture_state( eclass );
-		eclass->free( eclass );
-	}
-	g_EntityClassFGD_classes.clear();
-	g_EntityClassFGD_bases.clear();
-	g_listTypesFGD.clear();
-	g_loadedFgds.clear();
-}
-
-EntityClass* EntityClassFGD_insertUniqueBase( EntityClass* entityClass ){
-	auto [ it, inserted ] = g_EntityClassFGD_bases.insert( BaseClasses::value_type( entityClass->name(), entityClass ) );
-	if ( !inserted ) {
-		globalErrorStream() << "duplicate base class: " << Quoted( entityClass->name() ) << '\n';
-		eclass_capture_state( entityClass );
-		entityClass->free( entityClass );
-	}
-	return it->second;
-}
-
-EntityClass* EntityClassFGD_insertUnique( EntityClass* entityClass ){
-	auto [ it, inserted ] = g_EntityClassFGD_classes.insert( EntityClasses::value_type( entityClass->name(), entityClass ) );
-	if ( !inserted ) {
-		globalErrorStream() << "duplicate entity class: " << Quoted( entityClass->name() ) << '\n';
-		eclass_capture_state( entityClass );
-		entityClass->free( entityClass );
-	}
-	return it->second;
-}
-
-#define PARSE_ERROR "error parsing fgd entity class definition at line " << tokeniser.getLine() << ':' << tokeniser.getColumn()
-
-static bool s_fgd_warned = false;
-
-inline bool EntityClassFGD_parseToken( Tokeniser& tokeniser, const char* token ){
-	const bool w = s_fgd_warned;
-	const bool ok = string_equal( tokeniser.getToken(), token );
-	if( !ok ){
-		globalErrorStream() << PARSE_ERROR << "\nExpected " << Quoted( token ) << '\n';
-		s_fgd_warned = true;
-	}
-	return w || ok;
-}
-
-#define ERROR_FGD( message )\
-do{\
-	if( s_fgd_warned )\
-		globalErrorStream() << message << '\n';\
-	else{\
-		ERROR_MESSAGE( message );\
-		s_fgd_warned = true;\
-	}\
-}while( false )
-
-
-void EntityClassFGD_parseSplitString( Tokeniser& tokeniser, CopiedString& string ){
-	StringOutputStream buffer( 256 );
-	for (;; )
-	{
-		buffer << tokeniser.getToken();
-		if ( !string_equal( tokeniser.getToken(), "+" ) ) {
-			tokeniser.ungetToken();
-			string = buffer;
-			return;
+static std::vector<toolpp::FGD::Entity::ClassProperty>::const_iterator findClassProperty( const toolpp::FGD::Entity& entity, const char *name ) {
+	auto first = entity.classProperties.cbegin();
+	auto last = entity.classProperties.cend();
+	while ( first != last ) {
+		if ( (*first).name == name ) {
+			return first;
 		}
+		++first;
+	}
+	return last;
+}
+
+static void addChoicesToEntity( EntityClass* entityClass, const std::vector<toolpp::FGD::Entity::FieldChoices>& fields ) {
+	for ( const auto& field : fields ) {
+		EntityClassAttribute attribute;
+		attribute.m_name = field.name;
+		attribute.m_displayName = field.displayName;
+
+		std::string listTypeName = std::format("{}_{}", entityClass->name(), field.name);
+		attribute.m_type = listTypeName;
+		ListAttributeType& listType = g_listTypesFGD[listTypeName.c_str()];
+		for ( const auto& choice : field.choices ) {
+			listType.push_back( choice.displayName.data(), choice.value.data() );
+		}
+
+		attribute.m_value = field.valueDefault;
+		attribute.m_description = field.description;
+		EntityClass_insertAttribute( *entityClass, field.name.data(), attribute );
 	}
 }
 
-void EntityClassFGD_parseClass( Tokeniser& tokeniser, bool fixedsize, bool isBase ){
-	EntityClass* entityClass = Eclass_Alloc();
-	entityClass->free = &Eclass_Free;
-	entityClass->fixedsize = fixedsize;
-	entityClass->inheritanceResolved = false;
-	entityClass->mins = Vector3( -8, -8, -8 );
-	entityClass->maxs = Vector3( 8, 8, 8 );
-
-	for (;; )
-	{
-		const char* property = tokeniser.getToken();
-		if ( string_equal( property, "=" ) ) {
-			break;
-		}
-		else if ( string_equal( property, "base" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			for (;; )
-			{
-				const char* base = tokeniser.getToken();
-				if ( string_equal( base, ")" ) ) {
-					break;
-				}
-				else if ( !string_equal( base, "," ) ) {
-					entityClass->m_parent.push_back( base );
-				}
-			}
-		}
-		else if ( string_equal( property, "size" ) ) {
-			entityClass->sizeSpecified = true;
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			Tokeniser_getFloat( tokeniser, entityClass->mins.x() );
-			Tokeniser_getFloat( tokeniser, entityClass->mins.y() );
-			Tokeniser_getFloat( tokeniser, entityClass->mins.z() );
-			const char* token = tokeniser.getToken();
-			if ( string_equal( token, "," ) ) {
-				Tokeniser_getFloat( tokeniser, entityClass->maxs.x() );
-				Tokeniser_getFloat( tokeniser, entityClass->maxs.y() );
-				Tokeniser_getFloat( tokeniser, entityClass->maxs.z() );
-				ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-			}
-			else
-			{
-				entityClass->maxs = entityClass->mins;
-				vector3_negate( entityClass->mins );
-				ASSERT_MESSAGE( string_equal( token, ")" ), "" );
-			}
-		}
-		else if ( string_equal( property, "color" ) ) {
-			entityClass->colorSpecified = true;
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			Tokeniser_getFloat( tokeniser, entityClass->color.x() );
-			entityClass->color.x() /= 255.0;
-			Tokeniser_getFloat( tokeniser, entityClass->color.y() );
-			entityClass->color.y() /= 255.0;
-			Tokeniser_getFloat( tokeniser, entityClass->color.z() );
-			entityClass->color.z() /= 255.0;
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-		}
-		else if ( string_equal( property, "iconsprite" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			entityClass->m_modelpath = StringStream<64>( PathCleaned( tokeniser.getToken() ) );
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-		}
-		else if ( string_equal( property, "sprite" )
-		       || string_equal( property, "decal" )
-		       // hl2 below
-		       || string_equal( property, "overlay" )
-		       || string_equal( property, "light" )
-		       || string_equal( property, "keyframe" )
-		       || string_equal( property, "animator" )
-		       || string_equal( property, "quadbounds" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-		}
-		// hl2 below
-		else if ( string_equal( property, "sphere" )
-		       || string_equal( property, "sweptplayerhull" )
-		       || string_equal( property, "studioprop" )
-		       || string_equal( property, "lightprop" )
-		       || string_equal( property, "lightcone" )
-		       || string_equal( property, "sidelist" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			if ( string_equal( tokeniser.getToken(), ")" ) ) {
-				tokeniser.ungetToken();
-			}
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-		}
-		else if ( string_equal( property, "studio" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			const char *token = tokeniser.getToken();
-			if ( string_equal( token, ")" ) ) {
-				tokeniser.ungetToken();
-			}
-			else{
-				entityClass->m_modelpath = token;
-			}
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-		}
-		else if ( string_equal( property, "line" )
-		       || string_equal( property, "cylinder" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			//const char* r =
-			tokeniser.getToken();
-			//const char* g =
-			tokeniser.getToken();
-			//const char* b =
-			tokeniser.getToken();
-			for (;; )
-			{
-				if ( string_equal( tokeniser.getToken(), ")" ) ) {
-					tokeniser.ungetToken();
-					break;
-				}
-				//const char* name =
-				tokeniser.getToken();
-			}
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-		}
-		else if ( string_equal( property, "wirebox" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			//const char* mins =
-			tokeniser.getToken();
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "," ), PARSE_ERROR );
-			//const char* maxs =
-			tokeniser.getToken();
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-		}
-		else if ( string_equal( property, "halfgridsnap" ) ) {
-		}
-		else if ( string_equal( property, "flags" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			for (;; )
-			{
-				const char* base = tokeniser.getToken();
-				if ( string_equal( base, ")" ) ) {
-					break;
-				}
-				else if ( !string_equal( base, "," ) ) {
-					if( string_equal_nocase( base, "Angle" ) ){
-						entityClass->has_angles = true;
-					}
-				}
-			}
-		}
-		else
-		{
-			ERROR_FGD( PARSE_ERROR );
-		}
+static void addIOToEntity( EntityClass* entityClass, const std::vector<toolpp::FGD::Entity::IO>& inputs, const std::vector<toolpp::FGD::Entity::IO>& outputs ) {
+	for ( const auto& input : inputs ) {
+		EntityClassAttribute attribute;
+		attribute.m_name = input.name;
+		attribute.m_displayName = input.name;
+		attribute.m_type = input.valueType;
+		attribute.m_description = input.description;
+		EntityClass_insertInput( *entityClass, attribute.m_name.c_str(), attribute );
 	}
-
-	entityClass->name_set( tokeniser.getToken() );
-
-	if ( !isBase ) {
-		ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ":" ), PARSE_ERROR );
-
-		EntityClassFGD_parseSplitString( tokeniser, entityClass->m_comments );
-
-		const char* urlSeparator = tokeniser.getToken();
-		if ( string_equal( urlSeparator, ":" ) ) {
-			CopiedString tmp;
-			EntityClassFGD_parseSplitString( tokeniser, tmp );
-		}
-		else
-		{
-			tokeniser.ungetToken();
-		}
+	for ( const auto& output : outputs ) {
+		EntityClassAttribute attribute;
+		attribute.m_name = output.name;
+		attribute.m_displayName = output.name;
+		attribute.m_type = output.valueType;
+		attribute.m_description = output.description;
+		EntityClass_insertOutput( *entityClass, attribute.m_name.c_str(), attribute );
 	}
+}
 
-	tokeniser.nextLine();
-
-	ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "[" ), PARSE_ERROR );
-
-	tokeniser.nextLine();
-
-	for (;; )
-	{
-		CopiedString key = tokeniser.getToken();
-		if ( string_equal( key.c_str(), "]" ) ) {
-			tokeniser.nextLine();
-			break;
+static void addFieldsToEntity( EntityClass* entityClass, const std::vector<toolpp::FGD::Entity::Field>& fields ) {
+	for ( const auto& field : fields ) {
+		EntityClassAttribute attribute;
+		attribute.m_name = field.name;
+		attribute.m_displayName = field.displayName;
+		if ( field.valueType == "studio" || field.valueType == "model" ) {
+			attribute.m_type = "model";
+			if ( !entityClass->m_modelpath.empty() && !field.valueDefault.empty() ) {
+				entityClass->miscmodel_is = true;
+				entityClass->m_modelpath = field.valueDefault;
+			}
+		} else if ( field.valueType == "color255" || field.valueType == "color") {
+			attribute.m_type = "color";
+		} else if ( field.valueType == "material" || field.valueType == "shader" ) {
+			attribute.m_type = "shader";
+		} else {
+			// FIXME: add proper handlers for more Source-specific types in entityinspector.cpp
+			// attribute.m_type = field.valueType;
+			attribute.m_type = "string";
 		}
+		attribute.m_value = field.valueDefault;
+		attribute.m_description = field.description;
+		EntityClass_insertAttribute( *entityClass, field.name.data(), attribute );
+	}
+}
 
-		if ( string_equal_nocase( key.c_str(), "input" )
-		  || string_equal_nocase( key.c_str(), "output" ) ) {
-			const char* name = tokeniser.getToken();
-			if ( !string_equal( name, "(" ) ) {
-				ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-				//const char* type =
-				tokeniser.getToken();
-				ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-				const char* descriptionSeparator = tokeniser.getToken();
-				if ( string_equal( descriptionSeparator, ":" ) ) {
-					CopiedString description;
-					EntityClassFGD_parseSplitString( tokeniser, description );
-				}
-				else
-				{
-					tokeniser.ungetToken();
-				}
-				tokeniser.nextLine();
+static void addFlagsToEntity( EntityClass* entityClass, const std::vector<toolpp::FGD::Entity::FieldFlags>& fields ) {
+	for ( const auto& field : fields ) {
+		std::string name = field.name.data();
+		entityClass->flags[name].displayName = field.displayName;
+		for ( const auto& flag : field.flags ) {
+			if ( flag.value <= 0) {
 				continue;
 			}
+			const size_t bit = std::log2( flag.value );
+			EntityClassAttribute *attribute = &EntityClass_insertAttribute( *entityClass, name.c_str(), EntityClassAttribute( "flag", name.c_str() ) ).second;
+			attribute->m_displayName = flag.displayName;
+			attribute->m_description = flag.description;
+			entityClass->flags[name].flags[bit].displayName = flag.displayName;
+			entityClass->flags[name].flags[bit].attribute = attribute;
+			g_entityFlagFields[name] += 1;
 		}
+	}
+}
 
-		ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-		CopiedString type = tokeniser.getToken();
-		ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-
-		if ( string_equal_nocase( type.c_str(), "flags" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "=" ), PARSE_ERROR );
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "[" ), PARSE_ERROR );
-			for (;; )
-			{
-				const char* flag = tokeniser.getToken();
-				if ( string_equal( flag, "]" ) ) {
-					tokeniser.nextLine();
-					break;
-				}
-				else
-				{
-					const size_t bit = std::log2( atoi( flag ) );
-					// ASSERT_MESSAGE( bit < MAX_FLAGS, "invalid flag bit" << PARSE_ERROR );
-					// ASSERT_MESSAGE( string_empty( entityClass->flagnames[bit] ), "non-unique flag bit" << PARSE_ERROR );
-
-					ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ":" ), PARSE_ERROR );
-
-					const char* name = tokeniser.getToken();
-					// strncpy( entityClass->flagnames[bit], name, std::size( entityClass->flagnames[bit] ) - 1 );
-					entityClass->flagNames[bit] = name;
-					EntityClassAttribute *attribute = &EntityClass_insertAttribute( *entityClass, name, EntityClassAttribute( "flag", name ) ).second;
-					entityClass->flagAttributes[bit] = attribute;
-					{
-						const char* defaultSeparator = tokeniser.getToken();
-						if ( string_equal( defaultSeparator, ":" ) ) {
-							tokeniser.getToken();
-							{
-								const char* descriptionSeparator = tokeniser.getToken();
-								if ( string_equal( descriptionSeparator, ":" ) ) {
-									EntityClassFGD_parseSplitString( tokeniser, attribute->m_description );
-								}
-								else
-								{
-									tokeniser.ungetToken();
-								}
-							}
-						}
-						else
-						{
-							tokeniser.ungetToken();
-						}
-					}
-				}
-				tokeniser.nextLine();
-			}
+static void addColorToEntity( EntityClass* entityClass, const toolpp::FGD::Entity& entity ) {
+	if ( entityClass->colorSpecified ) {
+		return;
+	}
+	if ( auto colorProperty = findClassProperty( entity, "color" ); colorProperty != entity.classProperties.end() ) {
+		if ( std::sscanf( (*colorProperty).arguments.data(), "%f%f%f", &entityClass->color.x(), &entityClass->color.y(), &entityClass->color.z() ) == 3 ) {
+			entityClass->colorSpecified = true;
+			entityClass->color.x() /= 255.0;
+			entityClass->color.y() /= 255.0;
+			entityClass->color.z() /= 255.0;
 		}
-		else if ( string_equal_nocase( type.c_str(), "choices" ) ) {
-			EntityClassAttribute attribute;
+	}
+}
 
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ":" ), PARSE_ERROR );
-			attribute.m_name = tokeniser.getToken();
-			const char* valueSeparator = tokeniser.getToken();
-			if ( string_equal( valueSeparator, ":" ) ) {
-				const char* value = tokeniser.getToken();
-				if ( !string_equal( value, ":" ) ) {
-					attribute.m_value = value;
-				}
-				else
-				{
-					tokeniser.ungetToken();
-				}
-				{
-					const char* descriptionSeparator = tokeniser.getToken();
-					if ( string_equal( descriptionSeparator, ":" ) ) {
-						EntityClassFGD_parseSplitString( tokeniser, attribute.m_description );
-					}
-					else
-					{
-						tokeniser.ungetToken();
-					}
-				}
-			}
-			else
-			{
-				tokeniser.ungetToken();
-			}
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "=" ), PARSE_ERROR );
-			tokeniser.nextLine();
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "[" ), PARSE_ERROR );
-			tokeniser.nextLine();
+static void addSizeToEntity( EntityClass* entityClass, const toolpp::FGD::Entity& entity ) {
+	if ( entityClass->sizeSpecified || !entityClass->fixedsize ) {
+		return;
+	}
+	if ( auto sizeProperty = findClassProperty( entity, "size" ); sizeProperty != entity.classProperties.end() ) {
+		StringInputStream istream( (*sizeProperty).arguments );
+		Tokeniser& tokeniser = GlobalScriptLibrary().m_pfnNewScriptTokeniser( istream );
 
-			const auto listTypeName = StringStream<64>( entityClass->name(), '_', key );
-			attribute.m_type = listTypeName;
+		Tokeniser_getFloat(tokeniser, entityClass->mins.x());
+		Tokeniser_getFloat(tokeniser, entityClass->mins.y());
+		Tokeniser_getFloat(tokeniser, entityClass->mins.z());
 
-			ListAttributeType& listType = g_listTypesFGD[listTypeName.c_str()];
-
-			for (;; )
-			{
-				const char* value = tokeniser.getToken();
-				if ( string_equal( value, "]" ) ) {
-					tokeniser.nextLine();
-					break;
-				}
-				else
-				{
-					CopiedString tmp( value );
-					ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ":" ), PARSE_ERROR );
-					const char* name = tokeniser.getToken();
-					listType.push_back( name, tmp.c_str() );
-
-					const char* descriptionSeparator = tokeniser.getToken();
-					if ( string_equal( descriptionSeparator, ":" ) ) {
-						EntityClassFGD_parseSplitString( tokeniser, tmp );
-					}
-					else
-					{
-						tokeniser.ungetToken();
-					}
-				}
-				tokeniser.nextLine();
-			}
-
-			for ( const auto& [ name, value ] : listType )
-			{
-				if ( string_equal( attribute.m_value.c_str(), name.c_str() ) ) {
-					attribute.m_value = value;
-				}
-			}
-
-			EntityClass_insertAttribute( *entityClass, key.c_str(), attribute );
+		const char *token = tokeniser.getToken();
+		if (!token || string_empty(token))
+		{
+			entityClass->maxs = entityClass->mins;
+			vector3_negate( entityClass->mins );
 		}
-		else if ( string_equal_nocase( type.c_str(), "decal" ) ) {
-		}
-		else if ( string_equal_nocase( type.c_str(), "string" )
-		       || string_equal_nocase( type.c_str(), "integer" )
-		       || string_equal_nocase( type.c_str(), "studio" )
-		       || string_equal_nocase( type.c_str(), "sprite" )
-		       || string_equal_nocase( type.c_str(), "color255" )
-		       || string_equal_nocase( type.c_str(), "color1" )
-		       || string_equal_nocase( type.c_str(), "target_source" )
-		       || string_equal_nocase( type.c_str(), "target_destination" )
-		       || string_equal_nocase( type.c_str(), "sound" )
-		       // hl2 below
-		       || string_equal_nocase( type.c_str(), "angle" )
-		       || string_equal_nocase( type.c_str(), "origin" )
-		       || string_equal_nocase( type.c_str(), "float" )
-		       || string_equal_nocase( type.c_str(), "node_dest" )
-		       || string_equal_nocase( type.c_str(), "filterclass" )
-		       || string_equal_nocase( type.c_str(), "vector" )
-		       || string_equal_nocase( type.c_str(), "sidelist" )
-		       || string_equal_nocase( type.c_str(), "material" )
-		       || string_equal_nocase( type.c_str(), "vecline" )
-		       || string_equal_nocase( type.c_str(), "axis" )
-		       || string_equal_nocase( type.c_str(), "npcclass" )
-		       || string_equal_nocase( type.c_str(), "target_name_or_class" )
-		       || string_equal_nocase( type.c_str(), "pointentityclass" )
-		       || string_equal_nocase( type.c_str(), "scene" ) ) {
-			if ( !string_equal( tokeniser.getToken(), "readonly" ) ) {
-				tokeniser.ungetToken();
-			}
-
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ":" ), PARSE_ERROR );
-			const char* attributeType = "string";
-			if ( string_equal_nocase( type.c_str(), "studio" ) ) {
-				attributeType = "model";
-			}
-			else if ( string_equal_nocase( type.c_str(), "color1" ) ) {
-				attributeType = "color";
-			}
-
-			EntityClassAttribute attribute;
-			attribute.m_type = attributeType;
-			attribute.m_name = tokeniser.getToken();
-
-			const char* defaultSeparator = tokeniser.getToken();
-			if ( string_equal( defaultSeparator, ":" ) ) {
-				const char* value = tokeniser.getToken();
-				if ( !string_equal( value, ":" ) ) {
-					attribute.m_value = value;
-				}
-				else
-				{
-					tokeniser.ungetToken();
-				}
-
-				{
-					const char* descriptionSeparator = tokeniser.getToken();
-					if ( string_equal( descriptionSeparator, ":" ) ) {
-						EntityClassFGD_parseSplitString( tokeniser, attribute.m_description );
-					}
-					else
-					{
-						tokeniser.ungetToken();
-					}
-				}
-			}
-			else
-			{
-				tokeniser.ungetToken();
-			}
-			EntityClass_insertAttribute( *entityClass, key.c_str(), attribute );
+		else if (string_equal(token, ","))
+		{
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.x());
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.y());
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.z());
 		}
 		else
 		{
-			ERROR_FGD( "unknown key type: " << Quoted( type ) );
+			entityClass->maxs.x() = std::stof(token);
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.y());
+			Tokeniser_getFloat(tokeniser, entityClass->maxs.z());
 		}
-		tokeniser.nextLine();
-	}
 
-	if ( isBase ) {
-		EntityClassFGD_insertUniqueBase( entityClass );
-	}
-	else
-	{
-		EntityClassFGD_insertUnique( entityClass );
+		entityClass->sizeSpecified = true;
 	}
 }
 
-void EntityClassFGD_loadUniqueFile( const char* filename );
-
-void EntityClassFGD_parse( TextInputStream& inputStream, const char* path ){
-	Tokeniser& tokeniser = GlobalScriptLibrary().m_pfnNewScriptTokeniser( inputStream );
-
-	tokeniser.nextLine();
-
-	for (;; )
-	{
-		const char* blockType = tokeniser.getToken();
-		if ( blockType == 0 ) {
-			break;
-		}
-		if ( string_equal_nocase( blockType, "@SolidClass" ) ) {
-			EntityClassFGD_parseClass( tokeniser, false, false );
-		}
-		else if ( string_equal_nocase( blockType, "@BaseClass" ) ) {
-			EntityClassFGD_parseClass( tokeniser, false, true );
-		}
-		else if ( string_equal_nocase( blockType, "@PointClass" )
-		       // hl2 below
-		       || string_equal_nocase( blockType, "@KeyFrameClass" )
-		       || string_equal_nocase( blockType, "@MoveClass" )
-		       || string_equal_nocase( blockType, "@FilterClass" )
-		       || string_equal_nocase( blockType, "@NPCClass" ) ) {
-			EntityClassFGD_parseClass( tokeniser, true, false );
-		}
-		// hl2 below
-		else if ( string_equal( blockType, "@include" ) ) {
-			EntityClassFGD_loadUniqueFile( StringStream( PathFilenameless( path ), tokeniser.getToken() ) );
-		}
-		else if ( string_equal( blockType, "@mapsize" ) ) {
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "(" ), PARSE_ERROR );
-			//const char* min =
-			tokeniser.getToken();
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, "," ), PARSE_ERROR );
-			//const char* max =
-			tokeniser.getToken();
-			ASSERT_MESSAGE( EntityClassFGD_parseToken( tokeniser, ")" ), PARSE_ERROR );
-		}
-		else
-		{
-			ERROR_FGD( "unknown block type: " << Quoted( blockType ) );
-		}
+static void addModelToEntity( EntityClass* entityClass, const toolpp::FGD::Entity& entity ) {
+	if ( !entityClass->m_modelpath.empty() || entityClass->miscmodel_is ) {
+		return;
 	}
-
-	tokeniser.release();
-}
-
-
-void EntityClassFGD_loadFile( const char* filename ){
-	TextFileInputStream file( filename );
-	if ( !file.failed() ) {
-		globalOutputStream() << "parsing entity classes from " << Quoted( filename ) << '\n';
-
-		EntityClassFGD_parse( file, filename );
+	if ( auto studioProperty = findClassProperty( entity, "studio" ); studioProperty != entity.classProperties.end() ) {
+		if ( !(*studioProperty).arguments.empty() ) {
+			StringInputStream istream( (*studioProperty).arguments );
+			Tokeniser& tokeniser = GlobalScriptLibrary().m_pfnNewScriptTokeniser( istream );
+			auto modelNameCleaned = StringStream<64>( PathCleaned( tokeniser.getToken() ) );
+			entityClass->m_modelpath = string_to_lowercase( modelNameCleaned.c_str() );
+		}
+	} else if ( auto studioProperty = findClassProperty( entity, "studioprop" ); studioProperty != entity.classProperties.end() ) {
+		entityClass->miscmodel_is = true;
+	} else if ( auto studioProperty = findClassProperty( entity, "model" ); studioProperty != entity.classProperties.end() ) {
+		entityClass->miscmodel_is = true;
 	}
 }
 
-void EntityClassFGD_loadUniqueFile( const char* filename ){
-	if( g_loadedFgds.insert( filename ).second )
-		EntityClassFGD_loadFile( filename );
+static void addMiscToEntity( EntityClass* entityClass, const toolpp::FGD::Entity& entity ) {
+	if ( auto boundsProperty = findClassProperty( entity, "quadbounds" ); boundsProperty != entity.classProperties.end() ) {
+		entityClass->quadbounds = true;
+	}
 }
 
-
-void EntityClassFGD_resolveInheritance( EntityClass* derivedClass ){
-	if ( derivedClass->inheritanceResolved == false ) {
-		derivedClass->inheritanceResolved = true;
-		for ( const auto& parentName : derivedClass->m_parent )
-		{
-			BaseClasses::iterator i = g_EntityClassFGD_bases.find( parentName.c_str() );
-			if ( i == g_EntityClassFGD_bases.end() ) {
-				i = g_EntityClassFGD_classes.find( parentName.c_str() );
-				if ( i == g_EntityClassFGD_classes.end() ) {
-					globalErrorStream() << "failed to find entityDef " << Quoted( parentName.c_str() ) << " inherited by " << Quoted( derivedClass->name() ) << '\n';
-					continue;
-				}
+static void addBaseAttributes( EntityClass* entityClass, const std::unordered_map<std::string_view, toolpp::FGD::Entity>& entities, const toolpp::FGD::Entity& entity ) {
+	if ( auto baseProperty = findClassProperty( entity, "base" ); baseProperty != entity.classProperties.end() ) {
+		StringInputStream istream( (*baseProperty).arguments );
+		Tokeniser& tokeniser = GlobalScriptLibrary().m_pfnNewScriptTokeniser( istream );
+		while ( const char *baseClassName = tokeniser.getToken() ) {
+			if ( string_equal( baseClassName, "," ) ) {
+				continue;
 			}
-
-			{
-				EntityClass* parentClass = ( *i ).second;
-				EntityClassFGD_resolveInheritance( parentClass );
-				if ( !derivedClass->colorSpecified ) {
-					derivedClass->colorSpecified = parentClass->colorSpecified;
-					derivedClass->color = parentClass->color;
-				}
-				if ( !derivedClass->sizeSpecified ) {
-					derivedClass->sizeSpecified = parentClass->sizeSpecified;
-					derivedClass->mins = parentClass->mins;
-					derivedClass->maxs = parentClass->maxs;
-				}
-
-				for ( const auto& [ key, attr ] : parentClass->m_attributes )
-				{
-					EntityClass_insertAttribute( *derivedClass, key.c_str(), attr );
-				}
-
-				for( size_t flag = 0; flag < MAX_FLAGS; ++flag ){
-					if( !parentClass->flagNames[flag].empty() && derivedClass->flagNames[flag].empty() ){
-						// strncpy( derivedClass->flagnames[flag], parentClass->flagnames[flag], std::size( derivedClass->flagnames[flag] ) - 1 );
-						derivedClass->flagNames[flag] = parentClass->flagNames[flag];
-						// this ptr ref is cool, but requires parents to stay alive (e.g. bases)
-						// non base parent also may be deleted during insertion to global entity stack, if entity is already present there
-						// derivedClass->flagAttributes[flag] = parentClass->flagAttributes[flag];
-						derivedClass->flagAttributes[flag] = &EntityClass_insertAttribute( *derivedClass,
-							parentClass->flagAttributes[flag]->m_name.c_str(),
-							*parentClass->flagAttributes[flag] ).second;
-					}
-				}
+			if ( auto baseClass = entities.find( baseClassName ); baseClass != entities.end() ) {
+				entityClass->m_parent.push_back( baseClassName );
+				addMiscToEntity( entityClass, baseClass->second );
+				addModelToEntity( entityClass, baseClass->second );
+				addSizeToEntity( entityClass, baseClass->second );
+				addColorToEntity( entityClass, baseClass->second );
+				addChoicesToEntity( entityClass, baseClass->second.fieldsWithChoices );
+				addIOToEntity( entityClass, baseClass->second.inputs, baseClass->second.outputs );
+				addFieldsToEntity( entityClass, baseClass->second.fields );
+				addFlagsToEntity( entityClass, baseClass->second.fieldsWithFlags );
+				addBaseAttributes( entityClass, entities, baseClass->second );
 			}
 		}
 	}
 }
-
 
 void Eclass_ScanFile_fgd( EntityClassCollector& collector, const char *filename ){
-	EntityClassFGD_loadUniqueFile( filename );
+	toolpp::FGD fgd = toolpp::FGD(filename);
+
+	const auto& materialExclusionDirs = fgd.getMaterialExclusionDirs();
+
+	g_ShaderExclusionDirs.clear();
+
+	for ( const auto& dir : materialExclusionDirs ) {
+		g_ShaderExclusionDirs.push_back(std::string{dir});
+	}
+
+	g_entityFlagFields.clear();
+
+	const auto& entities = fgd.getEntities();
+
+	if ( !entities.size() ) {
+		globalWarningStream() << "failed to load any entities from " << Quoted( filename ) << '\n';
+		return;
+	}
+
+	for ( const auto & [ entityName, entity ] : entities ) {
+		if ( entity.classType == "BaseClass" ) {
+			// base types
+			continue;
+		}
+
+		EntityClass* entityClass = Eclass_Alloc();
+		entityClass->free = &Eclass_Free;
+		entityClass->sizeSpecified = false;
+		entityClass->colorSpecified = false;
+		entityClass->inheritanceResolved = false;
+		entityClass->mins = Vector3( -8, -8, -8 );
+		entityClass->maxs = Vector3( 8, 8, 8 );
+		entityClass->color = Vector3( 0.7, 0.7, 0.7 );
+		entityClass->name_set( entityName.data() );
+		entityClass->m_comments = entity.description;
+		entityClass->has_angles = true;
+		entityClass->has_angles_key = true;
+
+		if ( entity.classType == "SolidClass" ) {
+			// solid types
+			entityClass->fixedsize = false;
+		} else if ( string_equal_suffix( entity.classType.data(), "Class" ) ) {
+			// all other class types are assumed to be point sized
+			entityClass->fixedsize = true;
+		}
+
+		addMiscToEntity( entityClass, entity );
+		addModelToEntity( entityClass, entity );
+		addSizeToEntity( entityClass, entity );
+		addColorToEntity( entityClass, entity );
+		addChoicesToEntity( entityClass, entity.fieldsWithChoices );
+		addIOToEntity( entityClass, entity.inputs, entity.outputs );
+		addFieldsToEntity( entityClass, entity.fields );
+		addFlagsToEntity( entityClass, entity.fieldsWithFlags );
+		addBaseAttributes( entityClass, entities, entity );
+
+		g_EntityClassFGD_classes.insert( EntityClasses::value_type( entityClass->name(), entityClass ) );
+	}
 }
 
 void EClass_finalize_fgd( EntityClassCollector& collector ){
-	for ( auto [ name, eclass ] : g_EntityClassFGD_classes )
-	{
-		EntityClassFGD_resolveInheritance( eclass );
-		if ( eclass->fixedsize && eclass->m_modelpath.empty() ) {
-			if ( !eclass->sizeSpecified ) {
-				globalErrorStream() << "size not specified for entity class: " << Quoted( eclass->name() ) << '\n';
-			}
-			if ( !eclass->colorSpecified ) {
-				globalErrorStream() << "color not specified for entity class: " << Quoted( eclass->name() ) << '\n';
-			}
-		}
-	}
-
 	for ( auto [ name, eclass ] : g_EntityClassFGD_classes )
 	{
 		eclass_capture_state( eclass );
@@ -681,7 +311,8 @@ void EClass_finalize_fgd( EntityClassCollector& collector ){
 	{
 		collector.insert( name.c_str(), list );
 	}
-	EntityClassFGD_clear();
+	g_EntityClassFGD_classes.clear();
+	g_listTypesFGD.clear();
 }
 
 

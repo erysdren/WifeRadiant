@@ -210,9 +210,9 @@ public:
 		if ( string_equal( type, "flag" ) ) {
 			std::size_t bit = atoi( element.attribute( "bit" ) );
 			ASSERT_MESSAGE( bit < MAX_FLAGS, "invalid flag bit" );
-			ASSERT_MESSAGE( entityClass->flagNames[bit].empty(), "non-unique flag bit" );
-			entityClass->flagNames[bit] = key;
-			entityClass->flagAttributes[bit] = m_attribute;
+			ASSERT_MESSAGE( entityClass->flags["spawnflags"].flags[bit].displayName.empty(), "non-unique flag bit" );
+			entityClass->flags["spawnflags"].flags[bit].displayName = key;
+			entityClass->flags["spawnflags"].flags[bit].attribute = m_attribute;
 		}
 		else if( entityClass->fixedsize && string_equal( type, "model" ) ){
 			entityClass->miscmodel_is = true;

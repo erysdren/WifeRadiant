@@ -69,6 +69,11 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 	- ~~FIXME: Doesn't load choice/list keyvalues.~~
 	- ~~FIXME: Doesn't write default keyvalues to the saved map, like Hammer does.~~
 	- ~~FIXME: Discards Source Entity I/O keys.~~
+	- FIXME: Duplicates keys and choices in some cases.
+- Hotspot Texturing (like Hammer++ and Source 2 Hammer)
+- Optionally parse Source Engine format `gameinfo.txt`
+	- Any gamepack type can use it for mounting directories into the editor, not just Source
+	- Supports `custom/*` recursive directory mounting, like Source does
 
 ### Can't Do (yet):
 
@@ -132,7 +137,7 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 	- ~~[https://wiki.stratasource.org/modding/formats/vtf-hotspot-resource](https://wiki.stratasource.org/modding/formats/vtf-hotspot-resource)~~
 	- ~~[https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format](https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format)~~
 	- ~~sourcepp supports `.hot` files and VTF hotspot resources~~
-- Optionally parse Source Engine `gameinfo.txt`
+- ~~Optionally parse Source Engine `gameinfo.txt`~~
 
 ### Random feature highlights
 

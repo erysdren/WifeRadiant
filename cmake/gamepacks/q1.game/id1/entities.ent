@@ -1,0 +1,1831 @@
+<?xml version="1.0"?>
+<classes>
+
+
+<point name="air_bubbles" color="0 .4 1" box="-8 -8 -8 8 8 8">
+Air bubbles. They disappear in Deathmatch.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="ambient_light_buzz" color="0.3 0.1 0.6" box="-10 -10 -8 10 10 8">
+Buzzing light.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="ambient_drip" color="0.3 0.1 0.6" box="-10 -10 -8 10 10 8">
+Dripping sound.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="ambient_drone" color="0.3 0.1 0.6" box="-10 -10 -8 10 10 8">
+Drone sound.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="ambient_comp_hum" color="0.3 0.1 0.6" box="-10 -10 -8 10 10 8">
+Computer sound.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="ambient_flouro_buzz" color="0.3 0.1 0.6" box="-10 -10 -8 10 10 8">
+Fluorescent light sound.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="ambient_suck_wind" color="0.3 0.1 0.6" box="-10 -10 -8 10 10 8">
+Wind sound.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="ambient_swamp1" color="0.3 0.1 0.6" box="-10 -10 -8 10 10 8">
+Swamp sound 1.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="ambient_swamp2" color="0.3 0.1 0.6" box="-10 -10 -8 10 10 8">
+Swamp sound 2.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="ambient_thunder" color="0.3 0.1 0.6" box="-10 -10 -8 10 10 8">
+Thunder sound.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="event_lightning" color="0 1 1" box="-16 -16 -16 16 16 16">
+Just for boss level. Used for killing Cthon.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<group name="func_bossgate" color="0 .4 1">
+This bmodel appears unless players have all of the episode sigils. Used to close the floor in start.map (stairs to Shub).
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<list name="ButtonSoundsList">
+  <item name="..." value=""/>
+  <item name="steam metal" value="0"/>
+  <item name="wooden clunk" value="1"/>
+  <item name="metallic click" value="2"/>
+  <item name="in-out" value="3"/>
+</list>
+
+
+<group name="func_button" color="0 .4 1">
+When a button is touched, it moves some distance in the direction of its angle, triggers all of its targets, waits some time, then returns to its original position where it can be triggered again.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<direction key="angle" name="Move Direction">determines the opening direction</direction>
+<target key="target" name="Target"> all entities with a matching targetname will be used</target>
+<target key="killtarget" name="Kill Target">kills the target when fired</target>
+<real key="speed" name="Move Speed" value="40">default is 40</real>
+<real key="wait" name="Return Delay" value="1">default is 1 (-1 = never return) - does not apply to doors that open with a key</real>
+<real key="lip" name="Lip" value="4">override the default 4 pixel lip remaining at end of move</real>
+<boolean key="health" name="Shootable">if set, the button must be killed instead of touched</boolean>
+<ButtonSoundsList key="sounds" name="Sounds">
+   0 : steam metal
+   1 : wooden clunk
+   2 : metallic click
+   3 : in-out</ButtonSoundsList>
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<list name="DoorSoundsList">
+  <item name="..." value=""/>
+  <item name="no sound" value="0"/>
+  <item name="stone" value="1"/>
+  <item name="base" value="2"/>
+  <item name="stone chain" value="3"/>
+  <item name="screechy metal" value="4"/>
+</list>
+
+
+<group name="func_door" color="0 .4 1">
+-------- FLAGS --------
+<flag key="START_OPEN" name="Start Open" bit="0">Causes the door to move to its destination when spawned, and operate in reverse.</flag>
+<flag key="DOOR_DONT_LINK" name="Don't Link" bit="2"/>If multiple doors touch, they are assumed to be connected and operate as a unit. Setting this spawnflags avoids the door being linked to others.
+<flag key="GOLD_KEY" name="Gold Key" bit="3"/>The door requires the gold key to open.
+<flag key="SILVER_KEY" name="Silver Key" bit="4"/>The door requires the silver key to open.
+<flag key="TOGGLE" name="Toggle" bit="5">Causes the door to wait in both the start and end states for a trigger event.</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<string key="message" name="Message">is printed when the door is touched if it is a trigger door and it hasn't been fired yet</string>
+<direction key="angle" name="Opening Direction">determines the opening direction</direction>
+<targetname key="targetname" name="Targetname">if set, no touch field will be spawned and a remote button or trigger field activates the door.</targetname>
+<boolean key="health" name="Shootable">if set, door must be shot open</boolean>
+<real key="speed" name="Move Speed" value="100">movement speed (100 default)</real>
+<real key="wait" name="Return Delay" value="3">wait before returning (3 is default, -1 = never return)</real>
+<real key="lip" name="Lip" value="8">lip remaining at end of move. 8 is default</real>
+<real key="dmg" name="Damage Inflicted" value="2">damage to inflict when blocked. 2 is default</real>
+<DoorSoundsList key="sounds" name="Sounds">
+   0 : no sound
+   1 : stone
+   2 : base
+   3 : stone chain
+   4 : screechy metal</DoorSoundsList>
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<list name="DoorSecretSoundsList">
+  <item name="..." value=""/>
+  <item name="medieval" value="0"/>
+  <item name="metal" value="1"/>
+  <item name="base" value="2"/>
+</list>
+
+
+<group name="func_door_secret" color="0 .4 1">
+Basic secret door. Slides back, then to the side. Angle determines direction.
+-------- FLAGS --------
+<flag key="open_once" name="Open Once" bit="0">stays open</flag>
+<flag key="1st_left" name="First Left" bit="1">1st move is left of arrow</flag>
+<flag key="1st_down" name="First Down" bit="2">1st move is down from arrow</flag>
+<flag key="no_shoot" name="Not Shootable" bit="3">only opened by trigger</flag>
+<flag key="always_shoot" name="Always Shootable" bit="4">even if targeted, keep shootable</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<real key="wait" name="Return Delay"># of seconds before closing</real>
+<real key="t_width" name="First Distance">override Width to move back (or height if going down)</real>
+<real key="t_length" name="Second Distance">override Length to move sideways</real>
+<real key="dmg" name="Damage Inflicted" value="2">damage to inflict when blocked (2 default)</real>
+<targetname key="targetname" name="Targetname">If a secret door has a targetname, it will only be opened by a button or trigger, not by damage.</targetname>
+<DoorSecretSoundsList key="sounds" name="Sounds">
+   1 : medieval
+   2 : metal
+   3 : base</DoorSecretSoundsList>
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<group name="func_episodegate" color="0 .4 1">
+This entity will appear if the player was possession of the corresponding item_sigil entity at the time the level was started (it won't appear if the player acquires the sigil while playing the current level).  It is expected that the player acquires an item_sigil after completing an episode and that the func_episodegate entity is placed in front of the trigger_changelevel entity that changes to the corresponding episode.  This way, the game will block access to the episodes that the player has already completed.
+-------- FLAGS --------
+<flag key="E1" name="Episode 1" bit="0"/>
+<flag key="E2" name="Episode 2" bit="1"/>
+<flag key="E3" name="Episode 3" bit="2"/>
+<flag key="E4" name="Episode 4" bit="3"/>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<group name="func_illusionary" color="0 .4 1">
+A simple entity that looks solid but lets you walk through it. Does not block light.
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_mirrorinside" name="Mirror Inside">Set to 1 to save mirrored inside faces for bmodels, so when the player view is inside the bmodel, they will still see the faces. (e.g. for func_water, or func_illusionary)</boolean>
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</group>
+
+
+<group name="func_wall" color="0 .4 1">
+This is just a solid wall if not inhibited. Changes its texture(s) to alternate ones (e.g. basebtn), if targeted.
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</group>
+
+
+<list name="TrainSoundsList">
+  <item name="..." value=""/>
+  <item name="ratchet metal" value="1"/>
+</list>
+
+
+<group name="func_train" color="0 .4 1">
+Trains are moving platforms that players can ride. The target's origin specifies the min point of the train at each corner. The train spawns at the first target it is pointing at.Use path_corner as targets.
+If the train itself is the target of a button or trigger, it will not begin moving until activated.
+-------- KEYS --------
+<real key="speed" name="Move Speed" value="100">moving speed, default is 100</real>
+<real key="dmg" name="Damage Inflicted" value="2">damage, default is 2</real>
+<TrainSoundsList key="sounds" name="Sounds">
+   1 : ratchet metal</TrainSoundsList>
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</group>
+
+
+<list name="PlatSoundsList">
+  <item name="..." value=""/>
+  <item name="base fast" value="1"/>
+  <item name="chain slow" value="2"/>
+</list>
+
+
+<group name="func_plat" color="0 .4 1">
+Plats are always drawn in the extended position, so they will light correctly. If the plat is the target of another trigger or button, it will start out disabled in the extended position until it is triggered, when it will lower and become a normal plat.
+-------- FLAGS --------
+<flag key="PLAT_LOW_TRIGGER" name="Low Trigger" bit="0"/>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<real key="speed" name="Move Speed" value="150">moving speed, default is 150</real>
+<real key="height" name="Height">determines the amount the plat moves, instead of being implicitly determined by the model's height.</real>
+<PlatSoundsList key="sounds" name="Sounds">
+   1 : base fast
+   2 : chain slow</PlatSoundsList>
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<group name="func_detail" color=".5 .5 .5">
+Non-standard entity - requires tyrutils/ericw-tools.
+Detail brushes add visual details to the world, but do not block visibility. func_detail entities are merged into the worldspawn entity by the QBSP compiler and do not appear as separate entities in the compiled bsp.
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<group name="func_detail_illusionary" color=".5 .5 .5">
+Non-standard entity - requires ericw-tools.
+func_detail variant with no collision (players / monsters / gunfire) and doesn't split world faces. Doesn't cast shadows unless enabled with "_shadow" "1". Useful for hanging vines. Still creates BSP leafs, which is unavoidable without a new .bsp file format.
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_mirrorinside" name="Mirror Inside">Set to 1 to save mirrored inside faces for bmodels, so when the player view is inside the bmodel, they will still see the faces. (e.g. for func_water, or func_illusionary)</boolean>
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<group name="func_detail_wall" color=".5 .5 .5">
+Non-standard entity - requires ericw-tools.
+func_detail variant that doesn't split world faces. Useful for when you want a decoration touching a floor or wall to not split the floor/wall faces (you'll get some overdraw instead.) If it completely covers up a world face, that face will get clipped away, so it's not suitable for fence textures, see func_detail_fence instead.
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<group name="func_detail_fence" color=".5 .5 .5">
+Non-standard entity - requires ericw-tools.
+Similar to func_detail_wall except it's suitable for fence textures, never clips away world faces. Useful for fences, grates, etc., that are solid and block gunfire.
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_mirrorinside" name="Mirror Inside">Set to 1 to save mirrored inside faces for bmodels, so when the player view is inside the bmodel, they will still see the faces. (e.g. for func_water, or func_illusionary)</boolean>
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<group name="func_illusionary_visblocker" color=".5 .5 .5">
+Non-standard entity - requires ericw-tools.
+For creating vis-blocking illusionary brushes (similar to "func_detail_illusionary" or "func_illusionary". The player can walk through them.) This gives the same effect as water brushes when the "-notranswater" flag is used, except the interior of these brushes are saved as CONTENTS_EMPTY. One thing to be aware of is, if the player's view is very close to the faces of these brushes, they might be able to see into the void (depending on the engine). Fitzquake family engines have a workaround for this that is enabled if the brushes are textured with a water texture ("*" prefix).
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<group name="func_group" color="0 .4375 .7">
+Detail brushes add visual details to the world, but do not block visibility. func_group entities are merged into the worldspawn entity by the QBSP compiler and do not appear as separate entities in the compiled bsp. Non-standard entitiy - requires compiler support!
+-------- ERICW-TOOLS OPTIONS --------
+<boolean key="_dirt" name="Dirt">For brush models, -1 prevents dirtmapping on the brush model. Useful if the bmodel touches or sticks into the world, and you want to prevent those areas from turning black. Default 0.</boolean>
+<boolean key="_phong" name="Phong">1 enables phong shading on this model with a default _phong_angle of 89 (softens columns etc).</boolean>
+<real key="_phong_angle" name="Phong Angle" value="89">Enables phong shading on faces of this model with a custom angle. Adjacent faces with normals this many degrees apart (or less) will be smoothed. Consider setting "_anglescale" to "1" on lights or worldspawn to make the effect of phong shading more visible. Use the "-phongdebug" command-line flag to save the interpolated normals to the lightmap for previewing (use "r_lightmap 1" or "gl_lightmaps 1" in your engine to preview.)</real>
+<real key="_phong_angle_concave" name="Phong Angle Concave">Enables phong shading on faces of this model with a "concave" angle.</real>
+<real key="_minlight" name="Minlight" value="0">Set the minimum light level for any surface of the brush model. Default 0.</real>
+<texture key="_minlight_exclude" name="Minlight Exclude">Faces with the given texture are excluded from receiving minlight on this brush model.</texture>
+<boolean key="_lightignore" name="Light Ignore">1 makes a model receive minlight only, ignoring all lights / sunlight. Could be useful on rotators / trains.</boolean>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<boolean key="_shadow" name="Shadow">If n is 1, this model will cast shadows on other models and itself (i.e. "_shadow" implies "_shadowself"). Note that this doesn't magically give Quake dynamic lighting powers, so the shadows will not move if the model moves. Default 0.</boolean>
+<boolean key="_shadowself" name="Shadowself">If n is 1, this model will cast shadows on itself if one part of the model blocks the light from another model surface. This can be a better compromise for moving models than full shadowing. Default 0.</boolean>
+<boolean key="_shadowworldonly" name="Shadow World Only">If n is 1, this model will cast shadows on the world only (not other bmodels).</boolean>
+<boolean key="_switchableshadow" name="Switchable Shadow">If n is 1, this model casts a shadow that can be switched on/off using QuakeC. To make this work, a lightstyle is automatically assigned and stored in a key called "switchshadstyle", which the QuakeC will need to read and call the "lightstyle()" builtin with "a" or "m" to switch the shadow on or off. Entities sharing the same targetname, and with "_switchableshadow" set to 1, will share the same lightstyle</boolean>
+<real key="_lmscale" name="Lightmap Scale">Generates an LMSHIFT bspx lump for use by a light util. Note that both scaled and unscaled lighting will normally be used.</real>
+</group>
+
+
+<point name="info_null" color="0 0.5 0" box="-4 -4 -4 4 4 4">
+Invisible entity. Used as a positional target for spotlights, etc. Removes itself.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="info_notnull" color="0 0.5 0" box="-4 -4 -4 4 4 4">
+Invisible entity. Used as a positional target for lightning.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="info_intermission" color="1 0.5 0.5" box="-16 -16 -16 16 16 16">
+This is the camera point for the intermission. Use mangle instead of angle, so you can set pitch or roll as well as yaw. Quake does a random pick if more than one exists. If no info_intermission entity is set, Quake uses the player start.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<angle key="angle" name="Yaw angle">set yaw angle</angle>
+<angles key="mangle" name="Pitch Yaw Roll">set pitch yaw roll</angles>
+</point>
+
+
+<point name="info_player_start" model="progs/player.mdl" color="1 0 0" box="-16 -16 -24 16 16 32">
+The normal starting point for a level. Only one is allowed.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">viewing angle when spawning</angle>
+</point>
+
+
+<point name="info_player_deathmatch" model="progs/player.mdl" color="1 0 1" box="-16 -16 -24 16 16 32">
+Potential spawning position(s) for deathmatch games.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">viewing angle when spawning</angle>
+</point>
+
+
+<point name="info_player_coop" model="progs/player.mdl" color="1 0 1" box="-16 -16 -24 16 16 32">
+Potential spawning position(s) for coop games.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">viewing angle when spawning</angle>
+</point>
+
+
+<point name="info_player_start2" model="progs/player.mdl" color="1 0 0" box="-16 -16 -24 16 16 32">
+Alternate starting point for a level if the player carries a sigil.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">viewing angle when spawning</angle>
+</point>
+
+
+<point name="info_teleport_destination" color="0.5 0.5 0.5" box="-8 -8 -8 8 8 32">
+This is the destination marker for a teleporter.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">value used by teleporter</targetname>
+<angle key="angle" name="Yaw Angle">new view angle after teleporting</angle>
+</point>
+
+
+<point name="item_cells" model="md3/editor_batt1.md3" color="0 0 .5" box="0 0 0 32 32 56">
+6 or 12 (big) ammo points (cells) for the Thunderbolt (Lightning Gun).
+-------- FLAGS --------
+<flag key="big" name="Big" bit="0">gives 12 instead of 6</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_rockets" model="md3/editor_rocks0.md3" color="0 0 .5" box="0 0 0 32 32 56">
+5 ammo points (rockets) for the Rocket/Grenade Launcher.
+-------- FLAGS --------
+<flag key="big" name="Big" bit="0">gives 10 instead of 5</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_shells" model="md3/editor_shells1.md3" color="0 0 .5" box="0 0 0 32 32 56">
+20 shells for both Shotgun and Super Shotgun.
+-------- FLAGS --------
+<flag key="big" name="Big" bit="0">gives 40 instead of 20</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_spikes" model="md3/editor_nails1.md3" color="0 0 .5" box="0 0 0 32 32 56">
+25 ammo points (spikes) for Perforator and Super Perforator.
+-------- FLAGS --------
+<flag key="big" name="Big" bit="0">gives 50 instead of 25</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_health" model="md3/editor_h25.md3" color=".4 0 .1" box="0 0 0 32 32 56">
+Health box. Gives 25 points.
+-------- FLAGS --------
+<flag key="rotten" name="Rotten" bit="0">gives 15 points</flag>
+<flag key="megahealth" name="Mega" bit="1">will add 100 health, then rot down to the maximum health limit, one point per second</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_artifact_envirosuit" model="progs/suit.mdl" color=".3 .7 0" box="-16 -16 -24 16 16 32">
+Player takes no damage from water or slime for 30 seconds.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_artifact_invulnerability" model="progs/invulner.mdl" color=".6 0 .1" box="-16 -16 -24 16 16 32">
+Player is invulnerable for 30 seconds.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_artifact_invisibility" model="progs/invisibl.mdl" color="1 .6 .1" box="-16 -16 -24 16 16 32">
+Player is invisible for 30 seconds.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_artifact_super_damage" model="progs/quaddama.mdl" color=".3 .3 .7" box="-16 -16 -24 16 16 32">
+The next attack from the player will do 4x damage. Lasts 30 seconds.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_armorInv" model="progs/armor.mdl" color=".6 0 .1" box="-16 -16 0 16 16 56">
+Red armor, gives 200 armor points.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_armor2" model="progs/armor.mdl" color=".8 .6 .1" box="-16 -16 0 16 16 56">
+Yellow armor, gives 150 points.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_armor1" model="progs/armor.mdl" color=".1 .6 .3" box="-16 -16 0 16 16 56">
+Green armor, gives 100 points.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_key1" model="progs/m_s_key.mdl" color=".1 .1 .2" box="-16 -16 -24 16 16 32">
+SILVER key. In order for keys to work you MUST set your maps worldtype(see worldspawn).
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_key2" model="progs/m_g_key.mdl" color="1 .6 .1" box="-16 -16 -24 16 16 32">
+GOLD key. In order for keys to work you MUST set your maps worldtype (see worldspawn).
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="item_sigil" model="progs/end1.mdl" color="0.33 0.17 0.22" box="-16 -16 -24 16 16 32">
+End of episode sigil.  If the player is in possession of a sigil, then the next time the player changes levels, all func_episodegate entities for that episode will appear.  This is used to block access to slipgates that lead to episodes that the player has already completed.  If the player is in possession of the item_sigil for all four episodes, then the func_bossgate entity will NOT appear.  This is used to grant access to the final boss once the player has completed all episodes.
+-------- FLAGS --------
+<flag key="E1" name="Episode 1" bit="0">This is the sigil for episode 1</flag>
+<flag key="E2" name="Episode 2" bit="1">This is the sigil for episode 2</flag>
+<flag key="E3" name="Episode 3" bit="2">This is the sigil for episode 3</flag>
+<flag key="E4" name="Episode 4" bit="3">This is the sigil for episode 4</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<list name="LightAttenuationList">
+  <item name="Linear" value="0"/>
+  <item name="1/x" value="1"/>
+  <item name="1/(x^2)" value="2"/>
+  <item name="None" value="3"/>
+  <item name="Minlight" value="4"/>
+  <item name="1/(x^2)++" value="5"/>
+</list>
+
+<list name="LightStyleList">
+  <item name="normal" value="0"/>
+  <item name="flicker 1" value="1"/>
+  <item name="slow strong pulse" value="2"/>
+  <item name="candle 1" value="3"/>
+  <item name="fast strobe" value="4"/>
+  <item name="gentle pulse" value="5"/>
+  <item name="flicker 2" value="6"/>
+  <item name="candle 2" value="7"/>
+  <item name="candle 3" value="8"/>
+  <item name="slow strobe" value="9"/>
+  <item name="fluorescent flicker" value="10"/>
+  <item name="slow pulse" value="11"/>
+</list>
+
+
+<point name="light" color="0 1 0" box="-8 -8 -8 8 8 8">
+Light entity keys can be used in any entity with a classname starting with the first five letters "light". E.g. "light", "light_globe", "light_flame_small_yellow", etc.
+If targeted, it will toggle between on and off.
+-------- FLAGS --------
+<flag key="START_OFF" name="Start off" bit="0"/>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">Turns the light into a switchable light, toggled by another entity targeting it's name.</targetname>
+<LightStyleList key="style" name="Light Style" value="0">
+    0 : normal (default)
+    1 : flicker (first variety)
+    2 : slow strong pulse
+    3 : candle (first variety)
+    4 : fast strobe
+    5 : gentle pulse
+    6 : flicker (second variety)
+    7 : candle (second variety)
+    8 : candle (third variety)
+    9 : slow strobe
+   10 : fluorescent flicker
+   11 : slow pulse, not fading to black
+styles 32-62 are assigned by the light program for switchable lights.</LightStyleList>
+-------- COMPILER KEYS --------
+<integer key="light" name="Brightness" value="300">Set the light intensity. Negative values are also allowed and will cause the entity to subtract light cast by other entities. Default 300.</integer>
+<real key="wait" name="Fade distance scale" value="1">Scale the fade distance of the light by "n". Values greater than 1 make the light fade more quickly with distance, and values less than 1 make the light fade more slowly (and thus reach further). Default 1.</real>
+<LightAttenuationList key="delay" name="Light Attenuation" value="0">Select an attenuation formula for the light:
+   0 : Linear attenuation (default)
+   1 : 1/x attenuation
+   2 : 1/(x^2) attenuation
+   3 : No attenuation (same brightness at any distance)
+   4 : "local minlight" - No attenuation and like minlight, it won't raise the lighting above it's light value. Unlike minlight, it will only affect surfaces within line of sight of the entity.
+   5 : 1/(x^2) attenuation, but slightly more attenuated and without the extra bright effect that "delay 2" has near the source.</LightAttenuationList>
+<real key="_falloff" name="Falloff">Sets the distance at which the light drops to 0, in map units. In this mode, "wait" is ignored and "light" only controls the brightness at the center of the light, and no longer affects the falloff distance. Only supported on linear attenuation (delay 0) lights currently.</real>
+<color key="_color" name="Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the light. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<target key="target" name="Target">Turns the light into a spotlight, with the direction of light being towards another entity with it's "targetname" key set to "name".</target>
+<real3 key="mangle" name="Spotlight direction">Turns the light into a spotlight and specifies the direction of light using yaw, pitch and roll in degrees. Yaw specifies the angle around the Z-axis from 0 to 359 degrees and pitch specifies the angle from 90 (straight up) to -90 (straight down). Roll has no effect, so use any value (e.g. 0). Often easier than the "target" method.</real3>
+<real key="angle" name="Spotlight cone angle" value="40">Specifies the angle in degrees for a spotlight cone. Default 40.</real>
+<real key="_softangle" name="Softangle" value="0">Specifies the angle in degrees for an inner spotlight cone (must be less than the "angle" cone. Creates a softer transition between the full brightness of the inner cone to the edge of the outer cone. Default 0 (disabled).</real>
+<real key="_anglescale" name="Anglescale" value="0.5">Sets a scaling factor for how much influence the angle of incidence of light on a surface has on the brightness of the surface. n must be between 0.0 and 1.0. Smaller values mean less attenuation, with zero meaning that angle of incidence has no effect at all on the brightness. Default 0.5. [_anglesense]</real>
+<real key="_bouncescale" name="Bounce Scale" value="1">Scales the amount of light that is contributed by bounces. Default is 1.0, 0.0 disables bounce lighting for this light.</real>
+<real key="_dirtscale" name="Dirtscale" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<real key="_dirtgain" name="Dirtgain" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<integer key="_dirt" name="Dirt">Overrides the worldspawn setting of "_dirt" for this particular light. -1 to disable dirtmapping (ambient occlusion) for this light, making it illuminate the dirtmapping shadows. 1 to enable ambient occlusion for this light. Default is to defer to the worldspawn setting.</integer>
+<integer key="_deviance" name="Deviance" value="0">Split up the light into a sphere of randomly positioned lights within radius "n" (in world units). Useful to give shadows a wider penumbra. "_samples" specifies the number of lights in the sphere. The "light" value is automatically scaled down for most lighting formulas (except linear and non-additive minlight) to attempt to keep the brightness equal. Default is 0, do not split up lights.</integer>
+<integer key="_samples" name="Samples" value="16">Number of lights to use for "_deviance". Default 16 (only used if "_deviance" is set).</integer>
+
+<texture key="_surface" name="Surface">Makes surfaces with the given texturename (e.g. *lava1) emit light, by using this light as a template which is copied across those surfaces. Lights are spaced about 128 units (though possibly closer due to bsp splitting) apart and positioned 2 units above the surfaces.</texture>
+<real key="_surface_offset" name="Surface Offset" value="2">Controls the offset lights are placed above surfaces for "_surface". Default 2.</real>
+<boolean key="_surface_spotlight" name="Surface Spotlight">For a surface light template (i.e. a light with "_surface" set), setting this to "1" makes each instance into a spotlight, with the direction of light pointing along the surface normal. In other words, it automatically sets "mangle" on each of the generated lights.</boolean>
+<texture key="_project_texture" name="Project Texture">Specifies that a light should project this texture. The texture must be used in the map somewhere.</texture>
+<real key="_project_fov" name="Project FOV">Specifies the fov angle for a texture projection.</real>
+<real3 key="_project_mangle" name="Project Mangle">Specifies the yaw/pitch/roll angles for a texture projection (overriding mangle).</real3>
+<boolean key="_sun" name="Sun">Set to 1 to make this entity a sun, as an alternative to using the sunlight worldspawn keys. If the light targets an info_null entity, the direction towards that entity sets sun direction. The light itself is disabled, so it can be placed anywhere in the map.
+The following light properties correspond to these sunlight settings:
+   light =&gt; _sunlight
+   mangle =&gt; _sunlight_mangle
+   deviance =&gt; _sunlight_penumbra
+   _color =&gt; _sunlight_color
+   _dirt =&gt; _sunlight_dirt
+   _anglescale =&gt; _anglescale</boolean>
+</point>
+
+
+<point name="light_torch_small_walltorch" model="progs/flame.mdl" color="0 .5 0" box="-4 -4 -12 4 4 20">
+Short wall torch.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">Turns the light into a switchable light, toggled by another entity targeting it's name.</targetname>
+<LightStyleList key="style" name="Light Style" value="0">
+    0 : normal (default)
+    1 : flicker (first variety)
+    2 : slow strong pulse
+    3 : candle (first variety)
+    4 : fast strobe
+    5 : gentle pulse
+    6 : flicker (second variety)
+    7 : candle (second variety)
+    8 : candle (third variety)
+    9 : slow strobe
+   10 : fluorescent flicker
+   11 : slow pulse, not fading to black
+styles 32-62 are assigned by the light program for switchable lights.</LightStyleList>
+-------- COMPILER KEYS --------
+<integer key="light" name="Brightness" value="300">Set the light intensity. Negative values are also allowed and will cause the entity to subtract light cast by other entities. Default 300.</integer>
+<real key="wait" name="Fade distance scale" value="1">Scale the fade distance of the light by "n". Values greater than 1 make the light fade more quickly with distance, and values less than 1 make the light fade more slowly (and thus reach further). Default 1.</real>
+<LightAttenuationList key="delay" name="Light Attenuation" value="0">Select an attenuation formula for the light:
+   0 : Linear attenuation (default)
+   1 : 1/x attenuation
+   2 : 1/(x^2) attenuation
+   3 : No attenuation (same brightness at any distance)
+   4 : "local minlight" - No attenuation and like minlight, it won't raise the lighting above it's light value. Unlike minlight, it will only affect surfaces within line of sight of the entity.
+   5 : 1/(x^2) attenuation, but slightly more attenuated and without the extra bright effect that "delay 2" has near the source.</LightAttenuationList>
+<real key="_falloff" name="Falloff">Sets the distance at which the light drops to 0, in map units. In this mode, "wait" is ignored and "light" only controls the brightness at the center of the light, and no longer affects the falloff distance. Only supported on linear attenuation (delay 0) lights currently.</real>
+<color key="_color" name="Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the light. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<target key="target" name="Target">Turns the light into a spotlight, with the direction of light being towards another entity with it's "targetname" key set to "name".</target>
+<real3 key="mangle" name="Spotlight direction">Turns the light into a spotlight and specifies the direction of light using yaw, pitch and roll in degrees. Yaw specifies the angle around the Z-axis from 0 to 359 degrees and pitch specifies the angle from 90 (straight up) to -90 (straight down). Roll has no effect, so use any value (e.g. 0). Often easier than the "target" method.</real3>
+<real key="angle" name="Spotlight cone angle" value="40">Specifies the angle in degrees for a spotlight cone. Default 40.</real>
+<real key="_softangle" name="Softangle" value="0">Specifies the angle in degrees for an inner spotlight cone (must be less than the "angle" cone. Creates a softer transition between the full brightness of the inner cone to the edge of the outer cone. Default 0 (disabled).</real>
+<real key="_anglescale" name="Anglescale" value="0.5">Sets a scaling factor for how much influence the angle of incidence of light on a surface has on the brightness of the surface. n must be between 0.0 and 1.0. Smaller values mean less attenuation, with zero meaning that angle of incidence has no effect at all on the brightness. Default 0.5. [_anglesense]</real>
+<real key="_bouncescale" name="Bounce Scale" value="1">Scales the amount of light that is contributed by bounces. Default is 1.0, 0.0 disables bounce lighting for this light.</real>
+<real key="_dirtscale" name="Dirtscale" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<real key="_dirtgain" name="Dirtgain" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<integer key="_dirt" name="Dirt">Overrides the worldspawn setting of "_dirt" for this particular light. -1 to disable dirtmapping (ambient occlusion) for this light, making it illuminate the dirtmapping shadows. 1 to enable ambient occlusion for this light. Default is to defer to the worldspawn setting.</integer>
+<integer key="_deviance" name="Deviance" value="0">Split up the light into a sphere of randomly positioned lights within radius "n" (in world units). Useful to give shadows a wider penumbra. "_samples" specifies the number of lights in the sphere. The "light" value is automatically scaled down for most lighting formulas (except linear and non-additive minlight) to attempt to keep the brightness equal. Default is 0, do not split up lights.</integer>
+<integer key="_samples" name="Samples" value="16">Number of lights to use for "_deviance". Default 16 (only used if "_deviance" is set).</integer>
+</point>
+
+
+<point name="light_flame_large_yellow" model="progs/flame2.mdl" color="0 1 0" box="-8 -8 -12 8 8 20">
+Large yellow flames.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">Turns the light into a switchable light, toggled by another entity targeting it's name.</targetname>
+<LightStyleList key="style" name="Light Style" value="0">
+    0 : normal (default)
+    1 : flicker (first variety)
+    2 : slow strong pulse
+    3 : candle (first variety)
+    4 : fast strobe
+    5 : gentle pulse
+    6 : flicker (second variety)
+    7 : candle (second variety)
+    8 : candle (third variety)
+    9 : slow strobe
+   10 : fluorescent flicker
+   11 : slow pulse, not fading to black
+styles 32-62 are assigned by the light program for switchable lights.</LightStyleList>
+-------- COMPILER KEYS --------
+<integer key="light" name="Brightness" value="300">Set the light intensity. Negative values are also allowed and will cause the entity to subtract light cast by other entities. Default 300.</integer>
+<real key="wait" name="Fade distance scale" value="1">Scale the fade distance of the light by "n". Values greater than 1 make the light fade more quickly with distance, and values less than 1 make the light fade more slowly (and thus reach further). Default 1.</real>
+<LightAttenuationList key="delay" name="Light Attenuation" value="0">Select an attenuation formula for the light:
+   0 : Linear attenuation (default)
+   1 : 1/x attenuation
+   2 : 1/(x^2) attenuation
+   3 : No attenuation (same brightness at any distance)
+   4 : "local minlight" - No attenuation and like minlight, it won't raise the lighting above it's light value. Unlike minlight, it will only affect surfaces within line of sight of the entity.
+   5 : 1/(x^2) attenuation, but slightly more attenuated and without the extra bright effect that "delay 2" has near the source.</LightAttenuationList>
+<real key="_falloff" name="Falloff">Sets the distance at which the light drops to 0, in map units. In this mode, "wait" is ignored and "light" only controls the brightness at the center of the light, and no longer affects the falloff distance. Only supported on linear attenuation (delay 0) lights currently.</real>
+<color key="_color" name="Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the light. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<target key="target" name="Target">Turns the light into a spotlight, with the direction of light being towards another entity with it's "targetname" key set to "name".</target>
+<real3 key="mangle" name="Spotlight direction">Turns the light into a spotlight and specifies the direction of light using yaw, pitch and roll in degrees. Yaw specifies the angle around the Z-axis from 0 to 359 degrees and pitch specifies the angle from 90 (straight up) to -90 (straight down). Roll has no effect, so use any value (e.g. 0). Often easier than the "target" method.</real3>
+<real key="angle" name="Spotlight cone angle" value="40">Specifies the angle in degrees for a spotlight cone. Default 40.</real>
+<real key="_softangle" name="Softangle" value="0">Specifies the angle in degrees for an inner spotlight cone (must be less than the "angle" cone. Creates a softer transition between the full brightness of the inner cone to the edge of the outer cone. Default 0 (disabled).</real>
+<real key="_anglescale" name="Anglescale" value="0.5">Sets a scaling factor for how much influence the angle of incidence of light on a surface has on the brightness of the surface. n must be between 0.0 and 1.0. Smaller values mean less attenuation, with zero meaning that angle of incidence has no effect at all on the brightness. Default 0.5. [_anglesense]</real>
+<real key="_bouncescale" name="Bounce Scale" value="1">Scales the amount of light that is contributed by bounces. Default is 1.0, 0.0 disables bounce lighting for this light.</real>
+<real key="_dirtscale" name="Dirtscale" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<real key="_dirtgain" name="Dirtgain" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<integer key="_dirt" name="Dirt">Overrides the worldspawn setting of "_dirt" for this particular light. -1 to disable dirtmapping (ambient occlusion) for this light, making it illuminate the dirtmapping shadows. 1 to enable ambient occlusion for this light. Default is to defer to the worldspawn setting.</integer>
+<integer key="_deviance" name="Deviance" value="0">Split up the light into a sphere of randomly positioned lights within radius "n" (in world units). Useful to give shadows a wider penumbra. "_samples" specifies the number of lights in the sphere. The "light" value is automatically scaled down for most lighting formulas (except linear and non-additive minlight) to attempt to keep the brightness equal. Default is 0, do not split up lights.</integer>
+<integer key="_samples" name="Samples" value="16">Number of lights to use for "_deviance". Default 16 (only used if "_deviance" is set).</integer>
+</point>
+
+
+<point name="light_flame_small_yellow" model="progs/flame2.mdl" color="0 1 0" box="-4 -4 -12 4 4 20">
+Small yellow flames.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">Turns the light into a switchable light, toggled by another entity targeting it's name.</targetname>
+<LightStyleList key="style" name="Light Style" value="0">
+    0 : normal (default)
+    1 : flicker (first variety)
+    2 : slow strong pulse
+    3 : candle (first variety)
+    4 : fast strobe
+    5 : gentle pulse
+    6 : flicker (second variety)
+    7 : candle (second variety)
+    8 : candle (third variety)
+    9 : slow strobe
+   10 : fluorescent flicker
+   11 : slow pulse, not fading to black
+styles 32-62 are assigned by the light program for switchable lights.</LightStyleList>
+-------- COMPILER KEYS --------
+<integer key="light" name="Brightness" value="300">Set the light intensity. Negative values are also allowed and will cause the entity to subtract light cast by other entities. Default 300.</integer>
+<real key="wait" name="Fade distance scale" value="1">Scale the fade distance of the light by "n". Values greater than 1 make the light fade more quickly with distance, and values less than 1 make the light fade more slowly (and thus reach further). Default 1.</real>
+<LightAttenuationList key="delay" name="Light Attenuation" value="0">Select an attenuation formula for the light:
+   0 : Linear attenuation (default)
+   1 : 1/x attenuation
+   2 : 1/(x^2) attenuation
+   3 : No attenuation (same brightness at any distance)
+   4 : "local minlight" - No attenuation and like minlight, it won't raise the lighting above it's light value. Unlike minlight, it will only affect surfaces within line of sight of the entity.
+   5 : 1/(x^2) attenuation, but slightly more attenuated and without the extra bright effect that "delay 2" has near the source.</LightAttenuationList>
+<real key="_falloff" name="Falloff">Sets the distance at which the light drops to 0, in map units. In this mode, "wait" is ignored and "light" only controls the brightness at the center of the light, and no longer affects the falloff distance. Only supported on linear attenuation (delay 0) lights currently.</real>
+<color key="_color" name="Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the light. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<target key="target" name="Target">Turns the light into a spotlight, with the direction of light being towards another entity with it's "targetname" key set to "name".</target>
+<real3 key="mangle" name="Spotlight direction">Turns the light into a spotlight and specifies the direction of light using yaw, pitch and roll in degrees. Yaw specifies the angle around the Z-axis from 0 to 359 degrees and pitch specifies the angle from 90 (straight up) to -90 (straight down). Roll has no effect, so use any value (e.g. 0). Often easier than the "target" method.</real3>
+<real key="angle" name="Spotlight cone angle" value="40">Specifies the angle in degrees for a spotlight cone. Default 40.</real>
+<real key="_softangle" name="Softangle" value="0">Specifies the angle in degrees for an inner spotlight cone (must be less than the "angle" cone. Creates a softer transition between the full brightness of the inner cone to the edge of the outer cone. Default 0 (disabled).</real>
+<real key="_anglescale" name="Anglescale" value="0.5">Sets a scaling factor for how much influence the angle of incidence of light on a surface has on the brightness of the surface. n must be between 0.0 and 1.0. Smaller values mean less attenuation, with zero meaning that angle of incidence has no effect at all on the brightness. Default 0.5. [_anglesense]</real>
+<real key="_bouncescale" name="Bounce Scale" value="1">Scales the amount of light that is contributed by bounces. Default is 1.0, 0.0 disables bounce lighting for this light.</real>
+<real key="_dirtscale" name="Dirtscale" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<real key="_dirtgain" name="Dirtgain" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<integer key="_dirt" name="Dirt">Overrides the worldspawn setting of "_dirt" for this particular light. -1 to disable dirtmapping (ambient occlusion) for this light, making it illuminate the dirtmapping shadows. 1 to enable ambient occlusion for this light. Default is to defer to the worldspawn setting.</integer>
+<integer key="_deviance" name="Deviance" value="0">Split up the light into a sphere of randomly positioned lights within radius "n" (in world units). Useful to give shadows a wider penumbra. "_samples" specifies the number of lights in the sphere. The "light" value is automatically scaled down for most lighting formulas (except linear and non-additive minlight) to attempt to keep the brightness equal. Default is 0, do not split up lights.</integer>
+<integer key="_samples" name="Samples" value="16">Number of lights to use for "_deviance". Default 16 (only used if "_deviance" is set).</integer>
+</point>
+
+
+<point name="light_flame_small_white"  model="progs/flame2.mdl" color="0 1 0" box="-4 -4 -12 4 4 20">
+Small white flames.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">Turns the light into a switchable light, toggled by another entity targeting it's name.</targetname>
+<LightStyleList key="style" name="Light Style" value="0">
+    0 : normal (default)
+    1 : flicker (first variety)
+    2 : slow strong pulse
+    3 : candle (first variety)
+    4 : fast strobe
+    5 : gentle pulse
+    6 : flicker (second variety)
+    7 : candle (second variety)
+    8 : candle (third variety)
+    9 : slow strobe
+   10 : fluorescent flicker
+   11 : slow pulse, not fading to black
+styles 32-62 are assigned by the light program for switchable lights.</LightStyleList>
+-------- COMPILER KEYS --------
+<integer key="light" name="Brightness" value="300">Set the light intensity. Negative values are also allowed and will cause the entity to subtract light cast by other entities. Default 300.</integer>
+<real key="wait" name="Fade distance scale" value="1">Scale the fade distance of the light by "n". Values greater than 1 make the light fade more quickly with distance, and values less than 1 make the light fade more slowly (and thus reach further). Default 1.</real>
+<LightAttenuationList key="delay" name="Light Attenuation" value="0">Select an attenuation formula for the light:
+   0 : Linear attenuation (default)
+   1 : 1/x attenuation
+   2 : 1/(x^2) attenuation
+   3 : No attenuation (same brightness at any distance)
+   4 : "local minlight" - No attenuation and like minlight, it won't raise the lighting above it's light value. Unlike minlight, it will only affect surfaces within line of sight of the entity.
+   5 : 1/(x^2) attenuation, but slightly more attenuated and without the extra bright effect that "delay 2" has near the source.</LightAttenuationList>
+<real key="_falloff" name="Falloff">Sets the distance at which the light drops to 0, in map units. In this mode, "wait" is ignored and "light" only controls the brightness at the center of the light, and no longer affects the falloff distance. Only supported on linear attenuation (delay 0) lights currently.</real>
+<color key="_color" name="Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the light. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<target key="target" name="Target">Turns the light into a spotlight, with the direction of light being towards another entity with it's "targetname" key set to "name".</target>
+<real3 key="mangle" name="Spotlight direction">Turns the light into a spotlight and specifies the direction of light using yaw, pitch and roll in degrees. Yaw specifies the angle around the Z-axis from 0 to 359 degrees and pitch specifies the angle from 90 (straight up) to -90 (straight down). Roll has no effect, so use any value (e.g. 0). Often easier than the "target" method.</real3>
+<real key="angle" name="Spotlight cone angle" value="40">Specifies the angle in degrees for a spotlight cone. Default 40.</real>
+<real key="_softangle" name="Softangle" value="0">Specifies the angle in degrees for an inner spotlight cone (must be less than the "angle" cone. Creates a softer transition between the full brightness of the inner cone to the edge of the outer cone. Default 0 (disabled).</real>
+<real key="_anglescale" name="Anglescale" value="0.5">Sets a scaling factor for how much influence the angle of incidence of light on a surface has on the brightness of the surface. n must be between 0.0 and 1.0. Smaller values mean less attenuation, with zero meaning that angle of incidence has no effect at all on the brightness. Default 0.5. [_anglesense]</real>
+<real key="_bouncescale" name="Bounce Scale" value="1">Scales the amount of light that is contributed by bounces. Default is 1.0, 0.0 disables bounce lighting for this light.</real>
+<real key="_dirtscale" name="Dirtscale" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<real key="_dirtgain" name="Dirtgain" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<integer key="_dirt" name="Dirt">Overrides the worldspawn setting of "_dirt" for this particular light. -1 to disable dirtmapping (ambient occlusion) for this light, making it illuminate the dirtmapping shadows. 1 to enable ambient occlusion for this light. Default is to defer to the worldspawn setting.</integer>
+<integer key="_deviance" name="Deviance" value="0">Split up the light into a sphere of randomly positioned lights within radius "n" (in world units). Useful to give shadows a wider penumbra. "_samples" specifies the number of lights in the sphere. The "light" value is automatically scaled down for most lighting formulas (except linear and non-additive minlight) to attempt to keep the brightness equal. Default is 0, do not split up lights.</integer>
+<integer key="_samples" name="Samples" value="16">Number of lights to use for "_deviance". Default 16 (only used if "_deviance" is set).</integer>
+</point>
+
+
+<point name="light_fluoro" color="0 1 0" box="-8 -8 -8 8 8 8">
+Non-displayed light. Makes steady fluorescent humming sound.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">Turns the light into a switchable light, toggled by another entity targeting it's name.</targetname>
+<LightStyleList key="style" name="Light Style" value="0">
+    0 : normal (default)
+    1 : flicker (first variety)
+    2 : slow strong pulse
+    3 : candle (first variety)
+    4 : fast strobe
+    5 : gentle pulse
+    6 : flicker (second variety)
+    7 : candle (second variety)
+    8 : candle (third variety)
+    9 : slow strobe
+   10 : fluorescent flicker
+   11 : slow pulse, not fading to black
+styles 32-62 are assigned by the light program for switchable lights.</LightStyleList>
+-------- COMPILER KEYS --------
+<integer key="light" name="Brightness" value="300">Set the light intensity. Negative values are also allowed and will cause the entity to subtract light cast by other entities. Default 300.</integer>
+<real key="wait" name="Fade distance scale" value="1">Scale the fade distance of the light by "n". Values greater than 1 make the light fade more quickly with distance, and values less than 1 make the light fade more slowly (and thus reach further). Default 1.</real>
+<LightAttenuationList key="delay" name="Light Attenuation" value="0">Select an attenuation formula for the light:
+   0 : Linear attenuation (default)
+   1 : 1/x attenuation
+   2 : 1/(x^2) attenuation
+   3 : No attenuation (same brightness at any distance)
+   4 : "local minlight" - No attenuation and like minlight, it won't raise the lighting above it's light value. Unlike minlight, it will only affect surfaces within line of sight of the entity.
+   5 : 1/(x^2) attenuation, but slightly more attenuated and without the extra bright effect that "delay 2" has near the source.</LightAttenuationList>
+<real key="_falloff" name="Falloff">Sets the distance at which the light drops to 0, in map units. In this mode, "wait" is ignored and "light" only controls the brightness at the center of the light, and no longer affects the falloff distance. Only supported on linear attenuation (delay 0) lights currently.</real>
+<color key="_color" name="Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the light. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<target key="target" name="Target">Turns the light into a spotlight, with the direction of light being towards another entity with it's "targetname" key set to "name".</target>
+<real3 key="mangle" name="Spotlight direction">Turns the light into a spotlight and specifies the direction of light using yaw, pitch and roll in degrees. Yaw specifies the angle around the Z-axis from 0 to 359 degrees and pitch specifies the angle from 90 (straight up) to -90 (straight down). Roll has no effect, so use any value (e.g. 0). Often easier than the "target" method.</real3>
+<real key="angle" name="Spotlight cone angle" value="40">Specifies the angle in degrees for a spotlight cone. Default 40.</real>
+<real key="_softangle" name="Softangle" value="0">Specifies the angle in degrees for an inner spotlight cone (must be less than the "angle" cone. Creates a softer transition between the full brightness of the inner cone to the edge of the outer cone. Default 0 (disabled).</real>
+<real key="_anglescale" name="Anglescale" value="0.5">Sets a scaling factor for how much influence the angle of incidence of light on a surface has on the brightness of the surface. n must be between 0.0 and 1.0. Smaller values mean less attenuation, with zero meaning that angle of incidence has no effect at all on the brightness. Default 0.5. [_anglesense]</real>
+<real key="_bouncescale" name="Bounce Scale" value="1">Scales the amount of light that is contributed by bounces. Default is 1.0, 0.0 disables bounce lighting for this light.</real>
+<real key="_dirtscale" name="Dirtscale" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<real key="_dirtgain" name="Dirtgain" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<integer key="_dirt" name="Dirt">Overrides the worldspawn setting of "_dirt" for this particular light. -1 to disable dirtmapping (ambient occlusion) for this light, making it illuminate the dirtmapping shadows. 1 to enable ambient occlusion for this light. Default is to defer to the worldspawn setting.</integer>
+<integer key="_deviance" name="Deviance" value="0">Split up the light into a sphere of randomly positioned lights within radius "n" (in world units). Useful to give shadows a wider penumbra. "_samples" specifies the number of lights in the sphere. The "light" value is automatically scaled down for most lighting formulas (except linear and non-additive minlight) to attempt to keep the brightness equal. Default is 0, do not split up lights.</integer>
+<integer key="_samples" name="Samples" value="16">Number of lights to use for "_deviance". Default 16 (only used if "_deviance" is set).</integer>
+</point>
+
+
+<point name="light_fluorospark" color="0 1 0" box="-8 -8 -8 8 8 8">
+Non-displayed light. Makes sparking, broken fluorescent sound.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">Turns the light into a switchable light, toggled by another entity targeting it's name.</targetname>
+<LightStyleList key="style" name="Light Style" value="0">
+    0 : normal (default)
+    1 : flicker (first variety)
+    2 : slow strong pulse
+    3 : candle (first variety)
+    4 : fast strobe
+    5 : gentle pulse
+    6 : flicker (second variety)
+    7 : candle (second variety)
+    8 : candle (third variety)
+    9 : slow strobe
+   10 : fluorescent flicker
+   11 : slow pulse, not fading to black
+styles 32-62 are assigned by the light program for switchable lights.</LightStyleList>
+-------- COMPILER KEYS --------
+<integer key="light" name="Brightness" value="300">Set the light intensity. Negative values are also allowed and will cause the entity to subtract light cast by other entities. Default 300.</integer>
+<real key="wait" name="Fade distance scale" value="1">Scale the fade distance of the light by "n". Values greater than 1 make the light fade more quickly with distance, and values less than 1 make the light fade more slowly (and thus reach further). Default 1.</real>
+<LightAttenuationList key="delay" name="Light Attenuation" value="0">Select an attenuation formula for the light:
+   0 : Linear attenuation (default)
+   1 : 1/x attenuation
+   2 : 1/(x^2) attenuation
+   3 : No attenuation (same brightness at any distance)
+   4 : "local minlight" - No attenuation and like minlight, it won't raise the lighting above it's light value. Unlike minlight, it will only affect surfaces within line of sight of the entity.
+   5 : 1/(x^2) attenuation, but slightly more attenuated and without the extra bright effect that "delay 2" has near the source.</LightAttenuationList>
+<real key="_falloff" name="Falloff">Sets the distance at which the light drops to 0, in map units. In this mode, "wait" is ignored and "light" only controls the brightness at the center of the light, and no longer affects the falloff distance. Only supported on linear attenuation (delay 0) lights currently.</real>
+<color key="_color" name="Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the light. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<target key="target" name="Target">Turns the light into a spotlight, with the direction of light being towards another entity with it's "targetname" key set to "name".</target>
+<real3 key="mangle" name="Spotlight direction">Turns the light into a spotlight and specifies the direction of light using yaw, pitch and roll in degrees. Yaw specifies the angle around the Z-axis from 0 to 359 degrees and pitch specifies the angle from 90 (straight up) to -90 (straight down). Roll has no effect, so use any value (e.g. 0). Often easier than the "target" method.</real3>
+<real key="angle" name="Spotlight cone angle" value="40">Specifies the angle in degrees for a spotlight cone. Default 40.</real>
+<real key="_softangle" name="Softangle" value="0">Specifies the angle in degrees for an inner spotlight cone (must be less than the "angle" cone. Creates a softer transition between the full brightness of the inner cone to the edge of the outer cone. Default 0 (disabled).</real>
+<real key="_anglescale" name="Anglescale" value="0.5">Sets a scaling factor for how much influence the angle of incidence of light on a surface has on the brightness of the surface. n must be between 0.0 and 1.0. Smaller values mean less attenuation, with zero meaning that angle of incidence has no effect at all on the brightness. Default 0.5. [_anglesense]</real>
+<real key="_bouncescale" name="Bounce Scale" value="1">Scales the amount of light that is contributed by bounces. Default is 1.0, 0.0 disables bounce lighting for this light.</real>
+<real key="_dirtscale" name="Dirtscale" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<real key="_dirtgain" name="Dirtgain" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<integer key="_dirt" name="Dirt">Overrides the worldspawn setting of "_dirt" for this particular light. -1 to disable dirtmapping (ambient occlusion) for this light, making it illuminate the dirtmapping shadows. 1 to enable ambient occlusion for this light. Default is to defer to the worldspawn setting.</integer>
+<integer key="_deviance" name="Deviance" value="0">Split up the light into a sphere of randomly positioned lights within radius "n" (in world units). Useful to give shadows a wider penumbra. "_samples" specifies the number of lights in the sphere. The "light" value is automatically scaled down for most lighting formulas (except linear and non-additive minlight) to attempt to keep the brightness equal. Default is 0, do not split up lights.</integer>
+<integer key="_samples" name="Samples" value="16">Number of lights to use for "_deviance". Default 16 (only used if "_deviance" is set).</integer>
+</point>
+
+
+<point name="light_globe" color="0 1 0" box="-8 -8 -8 8 8 8">
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<targetname key="targetname" name="Targetname">Turns the light into a switchable light, toggled by another entity targeting it's name.</targetname>
+<LightStyleList key="style" name="Light Style" value="0">
+    0 : normal (default)
+    1 : flicker (first variety)
+    2 : slow strong pulse
+    3 : candle (first variety)
+    4 : fast strobe
+    5 : gentle pulse
+    6 : flicker (second variety)
+    7 : candle (second variety)
+    8 : candle (third variety)
+    9 : slow strobe
+   10 : fluorescent flicker
+   11 : slow pulse, not fading to black
+styles 32-62 are assigned by the light program for switchable lights.</LightStyleList>
+-------- COMPILER KEYS --------
+<integer key="light" name="Brightness" value="300">Set the light intensity. Negative values are also allowed and will cause the entity to subtract light cast by other entities. Default 300.</integer>
+<real key="wait" name="Fade distance scale" value="1">Scale the fade distance of the light by "n". Values greater than 1 make the light fade more quickly with distance, and values less than 1 make the light fade more slowly (and thus reach further). Default 1.</real>
+<LightAttenuationList key="delay" name="Light Attenuation" value="0">Select an attenuation formula for the light:
+   0 : Linear attenuation (default)
+   1 : 1/x attenuation
+   2 : 1/(x^2) attenuation
+   3 : No attenuation (same brightness at any distance)
+   4 : "local minlight" - No attenuation and like minlight, it won't raise the lighting above it's light value. Unlike minlight, it will only affect surfaces within line of sight of the entity.
+   5 : 1/(x^2) attenuation, but slightly more attenuated and without the extra bright effect that "delay 2" has near the source.</LightAttenuationList>
+<real key="_falloff" name="Falloff">Sets the distance at which the light drops to 0, in map units. In this mode, "wait" is ignored and "light" only controls the brightness at the center of the light, and no longer affects the falloff distance. Only supported on linear attenuation (delay 0) lights currently.</real>
+<color key="_color" name="Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the light. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<target key="target" name="Target">Turns the light into a spotlight, with the direction of light being towards another entity with it's "targetname" key set to "name".</target>
+<real3 key="mangle" name="Spotlight direction">Turns the light into a spotlight and specifies the direction of light using yaw, pitch and roll in degrees. Yaw specifies the angle around the Z-axis from 0 to 359 degrees and pitch specifies the angle from 90 (straight up) to -90 (straight down). Roll has no effect, so use any value (e.g. 0). Often easier than the "target" method.</real3>
+<real key="angle" name="Spotlight cone angle" value="40">Specifies the angle in degrees for a spotlight cone. Default 40.</real>
+<real key="_softangle" name="Softangle" value="0">Specifies the angle in degrees for an inner spotlight cone (must be less than the "angle" cone. Creates a softer transition between the full brightness of the inner cone to the edge of the outer cone. Default 0 (disabled).</real>
+<real key="_anglescale" name="Anglescale" value="0.5">Sets a scaling factor for how much influence the angle of incidence of light on a surface has on the brightness of the surface. n must be between 0.0 and 1.0. Smaller values mean less attenuation, with zero meaning that angle of incidence has no effect at all on the brightness. Default 0.5. [_anglesense]</real>
+<real key="_bouncescale" name="Bounce Scale" value="1">Scales the amount of light that is contributed by bounces. Default is 1.0, 0.0 disables bounce lighting for this light.</real>
+<real key="_dirtscale" name="Dirtscale" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<real key="_dirtgain" name="Dirtgain" value="1">Override the global "_dirtscale" or "_dirtgain" settings to change how this light is affected by dirtmapping (ambient occlusion). See descriptions of these keys in the worldspawn section.</real>
+<integer key="_dirt" name="Dirt">Overrides the worldspawn setting of "_dirt" for this particular light. -1 to disable dirtmapping (ambient occlusion) for this light, making it illuminate the dirtmapping shadows. 1 to enable ambient occlusion for this light. Default is to defer to the worldspawn setting.</integer>
+<integer key="_deviance" name="Deviance" value="0">Split up the light into a sphere of randomly positioned lights within radius "n" (in world units). Useful to give shadows a wider penumbra. "_samples" specifies the number of lights in the sphere. The "light" value is automatically scaled down for most lighting formulas (except linear and non-additive minlight) to attempt to keep the brightness equal. Default is 0, do not split up lights.</integer>
+<integer key="_samples" name="Samples" value="16">Number of lights to use for "_deviance". Default 16 (only used if "_deviance" is set).</integer>
+</point>
+
+
+<point name="misc_noisemaker" color="1 0.5 0" box="-10 -10 -10 10 10 10">
+For optimization testing, starts a lot of sounds.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_enforcer" model="progs/enforcer.mdl" color="1 0 0" box="-16 -16 -24 16 16 40">
+Enforcer, 80 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_hell_knight" model="progs/hknight.mdl" color="1 0 0" box="-16 -16 -24 16 16 40">
+Hell Knight, 250 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_army" model="progs/soldier.mdl" color="1 0 0" box="-16 -16 -24 16 16 40">
+Grunt, 30 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_dog" model="progs/dog.mdl" color="1 0 0" box="-32 -32 -24 32 32 40">
+Dog (Rottweiler), 25 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_ogre" model="progs/ogre.mdl" color="1 0 0" box="-32 -32 -24 32 32 64">
+Ogre, 200 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_knight" model="progs/knight.mdl" color="1 0 0" box="-16 -16 -24 16 16 40">
+Knight, 75 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_zombie" model="progs/zombie.mdl" color="1 0 0" box="-16 -16 -24 16 16 32">
+Zombie, 60 health points. If crucified, stick the bounding box 12 pixels back into a wall to look right.
+-------- FLAGS --------
+<flag key="crucified" name="Crucified" bit="0">:-)</flag>
+<flag key="ambush" name="Ambush" bit="1">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_wizard" model="progs/wizard.mdl" color="1 0 0" box="-16 -16 -24 16 16 40">
+Scrag (Wizard), 80 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_demon1" model="progs/demon.mdl" color="1 0 0" box="-32 -32 -24 32 32 64">
+Fiend (Demon), 300 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_oldone" model="progs/oldone.mdl" color="1 0 0" box="-16 -16 -24 16 16 32">
+Shub-Niggurath, 40000 health points. Only killable by teleport frag.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_shambler" model="progs/shambler.mdl" color="1 0 0" box="-32 -32 -24 32 32 64">
+Shambler, 600 health points. Rockets only have half damage when hitting the Shambler.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_shalrath" model="progs/shalrath.mdl" color="1 0 0" box="-32 -32 -24 32 32 64">
+Vore (Shalrath), 400 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_boss" model="progs/boss.mdl" color="1 0 0" box="-128 -128 -24 128 128 256">
+Chthon (Boss of Shareware Quake). Only event_lightning can kill him.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_tarbaby" model="progs/tarbaby.mdl" color="1 0 0" box="-16 -16 -24 16 16 24">
+Spawn (Tarbaby), 80 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="monster_fish" model="progs/fish.mdl" color="1 0 0" box="-16 -16 -24 16 16 24">
+Rotfish, 25 health points.
+-------- FLAGS --------
+<flag key="ambush" name="Ambush" bit="0">the monster will only wake up on really seeing the player, not another monster getting angry</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="misc_teleporttrain" model="progs/teleport.mdl" color="0 .4 1" box="-8 -8 -8 8 8 8">
+This is used for the final boss. Flying ball needed to teleport kill Shub-Niggurath.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="misc_fireball" model="progs/lavaball.mdl" color=".6 .2 0" box="-8 -8 -8 8 8 8">
+Lava Ball.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<real key="speed" name="Speed" value="100">speed of ball, default is 100</real>
+</point>
+
+
+<point name="misc_explobox" model="md3/editor_explo1.md3"  color="0 .4 1" box="0 0 0 32 32 64">
+Exploding box.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="misc_explobox2" model="md3/editor_explo2.md3" color="0 .4 1" box="0 0 0 32 32 32">
+Smaller exploding box.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="path_corner" color="0.5 0.3 0" box="-8 -8 -8 8 8 8">
+Monsters will continue walking towards the next target corner. Also used by func_train.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="trap_spikeshooter" color="0 .4 1" box="-8 -8 -8 8 8 8">
+When triggered, fires a spike in the direction determined by angle.
+-------- FLAGS --------
+<flag key="superspike" name="Super Spike" bit="0">fires large spikes</flag>
+<flag key="laser" name="Laser" bit="1">fires laser</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">angle to fire</angle>
+</point>
+
+
+<point name="trap_shooter" color="0 .4 1" box="-8 -8 -8 8 8 8">
+Continuously fires spikes.
+-------- FLAGS --------
+<flag key="superspike" name="Super Spike" bit="0">fires large spikes</flag>
+<flag key="laser" name="Laser" bit="1">fires laser</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<angle key="angle" name="Yaw Angle">angle to fire</angle>
+<real key="wait" name="Firing Delay" value="1">time between spikes (1.0 default)</real>
+<real key="nextthink" name="Start Delay">delay before firing first spike, so multiple shooters can be staggered</real>
+</point>
+
+
+<group name="trigger_teleport" color="0.5 0.0 0.5">
+Any object touching this will be transported to the corresponding info_teleport_destination entity. You must set the "target" field, and create an object with a "targetname" field that matches.
+-------- FLAGS --------
+<flag key="PLAYER_ONLY" name="Player Only" bit="0">only players will teleport</flag>
+<flag key="SILENT" name="Silent" bit="1">silences teleporting</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<target key="target" name="Target">name of info_teleport_destination</target>
+</group>
+
+
+<group name="trigger_changelevel" color="0.5 0.5 0.5">
+When the player touches this, he gets sent to the map listed in the "map" variable. The view will go to the info_intermission spot and display stats.
+-------- KEYS --------
+<string key="map" name="Next Map">set to name of next map (e.g. e1m1) if no map is set, the current map will be restarted</string>
+-------- FLAGS --------
+<flag key="NO_INTERMISSION" name="No Intermission" bit="0"/>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</group>
+
+
+<list name="SetSkillList">
+  <item name="easy" value="0"/>
+  <item name="normal" value="1"/>
+  <item name="hard" value="2"/>
+  <item name="nightmare" value="3"/>
+</list>
+
+
+<group name="trigger_setskill" color="0.5 0.0 0.5">
+Sets skill level to the value of "message". Only used on start map.
+-------- KEYS --------
+<SetSkillList key="message" name="Skill Level" value="0">sets skill level
+   0 : easy
+   1 : normal
+   2 : hard
+   3 : nightmare</SetSkillList>
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</group>
+
+
+<point name="trigger_counter" color="0.5 0.0 0.5" box="-8 -8 -8 8 8 8">
+Acts as an intermediary for an action that takes multiple inputs. If nomessage is not set, it will print "1 more.. " etc. when triggered and "sequence complete" when finished. After the counter has been triggered "count" times, it will fire all of its targets and remove itself.
+It's a once-only trigger (i.e. Wait is always -1).
+-------- FLAGS --------
+<flag key="nomessage" name="Not Easy" bit="0">disables count display</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<integer key="count" name="Count" value="2">number of triggers needed to fire own target, default is 2</integer>
+<target key="target" name="Target">target entity</target>
+<targetname key="targetname" name="Targetname"/>
+</point>
+
+
+<list name="TriggerSoundList">
+  <item name="..." value=""/>
+  <item name="secret" value="1"/>
+  <item name="beep beep" value="2"/>
+  <item name="large switch" value="3"/>
+</list>
+
+
+<group name="trigger_once" color="0.5 0.0 0.5">
+Variable sized trigger. Triggers once, then removes itself. You must set the key "target" to the name of another object in the level that has a matching "targetname". If notouch is set, the trigger is only fired by other entities, not by touching.
+Wait is always -1.
+-------- FLAGS --------
+<flag key="notouch" name="No Touch" bit="0">only triggered by other entities, not by touching</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<boolean key="health" name="Shootable">can be shot to activate</boolean>
+<angle key="angle" name="Facing Direction">if set, the trigger will only fire when someone is facing the direction of the angle, use "360" for angle 0.</angle>
+<TriggerSoundList key="sounds" name="Sounds" value="">
+   1 : secret
+   2 : beep beep
+   3 : large switch</TriggerSoundList>
+<string key="message" name="Message">message text</string>
+<real key="delay" name="Delay">delay before firing (after being triggered)</real>
+</group>
+
+
+<group name="trigger_multiple" color="0.5 0.0 0.5">
+Variable sized repeatable trigger. Must be targeted at one or more entities.
+-------- FLAGS --------
+<flag key="notouch" name="No Touch" bit="0">only triggered by other entities, not by touching</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<boolean key="health" name="Shootable">activated by shooting</boolean>
+<angle key="angle" name="Facing Direction">the trigger will only fire when someone is facing the direction of the angle, use "360" for angle 0.</angle>
+<TriggerSoundList key="sounds" name="Sounds" value="">
+   1 : secret
+   2 : beep beep
+   3 : large switch</TriggerSoundList>
+<string key="message" name="Message">message text</string>
+<real key="delay" name="Delay">delay before firing (after being triggered)</real>
+<real key="wait" name="Repeat Delay" value="0.2">delay between triggerings default is 0.2</real>
+</group>
+
+
+<group name="trigger_onlyregistered" color="0.5 0.0 0.5">
+Only fires if playing the registered version, otherwise prints the message.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<string key="message" name="Message">message to print when playing the shareware version.</string>
+</group>
+
+
+<list name="TriggerSecretSoundList">
+  <item name="..." value=""/>
+  <item name="secret" value="1"/>
+  <item name="beep beep" value="2"/>
+</list>
+
+
+<group name="trigger_secret" color="0.5 0.0 0.5">
+Secret counter trigger.
+-------- FLAGS --------
+<flag key="notouch" name="No Touch" bit="0">only triggered by other entities, not by touching</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<string key="message" name="Message">message to display when triggered</string>
+<TriggerSecretSoundList key="sounds" name="Sounds" value="">
+   1 : secret
+   2 : beep beep</TriggerSecretSoundList>
+</group>
+
+
+<group name="trigger_monsterjump" color="0.5 0.0 0.5">
+Walking monsters that touch this will jump in the direction of the trigger's angle.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<angle key="angle" name="Direction">angle towards the monster jumps</angle>
+<real key="speed" name="Speed" value="200">the speed thrown forward. default is 200</real>
+<real key="height" name="Height" value="200">the speed thrown upwards. default is 200</real>
+</group>
+
+
+<point name="trigger_relay" color="0.5 0.0 0.5" box="-8 -8 -8 8 8 8">
+This fixed size trigger cannot be touched, it can only be fired by other events.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<boolean key="killtarget" name="Remove Target">removes target</boolean>
+<target key="target" name="Target">fires target when triggered</target>
+<real key="delay" name="Delay">delay before firing (after being triggered)</real>
+<string key="message" name="Message">displayed when fired</string>
+</point>
+
+
+<group name="trigger_hurt" color="0.5 0.0 0.5">
+Any object touching this will be hurt.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<real key="dmg" name="Damage Inflicted" value="5">sets damage, default is 5</real>
+<string key="message" name="Message">message text</string>
+</group>
+
+
+<group name="trigger_push" color="0.5 0.0 0.5">
+Pushes the player and Grenades.
+-------- FLAGS --------
+<flag key="push_once" name="Push Once" bit="0">removes itself after firing</flag>
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+-------- KEYS --------
+<direction key="angle" name="Direction">direction of push (-2 is down, -1 up)</direction>
+<real key="speed" name="Speed" value="1000">speed of push, default is 1000</real>
+</group>
+
+
+<point name="viewthing" color="0 .4 1" box="-8 -8 -8 8 8 8">
+A player model will be spawned at the position of this entity.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="weapon_supershotgun" model="progs/g_shot.mdl" color="0 0 .5" box="-16 -16 0 16 16 56">
+Super Shotgun.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="weapon_nailgun" model="progs/g_nail.mdl" color="0 0 .5" box="-16 -16 0 16 16 56">
+Perforator (Nailgun).
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="weapon_supernailgun" model="progs/g_nail2.mdl" color="0 0 .5" box="-16 -16 0 16 16 56">
+Super Perforator (Super Nailgun).
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="weapon_grenadelauncher" model="progs/g_rock.mdl" color="0 0 .5" box="-16 -16 0 16 16 56">
+Grenade Launcher.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="weapon_rocketlauncher" model="progs/g_rock2.mdl" color="0 0 .5" box="-16 -16 0 16 16 56">
+Rocket Launcher.
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<point name="weapon_lightning" model="progs/g_light.mdl" color="0 0 .5" box="-16 -16 0 16 16 56">
+Thunderbolt (Lightning Gun).
+-------- FLAGS --------
+<flag key="NOT_EASY" name="Not Easy" bit="8"/>
+<flag key="NOT_NORMAL" name="Not Hard" bit="9"/>
+<flag key="NOT_HARD" name="Not Normal" bit="10"/>
+<flag key="NOT_DM" name="Not Deathmatch" bit="11"/>
+</point>
+
+
+<list name="worldTypeList">
+  <item name="..." value=""/>
+  <item name="medieval" value="0"/>
+  <item name="metal" value="1"/>
+  <item name="base" value="2"/>
+</list>
+
+
+<group name="worldspawn" color="0 0 0">
+World entity. Should be only one per MAP.
+-------- KEYS --------
+<string key="wad" name="Wad File">which texture wad to use</string>
+<string key="message" name="Message">sets the title of the map</string>
+<worldTypeList key="worldtype" name="World Type" value="">MUST be set when using keys!
+   0 : medieval
+   1 : metal
+   2 : base</worldTypeList>
+<integer key="sounds" name="Music Track">CD track to play</integer>
+<string key="sky" name="Skybox">6 sided cube for sky brushes (night_) *textures placed in id1/gfx/env/</string>
+<string key="fog" name="Fog">Density R G B "0.05 0.3 0.3 0.3"</string>
+<real key="_wateralpha" name="Water Alpha" value="1">Quakespasm key.</real>
+<real key="_skyfog" name="Sky Fog Density" value="0.5">Quakespasm key.</real>
+<real key="_skyalpha" name="Sky Alpha" value="1">Quakespasm key.</real>
+-------- COMPILER KEYS --------
+<real key="_minlight" name="Minlight" value="0">Set a global minimum light level of "n" across the whole map. This is an easy way to eliminate completely dark areas of the level, however you may lose some contrast as a result, so use with care. Default 0. [Light]</real>
+<color key="_minlight_color" name="Minlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the minlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<real key="_dist" name="Fade distance scale" value="1">Scales the fade distance of all lights by a factor of n. If n greater than 1 lights fade more quickly with distance and if n less than 1, lights fade more slowly with distance and light reaches further.</real>
+<real key="_range" name="Brightness scale" value="0.5">Scales the brightness range of all lights without affecting their fade distance. Values of n greater than 0.5 makes lights brighter and n less than 0.5 makes lights less bright. The same effect can be achieved on individual lights by adjusting both the "light" and "wait" attributes.</real>
+<real key="_anglescale" name="Anglescale">Set the scaling of sunlight brightness due to the angle of incidence with a surface (more detailed explanation in the "_anglescale" of any light entity). [_anglesense]</real>
+<boolean key="_bounce" name="Bounce">Enables bounce (bounced radiosity lighting), disabled by default.</boolean>
+<real key="_bouncescale" name="Bounce Scale" value="1">Scales brightness of bounce lighting, default 1.</real>
+<real key="_bouncecolorscale" name="Bounce Color Scale">Weight for bounce lighting to use texture colors from the map: 0=ignore map textures (default), 1=multiply bounce light color by texture color.</real>
+<boolean key="_bouncestyled" name="Bounce Style Lights">1 makes styled lights bounce (e.g. flickering or switchable lights), default is 0, they do not bounce.</boolean>
+<boolean key="_dirt" name="Dirt">Enables dirtmapping (ambient occlusion) on all lights, borrowed from q3map2. This adds shadows to corners and crevices. You can override the global setting for specific lights with the "_dirt" light entity key or "_sunlight_dirt", "_sunlight2_dirt", and "_minlight_dirt" worldspawn keys. Default is no dirtmapping (-1).</boolean>
+<boolean key="_dirtmode" name="Dirt Random">Choose between ordered (0, default) and randomized (1) dirtmapping.</boolean>
+<real key="_dirtdepth" name="Dirt Depth" value="128">Maximum depth of occlusion checking for dirtmapping, default 128.</real>
+<real key="_dirtscale" name="Dirt Scale" value="1">Scale factor used in dirt calculations, default 1. Lower values (e.g. 0.5) make the dirt fainter, 2.0 would create much darker shadows.</real>
+<real key="_dirtgain" name="Dirt Gain" value="1">Exponent used in dirt calculation, default 1. Lower values (e.g. 0.5) make the shadows darker and stretch further away from corners.</real>
+<integer key="_dirtangle" name="Dirt Angle" value="88">Cone angle in degrees for occlusion testing, default 88. Working range is 1-90. Lower values can avoid unwanted dirt on arches, pipe interiors, etc.</integer>
+<real key="_sunlight" name="Sunlight Brightness" value="0">Set the brightness of the sunlight coming from an unseen sun in the sky. Sky brushes (or more accurately bsp leafs with sky contents) will emit sunlight at an angle specified by the "_sun_mangle" key. Default 0.</real>
+<color key="_sunlight_color" name="Sunlight Color" value="1 1 1">Specify red(r), green(g) and blue(b) components for the color of the sunlight. RGB component values are between 0 and 255 (between 0 and 1 is also accepted). Default is white light ("255 255 255").</color>
+<real3 key="_sunlight_mangle" name="Sunlight Mangle">Specifies the direction of sunlight using yaw, pitch and roll in degrees. Yaw specifies the angle around the Z-axis from 0 to 359 degrees and pitch specifies the angle from 90 (straight up) to -90 (straight down). Roll has no effect, so use any value (e.g. 0). Default is straight down ("0 -90 0"). [_sun_mangle]</real3>
+<real key="_sunlight_penumbra" name="Sunlight Penumbra" value="0">Specifies the penumbra width, in degrees, of sunlight. Useful values are 3-4 for a gentle soft edge, or 10-20+ for more diffuse sunlight. Default is 0.</real>
+<real key="_sunlight2" name="Sunlight Brightness 2" value="0">Set the brightness of a large dome of lights positioned around the map (16K unit radius). Useful for simulating highly diffused light (e.g. cloudy skies) in outdoor areas. Default 0.</real>
+<color key="_sunlight2_color" name="Sunlight Color 2" value="1 1 1">Specifies the color of _sunlight2, same format as "_sunlight_color". Default is white light ("255 255 255"). [_sunlight_color2]</color>
+<real key="_sunlight3" name="Sunlight Brightness 3" value="0">Same as "_sunlight2", but for the bottom hemisphere (i.e. ambient light, coming from below the horizon). Combine "_sunlight2" and "_sunlight3" to have light coming equally from all directions, e.g. for levels floating in the clouds. Default 0.</real>
+<color key="_sunlight3_color" name="Sunlight Color 3" value="1 1 1">Specifies the color of _sunlight3, same format as "_sunlight_color". Default is white light ("255 255 255"). [_sunlight_color3]</color>
+<integer key="_sunlight_dirt" name="Sunlight Dirt">1 enables dirtmapping (ambient occlusion) on sunlight, -1 to disable (making it illuminate the dirtmapping shadows). Default is to use the value of "_dirt".</integer>
+<integer key="_sunlight2_dirt" name="Sunlight Dirt 2">1 enables dirtmapping (ambient occlusion) on sunlight2, -1 to disable. Default is to use the value of "_dirt"</integer>
+<integer key="_minlight_dirt" name="Minlight Dirt">1 enables dirtmapping (ambient occlusion) on minlight, -1 to disable. Default is to use the value of "_dirt".</integer>
+<boolean key="_spotlightautofalloff" name="Spotlight Auto Falloff">When set to 1, spotlight falloff is calculated from the distance to the targeted info_null. Ignored when "_falloff" is not 0. Default 0</boolean>
+<real key="_gamma" name="Gamma" value="1">Adjust brightness of final lightmap. Default 1, >1 is brighter, less than 1 is darker.</real>
+<real key="_lightmap_scale" name="Lightmap Scale">Forces all surfaces+submodels to use this specific lightmap scale. Removes "LMSHIFT" field.</real>
+</group>
+
+
+</classes>
+
+

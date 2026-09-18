@@ -16,15 +16,24 @@ set(CMAKE_POSITION_INDEPENDENT_CODE ON)
 
 include(CMakeDependentOption)
 
-option(RADIANT_GENERATE_GAMEPACKS "Generate gamepacks" ON)
 option(RADIANT_USE_ASSIMP "Build Assimp model loader plugin" ON)
-option(RADIANT_SUPPORT_SOURCE "Support Source Engine formats" ON)
-option(RADIANT_SUPPORT_GOLDSRC "Generate GoldSrc engine gamepacks" ON)
+option(RADIANT_GENERATE_GAMEPACKS "Generate gamepacks" ON)
+cmake_dependent_option(RADIANT_GENERATE_USER_GAMEPACKS "Generate user gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
+cmake_dependent_option(RADIANT_GENERATE_IDTECH2_GAMEPACKS "Generate idTech 2 gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
+cmake_dependent_option(RADIANT_GENERATE_IDTECH3_GAMEPACKS "Generate idTech 3 gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
+cmake_dependent_option(RADIANT_GENERATE_IDTECH4_GAMEPACKS "Generate idTech 4 gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
+cmake_dependent_option(RADIANT_GENERATE_SOURCE_GAMEPACKS "Generate Source Engine gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
+cmake_dependent_option(RADIANT_GENERATE_GOLDSRC_GAMEPACKS "Generate GoldSrc gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
 option(RADIANT_BUILD_MBSPC "Build mbspc" ON)
 cmake_dependent_option(RADIANT_BUILD_Q3MAP2 "Build q3map2" ON RADIANT_USE_ASSIMP OFF)
+cmake_dependent_option(RADIANT_BUILD_WRMAP "Build wrmap" ON RADIANT_USE_ASSIMP OFF)
 option(RADIANT_BUILD_Q2MAP "Build q2map" ON)
 option(RADIANT_BUILD_H2DATA "Build h2data" ON)
 option(RADIANT_BUILD_QDATA3 "Build qdata3" ON)
+
+if(NOT RADIANT_INSTALL_PREFIX)
+	set(RADIANT_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/install)
+endif()
 
 set(RADIANT_VERSION ${PROJECT_VERSION})
 set(RADIANT_MAJOR_VERSION ${PROJECT_VERSION_MAJOR})
@@ -32,33 +41,48 @@ set(RADIANT_MINOR_VERSION ${PROJECT_VERSION_MINOR})
 set(RADIANT_PATCH_VERSION ${PROJECT_VERSION_PATCH})
 set(RADIANT_ABOUTMSG "fix your hearts or die" CACHE STRING "")
 set(Q3MAP_VERSION "2.5.17n" CACHE STRING "")
+set(Q3MAP_MOTD "Your map saw the pretty lights from q3map2's BFG" CACHE STRING "")
+set(WRMAP_VERSION "2.5.17n" CACHE STRING "")
+set(WRMAP_MOTD "your map saw my transgender boobs" CACHE STRING "")
 
 # external dependencies
 
 cmake_policy(SET CMP0077 NEW)
+cmake_policy(SET CMP0135 NEW)
 
 include(FetchContent)
 
-if(RADIANT_SUPPORT_SOURCE)
+FetchContent_Declare(
+	sourcepp
+	GIT_REPOSITORY https://github.com/craftablescience/sourcepp.git
+	GIT_TAG "v2026.9.11"
+	EXCLUDE_FROM_ALL
+	GIT_SHALLOW TRUE
+	GIT_PROGRESS TRUE
+)
+set(MZ_BZIP2 OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_LIBS_START_ENABLED OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_USE_KVPP ON CACHE BOOL "" FORCE) # for VMTs
+set(SOURCEPP_USE_MDLPP ON CACHE BOOL "" FORCE) # for MDLs
+set(SOURCEPP_USE_TOOLPP ON CACHE BOOL "" FORCE) # for FGDs
+set(SOURCEPP_USE_VPKPP ON CACHE BOOL "" FORCE) # for VPKs
+set(SOURCEPP_USE_VTFPP ON CACHE BOOL "" FORCE) # for VTFs
+set(SOURCEPP_VTFPP_BUILD_WITH_COMPRESSONATOR OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_VTFPP_SUPPORT_EXR OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_VTFPP_SUPPORT_JXL OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_VTFPP_SUPPORT_QOI OFF CACHE BOOL "" FORCE)
+set(SOURCEPP_VTFPP_SUPPORT_WEBP OFF CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(sourcepp)
+
+find_package(ZLIB)
+if(NOT ZLIB_FOUND)
 	FetchContent_Declare(
-		sourcepp
-		GIT_REPOSITORY https://github.com/craftablescience/sourcepp.git
-		GIT_TAG bd60f5dd494903e2e7727ae798e1bc3f34f4a6e7
+		ZLIB
+		URL "https://zlib.net/zlib-1.3.2.tar.gz"
+		URL_HASH MD5=a1e6c958597af3c67d162995a342138a
 		EXCLUDE_FROM_ALL
 	)
-
-	set(SOURCEPP_LIBS_START_ENABLED OFF CACHE BOOL "" FORCE)
-	set(SOURCEPP_USE_KVPP ON CACHE BOOL "" FORCE) # for VMTs
-	set(SOURCEPP_USE_MDLPP ON CACHE BOOL "" FORCE) # for MDLs
-	set(SOURCEPP_USE_TOOLPP ON CACHE BOOL "" FORCE) # for FGDs
-	set(SOURCEPP_USE_VPKPP ON CACHE BOOL "" FORCE) # for VPKs
-	set(SOURCEPP_USE_VTFPP ON CACHE BOOL "" FORCE) # for VTFs
-	set(SOURCEPP_VTFPP_BUILD_WITH_COMPRESSONATOR OFF CACHE BOOL "" FORCE)
-	set(SOURCEPP_VTFPP_SUPPORT_EXR OFF CACHE BOOL "" FORCE)
-	set(SOURCEPP_VTFPP_SUPPORT_QOI OFF CACHE BOOL "" FORCE)
-	set(SOURCEPP_VTFPP_SUPPORT_WEBP OFF CACHE BOOL "" FORCE)
-
-	FetchContent_MakeAvailable(sourcepp)
+	FetchContent_MakeAvailable(ZLIB)
 endif()
 
 find_package(ZLIB REQUIRED)
@@ -89,6 +113,8 @@ if(RADIANT_USE_ASSIMP)
 		GIT_REPOSITORY https://github.com/assimp/assimp.git
 		GIT_TAG "v6.0.5"
 		EXCLUDE_FROM_ALL
+		GIT_SHALLOW TRUE
+		GIT_PROGRESS TRUE
 	)
 	set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 	set(ASSIMP_INJECT_DEBUG_POSTFIX OFF CACHE BOOL "" FORCE)
@@ -102,6 +128,13 @@ if(RADIANT_USE_ASSIMP)
 	set(ASSIMP_BUILD_MDC_IMPORTER OFF CACHE BOOL "" FORCE)
 	set(ASSIMP_BUILD_HMP_IMPORTER OFF CACHE BOOL "" FORCE)
 	FetchContent_MakeAvailable(assimp)
+
+	if(TARGET assimp)
+		find_path(MINIZIP_INCLUDE_DIR unzip.h PATH_SUFFIXES minizip)
+		if(MINIZIP_INCLUDE_DIR)
+			target_include_directories(assimp PRIVATE ${MINIZIP_INCLUDE_DIR})
+		endif()
+	endif()
 endif()
 
 # packages
@@ -228,8 +261,7 @@ qt_add_executable(radiant WIN32
 	${PROJECT_SOURCE_DIR}/radiant/dialog.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass_def.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass_doom3.cpp
-	$<$<NOT:$<BOOL:${RADIANT_SUPPORT_SOURCE}>>:${PROJECT_SOURCE_DIR}/radiant/eclass_fgd.cpp>
-	$<$<BOOL:${RADIANT_SUPPORT_SOURCE}>:${PROJECT_SOURCE_DIR}/radiant/eclass_fgd_sourcepp.cpp>
+	${PROJECT_SOURCE_DIR}/radiant/eclass_fgd.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass_xml.cpp
 	${PROJECT_SOURCE_DIR}/radiant/entityinspector.cpp
@@ -314,7 +346,7 @@ if(APPLE)
 	add_custom_command(
 		TARGET radiant
 		POST_BUILD
-		COMMAND ${CMAKE_COMMAND} -E copy_directory "${PROJECT_SOURCE_DIR}/install/gamepacks/" "${PROJECT_SOURCE_DIR}/install/WifeRadiant.app/Contents/Resources/gamepacks/"
+		COMMAND ${CMAKE_COMMAND} -E copy_directory "${RADIANT_INSTALL_PREFIX}/gamepacks/" "${RADIANT_INSTALL_PREFIX}/WifeRadiant.app/Contents/Resources/gamepacks/"
 		VERBATIM
 	)
 	set(radiant_icon_macos "${PROJECT_SOURCE_DIR}/resources/bitmaps/wiferadiant.icns")
@@ -335,8 +367,8 @@ if(APPLE)
 		NO_UNSUPPORTED_PLATFORM_ERROR
 	)
 	install(TARGETS radiant
-		BUNDLE DESTINATION ${PROJECT_SOURCE_DIR}/install
-		RUNTIME DESTINATION ${PROJECT_SOURCE_DIR}/install
+		BUNDLE DESTINATION ${RADIANT_INSTALL_PREFIX}
+		RUNTIME DESTINATION ${RADIANT_INSTALL_PREFIX}
 	)
 	install(SCRIPT ${radiant_deploy_script})
 endif()
@@ -379,7 +411,7 @@ target_include_directories(radiant PRIVATE
 target_link_libraries(radiant PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 target_link_libraries(radiant PRIVATE pugixml::pugixml)
 target_link_libraries(radiant PRIVATE commandlib gtkutil l_net quickhull)
-target_link_libraries(radiant PRIVATE $<$<BOOL:${RADIANT_SUPPORT_SOURCE}>:sourcepp::toolpp>)
+target_link_libraries(radiant PRIVATE sourcepp::toolpp)
 target_link_libraries(radiant PRIVATE $<$<BOOL:${WIN32}>:ws2_32> $<$<BOOL:${WIN32}>:dbghelp>)
 target_link_libraries(radiant PRIVATE $<$<PLATFORM_ID:Haiku>:network>)
 target_compile_options(radiant PRIVATE
@@ -402,18 +434,19 @@ target_compile_definitions(l_net PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOO
 
 set_target_properties(radiant
 	PROPERTIES
-		LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
-		RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install
+		LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
+		RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
 )
 
-file(WRITE ${PROJECT_SOURCE_DIR}/install/RADIANT_MAJOR ${RADIANT_MAJOR_VERSION})
-file(WRITE ${PROJECT_SOURCE_DIR}/install/RADIANT_MINOR ${RADIANT_MINOR_VERSION})
-file(WRITE ${PROJECT_SOURCE_DIR}/install/RADIANT_PATCH ${RADIANT_PATCH_VERSION})
+file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_MAJOR ${RADIANT_MAJOR_VERSION})
+file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_MINOR ${RADIANT_MINOR_VERSION})
+file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_PATCH ${RADIANT_PATCH_VERSION})
 
 if(NOT APPLE)
 	file(GLOB RADIANT_DATA_FILES "${PROJECT_SOURCE_DIR}/resources/*")
-	file(COPY ${RADIANT_DATA_FILES} DESTINATION ${PROJECT_SOURCE_DIR}/install/)
-	file(COPY "${PROJECT_SOURCE_DIR}/docs/mouse shortcuts.txt" DESTINATION ${PROJECT_SOURCE_DIR}/install/docs/)
+	file(COPY ${RADIANT_DATA_FILES} DESTINATION "${RADIANT_INSTALL_PREFIX}/")
+	file(COPY "${PROJECT_SOURCE_DIR}/docs" DESTINATION "${RADIANT_INSTALL_PREFIX}/")
+	file(WRITE "${RADIANT_INSTALL_PREFIX}/settings/settings.txt" "local settings go here")
 endif()
 
 if(WIN32)
@@ -434,7 +467,7 @@ endif()
 
 # gamepacks
 
-if(RADIANT_GENERATE_GAMEPACKS)
+if(RADIANT_GENERATE_GAMEPACKS OR RADIANT_GENERATE_USER_GAMEPACKS)
 	include(gamepacks)
 endif()
 
@@ -442,6 +475,14 @@ endif()
 
 if(RADIANT_BUILD_Q3MAP2)
 	include(q3map2)
+endif()
+
+# wrmap
+
+if(RADIANT_BUILD_WRMAP)
+	set(BUILD_WRMAP TRUE)
+	include(q3map2)
+	unset(BUILD_WRMAP)
 endif()
 
 # mbspc

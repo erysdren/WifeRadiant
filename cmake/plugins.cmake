@@ -11,8 +11,8 @@ function(add_plugin name)
 	endif()
 	set_target_properties(${name}
 		PROPERTIES
-			LIBRARY_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install/plugins
-			RUNTIME_OUTPUT_DIRECTORY ${PROJECT_SOURCE_DIR}/install/plugins
+			LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/plugins
+			RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/plugins
 			PREFIX ""
 	)
 	target_compile_definitions(${name} PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)

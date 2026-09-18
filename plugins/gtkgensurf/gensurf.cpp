@@ -70,11 +70,11 @@ int Antialiasing;             // ^Fishman - Antializing for the preview window.
 int AddTerrainKey;             // ^Fishman - Add terrain key to func_group.
 int SP;             // ^Fishman - Snap to grid.
 
-GtkWidget *g_pWnd;        // ghwnd;
-GtkWidget *g_pRadiantWnd; // ghwnd_main;
+QWidget *g_pWnd;        // ghwnd;
+QWidget *g_pRadiantWnd; // ghwnd_main;
 /*HWND      ghwndAngles;
- */GtkWidget *g_pWndPreview;
-GtkWidget *g_pPreviewWidget;
+ */QWidget *g_pWndPreview;
+QWidget *g_pPreviewWidget;
 MYBITMAP gbmp;
 NODE      *gNode = (NODE *)NULL;
 TRI       *gTri = (TRI *)NULL;
@@ -236,12 +236,12 @@ void ReadIniFile( const char *file ){
 	}
 
 	NH = g_FuncTable.m_pfnProfileLoadInt( file, OPTS_SECTION,"NH",8 );
-	NH = max( 1,min( NH,MAX_ROWS ) );
+	NH = std::max( 1,std::min( NH,MAX_ROWS ) );
 	NV = g_FuncTable.m_pfnProfileLoadInt( file, OPTS_SECTION,"NV",8 );
-	NV = max( 1,min( NV,MAX_ROWS ) );
+	NV = std::max( 1,std::min( NV,MAX_ROWS ) );
 
 //	Decimate   = GetPrivateProfileInt(OPTS_SECTION,"Decimate",0,file);
-//	Decimate = max(0,min(Decimate,100));
+//	Decimate = std::max(0,std::min(Decimate,100));
 
 	AddHints          = g_FuncTable.m_pfnProfileLoadInt( file, OPTS_SECTION,"AddHints",0 );
 	ArghRad2          = g_FuncTable.m_pfnProfileLoadInt( file, OPTS_SECTION,"ArghRad2",0 );
@@ -417,7 +417,7 @@ void UpdatePreview( bool DataChange ){
 	}
 }
 
-void SaveSetup( GtkWidget *parent ){
+void SaveSetup( QWidget *parent ){
 	const char *name = g_FuncTable.m_pfnFileDialog( parent, false, "Save GenSurf Settings",
 	                                                g_FuncTable.m_pfnProfileGetDirectory() );
 
@@ -445,7 +445,7 @@ void SaveSetup( GtkWidget *parent ){
 	}
 }
 
-void OpenSetup( GtkWidget *parent, int UseDefaults ){
+void OpenSetup( QWidget *parent, int UseDefaults ){
 	const char *name;
 	char key[32], *text;
 	float value,range,rate;
@@ -462,7 +462,7 @@ void OpenSetup( GtkWidget *parent, int UseDefaults ){
 	if ( name != NULL ) {
 		ReadIniFile( name );
 		Decimate   = g_FuncTable.m_pfnProfileLoadInt( name, OPTS_SECTION,"Decimate",0 );
-		Decimate   = max( 0,min( Decimate,100 ) );
+		Decimate   = std::max( 0,std::min( Decimate,100 ) );
 
 		for ( i = 0; i <= NH; i++ )
 		{
