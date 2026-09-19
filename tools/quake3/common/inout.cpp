@@ -322,7 +322,7 @@ static void xml_message_push( int flag, const char* characters, size_t length ){
 }
 
 // all output ends up through here
-static void FPrintf( int flag, char *buf ){
+static void FPrintf( int flag, const char *buf ){
 	static bool bGotXML = false;
 
 	set_console_colour_for_flag( flag & ~( SYS_NOXMLflag | SYS_VRBflag ) );
@@ -402,7 +402,6 @@ void Sys_Warning( const char *format, ... ){
    =================
  */
 void Error( const char *error, ... ){
-	char out_buffer[4096];
 	char tmp[4096];
 	va_list argptr;
 
@@ -410,9 +409,9 @@ void Error( const char *error, ... ){
 	vsnprintf( tmp, sizeof(tmp), error, argptr );
 	va_end( argptr );
 
-	snprintf( out_buffer, sizeof(out_buffer), "************ ERROR ************\n%s\n", tmp );
+	auto out = std::format("************ ERROR ************\n{}\n", tmp);
 
-	FPrintf( SYS_ERR, out_buffer );
+	FPrintf( SYS_ERR, out.c_str() );
 	xml_message_flush();
 
 #ifdef DBG_XML

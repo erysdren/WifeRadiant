@@ -50,6 +50,8 @@ static std::pair<std::optional<mesh_t>, std::optional<mesh_t>> SplitMeshByPlane(
 	float d[MAX_PATCH_SIZE][MAX_PATCH_SIZE];
 	int c_front, c_back, c_on;
 
+	(void)c_on; // shut up gcc
+
 	for ( int i = 0; i < 2; ++i ) {
 		const bspDrawVert_t *dv = in.verts();
 		c_front = 0;

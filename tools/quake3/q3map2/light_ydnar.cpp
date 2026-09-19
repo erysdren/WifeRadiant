@@ -3720,11 +3720,9 @@ float FloodLightForSample( trace_t *trace, float floodLightDistance, bool floodL
 
 // floodlight pass on a lightmap
 static void FloodLightRawLightmapPass( rawLightmap_t *lm, Vector3& lmFloodLightRGB, float lmFloodLightIntensity, float lmFloodLightDistance, bool lmFloodLightLowQuality, float floodlightDirectionScale ){
-	trace_t trace;
+	trace_t trace{};
 	// int sx, sy;
 	// float samples, average, *floodlight2;
-
-	memset( &trace, 0, sizeof( trace_t ) );
 
 	/* setup trace */
 	trace.testOcclusion = true;

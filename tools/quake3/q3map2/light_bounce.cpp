@@ -229,6 +229,8 @@ static void RadSample( int lightmapNum, const bspDrawSurface_t& ds, const rawLig
 	Color4f textureColor;
 	float alpha, alphaI;
 
+	(void)alpha; // shut up gcc
+
 	if ( !bouncing )
 		Sys_Printf( "BUG: RadSample: !bouncing shouldn't happen\n" );
 

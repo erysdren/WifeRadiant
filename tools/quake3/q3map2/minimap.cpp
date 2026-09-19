@@ -95,12 +95,10 @@ static bool BrushIntersectionWithLine( const bspBrush_t& brush, const Vector3& s
 static float MiniMapSample( float x, float y ){
 	float t0, t1;
 	float samp;
-	int cnt;
 
 	const Vector3 org( x, y, 0 );
 	const Vector3 dir( g_vector3_axis_z );
 
-	cnt = 0;
 	samp = 0;
 	for ( int i = 0; i < minimap.model->numBSPBrushes; ++i )
 	{
@@ -125,7 +123,6 @@ static float MiniMapSample( float x, float y ){
 
 			if ( BrushIntersectionWithLine( b, org, dir, &t0, &t1 ) ) {
 				samp += t1 - t0;
-				++cnt;
 			}
 		}
 	}

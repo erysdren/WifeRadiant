@@ -372,7 +372,7 @@ void PatchMapDrawSurfs( entity_t& e ){
 
 	std::vector<groupMesh_t> meshes;
 	for ( parseMesh_t& pm : e.patches ){
-		meshes.push_back( { .mesh = pm, .grouped = false } );
+		meshes.push_back( { .mesh = pm, .bordering = nullptr, .grouped = false, .group = false } );
 	}
 	if ( meshes.empty() ) {
 		return;

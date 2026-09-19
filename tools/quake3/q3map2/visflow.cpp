@@ -587,7 +587,7 @@ static void RecursiveLeafFlow( int leafnum, threaddata_t *thread, pstack_t *prev
    ===============
  */
 void PortalFlow( int portalnum ){
-	threaddata_t data;
+	threaddata_t data{};
 	vportal_t       *p;
 	int c_might, c_can;
 
@@ -606,7 +606,6 @@ void PortalFlow( int portalnum ){
 
 	c_might = CountBits( p->portalflood, numportals * 2 );
 
-	memset( &data, 0, sizeof( data ) );
 	data.base = p;
 
 	data.pstack_head.portal = p;
@@ -706,7 +705,7 @@ static void RecursivePassageFlow( vportal_t *portal, threaddata_t *thread, pstac
    ===============
  */
 void PassageFlow( int portalnum ){
-	threaddata_t data;
+	threaddata_t data{};
 	vportal_t       *p;
 //	int             c_might, c_can;
 
@@ -725,7 +724,6 @@ void PassageFlow( int portalnum ){
 
 //	c_might = CountBits( p->portalflood, numportals * 2 );
 
-	memset( &data, 0, sizeof( data ) );
 	data.base = p;
 
 	data.pstack_head.portal = p;
@@ -954,7 +952,7 @@ static void RecursivePassagePortalFlow( vportal_t *portal, threaddata_t *thread,
    ===============
  */
 void PassagePortalFlow( int portalnum ){
-	threaddata_t data;
+	threaddata_t data{};
 	vportal_t       *p;
 //	int				c_might, c_can;
 
@@ -973,7 +971,6 @@ void PassagePortalFlow( int portalnum ){
 
 //	c_might = CountBits( p->portalflood, numportals * 2 );
 
-	memset( &data, 0, sizeof( data ) );
 	data.base = p;
 
 	data.pstack_head.portal = p;
@@ -1217,7 +1214,7 @@ static int AddSeperators( const fixedWinding_t *source, const fixedWinding_t *pa
    ===============
  */
 void CreatePassages( int portalnum ){
-	int j, k, n, numseperators, numsee;
+	int j, k, n, numseperators;
 	vportal_t       *portal, *p;
 	passage_t       *passage, *lastpassage;
 	visPlane_t seperators[MAX_SEPERATORS * 2];
@@ -1256,7 +1253,6 @@ void CreatePassages( int portalnum ){
 		}
 		lastpassage = passage;
 
-		numsee = 0;
 		//create the passage->cansee
 		for ( j = 0; j < numportals * 2; ++j )
 		{
@@ -1326,7 +1322,6 @@ void CreatePassages( int portalnum ){
 				continue;
 			}
 			bit_enable( passage->cansee, j );
-			numsee++;
 		}
 	}
 }

@@ -201,6 +201,7 @@ static void SetCloneModelNumbers(){
 				/* nuke the brushes/patches for this entity (fixme: leak!) */
 				auto *leak = new brushlist_t( std::move( entities[ i ].brushes ) ); // are brushes referenced elsewhere, so we do not nuke them really?
 				entities[ i ].patches.clear();
+				delete leak; // erysdren 2026-09-19: fix leak(??)
 			}
 		}
 	}

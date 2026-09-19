@@ -290,7 +290,7 @@ static int MakeDecalProjector( shaderInfo_t& si, const Plane3f& projection, floa
 
 	/* create a new projector */
 	decalProjector_t& dp = projectors[ numProjectors ];
-	memset( &dp, 0, sizeof( dp ) );
+	dp = {};
 
 	/* basic setup */
 	dp.si = &si;

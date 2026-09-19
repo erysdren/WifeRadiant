@@ -158,7 +158,7 @@ static int AllocTraceNode(){
 	AUTOEXPAND_BY_REALLOC_ADD( traceNodes, numTraceNodes, maxTraceNodes, GROW_TRACE_NODES );
 
 	/* add the node */
-	memset( &traceNodes[ numTraceNodes ], 0, sizeof( traceNode_t ) );
+	traceNodes[ numTraceNodes ] = {};
 	traceNodes[ numTraceNodes ].type = TRACE_LEAF;
 	traceNodes[ numTraceNodes ].minmax.clear();
 
@@ -799,8 +799,8 @@ static int TriangulateTraceNode_r( int nodeNum ){
 
 static void PopulateWithBSPModel( const bspModel_t& model, const Matrix4& transform ){
 	int nodeNum;
-	traceInfo_t ti;
-	traceWinding_t tw;
+	traceInfo_t ti{};
+	traceWinding_t tw{};
 
 
 	/* walk the list of surfaces in this model and fill out the info structs */
@@ -859,7 +859,6 @@ static void PopulateWithBSPModel( const bspModel_t& model, const Matrix4& transf
 		}
 
 		/* setup trace winding */
-		memset( &tw, 0, sizeof( tw ) );
 		tw.infoNum = AddTraceInfo( ti );
 		tw.numVerts = 3;
 
@@ -921,8 +920,8 @@ static void PopulateWithBSPModel( const bspModel_t& model, const Matrix4& transf
  */
 
 static void PopulateWithPicoModel( int castShadows, const std::vector<const AssMeshWalker*>& model, const Matrix4& transform ){
-	traceInfo_t ti;
-	traceWinding_t tw;
+	traceInfo_t ti{};
+	traceWinding_t tw{};
 
 
 	/* dummy check */
@@ -955,7 +954,6 @@ static void PopulateWithPicoModel( int castShadows, const std::vector<const AssM
 		ti.skipGrid = true; // also ignore picomodels when skipping patches
 
 		/* setup trace winding */
-		memset( &tw, 0, sizeof( tw ) );
 		tw.infoNum = AddTraceInfo( ti );
 		tw.numVerts = 3;
 

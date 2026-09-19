@@ -99,7 +99,7 @@ public:
 		float bestarea = 0;
 		float thisarea;
 		const plane_t& buildPlane = mapplanes[buildSide.planenum];
-		int matches = 0;
+		// int matches = 0;
 
 		// first, start out with NULLs
 		TriRef bestVert{ nullptr };
@@ -169,7 +169,7 @@ public:
 				}
 				thisarea = WindingArea( polygon );
 				if ( thisarea > 0 ) {
-					++matches;
+					// ++matches;
 				}
 				if ( thisarea > bestarea ) {
 					bestarea = thisarea;
