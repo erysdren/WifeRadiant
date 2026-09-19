@@ -135,6 +135,12 @@ find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Svg OpenGL OpenGLWidgets)
 
 qt_standard_project_setup()
 
+# stb
+
+add_library(stb STATIC
+	${PROJECT_SOURCE_DIR}/libs/stb_image.c
+)
+
 # commandlib
 
 add_library(commandlib STATIC

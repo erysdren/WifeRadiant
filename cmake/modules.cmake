@@ -109,7 +109,7 @@ add_module(image
 		${PROJECT_SOURCE_DIR}/modules/image/tga.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/webp.cpp
 )
-target_link_libraries(image PRIVATE ddslib etclib crnlib webplib)
+target_link_libraries(image PRIVATE ddslib etclib crnlib webplib stb)
 
 add_module(imagevtf
 	SOURCES

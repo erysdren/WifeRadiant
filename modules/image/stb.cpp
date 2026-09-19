@@ -23,16 +23,7 @@
 
 #include <cstdlib>
 
-// most of these we don't want or are handled elsewhere
-#define STBI_NO_BMP
-#define STBI_NO_PSD
-#define STBI_NO_TGA
-#define STBI_NO_GIF
-#define STBI_NO_HDR
-#define STBI_NO_PIC
-#define STBI_NO_PNM
-#define STB_IMAGE_IMPLEMENTATION
-#include "stb_image.h"
+#include "stb_image.hpp"
 
 #include "ifilesystem.h"
 #include "iarchive.h"
