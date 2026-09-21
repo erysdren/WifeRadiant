@@ -2,8 +2,6 @@
 
 The open-source, cross-platform level editor for idTech, Source Engine, and GoldSrc based games.
 
-WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtkradiant/) 1.4&rarr;massive rewrite&rarr;1.5&rarr;[NetRadiant](https://netradiant.gitlab.io/)&rarr;[NetRadiant-custom](https://github.com/Garux/netradiant-custom)&rarr;this)
-
 ## THIS PROJECT IS STILL IN AN EARLY ALPHA STATE!<br/>DO NOT OVERWRITE HAMMER-MADE VMFS WITH THIS!<br/>MAKE BACKUPS!
 
 ![d1_trainstation_02.vmf](.github/trainstation.png)
@@ -20,6 +18,7 @@ WifeRadiant is a fork of NetRadiant-custom ([GtkRadiant](https://icculus.org/gtk
 ## Credits
 
 - [sourcepp](https://github.com/craftablescience/sourcepp)
+- [NetRadiant](https://netradiant.gitlab.io/)
 - [NetRadiant-custom](https://github.com/Garux/netradiant-custom)
 - [MRVN-Radiant](https://github.com/MRVN-Radiant/MRVN-Radiant)
 - [GtkRadiant](https://icculus.org/gtkradiant/)
