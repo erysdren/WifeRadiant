@@ -110,6 +110,7 @@ struct game_default : game_t
 	false,              /* disable shader lightstyles hack */
 	false,              /* keep light entities on bsp */
 	8,                  /* default patchMeta subdivisions tolerance */
+	0.0f,               /* default tessSize */
 	false,              /* patch casting enabled */
 	false,              /* compile deluxemaps */
 	0,                  /* deluxemaps default mode */
@@ -771,6 +772,7 @@ struct game_sof2 : game_t
 	false,                  /* disable shader lightstyles hack */
 	false,                  /* keep light entities on bsp */
 	8,                      /* default patchMeta subdivisions tolerance */
+	0.0f,                   /* default tessSize */
 	false,                  /* patch casting enabled */
 	false,                  /* compile deluxemaps */
 	0,                      /* deluxemaps default mode */

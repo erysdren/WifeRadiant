@@ -1955,6 +1955,7 @@ inline bool g_decompile_wtf;
 /* general commandline arguments */
 inline bool force;
 inline int patchSubdivisions = 8;                       /* ydnar: -patchmeta subdivisions */
+inline float brushSubdivisions = 0.0f;                  /* erysdren: -tessSize subdivisions */
 
 /* commandline arguments */
 inline bool verboseEntities;

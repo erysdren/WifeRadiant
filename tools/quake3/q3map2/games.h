@@ -92,6 +92,7 @@ struct game_t
 	bool noStyles;                                      /* use lightstyles hack or not */
 	bool keepLights;                                    /* keep light entities on bsp */
 	int patchSubdivisions;                              /* default patchMeta subdivisions tolerance */
+	float brushSubdivisions;                            /* default tessSize */
 	bool patchShadows;                                  /* patch casting enabled */
 	bool deluxeMap;                                     /* compile deluxemaps */
 	int deluxeMode;                                     /* deluxemap mode (0 - modelspace, 1 - tangentspace with renormalization, 2 - tangentspace without renormalization) */

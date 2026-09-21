@@ -109,6 +109,11 @@ int main( int argc, char **argv ){
 			patchSubdivisions = std::max( atoi( args.takeNext() ), 1 );
 		}
 
+		/* brush subdivisions */
+		while ( args.takeArg( "-tessSize" ) ) {
+			brushSubdivisions = std::max( atof( args.takeNext() ), 1.0 );
+		}
+
 		/* threads */
 		while ( args.takeArg( "-threads" ) ) {
 			numthreads = atoi( args.takeNext() );
@@ -150,6 +155,10 @@ int main( int argc, char **argv ){
 	/* set game options */
 	if ( !patchSubdivisions ) {
 		patchSubdivisions = g_game->patchSubdivisions;
+	}
+
+	if ( !brushSubdivisions ) {
+		brushSubdivisions = g_game->brushSubdivisions;
 	}
 
 	/* check if we have enough options left to attempt something */

@@ -567,6 +567,9 @@ static shaderInfo_t& AllocShaderInfo( const char *shaderName ){
 	si.vertexScale = g_vertexScale;
 	si.notjunc = false;
 
+	/* erysdren: specify tessSize from command line */
+	si.subdivisions = brushSubdivisions;
+
 	/* ydnar: set texture coordinate transform matrix to identity */
 	TCModIdentity( si.mod );
 
