@@ -464,6 +464,7 @@ static void HelpCommon()
 		{ "-game <gamename>", "Load settings for the given game (default: quake3), -help -game lists available games" },
 		{ "-maxmapdrawsurfs <N>", "Sets max amount of mapDrawSurfs, used during .map compilation (-bsp, -convert), default = 131072" },
 		{ "-subdivisions <F>", "multiplier for patch subdivisions quality" },
+		{ "-tessSize <F>", "global version of q3map_tessSize" },
 		{ "-threads <N>", "number of threads to use" },
 		{ "-v", "Verbose mode" },
 	};
