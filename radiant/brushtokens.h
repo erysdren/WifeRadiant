@@ -24,6 +24,7 @@
 #include "stringio.h"
 #include "stream/stringstream.h"
 #include "brush.h"
+#include "disptokens.h"
 
 inline bool FaceShader_importContentsFlagsValue( FaceShader& faceShader, Tokeniser& tokeniser ){
 	// parse the optional contents/flags/value
@@ -531,9 +532,24 @@ public:
 				{
 					Valve220FaceTokenImporter<true> importer( face );
 					RETURN_FALSE_IF_FAIL( importer.importTokens( tokeniser ) );
-					// check next line for dispDef
-					// link to face if it exists
-					// otherwise ungetToken, hopefully nextline won't break things
+					// NOTE: should fail if a dispDef appears without a face
+
+					// TODO: `Disp m_disp` member definition in `Face` class
+					// -- radiant/brush.h:885 `class Face final`
+
+					tokeniser.nextLine();
+					bool has_dispDef = string_equal( tokeniser.getToken(), "dispDef" );
+					tokeniser.ungetToken();
+					// NOTE: nextLine only sets a flag in tokeniser allowing it to cross lines
+					// -- ungetToken just remembers the token for the next getToken
+					// -- this should allow us to peek at the next line without skipping it
+					// -- when nextLine is called to advance the parser
+
+					// referenced radiant/patch.h:1097
+					if ( has_dispDef ) {
+						DispTokenImporter<true> importer( face->m_disp );
+						RETURN_FALSE_IF_FAIL( importer.importTokens( tokeniser ) );
+					}
 				}
 				break;
 			case eBrushTypeValve220:
