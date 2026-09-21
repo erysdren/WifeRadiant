@@ -37,6 +37,7 @@ add_executable(q2map
 )
 target_link_libraries(q2map PRIVATE l_net $<$<BOOL:${WIN32}>:ws2_32>)
 target_link_libraries(q2map PRIVATE LibXml2::LibXml2)
+target_link_libraries(q2map PRIVATE $<TARGET_NAME_IF_EXISTS:Math::Math>)
 target_include_directories(q2map PRIVATE
 	${PROJECT_SOURCE_DIR}/tools/quake2/common
 	${PROJECT_SOURCE_DIR}/include

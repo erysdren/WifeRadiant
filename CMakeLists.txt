@@ -74,6 +74,8 @@ set(SOURCEPP_VTFPP_SUPPORT_QOI OFF CACHE BOOL "" FORCE)
 set(SOURCEPP_VTFPP_SUPPORT_WEBP OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(sourcepp)
 
+find_package(Math)
+
 find_package(ZLIB)
 if(NOT ZLIB_FOUND)
 	FetchContent_Declare(
