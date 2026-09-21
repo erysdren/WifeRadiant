@@ -43,6 +43,7 @@
 #include <QToolButton>
 #include <QGroupBox>
 #include <QCheckBox>
+#include <QGuiApplication>
 
 #include "signal/isignal.h"
 #include "math/vector.h"

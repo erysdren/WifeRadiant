@@ -133,7 +133,11 @@ endif()
 
 find_package(Qt6 REQUIRED COMPONENTS Core Gui Widgets Svg OpenGL OpenGLWidgets)
 
-qt_standard_project_setup()
+message(STATUS "Qt6 version is ${Qt6_VERSION}")
+
+if(Qt6_VERSION VERSION_GREATER 6.2.4)
+	qt_standard_project_setup()
+endif()
 
 # stb
 
