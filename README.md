@@ -137,6 +137,7 @@ The open-source, cross-platform level editor for idTech, Source Engine, and Gold
 	- ~~[https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format](https://wiki.stratasource.org/modding/formats/vtf-hotspot-text-format)~~
 	- ~~sourcepp supports `.hot` files and VTF hotspot resources~~
 - ~~Optionally parse Source Engine `gameinfo.txt`~~
+- make `q3map2`/`wrmap` a library with a thin CLI wrapper for easier embedding into other applications
 
 ### Random feature highlights
 
