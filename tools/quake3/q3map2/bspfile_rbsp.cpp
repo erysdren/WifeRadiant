@@ -240,7 +240,11 @@ void WriteRBSPFile( const char *filename ){
 		time_t t;
 		time( &t );
 		/* asctime adds an implicit trailing \n */
+#ifdef __WRMAP__
+		const auto marker = StringStream( "I LOVE MY WIFE " WRMAP_VERSION " on ", asctime( localtime( &t ) ) );
+#else
 		const auto marker = StringStream( "I LOVE MY Q3MAP2 " Q3MAP_VERSION " on ", asctime( localtime( &t ) ) );
+#endif
 		AddLump( file, header.lumps[0], std::vector<char>( marker.cbegin(), marker.cend() + 1 ) );
 	}
 
