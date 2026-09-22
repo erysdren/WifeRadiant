@@ -36,6 +36,7 @@ void Broadcast_Shutdown();
 #define SYS_VRB SYS_STD | SYS_VRBflag // verbose support (on/off) //a shortcut, not for sending!
 
 extern bool verbose;
+extern bool terminalColor;
 void Sys_Printf( const char *text, ... );
 void Sys_FPrintf( int flag, const char *text, ... );
 void Sys_Warning( const char *format, ... );

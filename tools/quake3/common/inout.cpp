@@ -52,6 +52,7 @@ static socket_t *brdcst_socket;
 // messages may come from various threads, 'force send' signal comes from dedicated thread
 static std::recursive_mutex mesege_mutex;
 
+bool terminalColor = true;
 bool verbose = false;
 
 // our main document
@@ -194,6 +195,9 @@ void xml_Winding( const char *msg, const Vector3 p[], int numpoints, bool die ){
 }
 
 static void set_console_colour_for_flag( int flag ){
+	if (!terminalColor) {
+		return;
+	}
 #ifdef WIN32
 	static int curFlag = SYS_STD;
 	static bool ok = true;
@@ -217,6 +221,30 @@ static void set_console_colour_for_flag( int flag ){
 		SetConsoleTextAttribute( hConsole, flag == SYS_WRN ? FOREGROUND_RED | FOREGROUND_GREEN | FOREGROUND_INTENSITY
 		                                 : flag == SYS_ERR ? FOREGROUND_RED | FOREGROUND_INTENSITY
 		                                 : colour_saved );
+	}
+#else
+	static int curFlag = SYS_STD;
+	if (curFlag == flag) {
+		return;
+	}
+	curFlag = flag;
+	switch (flag) {
+		case SYS_STD: {
+			fputs("\033[00m", stdout); // reset
+			break;
+		}
+
+		case SYS_WRN: {
+			fputs("\033[1m", stdout); // bold
+			fputs("\033[33m", stdout); // yellow
+			break;
+		}
+
+		case SYS_ERR: {
+			fputs("\033[1m", stdout); // bold
+			fputs("\033[31m", stdout); // red
+			break;
+		}
 	}
 #endif
 }
@@ -326,7 +354,7 @@ static void FPrintf( int flag, const char *buf ){
 	static bool bGotXML = false;
 
 	set_console_colour_for_flag( flag & ~( SYS_NOXMLflag | SYS_VRBflag ) );
-	printf( "%s", buf );
+	fputs( buf, stdout );
 
 	// the following part is XML stuff only.. but maybe we don't want that message to go down the XML pipe?
 	if ( flag & SYS_NOXMLflag ) {

@@ -465,6 +465,7 @@ static void HelpCommon()
 		{ "-maxmapdrawsurfs <N>", "Sets max amount of mapDrawSurfs, used during .map compilation (-bsp, -convert), default = 131072" },
 		{ "-subdivisions <F>", "multiplier for patch subdivisions quality" },
 		{ "-tessSize <F>", "global version of q3map_tessSize" },
+		{ "-noColor", "disable terminal color output" },
 		{ "-threads <N>", "number of threads to use" },
 		{ "-v", "Verbose mode" },
 	};

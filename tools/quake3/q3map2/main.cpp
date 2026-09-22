@@ -119,6 +119,11 @@ int main( int argc, char **argv ){
 			numthreads = atoi( args.takeNext() );
 		}
 
+		/* terminal output color */
+		while ( args.takeArg( "-noColor" ) ) {
+			terminalColor = false;
+		}
+
 		/* max_map_draw_surfs */
 		while ( args.takeArg( "-maxmapdrawsurfs" ) ) {
 			max_map_draw_surfs = abs( atoi( args.takeNext() ) );
