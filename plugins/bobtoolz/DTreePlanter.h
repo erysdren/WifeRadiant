@@ -94,95 +94,95 @@ public:
 		}
 	}
 
-#define MT( t )   string_equal_nocase( pToken, t )
-#define GT      pToken = pScriptParser->GetToken( true )
-#define CT      if ( !*pToken ) { return; }
+#define TOKENEQU( t ) string_equal_nocase( pToken, t )
+#define GETTOKEN      pToken = pScriptParser->GetToken( true )
+#define CHKTOKEN      if ( !*pToken ) { return; }
 
 	void ReadConfig( CScriptParser* pScriptParser ) {
-		const char* GT;
-		CT;
+		const char* GETTOKEN;
+		CHKTOKEN;
 
 		do {
-			GT;
+			GETTOKEN;
 			if ( *pToken == '}' ) {
 				break;
 			}
 
-			if ( MT( "model" ) ) {
+			if ( TOKENEQU( "model" ) ) {
 				if ( m_numModels >= MAX_TP_MODELS ) {
 					return;
 				}
 
-				GT;
-				CT;
+				GETTOKEN;
+				CHKTOKEN;
 
 				strncpy( m_trees[m_numModels++].name, pToken, std::size( m_trees[0].name ) - 1 );
 				m_trees[m_numModels].name[ std::size( m_trees[0].name ) - 1 ] = '\0';
 			}
-			else if ( MT( "link" ) ) {
-				GT;
-				CT;
+			else if ( TOKENEQU( "link" ) ) {
+				GETTOKEN;
+				CHKTOKEN;
 
 				strncpy( m_linkName, pToken, std::size( m_linkName ) - 1 );
 				m_linkName[ std::size( m_linkName ) - 1 ] = '\0';
 
 				m_autoLink = true;
 			}
-			else if ( MT( "entity" ) ) {
-				GT;
-				CT;
+			else if ( TOKENEQU( "entity" ) ) {
+				GETTOKEN;
+				CHKTOKEN;
 
 				strncpy( m_entType, pToken, std::size( m_entType ) - 1 );
 				m_entType[ std::size( m_entType ) - 1 ] = '\0';
 			}
-			else if ( MT( "offset" ) ) {
-				GT;
-				CT;
+			else if ( TOKENEQU( "offset" ) ) {
+				GETTOKEN;
+				CHKTOKEN;
 
 				m_offset = atoi( pToken );
 			}
-			else if ( MT( "pitch" ) ) {
-				GT;
-				CT;
+			else if ( TOKENEQU( "pitch" ) ) {
+				GETTOKEN;
+				CHKTOKEN;
 
 				m_minPitch = atoi( pToken );
 
-				GT;
-				CT;
+				GETTOKEN;
+				CHKTOKEN;
 
 				m_maxPitch = atoi( pToken );
 
 				m_setAngles = true;
 			}
-			else if ( MT( "yaw" ) ) {
-				GT;
-				CT;
+			else if ( TOKENEQU( "yaw" ) ) {
+				GETTOKEN;
+				CHKTOKEN;
 
 				m_minYaw = atoi( pToken );
 
-				GT;
-				CT;
+				GETTOKEN;
+				CHKTOKEN;
 
 				m_maxYaw = atoi( pToken );
 
 				m_setAngles = true;
 			}
-			else if ( MT( "scale" ) ) {
-				GT;
-				CT;
+			else if ( TOKENEQU( "scale" ) ) {
+				GETTOKEN;
+				CHKTOKEN;
 
 				m_minScale = atof( pToken );
 
-				GT;
-				CT;
+				GETTOKEN;
+				CHKTOKEN;
 
 				m_maxScale = atof( pToken );
 
 				m_useScale = true;
 			}
-			else if ( MT( "numlinks" ) ) {
-				GT;
-				CT;
+			else if ( TOKENEQU( "numlinks" ) ) {
+				GETTOKEN;
+				CHKTOKEN;
 
 				m_linkNum = atoi( pToken );
 			}

@@ -34,7 +34,10 @@ const char* GetCurrentTexture();
 class _QERFaceData;
 void FillDefaultTexture( _QERFaceData* faceData, const vec3_accu_t va, const vec3_accu_t vb, const vec3_accu_t vc, const char* texture );
 inline void FillDefaultTexture( _QERFaceData* faceData, const vec3_t va, const vec3_t vb, const vec3_t vc, const char* texture ){
-	FillDefaultTexture( faceData, vec3_accu_t{ va[0], va[1], va[2] }, vec3_accu_t{ vb[0], vb[1], vb[2] }, vec3_accu_t{ vc[0], vc[1], vc[2] }, texture );
+	vec3_accu_t a{ va[0], va[1], va[2] };
+	vec3_accu_t b{ vb[0], vb[1], vb[2] };
+	vec3_accu_t c{ vc[0], vc[1], vc[2] };
+	FillDefaultTexture( faceData, a, b, c, texture );
 }
 
 void BuildMiniPrt( const std::vector<CopiedString>& exclusionList );
