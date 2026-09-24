@@ -1,0 +1,7 @@
+
+This is set of utility textures and accompanying shader that makes them transparent inside editor.
+
+
+**build menu is configured with ericw-tools compiler in mind;
+  (https://ericwa.github.io/ericw-tools/)
+  just drop binaries to radiant folder, in a "ericw" subfolder

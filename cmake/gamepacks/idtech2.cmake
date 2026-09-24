@@ -28,3 +28,32 @@ radiant_add_gamepack(q1
 	SHADER_NODRAW "skip"
 	SHADER_TRIGGER "trigger"
 )
+
+# Quake 2
+radiant_add_gamepack(q2
+	GAME_TYPE "q2"
+	TITLE "Quake 2"
+	GAMEDIR "baseq2"
+	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Quake 2/"
+	PATH_LINUX "~/.steam/steam/steamapps/common/Quake 2/"
+	EXECUTABLE_WIN32 "quake2.exe"
+	EXECUTABLE_LINUX "quake2"
+	EXECUTABLE_MACOS "Quake2.app"
+	ENTITIES_FILENAME "quake2.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "quake3"
+	BUILD_MENU_FILENAME "default_build_menu_quake2_ericwtools.xml"
+	ARCHIVE_TYPES "pak"
+	TEXTURE_TYPES "pcx" "tga" "wal"
+	MODEL_TYPES "md2"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapq1"
+	BRUSH_TYPES "quake2"
+	PATCH_TYPES "quake3"
+	SHADER_CAULK "textures/common/caulk"
+	SHADER_NODRAW "textures/common/nodraw"
+	SHADER_TRIGGER "textures/common/trigger"
+)
