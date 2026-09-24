@@ -94,6 +94,35 @@ add_plugin(meshtex
 )
 target_link_libraries(meshtex PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
+add_plugin(bobtoolz
+	SOURCES
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/bobToolz-GTK.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/bsploader.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/cportals.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DBobView.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DBrush.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DEntity.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DEPair.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/dialogs/dialogs-gtk.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DMap.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DPatch.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DPlane.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DPoint.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DShape.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DTrainDrawer.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DTreePlanter.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DVisDrawer.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/DWinding.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/funchandlers-GTK.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/lists.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/misc.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/ScriptParser.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/shapes.cpp
+		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/visfind.cpp
+)
+target_link_libraries(bobtoolz PRIVATE commandlib mathlib)
+target_link_libraries(bobtoolz PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
+
 if(0)
 add_plugin(gensurf
 	SOURCES
