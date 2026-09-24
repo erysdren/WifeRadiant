@@ -79,7 +79,7 @@ jobs:
         version: '6.2.4'
         host: 'linux'
         target: 'desktop'
-        arch: 'linux_gcc_64'
+        arch: 'gcc_64'
         cache: true
     - name: Checkout Repository
       uses: actions/checkout@v7
