@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.27)
-project(WifeRadiant LANGUAGES C CXX VERSION 1.6.0)
+project(WifeRadiant LANGUAGES C CXX VERSION 2.0.0)
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
 # global
@@ -40,9 +40,9 @@ set(RADIANT_MAJOR_VERSION ${PROJECT_VERSION_MAJOR})
 set(RADIANT_MINOR_VERSION ${PROJECT_VERSION_MINOR})
 set(RADIANT_PATCH_VERSION ${PROJECT_VERSION_PATCH})
 set(RADIANT_ABOUTMSG "fix your hearts or die" CACHE STRING "")
-set(Q3MAP_VERSION "2.5.17n" CACHE STRING "")
+set(Q3MAP_VERSION "2.5.17w" CACHE STRING "")
 set(Q3MAP_MOTD "Your map saw the pretty lights from q3map2's BFG" CACHE STRING "")
-set(WRMAP_VERSION "2.5.17n" CACHE STRING "")
+set(WRMAP_VERSION "2.5.17w" CACHE STRING "")
 set(WRMAP_MOTD "your map saw my transgender boobs" CACHE STRING "")
 
 # external dependencies
