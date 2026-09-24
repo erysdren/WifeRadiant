@@ -91,6 +91,7 @@ struct game_default : game_t
 	".q3a",             /* unix home sub-dir */
 	"quake",            /* magic path word */
 	"scripts",          /* shader directory */
+	"shader",           /* shader extension */
 	64,                 /* max lightmapped surface verts */
 	999,                /* max surface verts */
 	6000,               /* max surface indexes */
@@ -753,6 +754,7 @@ struct game_sof2 : game_t
 	".sof2",                /* unix home sub-dir */
 	"soldier",              /* magic path word */
 	"shaders",              /* shader directory */
+	"shader",               /* shader extension */
 	64,                     /* max lightmapped surface verts */
 	999,                    /* max surface verts */
 	6000,                   /* max surface indexes */

@@ -73,6 +73,7 @@ struct game_t
 	const char          *homeBasePath;                  /* home sub-dir on unix */
 	const char          *magic;                         /* magic word for figuring out base path */
 	const char          *shaderPath;                    /* shader directory */
+	const char          *shaderExt;                     /* shader extension (without dot) */
 	int maxLMSurfaceVerts;                              /* default maximum lightmapped surface verts */
 	int maxSurfaceVerts;                                /* default maximum surface verts */
 	int maxSurfaceIndexes;                              /* default maximum surface indexes (tris * 3) */

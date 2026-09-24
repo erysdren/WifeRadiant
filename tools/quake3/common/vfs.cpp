@@ -192,7 +192,7 @@ void vfsInitDirectory( const char *path, const char *pk3ext, const char *pk3dire
 
 
 // lists all unique .shader files with extension and w/o path
-std::vector<CopiedString> vfsListShaderFiles( const char *shaderPath ){
+std::vector<CopiedString> vfsListShaderFiles( const char* shaderPath, const char* shaderExt ){
 	std::vector<CopiedString> list;
 	const auto insert = [&list]( const char *name ){
 		if( std::ranges::none_of( list, [name]( const CopiedString& str ){
@@ -204,11 +204,11 @@ std::vector<CopiedString> vfsListShaderFiles( const char *shaderPath ){
 	for ( const auto& strdir : g_strDirs ){
 		auto path = StringStream( strdir, shaderPath, '/' );
 		if ( std::filesystem::exists( path.c_str() ) ) {
-			std::filesystem::directory_iterator dir { path.c_str() };
+			std::filesystem::recursive_directory_iterator dir { path.c_str() };
 			for ( auto& entry : dir ) {
 				auto entryname = entry.path().filename().generic_u8string();
 				const char* name = reinterpret_cast<char const*>(entryname.c_str());
-				if ( path_extension_is( name, "shader" ) ) {
+				if ( path_extension_is( name, shaderExt ) ) {
 					insert( name );
 				}
 			}
@@ -218,7 +218,7 @@ std::vector<CopiedString> vfsListShaderFiles( const char *shaderPath ){
 	for ( const VFS_PAKFILE& file : g_pakFiles )
 	{
 		const char *name = file.name.c_str();
-		if ( path_extension_is( name, "shader" )
+		if ( path_extension_is( name, shaderExt )
 		  && strniEqual( name, shaderPath, path_get_last_separator( name ) - name ) ) {
 			insert( path_get_filename_start( name ) );
 		}

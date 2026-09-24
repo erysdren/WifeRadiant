@@ -268,7 +268,7 @@ void BeginMapShaderFile( const char *mapFile ){
 	mapName( PathFilename( mapFile ) );
 
 	/* append ../scripts/q3map2_<mapname>.shader */
-	mapShaderFile = StringStream( PathFilenameless( mapFile ), "../", g_game->shaderPath, "/q3map2_", mapName.c_str(), ".shader" );
+	mapShaderFile = StringStream( PathFilenameless( mapFile ), "../", g_game->shaderPath, "/q3map2_", mapName.c_str(), ".", g_game->shaderExt );
 	Sys_FPrintf( SYS_VRB, "Map has shader script %s\n", mapShaderFile.c_str() );
 
 	/* remove it */
@@ -1823,8 +1823,10 @@ void LoadShaderInfo(){
 				return std::ranges::any_of( shaderFiles, [file]( const CopiedString& str ){ return striEqual( str.c_str(), file ); } );
 			};
 
-			if( !path_extension_is( token , "shader" ) )
-				strcatQ( token, ".shader", std::size( token ) );
+			if( !path_extension_is( token , g_game->shaderExt ) ) {
+				strcatQ( token, ".", std::size( token ) );
+				strcatQ( token, g_game->shaderExt, std::size( token ) );
+			}
 			/* new shader file */
 			if ( !contains( token ) ) {
 				shaderFiles.emplace_back( token );
@@ -1834,7 +1836,7 @@ void LoadShaderInfo(){
 
 	if( shaderFiles.empty() ){
 		Sys_Printf( "%s", "No shaderlist.txt found: loading all shaders\n" );
-		shaderFiles = vfsListShaderFiles( g_game->shaderPath );
+		shaderFiles = vfsListShaderFiles( g_game->shaderPath, g_game->shaderExt );
 	}
 
 	/* parse the shader files */

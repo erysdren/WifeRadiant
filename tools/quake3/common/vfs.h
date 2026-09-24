@@ -40,7 +40,7 @@ int vfsGetFileCount( const char *filename );
 /// \param[in] index >= 0: \p filename is relative path in VSF, Nth occurrence of file
 /// \return non-empty \c MemBuffer on success
 MemBuffer vfsLoadFile( const char *filename, int index = 0, bool script = false );
-std::vector<CopiedString> vfsListShaderFiles( const char *shaderPath );
+std::vector<CopiedString> vfsListShaderFiles( const char* shaderPath, const char* shaderExt );
 bool vfsPackFile( const char *filename, const char *packname, const int compLevel );
 bool vfsPackFile_Absolute_Path( const char *filepath, const char *filename, const char *packname, const int compLevel );
 
