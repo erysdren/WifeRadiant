@@ -34,6 +34,7 @@
 
 
 static bool g_autocaulk = false;
+static bool g_ignoreLeaks = false;
 
 static void autocaulk_write(){
 	Sys_FPrintf( SYS_VRB, "--- autocaulk_write ---\n" );
@@ -271,7 +272,7 @@ static void ProcessWorldModel( entity_t& e ){
 	Sys_Printf( "block size = { %d %d %d }\n", blockSize[ 0 ], blockSize[ 1 ], blockSize[ 2 ] );
 
 	/* sof2: ignore leaks? */
-	const bool ignoreLeaks = e.boolForKey( "_ignoreleaks", "ignoreleaks" );
+	const bool ignoreLeaks = e.boolForKey( "_ignoreleaks", "ignoreleaks" ) || g_ignoreLeaks;
 
 	/* begin worldspawn model */
 	BeginModel( e );
@@ -862,6 +863,10 @@ int BSPMain( Args& args ){
 		while ( args.takeArg( "-autocaulk" ) ) {
 			Sys_Printf( "\trunning in autocaulk mode\n" );
 			g_autocaulk = true;
+		}
+		while ( args.takeArg( "-ignoreLeaks" ) ) {
+			Sys_Printf( "Ignoring leaks\n" );
+			g_ignoreLeaks = true;
 		}
 		while( !args.empty() )
 		{
