@@ -83,7 +83,10 @@ void AddFaceWithTexture( scene::Node& brush, const vec3_accu_t va, const vec3_ac
 	GlobalBrushCreator().Brush_addFace( brush, faceData );
 }
 void AddFaceWithTexture( scene::Node& brush, const vec3_t va, const vec3_t vb, const vec3_t vc, const char* texture, bool detail ){
-	AddFaceWithTexture( brush, vec3_accu_t{ va[0], va[1], va[2] }, vec3_accu_t{ vb[0], vb[1], vb[2] }, vec3_accu_t{ vc[0], vc[1], vc[2] }, texture, detail );
+	vec3_accu_t a{ va[0], va[1], va[2] };
+	vec3_accu_t b{ vb[0], vb[1], vb[2] };
+	vec3_accu_t c{ vc[0], vc[1], vc[2] };
+	AddFaceWithTexture( brush, a, b, c, texture, detail );
 }
 
 void AddFaceWithTextureScaled( scene::Node& brush, vec3_t va, vec3_t vb, vec3_t vc,
