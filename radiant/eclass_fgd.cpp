@@ -241,7 +241,14 @@ static void addBaseAttributes( EntityClass* entityClass, const std::unordered_ma
 }
 
 void Eclass_ScanFile_fgd( EntityClassCollector& collector, const char *filename ){
-	toolpp::FGD fgd = toolpp::FGD(filename);
+	toolpp::FGD fgd;
+
+	try {
+		fgd.load(filename);
+	} catch(std::runtime_error& e) {
+		globalErrorStream() << "parsing " << Quoted(filename) << " failed: " << e.what() << '\n';
+		return;
+	}
 
 	const auto& materialExclusionDirs = fgd.getMaterialExclusionDirs();
 
