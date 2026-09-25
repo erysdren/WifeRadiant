@@ -38,6 +38,7 @@
 // libs
 #include "generic/vector.h"
 #include "scenelib.h"
+#include "string/string.h"
 #include "transformlib.h"
 
 
@@ -115,13 +116,13 @@ class Disp final:
 
     /* constructors */
     Disp(
-        scene::Node &node,
-        const Callback<void()> &evaluateTransform,
-        const Callback<void()> &boundsChanged
+        scene::Node &node
+        // const Callback<void()> &evaluateTransform,
+        // const Callback<void()> &boundsChanged
       ) :
-        m_node(&node),
-        m_evaluateTransform(evaluateTransform),
-        m_boundsChanged(boundsChanged)
+        m_node(&node)
+        // m_evaluateTransform(evaluateTransform),
+        // m_boundsChanged(boundsChanged)
       {
         construct();
     }
@@ -132,13 +133,13 @@ class Disp final:
 
     Disp(
         const Disp &other,
-        scene::Node &node,
-        const Callback<void()> &evaluateTransform,
-        const Callback<void()> &boundsChanged
+        scene::Node &node
+        // const Callback<void()> &evaluateTransform,
+        // const Callback<void()> &boundsChanged
       ) :
-        m_node(&node),
-        m_evaluateTransform(evaluateTransform),
-        m_boundsChanged(boundsChanged)
+        m_node(&node)
+        // m_evaluateTransform(evaluateTransform),
+        // m_boundsChanged(boundsChanged)
       {
         construct();
         clone(other);
@@ -166,10 +167,10 @@ class Disp final:
     void                     detach(const NameCallback &callback) override;  // Nameable
     UndoMemento             *exportState() const override;  // Undoable
     void                     importState(const UndoMemento *state) override;  // Undoable
-    VolumeIntersectionValue  intersectVolume(const VolumeTest& test, const Matrix4 &localToWorld) override;  // Cullable
+    VolumeIntersectionValue  intersectVolume(const VolumeTest& test, const Matrix4 &localToWorld) const override;  // Cullable
     const AABB              &localAABB() const override;  // Bounded
     const Matrix4           &localToParent() const override;  // TransformNode
-    const char*              name() override;  // Nameable
+    const char*              name() const override;  // Nameable
     void                     snapto(float snap) override;  // Snappable
     void                     updateFiltered() override;  // Filterable
 
@@ -188,7 +189,7 @@ class Disp final:
     // transforms
     void transform(const Matrix4 &matrix);
     void transformChanged();
-    typedef  MemberCaller<Patch, void(), &Disp::transformChanged>  TransformChangedCaller;
+    typedef  MemberCaller<Disp, void(), &Disp::transformChanged>  TransformChangedCaller;
     void evaluateTransform();
     void revertTransform();
     void freezeTransform();

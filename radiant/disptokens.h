@@ -38,15 +38,9 @@ class DispTokenImporter: public MapImporter {
     inline static bool importFooter(Disp &disp, Tokeniser &tokeniser);
 
   public:
-    PatchTokenImporter(Disp &disp) : m_disp(disp) {};
+    DispTokenImporter(Disp &disp) : m_disp(disp) {};
 
-    bool importTokens(Tokeniser &tokeniser) override {
-        RETURN_FALSE_IF_FAIL(Disp_importHeader(m_disp, tokeniser));
-        RETURN_FALSE_IF_FAIL(Disp_importParams(m_disp, tokeniser));
-        RETURN_FALSE_IF_FAIL(Disp_importVertex(m_disp, tokeniser));
-        RETURN_FALSE_IF_FAIL(Disp_importFooter(m_disp, tokeniser));
-        return true;
-    }
+    bool importTokens(Tokeniser &tokeniser) override;
 };
 
 
@@ -60,12 +54,7 @@ class DispTokenExporter : public MapExporter {
     inline static void exportFooter(Disp &disp, TokenWriter &writer);
 
   public:
-    PatchTokenExporter(Disp &disp) : m_disp(disp) {}
+    DispTokenExporter(Disp &disp) : m_disp(disp) {}
 
-    void exportTokens(TokenWriter &writer) const override {
-        exportHeader(m_disp, writer);
-        exportParams(m_disp, writer);
-        exportVertex(m_disp, writer);
-        exportFooter(m_disp, writer);
-    }
+    void exportTokens(TokenWriter &writer) const override;
 };

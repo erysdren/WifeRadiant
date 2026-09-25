@@ -79,6 +79,15 @@ inline bool DispTokenImporter::importFooter(Disp &disp, Tokeniser &tokeniser) {
 }
 
 
+bool DispTokenImporter::importTokens(Tokeniser &tokeniser) {
+    RETURN_FALSE_IF_FAIL(importHeader(m_disp, tokeniser));
+    RETURN_FALSE_IF_FAIL(importParams(m_disp, tokeniser));
+    RETURN_FALSE_IF_FAIL(importVertex(m_disp, tokeniser));
+    RETURN_FALSE_IF_FAIL(importFooter(m_disp, tokeniser));
+    return true;
+}
+
+
 /*********************/
 /* DispTokenExporter */
 /*********************/
@@ -129,4 +138,12 @@ inline void DispTokenExporter::exportVertex(const Disp &disp, TokenWriter &write
 inline void DispTokenExporter::exportFooter(m_disp, writer) {
     writer.writeToken("}");
     writer.nextLine();
+}
+
+
+void DispTokenExporter::exportTokens(TokenWriter &writer) const {
+    exportHeader(m_disp, writer);
+    exportParams(m_disp, writer);
+    exportVertex(m_disp, writer);
+    exportFooter(m_disp, writer);
 }
