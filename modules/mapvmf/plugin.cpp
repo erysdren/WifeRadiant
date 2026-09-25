@@ -43,6 +43,7 @@
 
 #include <kvpp/kvpp.h>
 
+#include <cmath>
 #include <format>
 #include <map>
 
@@ -234,7 +235,6 @@ public:
 		dispDef = head + params + rows + tail;
 		return true;
 	}
-	// TODO: kvpp::KV1 dispinfo_from(... dispDef);  // for writer
 	void readGraph( scene::Node& root, TextInputStream& inputStream, EntityCreator& entityTable ) const override {
 
 		char buffer[2048];
@@ -454,9 +454,13 @@ public:
 			}
 		};
 		static bool writeDisp(std::vector<std::string>& lines, int& i, kvpp::KV1ElementWritable<std::string> &disp) {
-			// temp helper macros, undef'd at end of method
+			// temp dispDef parse macros, undef'd at end of parsing
 			#define ASSERT_LINE(expected) \
 				if (line != expected) \
+					return false;
+
+			#define GET_TOKEN(token) \
+				if ( !string_equal( tokeniser.getToken(), token ) ) \
 					return false;
 
 			#define NEXT_LINE() \
@@ -474,20 +478,39 @@ public:
 			double startpos[3];
 			sscanf(line.c_str(), "%d ( %lf %lf %lf )", &power, &startpos[0], &startpos[1], &startpos[2]);
 			NEXT_LINE();
-
 			ASSERT_LINE( "(\n" ); NEXT_LINE();
 
+			struct DispVert { float x, y, z, a; };
+			std::vector<std::vector<DispVert>>	vertices;
+
 			int num_rows = power * power;
-			for (int j; j < num_rows; i++) {
-				if ( (i + j) > lines.size() )
-					return false;
-				line = lines.at(i + j);
-				// TODO: parse row tokens
+			for (int row = 0; row < num_rows; row++) {
+				vertices.emplace_back();
 				// ( ( x y z a ) ... repeat num_rows times ... )
+				StringTokeniser tokeniser(line);
+				GET_TOKEN("(");
+				for (int col = 0; col < num_rows; col++) {
+					DispVert dispvert;
+					vertices.back().push_back(dispvert);
+					if (!string_equal(tokeniser.getToken(), ")")
+					 || !string_parse_float(tokeniser.getToken(), dispvert.x)
+					 || !string_parse_float(tokeniser.getToken(), dispvert.y)
+					 || !string_parse_float(tokeniser.getToken(), dispvert.z)
+					 || !string_parse_float(tokeniser.getToken(), dispvert.a)
+					 || !string_equal(tokeniser.getToken(), ")") ) {
+						return false;  // invalid token(s); panic!
+					}
+				}
+				GET_TOKEN(")");
+				NEXT_LINE();
 			}
 
 			ASSERT_LINE( ")\n" ); NEXT_LINE();
 			ASSERT_LINE( "}\n" );  // caller handles next line
+
+			#undef ASSERT_LINE
+			#undef GET_TOKEN
+			#undef NEXT_LINE
 
 			// write dispinfo node
 			disp["power"] = power;
@@ -498,22 +521,50 @@ public:
 			disp["subdiv"] = 0;
 			// child nodes
 			kvpp::KV1ElementWritable<std::string> normals = disp.addChild("normals");
-			// TODO: rows
 			kvpp::KV1ElementWritable<std::string> distances = disp.addChild("distances");
-			// TODO: rows
-			kvpp::KV1ElementWritable<std::string> offsets = disp.addChild("offsets");
-			// TODO: rows
-			kvpp::KV1ElementWritable<std::string> offset_normals = disp.addChild("offset_normals");
-			// TODO: rows
 			kvpp::KV1ElementWritable<std::string> alphas = disp.addChild("alphas");
-			// TODO: rows
-			kvpp::KV1ElementWritable<std::string> triangle_tags = disp.addChild("triangle_tags");  // unimplemented
-			// TODO: rows
+			kvpp::KV1ElementWritable<std::string> offsets = disp.addChild("offsets");
+			kvpp::KV1ElementWritable<std::string> offset_normals = disp.addChild("offset_normals");
+
+			// vertex rows
+			for (int row = 0; row < num_rows; row++) {
+				std::string row_index = std::format("row{}", row);
+				normals[row_index] = "";
+				distances[row_index] = "";
+				alphas[row_index] = "";
+				offsets[row_index] = "";
+				offset_normals[row_index] = "";
+				for (int col = 0; col < num_rows; col++) {
+					float x = vertices[row][col].x;
+					float y = vertices[row][col].y;
+					float z = vertices[row][col].z;
+					float a = vertices[row][col].a;
+					float m = sqrt(x * x + y * y + z * z);
+					float n_x = x / distance;
+					float n_y = y / distance;
+					float n_z = z / distance;
+
+					normals[row_index].append(std::format("{} {} {} ", n_x, n_y, n_z));
+					distances[row_index].append(std::format("{} ", m));
+					alphas[row_index].append(std::format("{} ", a));
+					// defaults (unimplemented):
+					offsets[row_index].append("0 0 0 ");
+					offset_normals[row_index].append("0 0 1 ");  // match face normal?
+				}
+			}
+
+			kvpp::KV1ElementWritable<std::string> triangle_tags = disp.addChild("triangle_tags");
+			// default triangle tags (8x16 @ p3)
+			for (int row = 0; row < (num_rows - 1); row++) {
+				std::string row_index = std::format("row{}", row);
+                triangle_tags[row_index] = "";
+                for (int col = 0; col < (num_rows - 1); col++) {
+                    triangle_tags[row_index].append("9 9 ")
+                }
+            }
+
 			kvpp::KV1ElementWritable<std::string> allowed_verts = disp.addChild("allowed_verts");
 			allowed_verts["10"] = "-1 -1 -1 -1 -1 -1 -1 -1 -1 -1";  // default; unused?
-
-			#undef ASSERT_LINE
-			#undef NEXT_LINE
 		}
 		static bool writeSide(int64_t &childID, std::string &line, kvpp::KV1ElementWritable<std::string> &side) {
 			// parse line
