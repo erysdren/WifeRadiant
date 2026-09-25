@@ -34,6 +34,7 @@ function(add_module name)
 	)
 	target_compile_definitions(${name} PRIVATE QT_NO_KEYWORDS)
 	target_compile_definitions(${name} PRIVATE
+		${RADIANT_REVISION_DEFINITIONS}
 		RADIANT_VERSION=\"${RADIANT_VERSION}\"
 		RADIANT_MAJOR_VERSION=\"${RADIANT_MAJOR_VERSION}\"
 		RADIANT_MINOR_VERSION=\"${RADIANT_MINOR_VERSION}\"

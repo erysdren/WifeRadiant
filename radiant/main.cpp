@@ -282,7 +282,7 @@ bool check_version(){
 	     && check_version_file( StringStream( AppPath_get(), "RADIANT_MINOR" ), RADIANT_MINOR_VERSION )
 	     && check_version_file( StringStream( AppPath_get(), "RADIANT_PATCH" ), RADIANT_PATCH_VERSION ) ) ) {
 		const auto msg = StringStream(
-			"This editor binary (" RADIANT_VERSION ") doesn't match what the latest setup has configured in this directory\n"
+			"This editor binary (" RADIANT_GIT_REVISION ") doesn't match what the latest setup has configured in this directory\n"
 			"Make sure you run the right/latest editor binary you installed\n", AppPath_get() );
 		qt_MessageBox( 0, msg, "Radiant" );
 		return false;

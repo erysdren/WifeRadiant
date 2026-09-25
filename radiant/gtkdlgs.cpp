@@ -458,7 +458,7 @@ void DoAbout(){
 			}
 
 			{
-				auto *label = new QLabel( "WifeRadiant " RADIANT_VERSION "\n"
+				auto *label = new QLabel( "WifeRadiant " RADIANT_GIT_REVISION "\n"
 				                         __DATE__ "\n\n"
 				                         RADIANT_ABOUTMSG "\n\n"
 				                         "This program is free software\n"

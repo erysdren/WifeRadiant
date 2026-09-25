@@ -686,7 +686,7 @@ void OpenUpdateURL(){
 #else
 	URL << "&OS_dlup=3";
 #endif
-	URL << "&Version_dlup=" RADIANT_VERSION;
+	URL << "&Version_dlup=" RADIANT_GIT_REVISION;
 	g_GamesDialog.AddPacksURL( URL );
 	OpenURL( URL );
 #endif

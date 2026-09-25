@@ -146,7 +146,7 @@ int main( int argc, char **argv ){
 #ifdef __WRMAP__
 	Sys_Printf( "WRMap         - v" WRMAP_VERSION "\n" );
 #endif
-	Sys_Printf( "WifeRadiant   - v" RADIANT_VERSION " " __DATE__ " " __TIME__ "\n" );
+	Sys_Printf( "WifeRadiant   - v" RADIANT_GIT_REVISION " " __DATE__ " " __TIME__ "\n" );
 #ifdef __WRMAP__
 	Sys_Printf( "%s\n", WRMAP_MOTD );
 #else
