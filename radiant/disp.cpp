@@ -46,7 +46,10 @@ const Matrix4 &Disp::localToParent() const override {  // TransformNode
 }
 
 
-// TODO: const char* Disp::name() override {  // Nameable
+const char* Disp::name() const override {  // Nameable
+    return "disp";
+}
+
 // TODO: void Disp::snapto(float snap) override {  // Snappable
 // TODO: void Disp::updateFiltered() override {  // Filterable
 
