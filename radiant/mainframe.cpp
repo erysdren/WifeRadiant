@@ -531,18 +531,8 @@ void gamemode_set( const char* gamemode ){
 
 #include "os/dir.h"
 
-const char* const c_library_extension =
-#if defined( WIN32 )
-    "dll"
-#elif defined ( __APPLE__ )
-    "dylib"
-#elif defined( __linux__ ) || defined ( __FreeBSD__ ) || defined ( __HAIKU__ )
-    "so"
-#endif
-    ;
-
 void Radiant_loadModules( const char* path ){
-	Directory_forEach( path, matchFileExtension( c_library_extension, [&]( const char *name ){
+	Directory_forEach( path, matchFileExtension( RADIANT_LIBRARY_SUFFIX, [&]( const char *name ){
 		char fullname[1024];
 		ASSERT_MESSAGE( strlen( path ) + strlen( name ) < 1024, "" );
 		strcpy( fullname, path );

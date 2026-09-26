@@ -64,18 +64,13 @@ add_executable(mbspc
 	${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/md4.c
 	${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/unzip.c
 )
+radiant_add_common(mbspc)
 target_link_libraries(mbspc PRIVATE $<TARGET_NAME_IF_EXISTS:Math::Math>)
 target_include_directories(mbspc PRIVATE
 	${PROJECT_SOURCE_DIR}/libs
 	${PROJECT_SOURCE_DIR}/tools/mbspc
 )
 target_compile_definitions(mbspc PRIVATE
-	${RADIANT_REVISION_DEFINITIONS}
-	RADIANT_VERSION=\"${RADIANT_VERSION}\"
-	RADIANT_MAJOR_VERSION=\"${RADIANT_MAJOR_VERSION}\"
-	RADIANT_MINOR_VERSION=\"${RADIANT_MINOR_VERSION}\"
-	RADIANT_PATCH_VERSION=\"${RADIANT_PATCH_VERSION}\"
-	RADIANT_ABOUTMSG=\"${RADIANT_ABOUTMSG}\"
 	BSPC
 	BSPCINCLUDE
 )
@@ -83,18 +78,6 @@ set_target_properties(mbspc
 	PROPERTIES
 		LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
 		RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
-)
-target_compile_options(mbspc PRIVATE
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-W>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wall>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-align>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-qual>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-parameter>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
 )
 
 if(WIN32)
@@ -116,15 +99,4 @@ if(WIN32)
 		endif()
 		file(COPY ${_resolved_deps} DESTINATION $<TARGET_FILE_DIR:mbspc>)
 	]])
-endif()
-
-target_compile_definitions(mbspc PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-if(WIN32)
-	target_compile_definitions(mbspc PRIVATE RADIANT_EXECUTABLE=\"exe\")
-elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
-	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
-	target_compile_definitions(mbspc PRIVATE RADIANT_EXECUTABLE=\"${SYSTEM_PROCESSOR}\")
-	set_target_properties(mbspc PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
-else()
-	target_compile_definitions(mbspc PRIVATE RADIANT_EXECUTABLE=\"unknown\")
 endif()

@@ -32,6 +32,8 @@
 
 #include "string/string.h"
 
+#include <filesystem>
+
 #if defined( WIN32 )
 #define OS_CASE_INSENSITIVE
 #endif
@@ -132,12 +134,16 @@ inline char* path_get_filename_start( char* path ){
 
 /// \brief Returns a pointer to the character after the end of the filename component of \p path - either the extension separator or the terminating null character.
 inline const char* path_get_filename_base_end( const char* path ){
-	const char *end = path + string_length( path );
-	const char *src = end;
+	const char* end = path + string_length( path );
+	const char* src = end;
 
-	while ( src != path && !path_separator( *--src ) ){
-		if( *src == '.' )
-			return src;
+	while (src != path && !path_separator(src[-1])) {
+		--src;
+	}
+
+	const char* ptr = strchr(src, '.');
+	if (ptr != nullptr) {
+		return ptr;
 	}
 	return end;
 }
@@ -164,12 +170,16 @@ inline const char* path_make_relative( const char* path, const char* base ){
 
 /// \brief Returns a pointer to the first character of the file extension of \p path, or to terminating null character if not found.
 inline const char* path_get_extension( const char* path ){
-	const char *end = path + string_length( path );
-	const char *src = end;
+	const char* end = path + string_length(path);
+	const char* src = end;
 
-	while ( src != path && !path_separator( *--src ) ){
-		if( *src == '.' )
-			return src + 1;
+	while (src != path && !path_separator(src[-1])) {
+		--src;
+	}
+
+	const char* ptr = strchr(src, '.');
+	if (ptr != nullptr) {
+		return ptr + 1;
 	}
 	return end;
 }

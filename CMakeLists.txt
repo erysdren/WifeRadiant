@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.27)
 project(WifeRadiant LANGUAGES C CXX VERSION 2.0.0)
 list(APPEND CMAKE_MODULE_PATH ${PROJECT_SOURCE_DIR}/cmake)
 
-# global
+# global options
 
 set(CMAKE_C_STANDARD 17)
 set(CMAKE_C_STANDARD_REQUIRED ON)
@@ -31,23 +31,56 @@ option(RADIANT_BUILD_Q2MAP "Build q2map" ON)
 option(RADIANT_BUILD_H2DATA "Build h2data" ON)
 option(RADIANT_BUILD_QDATA3 "Build qdata3" ON)
 
+# install prefix
+
 if(NOT RADIANT_INSTALL_PREFIX)
-	set(RADIANT_INSTALL_PREFIX ${PROJECT_SOURCE_DIR}/install)
+	set(RADIANT_INSTALL_PREFIX "${PROJECT_SOURCE_DIR}/install")
 endif()
 
 # revision
-
-include(revision)
 
 set(RADIANT_VERSION ${PROJECT_VERSION})
 set(RADIANT_MAJOR_VERSION ${PROJECT_VERSION_MAJOR})
 set(RADIANT_MINOR_VERSION ${PROJECT_VERSION_MINOR})
 set(RADIANT_PATCH_VERSION ${PROJECT_VERSION_PATCH})
-set(RADIANT_ABOUTMSG "fix your hearts or die" CACHE STRING "")
-set(Q3MAP_VERSION "2.5.17w" CACHE STRING "")
-set(Q3MAP_MOTD "Your map saw the pretty lights from q3map2's BFG" CACHE STRING "")
-set(WRMAP_VERSION "2.5.17w" CACHE STRING "")
-set(WRMAP_MOTD "your map saw my transgender boobs" CACHE STRING "")
+set(RADIANT_ABOUTMSG "fix your hearts or die")
+set(Q3MAP_VERSION "2.5.17w")
+set(Q3MAP_MOTD "Your map saw the pretty lights from q3map2's BFG")
+set(WRMAP_VERSION "2.5.17w")
+set(WRMAP_MOTD "your map saw my transgender boobs")
+
+file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_MAJOR ${RADIANT_MAJOR_VERSION})
+file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_MINOR ${RADIANT_MINOR_VERSION})
+file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_PATCH ${RADIANT_PATCH_VERSION})
+
+# common compile options and definitions
+
+include(radiant_common)
+
+# git revision
+
+include(radiant_revision)
+
+# helper function to add common options and definitions
+
+function(radiant_add_common target)
+	target_compile_options(${target} PRIVATE ${RADIANT_COMMON_OPTIONS})
+	target_compile_definitions(${target} PRIVATE ${RADIANT_COMMON_DEFINITIONS})
+	get_target_property(_target_type ${target} TYPE)
+	if(NOT APPLE)
+		if(_target_type STREQUAL "EXECUTABLE")
+			set_target_properties(${target}
+				PROPERTIES
+					SUFFIX ".${RADIANT_EXECUTABLE_SUFFIX}"
+			)
+		elseif(_target_type STREQUAL "SHARED_LIBRARY")
+			set_target_properties(${target}
+				PROPERTIES
+					SUFFIX ".${RADIANT_LIBRARY_SUFFIX}"
+			)
+		endif()
+	endif()
+endfunction()
 
 # external dependencies
 
@@ -419,19 +452,15 @@ if(WIN32)
 	]])
 endif()
 
-target_compile_definitions(radiant PRIVATE QT_NO_KEYWORDS)
-target_compile_definitions(radiant PRIVATE
-	${RADIANT_REVISION_DEFINITIONS}
-	RADIANT_VERSION=\"${RADIANT_VERSION}\"
-	RADIANT_MAJOR_VERSION=\"${RADIANT_MAJOR_VERSION}\"
-	RADIANT_MINOR_VERSION=\"${RADIANT_MINOR_VERSION}\"
-	RADIANT_PATCH_VERSION=\"${RADIANT_PATCH_VERSION}\"
-	RADIANT_ABOUTMSG=\"${RADIANT_ABOUTMSG}\"
-)
-
 target_include_directories(radiant PRIVATE
 	${PROJECT_SOURCE_DIR}/include
 	${PROJECT_SOURCE_DIR}/libs
+)
+
+set_target_properties(radiant
+	PROPERTIES
+		LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
+		RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
 )
 
 target_link_libraries(radiant PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
@@ -440,34 +469,12 @@ target_link_libraries(radiant PRIVATE commandlib gtkutil l_net xmllib quickhull)
 target_link_libraries(radiant PRIVATE sourcepp::toolpp)
 target_link_libraries(radiant PRIVATE $<$<BOOL:${WIN32}>:ws2_32> $<$<BOOL:${WIN32}>:dbghelp>)
 target_link_libraries(radiant PRIVATE $<$<PLATFORM_ID:Haiku>:network>)
-target_compile_options(radiant PRIVATE
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-W>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wall>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-align>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-qual>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-parameter>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
-)
 
-target_compile_definitions(radiant PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-target_compile_definitions(commandlib PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-target_compile_definitions(gtkutil PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-target_compile_definitions(l_net PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-target_compile_definitions(xmllib PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-
-set_target_properties(radiant
-	PROPERTIES
-		LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
-		RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
-)
-
-file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_MAJOR ${RADIANT_MAJOR_VERSION})
-file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_MINOR ${RADIANT_MINOR_VERSION})
-file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_PATCH ${RADIANT_PATCH_VERSION})
+radiant_add_common(radiant)
+radiant_add_common(commandlib)
+radiant_add_common(gtkutil)
+radiant_add_common(l_net)
+radiant_add_common(xmllib)
 
 if(NOT APPLE)
 	file(GLOB RADIANT_DATA_FILES "${PROJECT_SOURCE_DIR}/resources/*")
@@ -476,20 +483,8 @@ if(NOT APPLE)
 	file(WRITE "${RADIANT_INSTALL_PREFIX}/settings/settings.txt" "local settings go here")
 endif()
 
-if(WIN32)
-	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"exe\")
-elseif(EMSCRIPTEN)
+if(EMSCRIPTEN)
 	target_compile_options(radiant PRIVATE -sMAIN_MODULE=1)
-	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"emscripten\")
-	set_target_properties(radiant PROPERTIES SUFFIX ".js")
-elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
-	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
-	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"${SYSTEM_PROCESSOR}\")
-	if(NOT APPLE)
-		set_target_properties(radiant PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
-	endif()
-else()
-	target_compile_definitions(radiant PRIVATE RADIANT_EXECUTABLE=\"unknown\")
 endif()
 
 # gamepacks

@@ -1,8 +1,6 @@
 
 find_package(Git)
 
-set(RADIANT_REVISION_DEFINITIONS "")
-
 if(Git_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 	execute_process(
 		COMMAND ${GIT_EXECUTABLE} describe --always --long --dirty
@@ -49,5 +47,5 @@ if(Git_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 		endif()
 	endif()
 	message(STATUS "${PROJECT_NAME} ${git_branch} revision ${git_revision}, ${git_date}")
-	set(RADIANT_REVISION_DEFINITIONS RADIANT_GIT_REVISION=\"${git_revision}\" RADIANT_GIT_DATE=\"${git_date}\" RADIANT_GIT_BRANCH=\"${git_branch}\")
+	list(APPEND RADIANT_COMMON_DEFINITIONS RADIANT_GIT_REVISION=\"${git_revision}\" RADIANT_GIT_DATE=\"${git_date}\" RADIANT_GIT_BRANCH=\"${git_branch}\")
 endif()

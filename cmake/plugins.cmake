@@ -9,37 +9,16 @@ function(add_plugin name)
 	else()
 		add_library(${name} SHARED ${ARG_SOURCES})
 	endif()
+	radiant_add_common(${name})
 	set_target_properties(${name}
 		PROPERTIES
 			LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/plugins
 			RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/plugins
 			PREFIX ""
 	)
-	target_compile_definitions(${name} PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-	target_compile_options(${name} PRIVATE
-		$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
-		$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
-		$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
-		$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-W>
-		$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wall>
-		$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-align>
-		$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-qual>
-		$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-parameter>
-		$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
-		$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
-	)
 	target_include_directories(${name} PRIVATE
 		${PROJECT_SOURCE_DIR}/include
 		${PROJECT_SOURCE_DIR}/libs
-	)
-	target_compile_definitions(${name} PRIVATE QT_NO_KEYWORDS)
-	target_compile_definitions(${name} PRIVATE
-		${RADIANT_REVISION_DEFINITIONS}
-		RADIANT_VERSION=\"${RADIANT_VERSION}\"
-		RADIANT_MAJOR_VERSION=\"${RADIANT_MAJOR_VERSION}\"
-		RADIANT_MINOR_VERSION=\"${RADIANT_MINOR_VERSION}\"
-		RADIANT_PATCH_VERSION=\"${RADIANT_PATCH_VERSION}\"
-		RADIANT_ABOUTMSG=\"${RADIANT_ABOUTMSG}\"
 	)
 endfunction()
 

@@ -64,6 +64,7 @@ add_executable(${EXECUTABLE_NAME}
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/vis.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
 )
+radiant_add_common(${EXECUTABLE_NAME})
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE l_net filematch ddslib etclib crnlib webplib stb)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE LibXml2::LibXml2)
 target_link_libraries(${EXECUTABLE_NAME} PRIVATE assimp $<$<BOOL:${WIN32}>:ws2_32>)
@@ -73,36 +74,14 @@ target_include_directories(${EXECUTABLE_NAME} PRIVATE
 	${PROJECT_SOURCE_DIR}/tools/quake3/common
 )
 target_compile_definitions(${EXECUTABLE_NAME} PRIVATE
-	${RADIANT_REVISION_DEFINITIONS}
-	RADIANT_VERSION=\"${RADIANT_VERSION}\"
-	RADIANT_MAJOR_VERSION=\"${RADIANT_MAJOR_VERSION}\"
-	RADIANT_MINOR_VERSION=\"${RADIANT_MINOR_VERSION}\"
-	RADIANT_PATCH_VERSION=\"${RADIANT_PATCH_VERSION}\"
-	RADIANT_ABOUTMSG=\"${RADIANT_ABOUTMSG}\"
 	$<$<BOOL:${BUILD_WRMAP}>:__WRMAP__>
 	$<$<BOOL:${BUILD_WRMAP}>:WRMAP_VERSION=\"${WRMAP_VERSION}\">
 	$<$<BOOL:${BUILD_WRMAP}>:WRMAP_MOTD=\"${WRMAP_MOTD}\">
-	Q3MAP_VERSION=\"${Q3MAP_VERSION}\"
-	Q3MAP_MOTD=\"${Q3MAP_MOTD}\"
 )
 set_target_properties(${EXECUTABLE_NAME}
 	PROPERTIES
 		LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
 		RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
-)
-target_compile_options(${EXECUTABLE_NAME} PRIVATE
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wno-dangling-pointer>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wno-invalid-offsetof>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-W>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wall>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-align>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-qual>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-parameter>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
 )
 
 if(WIN32)
@@ -145,15 +124,4 @@ if(WIN32)
 			file(COPY ${_resolved_deps} DESTINATION $<TARGET_FILE_DIR:q3map2>)
 		]])
 	endif()
-endif()
-
-target_compile_definitions(${EXECUTABLE_NAME} PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-if(WIN32)
-	target_compile_definitions(${EXECUTABLE_NAME} PRIVATE RADIANT_EXECUTABLE=\"exe\")
-elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
-	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
-	target_compile_definitions(${EXECUTABLE_NAME} PRIVATE RADIANT_EXECUTABLE=\"${SYSTEM_PROCESSOR}\")
-	set_target_properties(${EXECUTABLE_NAME} PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
-else()
-	target_compile_definitions(${EXECUTABLE_NAME} PRIVATE RADIANT_EXECUTABLE=\"unknown\")
 endif()

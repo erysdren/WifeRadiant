@@ -238,7 +238,7 @@ void build_init_variables(){
 	StringOutputStream stream( 256 );
 
 	build_set_variable( "RadiantPath", AppPath_get() );
-	build_set_variable( "ExecutableType", RADIANT_EXECUTABLE );
+	build_set_variable( "ExecutableType", RADIANT_EXECUTABLE_SUFFIX );
 	build_set_variable( "EnginePath", EnginePath_get() );
 	build_set_variable( "UserEnginePath", g_qeglobals.m_userEnginePath.c_str() );
 	for( const auto& path : ExtraResourcePaths_get() )

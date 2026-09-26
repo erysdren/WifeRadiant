@@ -35,6 +35,7 @@ add_executable(q2map
 	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/tree.c
 	${PROJECT_SOURCE_DIR}/tools/quake2/q2map/writebsp.c
 )
+radiant_add_common(q2map)
 target_link_libraries(q2map PRIVATE l_net $<$<BOOL:${WIN32}>:ws2_32>)
 target_link_libraries(q2map PRIVATE LibXml2::LibXml2)
 target_link_libraries(q2map PRIVATE $<TARGET_NAME_IF_EXISTS:Math::Math>)
@@ -43,30 +44,10 @@ target_include_directories(q2map PRIVATE
 	${PROJECT_SOURCE_DIR}/include
 	${PROJECT_SOURCE_DIR}/libs
 )
-target_compile_definitions(q2map PRIVATE
-	${RADIANT_REVISION_DEFINITIONS}
-	RADIANT_VERSION=\"${RADIANT_VERSION}\"
-	RADIANT_MAJOR_VERSION=\"${RADIANT_MAJOR_VERSION}\"
-	RADIANT_MINOR_VERSION=\"${RADIANT_MINOR_VERSION}\"
-	RADIANT_PATCH_VERSION=\"${RADIANT_PATCH_VERSION}\"
-	RADIANT_ABOUTMSG=\"${RADIANT_ABOUTMSG}\"
-)
 set_target_properties(q2map
 	PROPERTIES
 		LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
 		RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
-)
-target_compile_options(q2map PRIVATE
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-W>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wall>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-align>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-qual>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-parameter>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
 )
 
 if(WIN32)

@@ -21,6 +21,7 @@ add_executable(qdata3
 	${PROJECT_SOURCE_DIR}/tools/quake2/qdata/tables.c
 	${PROJECT_SOURCE_DIR}/tools/quake2/qdata/video.c
 )
+radiant_add_common(qdata3)
 target_link_libraries(qdata3 PRIVATE l_net $<$<BOOL:${WIN32}>:ws2_32>)
 target_link_libraries(qdata3 PRIVATE LibXml2::LibXml2)
 target_link_libraries(qdata3 PRIVATE $<TARGET_NAME_IF_EXISTS:Math::Math>)
@@ -29,30 +30,10 @@ target_include_directories(qdata3 PRIVATE
 	${PROJECT_SOURCE_DIR}/include
 	${PROJECT_SOURCE_DIR}/libs
 )
-target_compile_definitions(qdata3 PRIVATE
-	${RADIANT_REVISION_DEFINITIONS}
-	RADIANT_VERSION=\"${RADIANT_VERSION}\"
-	RADIANT_MAJOR_VERSION=\"${RADIANT_MAJOR_VERSION}\"
-	RADIANT_MINOR_VERSION=\"${RADIANT_MINOR_VERSION}\"
-	RADIANT_PATCH_VERSION=\"${RADIANT_PATCH_VERSION}\"
-	RADIANT_ABOUTMSG=\"${RADIANT_ABOUTMSG}\"
-)
 set_target_properties(qdata3
 	PROPERTIES
 		LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
 		RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
-)
-target_compile_options(qdata3 PRIVATE
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-Wreorder>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-rtti>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fpermissive>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-W>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wall>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-align>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wcast-qual>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-parameter>
-	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
-	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
 )
 
 if(WIN32)
@@ -74,15 +55,4 @@ if(WIN32)
 		endif()
 		file(COPY ${_resolved_deps} DESTINATION $<TARGET_FILE_DIR:qdata3>)
 	]])
-endif()
-
-target_compile_definitions(qdata3 PRIVATE $<$<CONFIG:Debug>:_DEBUG> $<$<NOT:$<BOOL:${WIN32}>>:POSIX> $<$<BOOL:${WIN32}>:WIN32>)
-if(WIN32)
-	target_compile_definitions(qdata3 PRIVATE RADIANT_EXECUTABLE=\"exe\")
-elseif(DEFINED CMAKE_SYSTEM_PROCESSOR)
-	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} SYSTEM_PROCESSOR)
-	target_compile_definitions(qdata3 PRIVATE RADIANT_EXECUTABLE=\"${SYSTEM_PROCESSOR}\")
-	set_target_properties(qdata3 PROPERTIES SUFFIX ".${SYSTEM_PROCESSOR}")
-else()
-	target_compile_definitions(qdata3 PRIVATE RADIANT_EXECUTABLE=\"unknown\")
 endif()

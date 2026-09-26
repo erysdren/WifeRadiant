@@ -1582,7 +1582,7 @@ tryDecompile:
 	const char *type = GlobalRadiant().getGameDescriptionKeyValue( "q3map2_type" );
 	if ( path_extension_is( filename, "bsp" ) || path_extension_is( filename, "map" ) ) {
 		StringOutputStream str( 256 );
-		str << AppPath_get() << "q3map2." << RADIANT_EXECUTABLE
+		str << AppPath_get() << "q3map2." << RADIANT_EXECUTABLE_SUFFIX
 		    << " -v -game " << ( ( type && *type ) ? type : "quake3" )
 		    << " -fs_basepath " << Quoted( EnginePath_get() )
 		    << " -fs_homepath " << Quoted( g_qeglobals.m_userEnginePath )
@@ -2254,7 +2254,7 @@ void map_autocaulk_selected(){
 
 	{	// compile
 		StringOutputStream str( 256 );
-		str << AppPath_get() << "q3map2." << RADIANT_EXECUTABLE
+		str << AppPath_get() << "q3map2." << RADIANT_EXECUTABLE_SUFFIX
 		    << " -game quake3"
 		    << " -fs_basepath " << Quoted( EnginePath_get() )
 		    << " -fs_homepath " << Quoted( g_qeglobals.m_userEnginePath )
