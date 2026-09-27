@@ -40,7 +40,7 @@ void BitmapsPath_set( const char* path ){
 /* generate in settings path, app path may have no write permission */
 void Bitmaps_generateLight( const char *appPath, const char *settingsPath ){
 	const char *fromto[][2] = { { "bitmaps/", "bitmaps_light/" }, { "plugins/bitmaps/", "plugins/bitmaps/" } };
-	for( const auto [ f, t ] : fromto )
+	for( const auto& [ f, t ] : fromto )
 	{
 		QDir from( QString( appPath ) + f );
 		QDir to( QString( settingsPath ) + t );
