@@ -1,14 +1,13 @@
 
-if(WIN32)
-	set(RADIANT_EXECUTABLE_SUFFIX "exe")
-	set(RADIANT_LIBRARY_SUFFIX "dll")
-elseif(EMSCRIPTEN)
+if(EMSCRIPTEN)
 	set(RADIANT_EXECUTABLE_SUFFIX "wasm")
 	set(RADIANT_LIBRARY_SUFFIX "wasm")
 elseif(CMAKE_SYSTEM_PROCESSOR)
 	string(TOLOWER ${CMAKE_SYSTEM_PROCESSOR} _system_processor)
 	set(RADIANT_EXECUTABLE_SUFFIX ${_system_processor}${CMAKE_EXECUTABLE_SUFFIX})
 	set(RADIANT_LIBRARY_SUFFIX ${_system_processor}${CMAKE_SHARED_LIBRARY_SUFFIX})
+else()
+	message(FATAL_ERROR "can't define system processor (no CMAKE_SYSTEM_PROCESSOR?)")
 endif()
 
 set(RADIANT_COMMON_OPTIONS
