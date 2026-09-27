@@ -67,6 +67,14 @@ function(radiant_add_common target)
 	target_compile_options(${target} PRIVATE ${RADIANT_COMMON_OPTIONS})
 	target_compile_definitions(${target} PRIVATE ${RADIANT_COMMON_DEFINITIONS})
 	get_target_property(_target_type ${target} TYPE)
+	if(EMSCRIPTEN)
+		if(_target_type STREQUAL "EXECUTABLE")
+			target_compile_options(${target} PRIVATE -sMAIN_MODULE=1)
+		elseif(_target_type STREQUAL "SHARED_LIBRARY")
+			target_compile_options(${target} PRIVATE -sSIDE_MODULE=2 -nostdlib)
+			target_link_options(${target} PRIVATE -sSIDE_MODULE=2 -sSTANDALONE_WASM=1 -sERROR_ON_UNDEFINED_SYMBOLS=0 -nostdlib)
+		endif()
+	endif()
 	if(NOT APPLE)
 		if(_target_type STREQUAL "EXECUTABLE")
 			set_target_properties(${target}
@@ -77,6 +85,7 @@ function(radiant_add_common target)
 			set_target_properties(${target}
 				PROPERTIES
 					SUFFIX ".${RADIANT_LIBRARY_SUFFIX}"
+					PREFIX ""
 			)
 		endif()
 	endif()
@@ -481,10 +490,6 @@ if(NOT APPLE)
 	file(COPY ${RADIANT_DATA_FILES} DESTINATION "${RADIANT_INSTALL_PREFIX}/")
 	file(COPY "${PROJECT_SOURCE_DIR}/docs" DESTINATION "${RADIANT_INSTALL_PREFIX}/")
 	file(WRITE "${RADIANT_INSTALL_PREFIX}/settings/settings.txt" "local settings go here")
-endif()
-
-if(EMSCRIPTEN)
-	target_compile_options(radiant PRIVATE -sMAIN_MODULE=1)
 endif()
 
 # gamepacks

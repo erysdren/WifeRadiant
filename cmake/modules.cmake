@@ -4,8 +4,6 @@ function(add_module name)
 	cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "SOURCES")
 	if(EMSCRIPTEN)
 		add_executable(${name} ${ARG_SOURCES})
-		target_compile_options(${name} PRIVATE -sSIDE_MODULE=2 -nostdlib)
-		target_link_options(${name} PRIVATE -sSIDE_MODULE=2 -sSTANDALONE_WASM=1 -sERROR_ON_UNDEFINED_SYMBOLS=0 -nostdlib)
 	else()
 		add_library(${name} SHARED ${ARG_SOURCES})
 	endif()
@@ -14,7 +12,6 @@ function(add_module name)
 		PROPERTIES
 			LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/modules
 			RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/modules
-			PREFIX ""
 	)
 	target_include_directories(${name} PRIVATE
 		${PROJECT_SOURCE_DIR}/include
