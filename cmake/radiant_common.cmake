@@ -7,7 +7,7 @@ elseif(CMAKE_SYSTEM_PROCESSOR)
 	set(RADIANT_EXECUTABLE_SUFFIX ${_system_processor}${CMAKE_EXECUTABLE_SUFFIX})
 	set(RADIANT_LIBRARY_SUFFIX ${_system_processor}${CMAKE_SHARED_LIBRARY_SUFFIX})
 else()
-	message(FATAL_ERROR "can't define system processor (no CMAKE_SYSTEM_PROCESSOR?)")
+	message(FATAL_ERROR "can't determine system processor (no CMAKE_SYSTEM_PROCESSOR?)")
 endif()
 
 set(RADIANT_COMMON_OPTIONS
