@@ -142,6 +142,7 @@ set(SOURCEPP_VTFPP_SUPPORT_JXL OFF CACHE BOOL "" FORCE)
 set(SOURCEPP_VTFPP_SUPPORT_QOI OFF CACHE BOOL "" FORCE)
 set(SOURCEPP_VTFPP_SUPPORT_WEBP OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(sourcepp)
+# target_compile_definitions(libtomcrypt PRIVATE LTC_NO_PROTOTYPES)
 
 FetchContent_Declare(
 	libxml2
