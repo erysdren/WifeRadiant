@@ -28,6 +28,20 @@
 			"generator": "Xcode",
 			"condition": { "type": "equals", "lhs": "${hostSystemName}", "rhs": "Darwin" },
 			"binaryDir": "${sourceDir}/build"
+		},
+		{
+			"name": "emscripten-release",
+			"displayName": "Emscripten (release)",
+			"toolchainFile": "$env{EMSCRIPTEN_ROOT}/cmake/Modules/Platform/Emscripten.cmake",
+			"binaryDir": "${sourceDir}/build-emscripten",
+			"cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+		},
+		{
+			"name": "emscripten-debug",
+			"displayName": "Emscripten (debug)",
+			"toolchainFile": "$env{EMSCRIPTEN_ROOT}/cmake/Modules/Platform/Emscripten.cmake",
+			"binaryDir": "${sourceDir}/build-emscripten",
+			"cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
 		}
 	],
 	"buildPresets": [
@@ -36,6 +50,8 @@
 		{ "name": "linux-debug", "configurePreset": "linux-debug" },
 		{ "name": "linux-release", "configurePreset": "linux-release" },
 		{ "name": "macos-debug", "configurePreset": "macos", "configuration": "Debug" },
-		{ "name": "macos-release", "configurePreset": "macos", "configuration": "Release" }
+		{ "name": "macos-release", "configurePreset": "macos", "configuration": "Release" },
+		{ "name": "emscripten-debug", "configurePreset": "emscripten-debug" },
+		{ "name": "emscripten-release", "configurePreset": "emscripten-release" }
 	]
 }
