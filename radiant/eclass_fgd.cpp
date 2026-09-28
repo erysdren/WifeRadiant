@@ -105,7 +105,8 @@ static void addFieldsToEntity( EntityClass* entityClass, const std::vector<toolp
 		attribute.m_displayName = field.displayName;
 		if ( field.valueType == "studio" || field.valueType == "model" ) {
 			attribute.m_type = "model";
-			if ( !entityClass->m_modelpath.empty() && !field.valueDefault.empty() ) {
+			entityClass->m_miscmodel_key = field.name;
+			if ( entityClass->m_modelpath.empty() && !field.valueDefault.empty() ) {
 				entityClass->miscmodel_is = true;
 				entityClass->m_modelpath = field.valueDefault;
 			}
@@ -211,8 +212,11 @@ static void addModelToEntity( EntityClass* entityClass, const toolpp::FGD::Entit
 }
 
 static void addMiscToEntity( EntityClass* entityClass, const toolpp::FGD::Entity& entity ) {
-	if ( auto boundsProperty = findClassProperty( entity, "quadbounds" ); boundsProperty != entity.classProperties.end() ) {
+	if ( auto prop = findClassProperty( entity, "quadbounds" ); prop != entity.classProperties.end() ) {
 		entityClass->quadbounds = true;
+	}
+	if ( auto prop = findClassProperty( entity, "instance" ); prop != entity.classProperties.end() ) {
+		entityClass->instance = true;
 	}
 }
 

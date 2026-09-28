@@ -107,6 +107,7 @@ public:
 	bool unknown;               // wasn't found in source
 	bool miscmodel_is;			// also definable via model attribute presence in xml .ent definition
 	bool quadbounds;			// erysdren: Source Engine specific hack
+	bool instance;				// erysdren: does this class represent an instance?
 	CopiedString m_miscmodel_key;
 	bool has_angles;			// definable via "angle"/"angles"/"direction" attribute presence in xml .ent definition, only affects rendering of group entities angles arrow now
 	bool has_angles_key;		// definable via "angles" attribute presence in xml .ent definition, enables angles support for EclassModel (only angle by default)
@@ -301,6 +302,7 @@ inline EntityClass* Eclass_Alloc(){
 	e->unknown = false;
 	e->miscmodel_is = false;
 	e->quadbounds = false;
+	e->instance = false;
 	e->m_miscmodel_key = "model";
 	e->has_angles = false;
 	e->has_angles_key = false;
