@@ -144,14 +144,6 @@ public:
 			m_writer.nextLine();
 			m_stack.top() = true;
 
-#if 0
-			if (string_equal( entity->getClassName(), "worldspawn" )) {
-				m_writer.writeString("mapversion");
-				m_writer.writeInteger(GlobalRadiant().Map_getVersion());
-				m_writer.nextLine();
-			}
-#endif
-
 			Entity_ExportTokens( *entity, m_writer );
 		}
 		else

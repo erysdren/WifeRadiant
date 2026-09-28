@@ -204,6 +204,9 @@ public:
 					continue;
 				}
 				scene::Node& entity( entityTable.createEntity( entityClass ) );
+				if ( string_equal_nocase(key.data(), "world") && elem.hasChild( "mapversion") ) {
+					Node_getEntity( entity )->setKeyValue( "mapversion", elem["mapversion"].getValue().data() );
+				}
 				entity.m_layer = nullptr;
 				for ( auto e : elem ) {
 					if (string_equal_nocase(e.getKey().data(), "id")) {

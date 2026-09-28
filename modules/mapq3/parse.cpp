@@ -148,6 +148,7 @@ NodeSmartReference Entity_parseTokens( Tokeniser& tokeniser, EntityCreator& enti
 	NodeSmartReference entity( g_nullNode );
 	KeyValues keyValues;
 	const char* classname = "";
+	const char* mapversion = "";
 
 	int count_primitives = 0;
 	while ( true )
@@ -162,6 +163,9 @@ NodeSmartReference Entity_parseTokens( Tokeniser& tokeniser, EntityCreator& enti
 			if ( entity == g_nullNode ) {
 				// entity does not have brushes
 				entity = Entity_create( entityTable, GlobalEntityClassManager().findOrInsert( classname, false ), keyValues );
+			}
+			if ( string_equal( classname, "worldspawn") && !string_empty( mapversion ) ) {
+				GlobalRadiant().Map_setVersion( atoi( mapversion ) );
 			}
 			return entity;
 		}
@@ -201,6 +205,9 @@ NodeSmartReference Entity_parseTokens( Tokeniser& tokeniser, EntityCreator& enti
 			keyValues.push_back( KeyValues::value_type( key, token ) );
 			if ( string_equal( key.c_str(), "classname" ) ) {
 				classname = keyValues.back().second.c_str();
+			}
+			if ( string_equal( key.c_str(), "mapversion" ) ) {
+				mapversion = keyValues.back().second.c_str();
 			}
 		}
 	}

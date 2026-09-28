@@ -335,6 +335,13 @@ int Map_getVersion(const Map& map){
 
 void Map_setVersion(const Map& map, int mapversion){
 	map.m_version = mapversion;
+	scene::Node* node = Map_GetWorldspawn( map );
+	if (node != nullptr) {
+		Entity* entity = Node_getEntity( *node );
+		if (entity != nullptr) {
+			entity->setKeyValue("mapversion", std::to_string(mapversion).c_str());
+		}
+	}
 }
 
 const char* Map_Name( const Map& map ){
