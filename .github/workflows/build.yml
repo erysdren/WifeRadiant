@@ -19,7 +19,7 @@ jobs:
 
           - arch: x86_64
             msystem: UCRT64
-            prefix: mingw-w64-x86_64
+            prefix: mingw-w64-ucrt-x86_64
 
     defaults:
       run:
