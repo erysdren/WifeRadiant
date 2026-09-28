@@ -87,6 +87,14 @@ const char* GameDescription_getRequiredKeyValue( const char* key ){
 	return g_pGameDescription->getRequiredKeyValue( key );
 }
 
+int getMapVersion(){
+	return Map_getVersion( g_map );
+}
+
+void setMapVersion(int mapversion){
+	Map_setVersion( g_map, mapversion );
+}
+
 const char* getMapName(){
 	return Map_Name( g_map );
 }
@@ -151,6 +159,10 @@ public:
 		m_radiantcore.Camera_getOrigin = Camera_getOrigin;
 
 		m_radiantcore.TextureBrowser_getSelectedShader = TextureBrowser_GetSelectedShader;
+
+		// erysdren: support for Source Engine mapversion field
+		m_radiantcore.Map_getVersion = getMapVersion;
+		m_radiantcore.Map_setVersion = setMapVersion;
 
 		m_radiantcore.m_pfnMessageBox = &qt_MessageBox;
 		m_radiantcore.m_pfnFileDialog = &file_dialog;

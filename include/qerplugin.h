@@ -144,6 +144,10 @@ struct _QERFuncTable_1
 
 	const char* ( *TextureBrowser_getSelectedShader )( );
 
+	// erysdren: support for Source Engine mapversion field
+	int ( *Map_getVersion )();
+	void ( *Map_setVersion )( int mapversion );
+
 	// Qt functions
 	PFN_QERAPP_MESSAGEBOX m_pfnMessageBox;
 	PFN_QERAPP_FILEDIALOG m_pfnFileDialog;

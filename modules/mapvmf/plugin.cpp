@@ -173,7 +173,11 @@ public:
 		for ( auto elem : kv1 ) {
 			auto key = elem.getKey();
 			if (string_equal_nocase(key.data(), "versioninfo")) {
-				// FIXME: do we care about any of this?
+				for ( auto e : elem ) {
+					if (string_equal_nocase(e.getKey().data(), "mapversion")) {
+						GlobalRadiant().Map_setVersion( e.getValue<int>() );
+					}
+				}
 			} else if (string_equal_nocase(key.data(), "cameras")) {
 				// FIXME: do we care about any of this?
 			} else if (string_equal_nocase(key.data(), "cordon")) {
@@ -431,9 +435,9 @@ public:
 
 		// make up some shit
 		writer["versioninfo"]["editorextension"] = "wiferadiant"; // strata checks this
-		writer["versioninfo"]["editorversion"] = RADIANT_VERSION; // probably should be a single number
-		writer["versioninfo"]["editorbuild"] = 0; // not tracked in radiant
-		writer["versioninfo"]["mapversion"] = 0; // not tracked in radiant
+		writer["versioninfo"]["editorversion"] = RADIANT_VERSION;
+		writer["versioninfo"]["editorbuild"] = RADIANT_GIT_REVISION;
+		writer["versioninfo"]["mapversion"] = GlobalRadiant().Map_getVersion();
 		writer["versioninfo"]["formatversion"] = 100; // not sure what this corresponds to
 		writer["versioninfo"]["prefab"] = 0; // FIXME: make configurable
 

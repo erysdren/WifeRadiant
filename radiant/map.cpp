@@ -267,6 +267,7 @@ public:
 	CopiedString m_name;
 	Resource* m_resource;
 	bool m_valid;
+	mutable int m_version;
 
 	bool m_modified;
 	void ( *m_modified_changed )( const Map& );
@@ -275,7 +276,7 @@ public:
 
 	WorldNode m_world_node;   // "classname" "worldspawn" !
 
-	Map() : m_resource( 0 ), m_valid( false ), m_modified_changed( Map_UpdateTitle ){
+	Map() : m_resource( 0 ), m_valid( false ), m_version( 0 ), m_modified_changed( Map_UpdateTitle ){
 	}
 
 	void realise() override {
@@ -328,6 +329,13 @@ void Map_SetValid( Map& map, bool valid ){
 	map.m_mapValidCallbacks();
 }
 
+int Map_getVersion(const Map& map){
+	return map.m_version;
+}
+
+void Map_setVersion(const Map& map, int mapversion){
+	map.m_version = mapversion;
+}
 
 const char* Map_Name( const Map& map ){
 	return map.m_name.c_str();
@@ -1248,6 +1256,8 @@ void Map_Rename( const char* filename ){
 }
 
 bool Map_Save(){
+	Map_setVersion(g_map, Map_getVersion(g_map) + 1);
+
 	Pointfile_Clear();
 
 	ScopeTimer timer( "map save" );
@@ -1865,6 +1875,7 @@ bool Map_SaveAs(){
 	const char* filename = map_save( "Save Map" );
 
 	if ( filename != 0 ) {
+		Map_setVersion(g_map, 0);
 		MRU_AddFile( filename );
 		Map_Rename( filename );
 		return Map_Save();
