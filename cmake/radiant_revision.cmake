@@ -31,7 +31,7 @@ if(Git_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
 	if(git_is_shallow)
-		set(git_revision "git-${git_commit}")
+		set(git_revision "${git_branch}-git-${git_commit}")
 	else()
 		execute_process(
 			COMMAND ${GIT_EXECUTABLE} rev-list HEAD --count
@@ -40,12 +40,8 @@ if(Git_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 			ERROR_QUIET
 			OUTPUT_STRIP_TRAILING_WHITESPACE
 		)
-		if(git_branch STREQUAL "main" OR git_branch STREQUAL "")
-			set(git_revision "${git_revision}-git-${git_commit}")
-		else()
-			set(git_revision "${git_branch}-${git_revision}-git-${git_commit}")
-		endif()
+		set(git_revision "${git_branch}-${git_revision}-git-${git_commit}")
 	endif()
-	message(STATUS "${PROJECT_NAME} ${git_branch} revision ${git_revision}, ${git_date}")
+	message(STATUS "${PROJECT_NAME} revision ${git_revision}, ${git_date}")
 	list(APPEND RADIANT_COMMON_DEFINITIONS RADIANT_GIT_REVISION=\"${git_revision}\" RADIANT_GIT_DATE=\"${git_date}\" RADIANT_GIT_BRANCH=\"${git_branch}\")
 endif()
