@@ -22,7 +22,9 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 // cmdlib.c
 
+#ifndef _MSC_VER
 #include <unistd.h>
+#endif
 #include <sys/types.h>
 #include <sys/stat.h>
 #include <stdint.h>
@@ -36,6 +38,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #define	BASEDIRNAME	"quake2"
 #define PATHSEPERATOR   '/'
+
+#ifdef _MSC_VER
+#include <direct.h>
+#endif
 
 // set these before calling CheckParm
 int myargc;
@@ -404,7 +410,11 @@ double I_FloatTime (void)
 
 void Q_getwd (char *out)
 {
+#ifdef _MSC_VER
+	_getcwd(out, 256);
+#else
 	getcwd(out, 256);
+#endif
 
 #if defined(WIN32) || defined(_WIN32)
    strcat (out, "\\");

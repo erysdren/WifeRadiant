@@ -388,7 +388,7 @@ void ClassifySurface( mapDrawSurface_t& ds ){
 		/* find map plane if necessary */
 		if ( ds.planar ) {
 			if ( ds.planeNum < 0 ) {
-				ds.planeNum = FindFloatPlane( plane, Span( &ds.verts[ 0 ].xyz, 1 ) );
+				ds.planeNum = FindFloatPlane( plane, Span<Vector3>( &ds.verts[ 0 ].xyz, 1 ) );
 			}
 			ds.lightmapVecs[ 2 ] = plane.normal();
 		}
@@ -548,14 +548,14 @@ static shaderInfo_t& GetIndexedShader( const shaderInfo_t& parent, const indexMa
 	/* determine min/max index */
 	byte minShaderIndex = 255;
 	byte maxShaderIndex = 0;
-	for ( const byte index : Span( shaderIndexes, numPoints ) )
+	for ( const byte index : Span<byte>( shaderIndexes, numPoints ) )
 	{
 		value_minimize( minShaderIndex, index );
 		value_maximize( maxShaderIndex, index );
 	}
 
 	/* set alpha inline */
-	for ( byte& index : Span( shaderIndexes, numPoints ) )
+	for ( byte& index : Span<byte>( shaderIndexes, numPoints ) )
 	{
 		/* straight rip from terrain.c */
 		if ( index < maxShaderIndex ) {
@@ -849,7 +849,7 @@ mapDrawSurface_t& DrawSurfaceForMesh( const entity_t& e, parseMesh_t& p ){
 	/* add a map plane */
 	if ( planar ) {
 		/* make a map plane */
-		ds.planeNum = FindFloatPlane( plane, Span( &mesh.verts()[ 0 ].xyz, 1 ) );
+		ds.planeNum = FindFloatPlane( plane, Span<Vector3>( &mesh.verts()[ 0 ].xyz, 1 ) );
 		ds.lightmapVecs[ 2 ] = plane.normal();
 
 		/* push this normal to all verts (ydnar 2003-02-14: bad idea, small patches get screwed up) */
@@ -938,7 +938,7 @@ static mapDrawSurface_t& DrawSurfaceForShader( const char *shader ){
 	shaderInfo_t& si = ShaderInfoForShader( shader );
 
 	/* find existing surface */
-	for ( mapDrawSurface_t& ds : Span( mapDrawSurfs, numMapDrawSurfs ) )
+	for ( mapDrawSurface_t& ds : Span<mapDrawSurface_t>( mapDrawSurfs, numMapDrawSurfs ) )
 		if ( ds.shaderInfo == &si )
 			return ds;
 
@@ -1047,7 +1047,7 @@ void SubdivideFaceSurfaces( const entity_t& e ){
 	Sys_FPrintf( SYS_VRB, "--- SubdivideFaceSurfaces ---\n" );
 
 	/* walk the list of original surfaces, numMapDrawSurfs may increase in the process */
-	for ( mapDrawSurface_t& ds : Span( mapDrawSurfs + e.firstDrawSurf, mapDrawSurfs + numMapDrawSurfs ) )
+	for ( mapDrawSurface_t& ds : Span<mapDrawSurface_t>( mapDrawSurfs + e.firstDrawSurf, mapDrawSurfs + numMapDrawSurfs ) )
 	{
 		/* only subdivide brush sides */
 		if ( ds.type != ESurfaceType::Face || ds.mapBrush == nullptr || ds.sideRefs.empty() ) {
@@ -1795,7 +1795,7 @@ static int FilterTrianglesIntoTree( mapDrawSurface_t& ds, tree_t& tree ){
 static int FilterFoliageIntoTree( mapDrawSurface_t& ds, tree_t& tree ){
 	/* walk origin list */
 	int refs = 0;
-	for ( bspDrawVert_t& instance : Span( &ds.verts[ ds.patchHeight ], ds.numFoliageInstances ) )
+	for ( bspDrawVert_t& instance : Span<bspDrawVert_t>( &ds.verts[ ds.patchHeight ], ds.numFoliageInstances ) )
 	{
 		/* walk triangle list */
 		for ( auto i = ds.indexes.cbegin(); i != ds.indexes.cend(); i += 3 )
@@ -1816,7 +1816,7 @@ static int FilterFoliageIntoTree( mapDrawSurface_t& ds, tree_t& tree ){
 		}
 
 		/* use point filtering as well */
-		for ( const bspDrawVert_t& vert : Span( ds.verts.cbegin(), ds.verts.cend() - ds.numFoliageInstances ) )
+		for ( const bspDrawVert_t& vert : Span<const bspDrawVert_t>( ds.verts.cbegin(), ds.verts.cend() - ds.numFoliageInstances ) )
 		{
 			refs += FilterPointIntoTree_r( instance.xyz + vert.xyz, ds, tree.headnode );
 		}
@@ -2855,7 +2855,7 @@ static void VolumeColorMods( const entity_t& e, mapDrawSurface_t& ds ){
 				return plane3_distance_to_point( mapplanes[ side.planenum ].plane, vert.xyz ) > 1; /* point-plane test */
 			} ) )
 				/* apply colormods */
-				ColorMod( b->contentShader->colorMod, Span( &vert, 1 ) );
+				ColorMod( b->contentShader->colorMod, Span<bspDrawVert_t>( &vert, 1 ) );
 		}
 	}
 }
@@ -2912,7 +2912,7 @@ void FilterDrawsurfsIntoTree( entity_t& e, tree_t& tree ){
 				TCMod( si->mod, vert.st );
 
 			/* ydnar: apply shader colormod */
-			ColorMod( ds.shaderInfo->colorMod, Span( ds.verts ) );
+			ColorMod( ds.shaderInfo->colorMod, Span<bspDrawVert_t>( ds.verts ) );
 
 			/* ydnar: apply brush colormod */
 			VolumeColorMods( e, ds );

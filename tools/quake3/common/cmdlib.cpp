@@ -38,8 +38,13 @@
 #include <filesystem>
 
 #ifdef WIN32
+#define NOMINMAX
 #include <direct.h>
 #include <windows.h>
+#endif
+
+#ifdef _MSC_VER
+#include <io.h>
 #endif
 
 #if defined ( __linux__ ) || defined ( __APPLE__ )
@@ -169,7 +174,11 @@ void SafeWrite( FILE *f, const void *buffer, int count ){
    ==============
  */
 bool    FileExists( const char *filename ){
+#ifdef _MSC_VER
+	return _access( filename, 04 ) == 0;
+#else
 	return access( filename, R_OK ) == 0;
+#endif
 }
 
 /*

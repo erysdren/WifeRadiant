@@ -42,6 +42,10 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 #include "aas_cfg.h"
 #include "be_aas_bspc.h"
 
+#ifndef S_ISDIR
+#define S_ISDIR(m)  (((m) & S_IFMT) == S_IFDIR)
+#endif
+
 extern	int use_nodequeue;		//brushbsp.c
 extern	int calcgrapplereach;	//be_aas_reach.c
 extern	qboolean g_bsp2map220;	//map.c

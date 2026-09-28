@@ -24,7 +24,7 @@
 #include "itextstream.h"
 #include "string/string.h"
 #include <vector>
-
+#include <string>
 
 /// \brief A wrapper around a STL vector of char.
 /// Maintains a null-terminated array of char.

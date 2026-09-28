@@ -468,8 +468,8 @@ target_include_directories(radiant PRIVATE
 
 set_target_properties(radiant
 	PROPERTIES
-		LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
-		RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
+		LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
+		RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
 )
 
 target_link_libraries(radiant PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)

@@ -38,6 +38,7 @@
 #include <cstring>
 
 #ifdef WIN32
+#define NOMINMAX
 #include <direct.h>
 #include <windows.h>
 #endif

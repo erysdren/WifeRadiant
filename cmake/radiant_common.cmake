@@ -24,6 +24,7 @@ set(RADIANT_COMMON_OPTIONS
 	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-parameter>
 	$<$<AND:$<COMPILE_LANGUAGE:C,CXX>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-function>
 	$<$<AND:$<COMPILE_LANGUAGE:CXX>,$<CXX_COMPILER_ID:GNU,Clang>>:-fno-strict-aliasing>
+	$<$<CXX_COMPILER_ID:MSVC>:/wd4267> # warning C4267: '=': conversion from 'size_t' to 'unsigned long', possible loss of data
 )
 
 set(RADIANT_COMMON_DEFINITIONS
@@ -42,4 +43,5 @@ set(RADIANT_COMMON_DEFINITIONS
 	WRMAP_MOTD=\"${WRMAP_MOTD}\"
 	Q3MAP_VERSION=\"${Q3MAP_VERSION}\"
 	Q3MAP_MOTD=\"${Q3MAP_MOTD}\"
+	$<$<CXX_COMPILER_ID:MSVC>:_CRT_SECURE_NO_WARNINGS>
 )

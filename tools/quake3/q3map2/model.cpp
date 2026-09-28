@@ -242,7 +242,7 @@ struct AssModel
 		}
 
 		void forEachFace( std::function<void( const Vector3 ( &xyz )[3], const Vector2 ( &st )[3])> visitor ) const override {
-			for ( const aiFace& face : Span( m_mesh->mFaces, m_mesh->mNumFaces ) ){
+			for ( const aiFace& face : Span<const aiFace>( m_mesh->mFaces, m_mesh->mNumFaces ) ){
 				// if( face.mNumIndices == 3 )
 				Vector3 xyz[3];
 				Vector2 st[3];
@@ -465,7 +465,7 @@ struct ClipSides
 		// also broken drawsurfs in case of normal brushes
 		// ? worth to snap nearly axial edges (or on nearly axial plane) beforehand or SnapPlaneImproved is nuff good for sides
 		// latter seems good nuff, no noticeable difference
-		if( SnapPlaneImproved( fplane, Span( std::as_const( fw ) ) ) ){
+		if( SnapPlaneImproved( fplane, Span<const DoubleVector3>( std::as_const( fw ) ) ) ){
 			for( DoubleVector3& v : fw ){
 				v = plane3_project_point( fplane, v );
 			}
@@ -1422,7 +1422,7 @@ void InsertModel( const char *name, const char *skin, int frame, const Matrix4& 
 		}
 
 		/* copy indexes */
-		for ( size_t idCopied = 0; const aiFace& face : Span( mesh->mFaces, mesh->mNumFaces ) ){
+		for ( size_t idCopied = 0; const aiFace& face : Span<const aiFace>( mesh->mFaces, mesh->mNumFaces ) ){
 			// if( face.mNumIndices == 3 )
 			for ( size_t i = 0; i < 3; ++i ){
 				ds.indexes[idCopied++] = face.mIndices[i];
@@ -1436,7 +1436,7 @@ void InsertModel( const char *name, const char *skin, int frame, const Matrix4& 
 			auto& triangles = clipTriangles.triangleSets[ std::tuple{ ds.shaderInfo->surfaceFlags,
 			                                                          ds.shaderInfo->contentFlags,
 			                                                          ds.shaderInfo->compileFlags } ];
-			for ( const aiFace& face : Span( mesh->mFaces, mesh->mNumFaces ) )
+			for ( const aiFace& face : Span<const aiFace>( mesh->mFaces, mesh->mNumFaces ) )
 			{
 				winding_accu_t points( 3 );
 				for( size_t i = 0; i < 3; ++i ){

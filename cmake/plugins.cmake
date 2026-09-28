@@ -10,8 +10,8 @@ function(add_plugin name)
 	radiant_add_common(${name})
 	set_target_properties(${name}
 		PROPERTIES
-			LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/plugins
-			RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}/plugins
+			LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}/plugins>
+			RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}/plugins>
 	)
 	target_include_directories(${name} PRIVATE
 		${PROJECT_SOURCE_DIR}/include
