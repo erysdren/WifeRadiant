@@ -48,7 +48,7 @@ void Build_Wedge( int dir, vec3_t min, vec3_t max, bool bUp );
 // ---textured---
 // --------------
 void BuildDoorsX2( vec3_t min, vec3_t max, bool bSclMainHor, bool bSclMainVert, bool bSclTrimHor, bool bSclTrimVert, const char* mainTexture, const char* trimTexture, int direction );
-void BuildApertureDoors( scene::Instance& brushinstance, const class ApertureDoorRS& rs );
+void BuildApertureDoors( scene::Instance& brushinstance, const struct ApertureDoorRS& rs );
 void Build_StairStep( vec3_t min, vec3_t max, const char* mainTexture, const char* riserTexture, int direction );
 void Build_StairStep_Wedge( int dir, vec3_t min, vec3_t max, const char* mainTexture, const char* riserTexture, bool detail );
 void BuildCornerStairs( vec3_t vMin, vec3_t vMax, int nSteps, const char* mainTexture, const char* riserTex );

@@ -612,7 +612,7 @@ inner layer filling orientation depending on move angle
 ?reset options on dialog 'cancel'
 */
 
-void BuildApertureDoors( scene::Instance& brushinstance, const class ApertureDoorRS& rs ){
+void BuildApertureDoors( scene::Instance& brushinstance, const struct ApertureDoorRS& rs ){
 	auto float2string = [string = std::array<char, 64>()]( float value ) mutable -> const char* {
 		sprintf( string.data(), "%g", value );
 		return string.data();
