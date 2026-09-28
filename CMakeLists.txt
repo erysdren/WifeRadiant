@@ -98,6 +98,21 @@ cmake_policy(SET CMP0135 NEW)
 
 include(FetchContent)
 
+find_package(Math)
+
+FetchContent_Declare(
+	ZLIB
+	GIT_REPOSITORY "https://github.com/zlib-ng/zlib-ng"
+	GIT_TAG "stable"
+	EXCLUDE_FROM_ALL
+	OVERRIDE_FIND_PACKAGE
+)
+set(ZLIB_COMPAT ON CACHE BOOL "" FORCE)
+set(ZLIB_ALIASES ON CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(ZLIB)
+set(ZLIB_INCLUDE_DIR ${zlib_BINARY_DIR})
+set(ZLIB_LIBRARIES $<TARGET_FILE:zlibstatic>)
+
 FetchContent_Declare(
 	sourcepp
 	GIT_REPOSITORY https://github.com/craftablescience/sourcepp.git
@@ -120,32 +135,17 @@ set(SOURCEPP_VTFPP_SUPPORT_QOI OFF CACHE BOOL "" FORCE)
 set(SOURCEPP_VTFPP_SUPPORT_WEBP OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(sourcepp)
 
-find_package(Math)
-
-find_package(ZLIB)
-if(NOT ZLIB_FOUND)
-	FetchContent_Declare(
-		ZLIB
-		URL "https://zlib.net/zlib-1.3.2.tar.gz"
-		URL_HASH MD5=a1e6c958597af3c67d162995a342138a
-		EXCLUDE_FROM_ALL
-	)
-	FetchContent_MakeAvailable(ZLIB)
-endif()
-
-find_package(LibXml2)
-if(NOT LibXml2_FOUND)
-	FetchContent_Declare(
-		libxml2
-		GIT_REPOSITORY "https://gitlab.gnome.org/GNOME/libxml2.git"
-		GIT_TAG "v2.15.4"
-		EXCLUDE_FROM_ALL
-		GIT_SHALLOW TRUE
-		GIT_PROGRESS TRUE
-	)
-	set(LIBXML2_WITH_ICONV OFF CACHE BOOL "" FORCE)
-	FetchContent_MakeAvailable(libxml2)
-endif()
+FetchContent_Declare(
+	libxml2
+	GIT_REPOSITORY "https://gitlab.gnome.org/GNOME/libxml2.git"
+	GIT_TAG "v2.15.4"
+	EXCLUDE_FROM_ALL
+	OVERRIDE_FIND_PACKAGE
+	GIT_SHALLOW TRUE
+	GIT_PROGRESS TRUE
+)
+set(LIBXML2_WITH_ICONV OFF CACHE BOOL "" FORCE)
+FetchContent_MakeAvailable(libxml2)
 
 if(RADIANT_USE_ASSIMP)
 	FetchContent_Declare(
@@ -153,9 +153,11 @@ if(RADIANT_USE_ASSIMP)
 		GIT_REPOSITORY https://github.com/assimp/assimp.git
 		GIT_TAG "v6.0.5"
 		EXCLUDE_FROM_ALL
+		OVERRIDE_FIND_PACKAGE
 		GIT_SHALLOW TRUE
 		GIT_PROGRESS TRUE
 	)
+	set(ASSIMP_BUILD_ZLIB OFF CACHE BOOL "" FORCE)
 	set(ASSIMP_BUILD_TESTS OFF CACHE BOOL "" FORCE)
 	set(ASSIMP_INJECT_DEBUG_POSTFIX OFF CACHE BOOL "" FORCE)
 	set(ASSIMP_INSTALL OFF CACHE BOOL "" FORCE)

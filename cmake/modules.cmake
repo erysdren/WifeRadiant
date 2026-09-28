@@ -40,7 +40,8 @@ add_module(archivezip
 		${PROJECT_SOURCE_DIR}/modules/archivezip/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivezip/zlibstream.cpp
 )
-target_link_libraries(archivezip PRIVATE ZLIB::ZLIB)
+target_link_libraries(archivezip PRIVATE ${ZLIB_LIBRARIES})
+target_include_directories(archivezip PRIVATE ${ZLIB_INCLUDE_DIR})
 
 add_module(archivewad
 	SOURCES
