@@ -313,6 +313,70 @@ public:
 	}
 };
 
+const char* browse_map( QWidget* parent, const char* filepath ){
+	StringOutputStream buffer( 256 );
+
+	if( !string_empty( filepath ) ){
+		const char* root = GlobalFileSystem().findFile( filepath );
+		if( !string_empty( root ) && file_is_directory( root ) )
+			buffer << root << filepath;
+	}
+	if( buffer.empty() ){
+		buffer << g_qeglobals.m_userGamePath << "maps/";
+
+		if ( !file_readable( buffer ) ) {
+			// just go to fsmain
+			buffer( g_qeglobals.m_userGamePath );
+		}
+	}
+
+	const char* filename = file_dialog( parent, true, "Open Map File", buffer, "map" );
+	if ( filename != 0 ) {
+		const char* relative = path_make_relative( filename, GlobalFileSystem().findRoot( filename ) );
+		if ( relative == filename ) {
+			globalWarningStream() << "WARNING: could not extract the relative path, using full path instead\n";
+		}
+		return relative;
+	}
+	return filename;
+}
+
+class MapAttribute final : public EntityAttribute
+{
+	const CopiedString m_key;
+	NonModalEntry *m_entry;
+public:
+	MapAttribute( const char* key ) :
+		m_key( key ),
+		m_entry( new NonModalEntry( ApplyCaller( *this ), UpdateCaller( *this ) ) ){
+		m_entry->setValidator( new KeyValueValidator( m_entry ) );
+		auto *button = m_entry->addAction( new_local_icon( "ellipsis.png" ), QLineEdit::ActionPosition::TrailingPosition );
+		QObject::connect( button, &QAction::triggered, [this](){ browse(); } );
+	}
+	void release() override {
+		delete this;
+	}
+	QWidget* getWidget() const override {
+		return m_entry;
+	}
+	void apply(){
+		Scene_EntitySetKeyValue_Selected_Undoable( m_key.c_str(), m_entry->text().toLatin1().constData() );
+	}
+	typedef MemberCaller<MapAttribute, void(), &MapAttribute::apply> ApplyCaller;
+	void update() override {
+		m_entry->setText( SelectedEntity_getValueForKey( m_key.c_str() ) );
+	}
+	typedef MemberCaller<MapAttribute, void(), &MapAttribute::update> UpdateCaller;
+	void browse(){
+		const char *filename = browse_map( m_entry->window(), m_entry->text().toLatin1().constData() );
+
+		if ( filename != 0 ) {
+			m_entry->setText( filename );
+			apply();
+		}
+	}
+};
+
 const char* browse_sound( QWidget* parent, const char* filepath ){
 	StringOutputStream buffer( 256 );
 
@@ -1007,6 +1071,7 @@ public:
 		m_creators.insert( Creators::value_type( "texture", &StatelessAttributeCreator<TextureAttribute>::create ) );
 		m_creators.insert( Creators::value_type( "model", &StatelessAttributeCreator<ModelAttribute>::create ) );
 		m_creators.insert( Creators::value_type( "skin", &StatelessAttributeCreator<StringAttribute>::create ) );
+		m_creators.insert( Creators::value_type( "map", &StatelessAttributeCreator<MapAttribute>::create ) );
 	}
 	EntityAttribute* create( const char* type, const char* name ){
 		Creators::iterator i = m_creators.find( type );
