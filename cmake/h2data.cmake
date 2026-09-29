@@ -34,16 +34,21 @@ add_executable(h2data
 	${PROJECT_SOURCE_DIR}/tools/quake2/qdata_heretic2/video.c
 )
 radiant_add_common(h2data)
-target_link_libraries(h2data PRIVATE l_net $<$<BOOL:${WIN32}>:ws2_32>)
-target_link_libraries(h2data PRIVATE LibXml2::LibXml2)
-target_link_libraries(h2data PRIVATE $<TARGET_NAME_IF_EXISTS:Math::Math>)
-target_include_directories(h2data PRIVATE
-	${PROJECT_SOURCE_DIR}/tools/quake2/qdata_heretic2/common
-	${PROJECT_SOURCE_DIR}/tools/quake2/qdata_heretic2/qcommon
-	${PROJECT_SOURCE_DIR}/tools/quake2/qdata_heretic2
-	${PROJECT_SOURCE_DIR}/tools/quake2/common
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/libs
+target_link_libraries(h2data
+	PRIVATE
+		l_net
+		$<$<BOOL:${WIN32}>:ws2_32>
+		LibXml2::LibXml2
+		$<TARGET_NAME_IF_EXISTS:Math::Math>
+)
+target_include_directories(h2data
+	PRIVATE
+		${PROJECT_SOURCE_DIR}/tools/quake2/qdata_heretic2/common
+		${PROJECT_SOURCE_DIR}/tools/quake2/qdata_heretic2/qcommon
+		${PROJECT_SOURCE_DIR}/tools/quake2/qdata_heretic2
+		${PROJECT_SOURCE_DIR}/tools/quake2/common
+		${PROJECT_SOURCE_DIR}/include
+		${PROJECT_SOURCE_DIR}/libs
 )
 set_target_properties(h2data
 	PROPERTIES

@@ -65,14 +65,19 @@ add_executable(mbspc
 	${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/unzip.c
 )
 radiant_add_common(mbspc)
-target_link_libraries(mbspc PRIVATE $<TARGET_NAME_IF_EXISTS:Math::Math>)
-target_include_directories(mbspc PRIVATE
-	${PROJECT_SOURCE_DIR}/libs
-	${PROJECT_SOURCE_DIR}/tools/mbspc
+target_link_libraries(mbspc
+	PRIVATE
+		$<TARGET_NAME_IF_EXISTS:Math::Math>
 )
-target_compile_definitions(mbspc PRIVATE
-	BSPC
-	BSPCINCLUDE
+target_include_directories(mbspc
+	PRIVATE
+		${PROJECT_SOURCE_DIR}/libs
+		${PROJECT_SOURCE_DIR}/tools/mbspc
+)
+target_compile_definitions(mbspc
+	PRIVATE
+		BSPC
+		BSPCINCLUDE
 )
 set_target_properties(mbspc
 	PROPERTIES

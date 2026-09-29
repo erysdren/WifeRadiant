@@ -22,13 +22,18 @@ add_executable(qdata3
 	${PROJECT_SOURCE_DIR}/tools/quake2/qdata/video.c
 )
 radiant_add_common(qdata3)
-target_link_libraries(qdata3 PRIVATE l_net $<$<BOOL:${WIN32}>:ws2_32>)
-target_link_libraries(qdata3 PRIVATE LibXml2::LibXml2)
-target_link_libraries(qdata3 PRIVATE $<TARGET_NAME_IF_EXISTS:Math::Math>)
-target_include_directories(qdata3 PRIVATE
-	${PROJECT_SOURCE_DIR}/tools/quake2/common
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/libs
+target_link_libraries(qdata3
+	PRIVATE
+		l_net
+		$<$<BOOL:${WIN32}>:ws2_32>
+		LibXml2::LibXml2
+		$<TARGET_NAME_IF_EXISTS:Math::Math>
+)
+target_include_directories(qdata3
+	PRIVATE
+		${PROJECT_SOURCE_DIR}/tools/quake2/common
+		${PROJECT_SOURCE_DIR}/include
+		${PROJECT_SOURCE_DIR}/libs
 )
 set_target_properties(qdata3
 	PROPERTIES

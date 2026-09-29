@@ -65,18 +65,32 @@ add_executable(${EXECUTABLE_NAME}
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
 )
 radiant_add_common(${EXECUTABLE_NAME})
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE l_net filematch ddslib etclib crnlib webplib stb)
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE LibXml2::LibXml2)
-target_link_libraries(${EXECUTABLE_NAME} PRIVATE assimp $<$<BOOL:${WIN32}>:ws2_32>)
-target_include_directories(${EXECUTABLE_NAME} PRIVATE
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/libs
-	${PROJECT_SOURCE_DIR}/tools/quake3/common
+target_link_libraries(${EXECUTABLE_NAME}
+	PRIVATE
+		l_net
+		filematch
+		ddslib
+		etclib
+		crnlib
+		webplib
+		stb
+		LibXml2::LibXml2
+		assimp
+		$<$<BOOL:${WIN32}>:ws2_32>
 )
-target_compile_definitions(${EXECUTABLE_NAME} PRIVATE
-	$<$<BOOL:${BUILD_WRMAP}>:__WRMAP__>
-	$<$<BOOL:${BUILD_WRMAP}>:WRMAP_VERSION=\"${WRMAP_VERSION}\">
-	$<$<BOOL:${BUILD_WRMAP}>:WRMAP_MOTD=\"${WRMAP_MOTD}\">
+target_include_directories(${EXECUTABLE_NAME}
+	PRIVATE
+		${PROJECT_SOURCE_DIR}/include
+		${PROJECT_SOURCE_DIR}/libs
+		${PROJECT_SOURCE_DIR}/tools/quake3/common
+)
+target_compile_options(${EXECUTABLE_NAME}
+	PRIVATE
+		$<$<CXX_COMPILER_ID:GNU,Clang>:-Wno-dangling-pointer>
+)
+target_compile_definitions(${EXECUTABLE_NAME}
+	PRIVATE
+		$<$<BOOL:${BUILD_WRMAP}>:__WRMAP__>
 )
 set_target_properties(${EXECUTABLE_NAME}
 	PROPERTIES
