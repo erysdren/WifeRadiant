@@ -46,9 +46,12 @@ class UnsortedSet
 			return reinterpret_cast<const Node*>( this );
 		}
 	};
+#if 0
+	// erysdren FIXME: this throws endless warnings on gcc, figure out a better way to ensure the same thing?
 	static_assert( offsetof( SentinelNode, m_next ) == offsetof( Node, m_next ) &&
 	               offsetof( SentinelNode, m_prev ) == offsetof( Node, m_prev ),
 	               "Node layouts must be compatible for reinterpret_cast" );
+#endif
 	SentinelNode m_end;
 
 	template<bool IsConst, bool IsReverse>
