@@ -458,30 +458,10 @@ if(APPLE)
 	install(SCRIPT ${radiant_deploy_script})
 endif()
 
-if(WIN32)
-	install(CODE [[
-		file(GET_RUNTIME_DEPENDENCIES
-			RESOLVED_DEPENDENCIES_VAR _resolved_deps
-			UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
-			EXECUTABLES
-				$<TARGET_FILE:radiant>
-			PRE_EXCLUDE_REGEXES
-				"api-ms-" "ext-ms-" "Qt6"
-			POST_EXCLUDE_REGEXES
-				".*system32/.*\\.dll"
-			DIRECTORIES
-				$<TARGET_RUNTIME_DLL_DIRS:radiant>
-		)
-		if(_unresolved_deps)
-			message(WARNING "radiant unresolved dependencies: ${_unresolved_deps}")
-		endif()
-		file(COPY ${_resolved_deps} DESTINATION $<TARGET_FILE_DIR:radiant>)
-	]])
-endif()
-
-target_include_directories(radiant PRIVATE
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/libs
+target_include_directories(radiant
+	PRIVATE
+		${PROJECT_SOURCE_DIR}/include
+		${PROJECT_SOURCE_DIR}/libs
 )
 
 set_target_properties(radiant
