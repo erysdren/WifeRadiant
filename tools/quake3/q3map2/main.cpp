@@ -251,6 +251,13 @@ int main( int argc, char **argv ){
 		r = MiniMapBSPMain( args );
 	}
 
+	/* erysdren: ericw-tools */
+#ifdef __WRMAP_WITH_ERICWTOOLS__
+	else if ( args.takeFront( "-ewt" ) ) {
+		r = EwtMain( args );
+	}
+#endif
+
 	/* ydnar: otherwise create a bsp */
 	else{
 		r = BSPMain( args );

@@ -34,6 +34,7 @@ cmake_dependent_option(RADIANT_GENERATE_GOLDSRC_GAMEPACKS "Generate GoldSrc game
 option(RADIANT_BUILD_MBSPC "Build mbspc" ON)
 cmake_dependent_option(RADIANT_BUILD_Q3MAP2 "Build q3map2" ON RADIANT_USE_ASSIMP OFF)
 cmake_dependent_option(RADIANT_BUILD_WRMAP "Build wrmap" ON RADIANT_USE_ASSIMP OFF)
+cmake_dependent_option(WRMAP_WITH_ERICWTOOLS "Embed the ericw-tools frontend into wrmap" OFF RADIANT_BUILD_WRMAP OFF) # note: doesn't work yet
 option(RADIANT_BUILD_Q2MAP "Build q2map" ON)
 option(RADIANT_BUILD_H2DATA "Build h2data" ON)
 option(RADIANT_BUILD_QDATA3 "Build qdata3" ON)
@@ -168,6 +169,24 @@ set(SOURCEPP_VTFPP_SUPPORT_QOI OFF CACHE BOOL "" FORCE)
 set(SOURCEPP_VTFPP_SUPPORT_WEBP OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(sourcepp)
 # target_compile_definitions(libtomcrypt PRIVATE LTC_NO_PROTOTYPES)
+
+if(WRMAP_WITH_ERICWTOOLS)
+	FetchContent_Declare(
+		ericw-tools
+		GIT_REPOSITORY "https://github.com/ericwa/ericw-tools.git"
+		GIT_TAG "2.0.0-alpha11"
+		EXCLUDE_FROM_ALL
+		OVERRIDE_FIND_PACKAGE
+		GIT_SHALLOW TRUE
+		GIT_PROGRESS TRUE
+	)
+	set(DISABLE_TESTS ON CACHE BOOL "")
+	set(DISABLE_DOCS ON CACHE BOOL "")
+	set(ENABLE_LIGHTPREVIEW OFF CACHE BOOL "")
+	set(SKIP_TBB_INSTALL ON CACHE BOOL "")
+	set(SKIP_EMBREE_INSTALL ON CACHE BOOL "")
+	FetchContent_MakeAvailable(ericw-tools)
+endif()
 
 FetchContent_Declare(
 	libxml2

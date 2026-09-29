@@ -63,6 +63,7 @@ add_executable(${EXECUTABLE_NAME}
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/visflow.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/vis.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
+	$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/ewt.cpp>
 )
 radiant_add_common(${EXECUTABLE_NAME})
 target_link_libraries(${EXECUTABLE_NAME}
@@ -77,6 +78,11 @@ target_link_libraries(${EXECUTABLE_NAME}
 		LibXml2::LibXml2
 		assimp
 		$<$<BOOL:${WIN32}>:ws2_32>
+		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libqbsp>
+		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libvis>
+		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:liblight>
+		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libbsputil>
+		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libmaputil>
 )
 target_include_directories(${EXECUTABLE_NAME}
 	PRIVATE
@@ -91,6 +97,7 @@ target_compile_options(${EXECUTABLE_NAME}
 target_compile_definitions(${EXECUTABLE_NAME}
 	PRIVATE
 		$<$<BOOL:${BUILD_WRMAP}>:__WRMAP__>
+		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:__WRMAP_WITH_ERICWTOOLS__>
 )
 set_target_properties(${EXECUTABLE_NAME}
 	PROPERTIES

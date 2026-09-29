@@ -1566,6 +1566,10 @@ int                         ConvertBSPToOBJ( char *bspName );
 /* convert_json.c */
 int                         ConvertJsonMain( Args& args );
 
+/* ewt.cpp */
+#ifdef __WRMAP_WITH_ERICWTOOLS__
+int                         EwtMain( Args& args );
+#endif
 
 /* brush.c */
 Vector3                     SnapWeldVector( const Vector3& a, const Vector3& b );
