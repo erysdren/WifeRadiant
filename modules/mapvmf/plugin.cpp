@@ -155,6 +155,7 @@ public:
 	}
 	void readGraph( scene::Node& root, TextInputStream& inputStream, EntityCreator& entityTable ) const override {
 
+		int mapversion = 0;
 		char buffer[2048];
 		size_t len = 0;
 		std::string kv1Data = "";
@@ -175,7 +176,7 @@ public:
 			if (string_equal_nocase(key.data(), "versioninfo")) {
 				for ( auto e : elem ) {
 					if (string_equal_nocase(e.getKey().data(), "mapversion")) {
-						GlobalRadiant().Map_setVersion( e.getValue<int>() );
+						mapversion = e.getValue<int>();
 					}
 				}
 			} else if (string_equal_nocase(key.data(), "cameras")) {
@@ -204,9 +205,6 @@ public:
 					continue;
 				}
 				scene::Node& entity( entityTable.createEntity( entityClass ) );
-				if ( string_equal_nocase(key.data(), "world") && elem.hasChild( "mapversion") ) {
-					Node_getEntity( entity )->setKeyValue( "mapversion", elem["mapversion"].getValue().data() );
-				}
 				entity.m_layer = nullptr;
 				for ( auto e : elem ) {
 					if (string_equal_nocase(e.getKey().data(), "id")) {
@@ -281,6 +279,7 @@ public:
 			}
 		}
 
+		GlobalRadiant().Map_setVersion( mapversion );
 		layersParser.construct_tree();
 	}
 	class MapVMFWriteKeyValue : public Entity::Visitor
