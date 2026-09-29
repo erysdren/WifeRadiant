@@ -74,33 +74,28 @@ function(radiant_add_common target)
 	target_compile_options(${target} PRIVATE ${RADIANT_COMMON_OPTIONS})
 	target_compile_definitions(${target} PRIVATE ${RADIANT_COMMON_DEFINITIONS})
 	get_target_property(_target_type ${target} TYPE)
-	if(EMSCRIPTEN)
-		if(_target_type STREQUAL "EXECUTABLE")
-			target_compile_options(${target} PRIVATE -sMAIN_MODULE=1)
-		elseif(_target_type STREQUAL "SHARED_LIBRARY")
-			target_compile_options(${target} PRIVATE -sSIDE_MODULE=2 -nostdlib)
-			target_link_options(${target} PRIVATE -sSIDE_MODULE=2 -sSTANDALONE_WASM=1 -sERROR_ON_UNDEFINED_SYMBOLS=0 -nostdlib)
-		endif()
-	endif()
-	if(NOT APPLE)
-		if(_target_type STREQUAL "EXECUTABLE")
-			set_target_properties(${target}
-				PROPERTIES
-					SUFFIX ".${RADIANT_EXECUTABLE_SUFFIX}"
-			)
-		elseif(_target_type STREQUAL "SHARED_LIBRARY")
-			set_target_properties(${target}
-				PROPERTIES
-					SUFFIX ".${RADIANT_LIBRARY_SUFFIX}"
-					PREFIX ""
-			)
-		endif()
-	endif()
-	if(WIN32)
-		if(_target_type STREQUAL "EXECUTABLE")
+	if(_target_type STREQUAL "EXECUTABLE")
+		set_target_properties(${target}
+			PROPERTIES
+				SUFFIX ".${RADIANT_EXECUTABLE_SUFFIX}"
+		)
+		if(WIN32)
 			set(_target_name ${target})
 			configure_file("${PROJECT_SOURCE_DIR}/cmake/install.cmake.in" "${PROJECT_BINARY_DIR}/${target}_install.cmake" @ONLY)
 			install(SCRIPT "${PROJECT_BINARY_DIR}/${target}_install.cmake")
+		endif()
+		if(EMSCRIPTEN)
+			target_compile_options(${target} PRIVATE -sMAIN_MODULE=1)
+		endif()
+	elseif(_target_type STREQUAL "SHARED_LIBRARY")
+		set_target_properties(${target}
+			PROPERTIES
+				SUFFIX ".${RADIANT_LIBRARY_SUFFIX}"
+				PREFIX ""
+		)
+		if(EMSCRIPTEN)
+			target_compile_options(${target} PRIVATE -sSIDE_MODULE=2 -nostdlib)
+			target_link_options(${target} PRIVATE -sSIDE_MODULE=2 -sSTANDALONE_WASM=1 -sERROR_ON_UNDEFINED_SYMBOLS=0 -nostdlib)
 		endif()
 	endif()
 endfunction()
