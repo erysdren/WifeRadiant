@@ -81,8 +81,6 @@ target_link_libraries(${EXECUTABLE_NAME}
 		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libqbsp>
 		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libvis>
 		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:liblight>
-		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libbsputil>
-		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libmaputil>
 )
 target_include_directories(${EXECUTABLE_NAME}
 	PRIVATE

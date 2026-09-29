@@ -34,16 +34,12 @@
 enum {
 	EWT_QBSP,
 	EWT_VIS,
-	EWT_LIGHT,
-	EWT_BSPUTIL,
-	EWT_MAPUTIL
+	EWT_LIGHT
 };
 
 int qbsp_main(int argc, const char **argv);
 int vis_main(int argc, const char **argv);
 int light_main(int argc, const char **argv);
-int bsputil_main(int argc, const char **argv);
-int maputil_main(int argc, const char **argv);
 
 int EwtMain( Args& args ){
 
@@ -61,14 +57,6 @@ int EwtMain( Args& args ){
 		which = EWT_LIGHT;
 	}
 
-	else if ( args.takeFront( "bsputil" ) ) {
-		which = EWT_BSPUTIL;
-	}
-
-	else if ( args.takeFront( "maputil" ) ) {
-		which = EWT_MAPUTIL;
-	}
-
 	else {
 		Error( "invalid ericw-tools submodule specified" );
 	}
@@ -78,8 +66,6 @@ int EwtMain( Args& args ){
 			case EWT_QBSP: return qbsp_main(0, NULL);
 			case EWT_VIS: return vis_main(0, NULL);
 			case EWT_LIGHT: return light_main(0, NULL);
-			case EWT_BSPUTIL: return bsputil_main(0, NULL);
-			case EWT_MAPUTIL: return maputil_main(0, NULL);
 		}
 	} catch (const std::exception &e) {
 		Error(e.what());
