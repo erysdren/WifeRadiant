@@ -353,7 +353,7 @@ bool Map_Unnamed( const Map& map ){
 }
 
 inline const MapFormat& MapFormat_forFile( const char* filename ){
-	const char* moduleName = findModuleName( GetFileTypeRegistry(), MapFormat::Name, path_get_extension( filename ) );
+	const char* moduleName = findModuleName( GetFileTypeRegistry(), MapFormat::Name, path_get_last_extension( filename ) );
 	MapFormat* format = Radiant_getMapModules().findModule( moduleName );
 	ASSERT_MESSAGE( format != 0, "map format not found for file " << Quoted( filename ) );
 	return *format;

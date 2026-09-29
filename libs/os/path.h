@@ -184,6 +184,16 @@ inline const char* path_get_extension( const char* path ){
 	return end;
 }
 
+/// \brief Returns a pointer to the first character of the file extension of \p path, or to terminating null character if not found.
+inline const char* path_get_last_extension( const char* path ){
+	const char* end = path + string_length(path);
+	const char* ptr = strrchr(path, '.');
+	if (ptr != nullptr) {
+		return ptr + 1;
+	}
+	return end;
+}
+
 inline char* path_get_extension( char* path ){
 	return const_cast<char*>( path_get_extension( const_cast<const char*>( path ) ) );
 }
