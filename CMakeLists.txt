@@ -81,7 +81,30 @@ function(radiant_add_common target)
 		)
 		if(WIN32)
 			set(_target_name ${target})
-			configure_file("${PROJECT_SOURCE_DIR}/cmake/install.cmake.in" "${PROJECT_BINARY_DIR}/${target}_install.cmake" @ONLY)
+			set(_target_runtime_dll_dirs $<TARGET_RUNTIME_DLL_DIRS:${target}>)
+			set(_target_file_dir $<TARGET_FILE_DIR:${target}>)
+			set(_target_file $<TARGET_FILE:${target}>)
+			file(CONFIGURE
+				@ONLY
+				OUTPUT "${PROJECT_BINARY_DIR}/${target}_install.cmake"
+				CONTENT [[
+				file(GET_RUNTIME_DEPENDENCIES
+					RESOLVED_DEPENDENCIES_VAR _resolved_deps
+					UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
+					EXECUTABLES
+						@_target_file@
+					PRE_EXCLUDE_REGEXES
+						"api-ms-" "ext-ms-" "Qt6"
+					POST_EXCLUDE_REGEXES
+						".*system32/.*\\.dll"
+					DIRECTORIES
+						@_target_runtime_dll_dirs@
+				)
+				if(_unresolved_deps)
+					message(WARNING "@_target_name@ unresolved dependencies: ${_unresolved_deps}")
+				endif()
+				file(COPY ${_resolved_deps} DESTINATION @_target_file_dir@)
+			]])
 			install(SCRIPT "${PROJECT_BINARY_DIR}/${target}_install.cmake")
 		endif()
 		if(EMSCRIPTEN)
