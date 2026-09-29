@@ -1882,7 +1882,6 @@ bool Map_SaveAs(){
 	const char* filename = map_save( "Save Map" );
 
 	if ( filename != 0 ) {
-		Map_setVersion(g_map, 0);
 		MRU_AddFile( filename );
 		Map_Rename( filename );
 		return Map_Save();
