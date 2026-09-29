@@ -96,6 +96,13 @@ function(radiant_add_common target)
 			)
 		endif()
 	endif()
+	if(WIN32)
+		if(_target_type STREQUAL "EXECUTABLE")
+			set(_target_name ${target})
+			configure_file("${PROJECT_SOURCE_DIR}/cmake/install.cmake.in" "${PROJECT_BINARY_DIR}/${target}_install.cmake" @ONLY)
+			install(SCRIPT "${PROJECT_BINARY_DIR}/${target}_install.cmake")
+		endif()
+	endif()
 endfunction()
 
 # external dependencies

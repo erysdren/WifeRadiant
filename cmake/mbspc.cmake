@@ -84,24 +84,3 @@ set_target_properties(mbspc
 		LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
 		RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
 )
-
-if(WIN32)
-	install(CODE [[
-		file(GET_RUNTIME_DEPENDENCIES
-			RESOLVED_DEPENDENCIES_VAR _resolved_deps
-			UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
-			EXECUTABLES
-				$<TARGET_FILE:mbspc>
-			PRE_EXCLUDE_REGEXES
-				"api-ms-" "ext-ms-" "Qt6"
-			POST_EXCLUDE_REGEXES
-				".*system32/.*\\.dll"
-			DIRECTORIES
-				$<TARGET_RUNTIME_DLL_DIRS:mbspc>
-		)
-		if(_unresolved_deps)
-			message(WARNING "mbspc unresolved dependencies: ${_unresolved_deps}")
-		endif()
-		file(COPY ${_resolved_deps} DESTINATION $<TARGET_FILE_DIR:mbspc>)
-	]])
-endif()
