@@ -75,7 +75,7 @@ target_link_libraries(${EXECUTABLE_NAME}
 		crnlib
 		webplib
 		stb
-		LibXml2::LibXml2
+		pugixml::pugixml
 		assimp
 		$<$<BOOL:${WIN32}>:ws2_32>
 		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libqbsp>

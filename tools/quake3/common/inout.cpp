@@ -36,6 +36,7 @@
 #include <thread>
 #include <mutex>
 #include <cstring>
+#include <cstdarg>
 
 #ifdef WIN32
 #define NOMINMAX
@@ -45,7 +46,7 @@
 
 // network broadcasting
 #include "l_net/l_net.h"
-#include <libxml/tree.h>
+#include "pugixml.hpp"
 
 static socket_t *brdcst_socket;
 
@@ -60,129 +61,106 @@ bool verbose = false;
 // is streamed through the network to Radiant
 // possibly written to disk at the end of the run
 //++timo FIXME: need to be global, required when creating nodes?
-static xmlDocPtr doc;
+static pugi::xml_document doc;
 
 // some useful stuff
-xmlNodePtr xml_NodeForVec( const Vector3& v ){
-	xmlNodePtr ret;
-	char buf[1024];
-
-	snprintf( buf, sizeof(buf), "%f %f %f", v[0], v[1], v[2] );
-	ret = xmlNewNode( nullptr, (const xmlChar*)"point" );
-	xmlNodeAddContent( ret, (const xmlChar*)buf );
+pugi::xml_node xml_NodeForVec( const Vector3& v ){
+	pugi::xml_node ret{};
+	ret.set_name("point");
+	ret.set_value(std::format("{} {} {}", v[0], v[1], v[2]));
 	return ret;
 }
 
 static void xml_message_flush();
 
 // send a node down the stream, add it to the document
-void xml_SendNode( xmlNodePtr node ){
+void xml_SendNode( pugi::xml_node& node ){
 	std::lock_guard lock( mesege_mutex );
 
 	xml_message_flush(); /* flush regular print messages buffer, so that special ones will appear at correct spot */
 
-	xmlAddChild( doc->children, node );
+	doc.append_copy(node);
+
+	struct xml_string_writer : public pugi::xml_writer {
+		std::string m_string;
+		virtual void write(const void* data, size_t size)
+		{
+			m_string.append(static_cast<const char*>(data), size);
+		}
+	};
 
 	if ( brdcst_socket ) {
-		xmlBufferPtr xml_buf = xmlBufferCreate();
-		xmlNodeDump( xml_buf, doc, node, 0, 0 );
+		xml_string_writer writer{};
+		node.print(writer);
 
 		// the XML node might be too big to fit in a single network message
 		// l_net library defines an upper limit of MAX_NETMESSAGE
 		// there are some size check errors, so we use MAX_NETMESSAGE-10 to be safe
 		// if the size of the buffer exceeds MAX_NETMESSAGE-10 we'll send in several network messages
-		for ( int pos = 0; pos < (int)xml_buf->use; )
+		int length = (int)writer.m_string.length();
+		for ( int pos = 0; pos < length; )
 		{
 			// what size are we gonna send now?
-			const int size = std::min( (int)xml_buf->use - pos, MAX_NETMESSAGE - 10 );
+			const int size = std::min( length - pos, MAX_NETMESSAGE - 10 );
 			netmessage_t msg;
 			NMSG_Clear( &msg );
-			NMSG_WriteString_n( &msg, reinterpret_cast<const char*>( xml_buf->content + pos ), size );
+			NMSG_WriteString_n( &msg, reinterpret_cast<const char*>( writer.m_string.c_str() + pos ), size );
 			Net_Send( brdcst_socket, &msg );
 			// now that the thing is sent prepare to loop again
 			pos += size;
 		}
-
-		xmlBufferFree( xml_buf );
 	}
 }
 
 void xml_Select( const char *msg, int entitynum, int brushnum, bool bError ){
-	xmlNodePtr node, select;
-	char buf[1024];
-	char level[2];
-
 	// now build a proper "select" XML node
-	snprintf( buf, sizeof(buf), "Entity %i, Brush %i: %s", entitynum, brushnum, msg );
-	node = xmlNewNode( nullptr, (const xmlChar*)"select" );
-	xmlNodeAddContent( node, (const xmlChar*)buf );
-	level[0] = (int)'0' + ( bError ? SYS_ERR : SYS_WRN );
-	level[1] = 0;
-	xmlSetProp( node, (const xmlChar*)"level", (const xmlChar *)level );
+	pugi::xml_node node{};
+	node.set_name("select");
+	node.set_value(std::format("Entity {}, Brush {}: {}", entitynum, brushnum, msg));
+	node.append_attribute( "level" ) = std::format("{}", bError ? SYS_ERR : SYS_WRN);
 	// a 'select' information
-	snprintf( buf, sizeof(buf), "%i %i", entitynum, brushnum );
-	select = xmlNewNode( nullptr, (const xmlChar*)"brush" );
-	xmlNodeAddContent( select, (const xmlChar*)buf );
-	xmlAddChild( node, select );
-	xml_SendNode( node );
+	pugi::xml_node select = node.append_child("brush");
+	select.set_value(std::format("{} {}", entitynum, brushnum));
+	xml_SendNode(node);
 
-	snprintf( buf, sizeof(buf), "Entity %i, Brush %i: %s", entitynum, brushnum, msg );
-	if ( bError ) {
-		Error( buf );
+	if (bError) {
+		Error(node.text().as_string());
 	}
 	else{
-		Sys_FPrintf( SYS_NOXMLflag | SYS_WRN, "%s\n", buf );
+		Sys_FPrintf(SYS_NOXMLflag | SYS_WRN, "%s\n", node.text().as_string());
 	}
 }
 
 void xml_Point( const char *msg, const Vector3& pt ){
-	xmlNodePtr node, point;
-	char buf[1024];
-	char level[2];
-
-	node = xmlNewNode( nullptr, (const xmlChar*)"pointmsg" );
-	xmlNodeAddContent( node, (const xmlChar*)msg );
-	level[0] = (int)'0' + SYS_ERR;
-	level[1] = 0;
-	xmlSetProp( node, (const xmlChar*)"level", (const xmlChar *)level );
+	pugi::xml_node node{};
+	node.set_name("pointmsg");
+	node.set_value(msg);
+	node.append_attribute("level") = std::format("{}", SYS_ERR);
 	// a 'point' node
-	snprintf( buf, sizeof(buf), "%g %g %g", pt[0], pt[1], pt[2] );
-	point = xmlNewNode( nullptr, (const xmlChar*)"point" );
-	xmlNodeAddContent( point, (const xmlChar*)buf );
-	xmlAddChild( node, point );
-	xml_SendNode( node );
+	pugi::xml_node point = node.append_child("point");
+	point.set_value(std::format("{} {} {}", pt[0], pt[1], pt[2]));
+	xml_SendNode(node);
 
-	snprintf( buf, sizeof(buf), "%s (%g %g %g)", msg, pt[0], pt[1], pt[2] );
-	Error( buf );
+	Error( std::format("{} ({} {} {})", msg, pt[0], pt[1], pt[2]).c_str() );
 }
 
-#define WINDING_BUFSIZE 2048
 void xml_Winding( const char *msg, const Vector3 p[], int numpoints, bool die ){
-	xmlNodePtr node, winding;
-	char buf[WINDING_BUFSIZE];
-	char smlbuf[128];
-	char level[2];
+	std::string buf;
 
-	node = xmlNewNode( nullptr, (const xmlChar*)"windingmsg" );
-	xmlNodeAddContent( node, (const xmlChar*)msg );
-	level[0] = (int)'0' + SYS_ERR;
-	level[1] = 0;
-	xmlSetProp( node, (const xmlChar*)"level", (const xmlChar *)level );
+	pugi::xml_node node{};
+	node.set_name("windingmsg");
+	node.set_value(msg);
+	node.append_attribute("level") = std::format("{}", SYS_ERR);
 	// a 'winding' node
-	snprintf( buf, sizeof(buf), "%i ", numpoints );
+	buf += std::format("{} ", numpoints);
 	for ( int i = 0; i < numpoints; ++i )
 	{
-		snprintf( smlbuf, sizeof(smlbuf), "(%g %g %g)", p[i][0], p[i][1], p[i][2] );
-		// don't overflow
-		if ( strlen( buf ) + strlen( smlbuf ) >= WINDING_BUFSIZE ) {
-			break;
-		}
-		strcat( buf, smlbuf );
+		buf += std::format("({} {} {})", p[i][0], p[i][1], p[i][2]);
 	}
 
-	winding = xmlNewNode( nullptr, (const xmlChar*)"winding" );
-	xmlNodeAddContent( winding, (const xmlChar*)buf );
-	xmlAddChild( node, winding );
+	pugi::xml_node winding = node.append_child("winding");
+	winding.set_value(buf);
+
 	xml_SendNode( node );
 
 	if ( die ) {
@@ -190,8 +168,7 @@ void xml_Winding( const char *msg, const Vector3 p[], int numpoints, bool die ){
 	}
 	else
 	{
-		Sys_Printf( msg );
-		Sys_Printf( "\n" );
+		Sys_Printf( "%s\n", msg );
 	}
 }
 
@@ -303,22 +280,10 @@ static void xml_message_flush(){
 	if( mesege_len == 0 )
 		return;
 
-	xmlNodePtr node = xmlNewNode( nullptr, (const xmlChar*)"message" );
-	{
-		mesege[mesege_len] = '\0';
-		mesege_len = 0;
-#if 0 // FIXME: replace this - erysdren
-		gchar* utf8 = g_locale_to_utf8( mesege, -1, nullptr, nullptr, nullptr );
-		xmlNodeAddContent( node, (const xmlChar*)utf8 );
-		g_free( utf8 );
-#else
-		xmlNodeAddContent( node, (const xmlChar*)mesege );
-#endif
-	}
-	char level[2];
-	level[0] = (int)'0' + mesege_flag;
-	level[1] = 0;
-	xmlSetProp( node, (const xmlChar*)"level", (const xmlChar *)level );
+	pugi::xml_node node{};
+	node.set_name("message");
+	node.set_value(mesege);
+	node.append_attribute( "level" ) = std::format("{}", mesege_flag);
 
 	xml_SendNode( node );
 
@@ -372,8 +337,7 @@ static void FPrintf( int flag, const char *buf ){
 	 */
 	if ( !bGotXML ) {
 		// initialize
-		doc = xmlNewDoc( (const xmlChar*)"1.0" );
-		doc->children = xmlNewDocRawNode( doc, nullptr, (const xmlChar*)"q3map_feedback", nullptr );
+		doc.append_child("q3map_feedback");
 		bGotXML = true;
 	}
 	xml_message_push( flag & ~( SYS_NOXMLflag | SYS_VRBflag ), buf, strlen( buf ) );
@@ -381,7 +345,7 @@ static void FPrintf( int flag, const char *buf ){
 
 #ifdef DBG_XML
 void DumpXML(){
-	xmlSaveFile( "XMLDump.xml", doc );
+	doc.save_file("XMLDump.xml");
 }
 #endif
 

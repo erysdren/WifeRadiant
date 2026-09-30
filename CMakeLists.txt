@@ -189,6 +189,16 @@ if(WRMAP_WITH_ERICWTOOLS)
 endif()
 
 FetchContent_Declare(
+	pugixml
+	GIT_REPOSITORY "https://github.com/zeux/pugixml.git"
+	GIT_TAG "v1.16"
+	EXCLUDE_FROM_ALL
+	GIT_SHALLOW TRUE
+	GIT_PROGRESS TRUE
+)
+FetchContent_MakeAvailable(pugixml)
+
+FetchContent_Declare(
 	libxml2
 	GIT_REPOSITORY "https://gitlab.gnome.org/GNOME/libxml2.git"
 	GIT_TAG "v2.15.4"
