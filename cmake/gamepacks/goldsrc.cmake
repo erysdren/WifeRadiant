@@ -28,6 +28,7 @@ radiant_add_gamepack(hl1
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
 	SHADER_TRIGGER "aaatrigger"
+	FIXED_MAPVERSION "220"
 )
 
 # Half-Life: Blue Shift
@@ -63,6 +64,7 @@ radiant_add_gamepack(hl1bs
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
 	SHADER_TRIGGER "aaatrigger"
+	FIXED_MAPVERSION "220"
 )
 
 # Half-Life: Opposing Force
@@ -98,6 +100,7 @@ radiant_add_gamepack(hl1op4
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
 	SHADER_TRIGGER "aaatrigger"
+	FIXED_MAPVERSION "220"
 )
 
 # Team Fortress Classic
@@ -133,6 +136,7 @@ radiant_add_gamepack(tfc
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
 	SHADER_TRIGGER "aaatrigger"
+	FIXED_MAPVERSION "220"
 )
 
 # Day of Defeat
@@ -168,6 +172,7 @@ radiant_add_gamepack(dod
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
 	SHADER_TRIGGER "aaatrigger"
+	FIXED_MAPVERSION "220"
 )
 
 # Counter-Strike
@@ -203,6 +208,7 @@ radiant_add_gamepack(cs
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
 	SHADER_TRIGGER "aaatrigger"
+	FIXED_MAPVERSION "220"
 )
 
 # Ricochet
@@ -238,6 +244,7 @@ radiant_add_gamepack(ricochet
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
 	SHADER_TRIGGER "aaatrigger"
+	FIXED_MAPVERSION "220"
 )
 
 # Gunman Chronicles
@@ -269,4 +276,5 @@ radiant_add_gamepack(gunmanchronicles
 	SHADER_CAULK "null"
 	SHADER_NODRAW "null"
 	SHADER_TRIGGER "aaatrigger"
+	FIXED_MAPVERSION "220"
 )

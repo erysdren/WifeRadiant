@@ -334,6 +334,10 @@ int Map_getVersion(const Map& map){
 }
 
 void Map_setVersion(const Map& map, int mapversion){
+	const char* str = GlobalRadiant().getGameDescriptionKeyValue( "fixed_mapversion" );
+	if (!string_empty(str)) {
+		mapversion = atoi(str);
+	}
 	map.m_version = mapversion;
 	scene::Node* node = Map_GetWorldspawn( map );
 	if (node != nullptr) {
