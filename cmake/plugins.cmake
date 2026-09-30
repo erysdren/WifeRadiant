@@ -100,6 +100,12 @@ add_plugin(bobtoolz
 target_link_libraries(bobtoolz PRIVATE commandlib mathlib)
 target_link_libraries(bobtoolz PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
+add_plugin(shaderplug
+	SOURCES
+		${PROJECT_SOURCE_DIR}/plugins/shaderplug/shaderplug.cpp
+)
+target_link_libraries(shaderplug PRIVATE xmllib LibXml2::LibXml2)
+
 if(0)
 add_plugin(gensurf
 	SOURCES

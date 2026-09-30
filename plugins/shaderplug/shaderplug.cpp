@@ -23,12 +23,15 @@
 
 #include "debugging/debugging.h"
 
+#include <format>
 #include <ranges>
 #include <vector>
 #include "string/string.h"
 #include "modulesystem/singletonmodule.h"
 #include "stream/stringstream.h"
 #include "os/file.h"
+#include "os/path.h"
+#include "string/string.h"
 
 #include "iplugin.h"
 #include "qerplugin.h"
@@ -93,23 +96,24 @@ void loadArchiveFile( const char* filename ){
 }
 
 void LoadTextureFile( const char* filename ){
-	char buffer[256] = "textures/";
-
 	// append filename without trailing file extension (.tga or .jpg for example)
-	strncat( buffer, filename, strlen( filename ) - 4 );
+	std::string buffer = std::format("{}/", GlobalRadiant().getRequiredGameDescriptionKeyValue("texturepath"));
+	auto path = PathExtensionless(filename);
+	buffer.append(path.data(), path.size());
 
 	// a shader with this name already exists
-	if ( !shaders.contains( buffer ) ) {
-		textures.insert( buffer );
+	if ( !shaders.contains( buffer.c_str() ) ) {
+		textures.insert( buffer.c_str() );
 	}
 }
 
 void GetTextures( const char* extension ){
-	GlobalFileSystem().forEachFile( "textures/", extension, makeCallbackF( LoadTextureFile ), 0 );
+	GlobalFileSystem().forEachFile( std::format("{}/", GlobalRadiant().getGameDescriptionKeyValue("texturepath")).c_str(), extension, makeCallbackF( LoadTextureFile ), 0 );
 }
 
 void LoadShaderList( const char* filename ){
-	if ( string_equal_prefix( filename, "textures/" ) ) {
+	globalOutputStream() << filename << '\n';
+	if ( string_equal_prefix( filename, std::format("{}/", GlobalRadiant().getGameDescriptionKeyValue("texturepath")).c_str() ) ) {
 		shaders.insert( filename );
 	}
 }
@@ -124,20 +128,20 @@ void GetArchiveList(){
 }
 
 void CreateTagFile(){
-	const char* shader_type = GlobalRadiant().getGameDescriptionKeyValue( "shaders" );
-
 	GetAllShaders();
 	globalOutputStream() << "Shaderplug: " << shaders.size() << " shaders found.\n";
 
-	if ( string_equal( shader_type, "quake3" ) ) {
-		GetTextures( "jpg" );
-		GetTextures( "tga" );
-		GetTextures( "png" );
+	StringTokeniser tokeniser(GlobalRadiant().getGameDescriptionKeyValue("texturetypes"), " ");
 
-		globalOutputStream() << "Shaderplug: " << textures.size() << " textures found.\n";
+	const char* token = tokeniser.getToken();
+	while (!string_empty(token)) {
+		GetTextures( token );
+		token = tokeniser.getToken();
 	}
 
-	if ( shaders.size() || textures.size() != 0 ) {
+	globalOutputStream() << "Shaderplug: " << textures.size() << " textures found.\n";
+
+	if ( !shaders.empty() || !textures.empty() ) {
 		globalOutputStream() << "Shaderplug: Creating XML tag file.\n";
 
 		TagBuilder.CreateXmlDocument();
