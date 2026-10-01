@@ -1302,6 +1302,8 @@ static QMenu* TextureBrowser_constructTagsMenu(){
 
 	menu->setTearOffEnabled( g_Layout_enableDetachableMenus.m_value );
 
+	create_menu_item_with_mnemonic( menu, "Reload tags", "TagReload" );
+	menu->addSeparator();
 	create_menu_item_with_mnemonic( menu, "Add tag", "TagAdd" );
 	create_menu_item_with_mnemonic( menu, "Rename tag", "TagRename" );
 	create_menu_item_with_mnemonic( menu, "Delete tag", "TagDelete" );
@@ -1515,6 +1517,22 @@ void TextureBrowser_checkTagFile(){
 		ASSERT_MESSAGE( ok, "empty tag document was not created" );
 		globalOutputStream() << "Created empty tag file " << rc_filename << ". Plugins -> ShaderPlug -> Create tag file: to index all textures and shaders, if needed.\n";
 	}
+}
+
+void TextureBrowser_populateTagList(){
+	TagBuilder.GetAllTags( g_TexBro.m_all_tags );
+	g_TexBro.m_tagsListWidget->clear();
+	for ( const CopiedString& tag : g_TexBro.m_all_tags ){
+		auto *item = new QListWidgetItem( tag.c_str() );
+		item->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemNeverHasChildren );
+		item->setCheckState( Qt::CheckState::Unchecked ); // is needed to see checkbox
+		g_TexBro.m_tagsListWidget->addItem( item );
+	}
+}
+
+void TextureBrowser_reloadTags(){
+	TextureBrowser_checkTagFile();
+	TextureBrowser_populateTagList();
 }
 
 void TextureBrowser_addTag(){
@@ -1781,7 +1799,6 @@ protected:
 	}
 };
 
-
 QWidget* TextureBrowser_constructWindow( QWidget* toplevel ){
 	TextureBrowser_checkTagFile();
 	TextureBrowser_SetNotex();
@@ -1870,13 +1887,7 @@ QWidget* TextureBrowser_constructWindow( QWidget* toplevel ){
 
 		QObject::connect( g_TexBro.m_tagsListWidget, &QListWidget::activated, TextureBrowser_searchTags );
 
-		TagBuilder.GetAllTags( g_TexBro.m_all_tags );
-		for ( const CopiedString& tag : g_TexBro.m_all_tags ){
-			auto *item = new QListWidgetItem( tag.c_str() );
-			item->setFlags( Qt::ItemIsSelectable | Qt::ItemIsEditable | Qt::ItemIsUserCheckable | Qt::ItemIsEnabled | Qt::ItemNeverHasChildren );
-			item->setCheckState( Qt::CheckState::Unchecked ); // is needed to see checkbox
-			g_TexBro.m_tagsListWidget->addItem( item );
-		}
+		TextureBrowser_populateTagList();
 	}
 	{	// tag context menu
 		g_TexBro.m_tagsMenu = TextureBrowser_constructTagsMenu();
@@ -2113,6 +2124,7 @@ typedef ReferenceCaller<TextureBrowser, void(std::size_t), TextureBrowser_setSca
 void TextureClipboard_textureSelected( const char* shader );
 
 void TextureBrowser_Construct(){
+	GlobalCommands_insert( "TagReload", makeCallbackF( TextureBrowser_reloadTags ) );
 	GlobalCommands_insert( "TagSearchUntagged", makeCallbackF( TextureBrowser_showUntagged ) );
 	GlobalCommands_insert( "TagSearch", makeCallbackF( TextureBrowser_searchTags ) );
 	GlobalCommands_insert( "TagAdd", makeCallbackF( TextureBrowser_addTag ) );
