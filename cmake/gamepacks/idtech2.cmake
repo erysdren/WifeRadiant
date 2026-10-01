@@ -52,7 +52,7 @@ radiant_add_gamepack(q2
 	TEXTURE_TYPES "pcx" "tga" "wal"
 	MODEL_TYPES "md2"
 	SOUND_TYPES "wav"
-	MAP_TYPES "mapq1"
+	MAP_TYPES "mapq2"
 	BRUSH_TYPES "quake2"
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "textures/common/caulk"
