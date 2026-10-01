@@ -13,6 +13,10 @@ function(radiant_add_plugin name)
 			LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}/plugins>
 			RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}/plugins>
 	)
+	target_link_options(${name}
+		PRIVATE
+			$<$<C_COMPILER_ID:GNU,Clang>:-Wl,--no-undefined>
+	)
 	target_include_directories(${name} PRIVATE
 		${PROJECT_SOURCE_DIR}/include
 		${PROJECT_SOURCE_DIR}/libs
