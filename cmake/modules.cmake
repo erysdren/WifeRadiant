@@ -1,6 +1,6 @@
 # modules are generally not optional and add support for image formats, model formats, shader formats, etc
 
-function(add_module name)
+function(radiant_add_module name)
 	cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "SOURCES")
 	if(EMSCRIPTEN)
 		add_executable(${name} ${ARG_SOURCES})
@@ -19,21 +19,21 @@ function(add_module name)
 	)
 endfunction()
 
-add_module(archivepak
+radiant_add_module(archivepak
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/archivepak/archive.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivepak/pak.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivepak/plugin.cpp
 )
 
-add_module(archivevpk
+radiant_add_module(archivevpk
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/archivevpk/archive.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivevpk/plugin.cpp
 )
 target_link_libraries(archivevpk PRIVATE sourcepp::vpkpp)
 
-add_module(archivezip
+radiant_add_module(archivezip
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/archivezip/archive.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivezip/pkzip.cpp
@@ -43,14 +43,14 @@ add_module(archivezip
 target_link_libraries(archivezip PRIVATE ${ZLIB_LIBRARIES})
 target_include_directories(archivezip PRIVATE ${ZLIB_INCLUDE_DIR})
 
-add_module(archivewad
+radiant_add_module(archivewad
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/archivewad/archive.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivewad/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivewad/wad.cpp
 )
 
-add_module(entity
+radiant_add_module(entity
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/entity/angle.cpp
 		${PROJECT_SOURCE_DIR}/modules/entity/angles.cpp
@@ -75,7 +75,7 @@ add_module(entity
 )
 target_link_libraries(entity PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
-add_module(image
+radiant_add_module(image
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/image/bmp.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/crn.cpp
@@ -89,20 +89,20 @@ add_module(image
 )
 target_link_libraries(image PRIVATE ddslib etclib crnlib webplib stb)
 
-add_module(imagevtf
+radiant_add_module(imagevtf
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/imagevtf/imagevtf.cpp
 		${PROJECT_SOURCE_DIR}/modules/imagevtf/vtf.cpp
 )
 target_link_libraries(imagevtf PRIVATE sourcepp::vtfpp)
 
-add_module(imagepvr
+radiant_add_module(imagepvr
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/imagepvr/imagepvr.cpp
 		${PROJECT_SOURCE_DIR}/modules/imagepvr/pvr.cpp
 )
 
-add_module(imagehl
+radiant_add_module(imagehl
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/imagehl/hlw.cpp
 		${PROJECT_SOURCE_DIR}/modules/imagehl/imagehl.cpp
@@ -110,7 +110,7 @@ add_module(imagehl
 		${PROJECT_SOURCE_DIR}/modules/imagehl/sprite.cpp
 )
 
-add_module(imageq2
+radiant_add_module(imageq2
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/imageq2/imageq2.cpp
 		${PROJECT_SOURCE_DIR}/modules/imageq2/wal.cpp
@@ -118,7 +118,7 @@ add_module(imageq2
 )
 
 if(RADIANT_USE_ASSIMP)
-	add_module(assmodel
+	radiant_add_module(assmodel
 		SOURCES
 			${PROJECT_SOURCE_DIR}/modules/assmodel/mdlimage.cpp
 			${PROJECT_SOURCE_DIR}/modules/assmodel/model.cpp
@@ -128,7 +128,7 @@ if(RADIANT_USE_ASSIMP)
 	target_link_libraries(assmodel PRIVATE assimp)
 endif()
 
-add_module(model
+radiant_add_module(model
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/model/ghoul2.cpp
 		${PROJECT_SOURCE_DIR}/modules/model/md2.cpp
@@ -147,20 +147,20 @@ add_module(model
 target_link_libraries(model PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 target_link_libraries(model PRIVATE sourcepp::mdlpp)
 
-add_module(mapq3
+radiant_add_module(mapq3
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/mapq3/parse.cpp
 		${PROJECT_SOURCE_DIR}/modules/mapq3/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/mapq3/write.cpp
 )
 
-add_module(mapvmf
+radiant_add_module(mapvmf
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/mapvmf/plugin.cpp
 )
 target_link_libraries(mapvmf PRIVATE sourcepp::kvpp)
 
-add_module(mapxml
+radiant_add_module(mapxml
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/mapxml/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/mapxml/xmlparse.cpp
@@ -168,7 +168,7 @@ add_module(mapxml
 )
 target_link_libraries(mapxml PRIVATE LibXml2::LibXml2)
 
-add_module(shaders
+radiant_add_module(shaders
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/shaders/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/shaders/shaders.cpp
@@ -177,7 +177,7 @@ target_link_libraries(shaders PRIVATE commandlib)
 target_link_libraries(shaders PRIVATE LibXml2::LibXml2)
 target_link_libraries(shaders PRIVATE sourcepp::kvpp)
 
-add_module(vfspk3
+radiant_add_module(vfspk3
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/vfspk3/archive.cpp
 		${PROJECT_SOURCE_DIR}/modules/vfspk3/vfs.cpp

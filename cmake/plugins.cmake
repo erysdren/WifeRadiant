@@ -1,6 +1,6 @@
 # plugins are generally optional and extend editor functionality
 
-function(add_plugin name)
+function(radiant_add_plugin name)
 	cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "SOURCES")
 	if(EMSCRIPTEN)
 		add_executable(${name} ${ARG_SOURCES})
@@ -19,7 +19,7 @@ function(add_plugin name)
 	)
 endfunction()
 
-add_plugin(brushexport
+radiant_add_plugin(brushexport
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/brushexport/callbacks.cpp
 		${PROJECT_SOURCE_DIR}/plugins/brushexport/export.cpp
@@ -28,7 +28,7 @@ add_plugin(brushexport
 )
 target_link_libraries(brushexport PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
-add_plugin(prtview
+radiant_add_plugin(prtview
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/prtview/AboutDialog.cpp
 		${PROJECT_SOURCE_DIR}/plugins/prtview/ConfigDialog.cpp
@@ -38,13 +38,13 @@ add_plugin(prtview
 )
 target_link_libraries(prtview PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
-add_plugin(sunplug
+radiant_add_plugin(sunplug
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/sunplug/sunplug.cpp
 )
 target_link_libraries(sunplug PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
-add_plugin(ufoaiplug
+radiant_add_plugin(ufoaiplug
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/ufoaiplug/ufoai_filters.cpp
 		${PROJECT_SOURCE_DIR}/plugins/ufoaiplug/ufoai_gtk.cpp
@@ -53,7 +53,7 @@ add_plugin(ufoaiplug
 )
 target_link_libraries(ufoaiplug PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
-add_plugin(meshtex
+radiant_add_plugin(meshtex
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/meshtex/GeneralFunctionDialog.cpp
 		${PROJECT_SOURCE_DIR}/plugins/meshtex/GenericDialog.cpp
@@ -71,7 +71,7 @@ add_plugin(meshtex
 )
 target_link_libraries(meshtex PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
-add_plugin(bobtoolz
+radiant_add_plugin(bobtoolz
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/bobToolz-GTK.cpp
 		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/bsploader.cpp
@@ -100,14 +100,14 @@ add_plugin(bobtoolz
 target_link_libraries(bobtoolz PRIVATE commandlib mathlib)
 target_link_libraries(bobtoolz PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
-add_plugin(shaderplug
+radiant_add_plugin(shaderplug
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/shaderplug/shaderplug.cpp
 )
 target_link_libraries(shaderplug PRIVATE xmllib LibXml2::LibXml2)
 
 if(0)
-add_plugin(gensurf
+radiant_add_plugin(gensurf
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/gtkgensurf/triangle.c
 		${PROJECT_SOURCE_DIR}/plugins/gtkgensurf/bitmap.cpp
