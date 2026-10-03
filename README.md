@@ -25,6 +25,7 @@ The open-source, cross-platform level editor for idTech, Source Engine, and Gold
 - [FTEQW](https://github.com/fte-team/fteqw)
 - [Sean Barrett](https://github.com/nothings/stb)
 - [Hammer-Hotspots](https://github.com/koerismo/Hammer-Hotspots)
+- [vmap](https://code.idtech.space/vera/vmap)
 
 ## Supported games
 
