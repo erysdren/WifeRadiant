@@ -280,6 +280,9 @@ static void xml_message_flush(){
 	if( mesege_len == 0 )
 		return;
 
+	mesege[mesege_len] = 0;
+	mesege_len = 0;
+
 	pugi::xml_node node{};
 	node.set_name("message");
 	node.set_value(mesege);
