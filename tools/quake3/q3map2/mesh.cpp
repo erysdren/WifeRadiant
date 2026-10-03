@@ -284,6 +284,11 @@ mesh_t SubdivideMesh( const mesh_view_t in, float maxError, float minLength ){
 	int width = in.width;
 	int height = in.height;
 
+	// exact copies
+	if (in.subdiv_x == 0 && in.subdiv_y == 0) {
+		return mesh_t( in );
+	}
+
 	/* copy each row */
 	for ( int h = 0; h < in.height; ++h )
 		std::copy_n( in[h], in.width, expand[h] );
@@ -420,52 +425,63 @@ mesh_t SubdivideMesh2( const mesh_view_t in, int iterations ){
 	int width = in.width;
 	int height = in.height;
 
+	// exact copies
+	if (in.subdiv_x == 0 && in.subdiv_y == 0) {
+		return mesh_t( in );
+	}
+
 	/* copy each row */
 	for ( int h = 0; h < in.height; ++h )
 		std::copy_n( in[h], in.width, expand[h] );
 
-	/* keep chopping */
-	for ( ; iterations > 0; --iterations )
+	if (in.subdiv_x > 0 && in.subdiv_y > 0)
 	{
-		/* horizontal subdivisions */
-		for ( int j = 0; j + 2 < width; j += 4 )
+	}
+	else
+	{
+		/* keep chopping */
+		for ( ; iterations > 0; --iterations )
 		{
-			/* check size limit */
-			if ( width + 2 >= MAX_EXPANDED_AXIS ) {
-				break;
-			}
-
-			/* insert two columns and replace the peak */
-			width += 2;
-			for ( int i = 0; i < height; ++i )
+			/* horizontal subdivisions */
+			for ( int j = 0; j + 2 < width; j += 4 )
 			{
-				for ( int k = width - 1; k > j + 3; --k )
-					expand [ i ][ k ] = expand[ i ][ k - 2 ];
+				/* check size limit */
+				if ( width + 2 >= MAX_EXPANDED_AXIS ) {
+					break;
+				}
 
-				expand[ i ][ j + 3 ] = LerpDrawVert( expand[ i ][ j + 1 ], expand[ i ][ j + 2 ] );
-				expand[ i ][ j + 1 ] = LerpDrawVert( expand[ i ][ j + 0 ], expand[ i ][ j + 1 ] );
-				expand[ i ][ j + 2 ] = LerpDrawVert( expand[ i ][ j + 1 ], expand[ i ][ j + 3 ] );
+				/* insert two columns and replace the peak */
+				width += 2;
+				for ( int i = 0; i < height; ++i )
+				{
+					for ( int k = width - 1; k > j + 3; --k )
+						expand [ i ][ k ] = expand[ i ][ k - 2 ];
+
+					expand[ i ][ j + 3 ] = LerpDrawVert( expand[ i ][ j + 1 ], expand[ i ][ j + 2 ] );
+					expand[ i ][ j + 1 ] = LerpDrawVert( expand[ i ][ j + 0 ], expand[ i ][ j + 1 ] );
+					expand[ i ][ j + 2 ] = LerpDrawVert( expand[ i ][ j + 1 ], expand[ i ][ j + 3 ] );
+				}
 			}
-		}
 
-		/* vertical subdivisions */
-		for ( int j = 0; j + 2 < height; j += 4 )
-		{
-			/* check size limit */
-			if ( height + 2 >= MAX_EXPANDED_AXIS ) {
-				break;
-			}
-
-			/* insert two columns and replace the peak */
-			height += 2;
-			for ( int i = 0; i < width; ++i )
+			/* vertical subdivisions */
+			for ( int j = 0; j + 2 < height; j += 4 )
 			{
-				for ( int k = height - 1; k > j + 3; --k )
-					expand[ k ][ i ] = expand[ k - 2 ][ i ];
+				/* check size limit */
+				if ( height + 2 >= MAX_EXPANDED_AXIS ) {
+					break;
+				}
 
-				expand[ j + 3 ][ i ] = LerpDrawVert( expand[ j + 1 ][ i ], expand[ j + 2 ][ i ] );
-				expand[ j + 1 ][ i ] = LerpDrawVert( expand[ j + 0 ][ i ], expand[ j + 1 ][ i ] );
-				expand[ j + 2 ][ i ] = LerpDrawVert( expand[ j + 1 ][ i ], expand[ j + 3 ][ i ] );
+				/* insert two columns and replace the peak */
+				height += 2;
+				for ( int i = 0; i < width; ++i )
+				{
+					for ( int k = height - 1; k > j + 3; --k )
+						expand[ k ][ i ] = expand[ k - 2 ][ i ];
+
+					expand[ j + 3 ][ i ] = LerpDrawVert( expand[ j + 1 ][ i ], expand[ j + 2 ][ i ] );
+					expand[ j + 1 ][ i ] = LerpDrawVert( expand[ j + 0 ][ i ], expand[ j + 1 ][ i ] );
+					expand[ j + 2 ][ i ] = LerpDrawVert( expand[ j + 1 ][ i ], expand[ j + 3 ][ i ] );
+				}
 			}
 		}
 	}
@@ -505,6 +521,10 @@ mesh_t RemoveLinearMeshColumnsRows( const mesh_t& in ) {
 	bspDrawVert_t expand[MAX_EXPANDED_AXIS][MAX_EXPANDED_AXIS];
 	int width = in.width;
 	int height = in.height;
+
+	//explicit tessellation should not be subject to simplification.
+	if (in.subdiv_x >= 0 && in.subdiv_y >= 0)
+		return mesh_t( in );
 
 	/* copy each row */
 	for ( int h = 0; h < in.height; ++h )
@@ -572,6 +592,11 @@ static mesh_t SubdivideMeshQuads( const mesh_view_t in, float minLength, int max
 	bspDrawVert_t expand[MAX_EXPANDED_AXIS][MAX_EXPANDED_AXIS];
 	int width = in.width;
 	int height = in.height;
+
+	// exact copies
+	if (in.subdiv_x == 0 && in.subdiv_y == 0) {
+		return mesh_t( in );
+	}
 
 	/* copy each row */
 	for ( int h = 0; h < in.height; ++h )
