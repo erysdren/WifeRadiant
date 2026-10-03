@@ -819,8 +819,10 @@ mapDrawSurface_t& DrawSurfaceForMesh( const entity_t& e, parseMesh_t& p ){
 	ds.sampleSize    = p.lightmapSampleSize;
 	ds.lightmapScale = p.lightmapScale;   /* ydnar */
 	ds.ambientColor  = p.ambientColor;
-	ds.patchWidth  = mesh.width;
-	ds.patchHeight = mesh.height;
+	ds.patchWidth    = mesh.width;
+	ds.patchHeight   = mesh.height;
+	ds.subdiv_x      = mesh.subdiv_x;
+	ds.subdiv_y      = mesh.subdiv_y;
 	ds.verts.assign( mesh.begin(), mesh.end() );
 
 	ds.fogNum = FOG_INVALID;
@@ -2046,7 +2048,10 @@ static void EmitPatchSurface( const entity_t& e, mapDrawSurface_t& ds ){
 	ds.outputNum = bspDrawSurfaces.size() - 1;
 
 	/* set it up */
-	out.surfaceType = MST_PATCH;
+	if (ds.subdiv_x >= 0 && ds.subdiv_y >= 0)
+		out.surfaceType = MST_PATCHFIXED;
+	else
+		out.surfaceType = MST_PATCH;
 	if ( debugSurfaces ) {
 		out.shaderNum = EmitShader( "debugsurfaces", nullptr, nullptr );
 	}
@@ -2070,6 +2075,14 @@ static void EmitPatchSurface( const entity_t& e, mapDrawSurface_t& ds ){
 	}
 	out.patchWidth = ds.patchWidth;
 	out.patchHeight = ds.patchHeight;
+
+	// report subdivisions in the high bits
+	if (out.surfaceType == MST_PATCHFIXED)
+	{
+		out.patchWidth |= ds.subdiv_x << 16;
+		out.patchHeight |= ds.subdiv_y << 16;
+	}
+
 	out.fogNum = ds.fogNum;
 
 	/* RBSP */

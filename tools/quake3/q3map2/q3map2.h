@@ -362,7 +362,8 @@ enum bspSurfaceType_t : int
 	MST_PATCH,
 	MST_TRIANGLE_SOUP,
 	MST_FLARE,
-	MST_FOLIAGE
+	MST_FOLIAGE,                    //new for wolf
+	MST_PATCHFIXED=256,             //new for FTE. patch with fixed tessellation (if values are 0 then uses the control points directly)
 };
 
 
@@ -970,6 +971,7 @@ struct mapDrawSurface_t_params
 	float longestCurve;
 	int maxIterations;
 	int patchWidth, patchHeight;
+	int subdiv_x, subdiv_y;
 	MinMax bounds;
 
 	/* ydnar/sd: for foliage */

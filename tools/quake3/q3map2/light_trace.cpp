@@ -819,7 +819,7 @@ static void PopulateWithBSPModel( const bspModel_t& model, const Matrix4& transf
 		}
 
 		/* patchshadows? */
-		if ( ds.surfaceType == MST_PATCH && !patchShadows ) {
+		if ( ( ds.surfaceType == MST_PATCH || ds.surfaceType == MST_PATCHFIXED ) && !patchShadows ) {
 			continue;
 		}
 
@@ -843,7 +843,7 @@ static void PopulateWithBSPModel( const bspModel_t& model, const Matrix4& transf
 		ti.si = info.si;
 		ti.castShadows = info.castShadows;
 		ti.surfaceNum = model.firstBSPBrush + i;
-		ti.skipGrid = ( ds.surfaceType == MST_PATCH );
+		ti.skipGrid = ( ds.surfaceType == MST_PATCH || ds.surfaceType == MST_PATCHFIXED );
 
 		/* choose which node (normal or skybox) */
 		if ( info.parentSurfaceNum >= 0 ) {
@@ -867,9 +867,26 @@ static void PopulateWithBSPModel( const bspModel_t& model, const Matrix4& transf
 		{
 		/* handle patches */
 		case MST_PATCH:
+		case MST_PATCHFIXED:
 		{
+			int patchWidth, patchHeight, subdiv_x, subdiv_y;
+			if (ds.surfaceType == MST_PATCHFIXED)
+			{
+				patchWidth = ds.patchWidth&0xffff;
+				patchHeight = ds.patchHeight&0xffff;
+				subdiv_x = ds.patchWidth>>16;
+				subdiv_y = ds.patchHeight>>16;
+			}
+			else
+			{
+				patchWidth = ds.patchWidth;
+				patchHeight = ds.patchHeight;
+				subdiv_x = -1;
+				subdiv_y = -1;
+			}
+
 			/* subdivide the surface */
-			const mesh_t mesh = TessellatedMesh( mesh_view_t( ds.patchWidth, ds.patchHeight, &bspDrawVerts[ ds.firstVert ] ), info.patchIterations );
+			const mesh_t mesh = TessellatedMesh( mesh_view_t( patchWidth, patchHeight, &bspDrawVerts[ ds.firstVert ], subdiv_x, subdiv_y ), info.patchIterations );
 
 			/* subdivide each quad to place the models */
 			for( MeshQuadIterator it( mesh ); it; ++it ){
