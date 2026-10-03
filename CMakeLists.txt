@@ -81,33 +81,31 @@ function(radiant_add_common target)
 				SUFFIX ".${RADIANT_EXECUTABLE_SUFFIX}"
 		)
 		if(WIN32)
-			set_target_properties(${target}
-				PROPERTIES
-					RUNTIME_DLL_DIRS $<TARGET_RUNTIME_DLL_DIRS:${target}>
-					FILE $<TARGET_FILE:${target}>
-					FILE_DIR $<TARGET_FILE_DIR:${target}>
-			)
+			set_property(TARGET ${target} PROPERTY RUNTIME_DLL_DIRS $<TARGET_RUNTIME_DLL_DIRS:${target}>)
+			set_property(TARGET ${target} PROPERTY FILE $<TARGET_FILE:${target}>)
+			set_property(TARGET ${target} PROPERTY FILE_DIR $<TARGET_FILE_DIR:${target}>)
 			file(GENERATE
-				TARGET ${target}
 				OUTPUT "${PROJECT_BINARY_DIR}/${target}_install.cmake"
 				CONTENT [[
-				file(GET_RUNTIME_DEPENDENCIES
-					RESOLVED_DEPENDENCIES_VAR _resolved_deps
-					UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
-					EXECUTABLES
-						$<TARGET_PROPERTY:FILE>
-					PRE_EXCLUDE_REGEXES
-						"api-ms-" "ext-ms-" "Qt6"
-					POST_EXCLUDE_REGEXES
-						".*system32/.*\\.dll"
-					DIRECTORIES
-						$<TARGET_PROPERTY:FILE_DIR>
-				)
-				if(_unresolved_deps)
-					message(WARNING "$<TARGET_PROPERTY:NAME> unresolved dependencies: ${_unresolved_deps}")
-				endif()
-				file(COPY ${_resolved_deps} DESTINATION $<TARGET_PROPERTY:FILE_DIR>)
-			]])
+file(GET_RUNTIME_DEPENDENCIES
+	RESOLVED_DEPENDENCIES_VAR _resolved_deps
+	UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
+	EXECUTABLES
+		$<TARGET_PROPERTY:FILE>
+	PRE_EXCLUDE_REGEXES
+		"api-ms-" "ext-ms-" "Qt6"
+	POST_EXCLUDE_REGEXES
+		".*system32/.*\\.dll"
+	DIRECTORIES
+		$<TARGET_PROPERTY:RUNTIME_DLL_DIRS>
+)
+if(_unresolved_deps)
+	message(WARNING "$<TARGET_PROPERTY:NAME> unresolved dependencies: ${_unresolved_deps}")
+endif()
+file(COPY ${_resolved_deps} DESTINATION $<TARGET_PROPERTY:FILE_DIR>)
+]]
+				TARGET ${target}
+			)
 			install(SCRIPT "${PROJECT_BINARY_DIR}/${target}_install.cmake")
 		endif()
 		if(EMSCRIPTEN)
