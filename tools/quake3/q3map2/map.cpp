@@ -1564,7 +1564,19 @@ static bool ParseMapEntity( bool onlyLights, bool noCollapseGroups, int mapEntit
 			/* check */
 			if ( strEqual( token, "patchDef2" ) ) {
 				++c_patches;
-				ParsePatch( onlyLights, mapEnt, mapPrimitiveNum );
+				ParsePatch( onlyLights, mapEnt, mapPrimitiveNum, false, false );
+			}
+			else if ( strEqual( token, "patchDef2WS" ) ) {
+				++c_patches;
+				ParsePatch( onlyLights, mapEnt, mapPrimitiveNum, false, true );
+			}
+			else if ( strEqual( token, "patchDef3" ) ) {
+				++c_patches;
+				ParsePatch( onlyLights, mapEnt, mapPrimitiveNum, true, false );
+			}
+			else if ( strEqual( token, "patchDef3WS" ) ) {
+				++c_patches;
+				ParsePatch( onlyLights, mapEnt, mapPrimitiveNum, true, true );
 			}
 			else if ( strEqual( token, "terrainDef" ) ) {
 				//% ParseTerrain();

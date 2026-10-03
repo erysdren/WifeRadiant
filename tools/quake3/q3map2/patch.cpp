@@ -194,11 +194,12 @@ static void ExpandMaxIterations( int *maxIterations, int maxError, const Vector3
    creates a mapDrawSurface_t from the patch text
  */
 
-void ParsePatch( bool onlyLights, entity_t& mapEnt, int mapPrimitiveNum ){
-	float info[ 5 ];
+void ParsePatch( bool onlyLights, entity_t& mapEnt, int mapPrimitiveNum, bool fixedTess, bool hasColors ){
+	float info[ 7 ];
 	bool degenerate;
 	float longestCurve;
 	int maxIterations;
+	int subdiv_x, subdiv_y;
 
 	MatchToken( "{" );
 
@@ -206,8 +207,26 @@ void ParsePatch( bool onlyLights, entity_t& mapEnt, int mapPrimitiveNum ){
 	GetToken( true );
 	const String64 shader( "textures/", token );
 
-	Parse1DMatrix( 5, info );
-	mesh_t m( info[0], info[1] );
+	if (fixedTess) {
+		Parse1DMatrix( 7, info );
+	} else {
+		Parse1DMatrix( 5, info );
+	}
+
+	if (fixedTess) {
+		subdiv_x = info[2];
+		subdiv_y = info[3];
+	} else {
+		subdiv_x = -1;
+		subdiv_y = -1;
+	}
+
+	if (subdiv_x == 0)
+		subdiv_x = -1;
+	if (subdiv_y == 0)
+		subdiv_y = -1;
+
+	mesh_t m( info[0], info[1], subdiv_x, subdiv_y );
 	const int numVerts = m.numVerts();
 
 	if ( m.width < 0 || m.width > MAX_PATCH_SIZE || m.height < 0 || m.height > MAX_PATCH_SIZE ) {
@@ -223,7 +242,13 @@ void ParsePatch( bool onlyLights, entity_t& mapEnt, int mapPrimitiveNum ){
 			Parse1DMatrix( 5, m[ i ][ j ].xyz.data() );
 
 			/* ydnar: fix colors */
-			m[ i ][ j ].color.fill( Color4b( 255 ) );
+			if (hasColors) {
+				Color4f color;
+				Parse1DMatrix( 4, color.data() );
+				m[ i ][ j ].color.fill( color_to_byte( color ) );
+			} else {
+				m[ i ][ j ].color.fill( Color4b( 255 ) );
+			}
 		}
 		MatchToken( ")" );
 	}

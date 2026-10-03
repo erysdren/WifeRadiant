@@ -783,9 +783,10 @@ struct fog_t
 struct mesh_view_t
 {
 	const int width, height;
+	const int subdiv_x, subdiv_y;
 	const bspDrawVert_t * const verts;
 
-	mesh_view_t( int width, int height, const bspDrawVert_t *verts ) : width( width ), height( height ), verts( verts ){
+	mesh_view_t( int width, int height, const bspDrawVert_t *verts, int subdiv_x = -1, int subdiv_y = -1 ) : width( width ), height( height ), subdiv_x( subdiv_x ), subdiv_y( subdiv_y ), verts( verts ){
 	}
 	const bspDrawVert_t* operator[]( int row ) const {
 		return verts + width * row;
@@ -795,24 +796,25 @@ struct mesh_view_t
 struct mesh_t
 {
 	const int width, height;
+	const int subdiv_x, subdiv_y;
 private:
 	bspDrawVert_t *m_verts;
 public:
-	mesh_t() : width( 0 ), height( 0 ), m_verts( nullptr ) {
+	mesh_t() : width( 0 ), height( 0 ), subdiv_x( -1 ), subdiv_y( -1 ), m_verts( nullptr ) {
 	}
-	mesh_t( int width, int height ) : width( width ), height( height ), m_verts( new bspDrawVert_t[ width * height ] ) {
+	mesh_t( int width, int height, int subdiv_x = -1, int subdiv_y = -1 ) : width( width ), height( height ), subdiv_x( subdiv_x ), subdiv_y( subdiv_y ), m_verts( new bspDrawVert_t[ width * height ] ) {
 	}
-	mesh_t( int width, int height, const bspDrawVert_t *verts ) : mesh_t( width, height ) {
+	mesh_t( int width, int height, const bspDrawVert_t *verts, int subdiv_x = -1, int subdiv_y = -1 ) : mesh_t( width, height, subdiv_x, subdiv_y ) {
 		std::copy_n( verts, numVerts(), m_verts );
 	}
-	explicit mesh_t( const mesh_view_t& view ) : mesh_t( view.width, view.height, view.verts ) {
+	explicit mesh_t( const mesh_view_t& view ) : mesh_t( view.width, view.height, view.verts, view.subdiv_x, view.subdiv_y ) {
 	}
 	operator mesh_view_t() const {
 		return { width, height, m_verts };
 	}
-	explicit mesh_t( const mesh_t& other ) : mesh_t( other.width, other.height, other.m_verts ) {
+	explicit mesh_t( const mesh_t& other ) : mesh_t( other.width, other.height, other.m_verts, other.subdiv_x, other.subdiv_y ) {
 	}
-	mesh_t( mesh_t&& other ) noexcept : width( other.width ), height( other.height ), m_verts( std::exchange( other.m_verts, nullptr ) ) {
+	mesh_t( mesh_t&& other ) noexcept : width( other.width ), height( other.height ), subdiv_x( other.subdiv_x ), subdiv_y( other.subdiv_y ), m_verts( std::exchange( other.m_verts, nullptr ) ) {
 	}
 	mesh_t& operator=( const mesh_t& ) = delete;
 	mesh_t& operator=( mesh_t&& other ) noexcept {
@@ -1716,7 +1718,7 @@ inline node_t               *AllocNode(){ return new node_t(); } // zero initial
 
 
 /* patch.c */
-void                        ParsePatch( bool onlyLights, entity_t& mapEnt, int mapPrimitiveNum );
+void                        ParsePatch( bool onlyLights, entity_t& mapEnt, int mapPrimitiveNum, bool fixedTess, bool hasColors );
 void                        PatchMapDrawSurfs( entity_t& e );
 
 
