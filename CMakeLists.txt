@@ -91,18 +91,18 @@ file(GET_RUNTIME_DEPENDENCIES
 	RESOLVED_DEPENDENCIES_VAR _resolved_deps
 	UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
 	EXECUTABLES
-		$<TARGET_PROPERTY:FILE>
+		$<GENEX_EVAL:$<TARGET_PROPERTY:FILE>>
 	PRE_EXCLUDE_REGEXES
 		"api-ms-" "ext-ms-" "Qt6"
 	POST_EXCLUDE_REGEXES
 		".*system32/.*\\.dll"
 	DIRECTORIES
-		$<TARGET_PROPERTY:RUNTIME_DLL_DIRS>
+		$<GENEX_EVAL:$<TARGET_PROPERTY:RUNTIME_DLL_DIRS>>
 )
 if(_unresolved_deps)
-	message(WARNING "$<TARGET_PROPERTY:NAME> unresolved dependencies: ${_unresolved_deps}")
+	message(WARNING "$<GENEX_EVAL:$<TARGET_PROPERTY:NAME>> unresolved dependencies: ${_unresolved_deps}")
 endif()
-file(COPY ${_resolved_deps} DESTINATION $<TARGET_PROPERTY:FILE_DIR>)
+file(COPY ${_resolved_deps} DESTINATION $<GENEX_EVAL:$<TARGET_PROPERTY:FILE_DIR>>)
 ]]
 				TARGET ${target}
 			)
