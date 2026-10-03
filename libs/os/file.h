@@ -25,8 +25,11 @@
 /// \brief OS file-system querying and manipulation.
 
 #if defined( WIN32 )
-#define S_ISDIR( mode ) ( mode & _S_IFDIR )
 #include <io.h> // _access()
+
+#ifndef S_ISDIR
+#define S_ISDIR( mode ) ( mode & _S_IFDIR )
+#endif
 
 #ifndef F_OK
 #define F_OK 0x00

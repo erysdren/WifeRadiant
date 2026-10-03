@@ -39,7 +39,7 @@
 #include <cstdarg>
 
 #ifdef WIN32
-#define NOMINMAX
+#define NOMINMAX 1
 #include <direct.h>
 #include <windows.h>
 #endif
