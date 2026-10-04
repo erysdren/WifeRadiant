@@ -477,10 +477,10 @@ static void HelpCommon()
 void HelpGames(){
 	Sys_Printf( "Available games:\n" );
 	for( const game_t& game : g_games )
-		Sys_Printf( "  %s\n", game.arg );
-	Sys_Printf( "Builtin games:\n" );
+		Sys_Printf( "  %s\n", game.arg.c_str() );
+	Sys_Printf( "Builtin games (use 'builtin:' prefix):\n" );
 	for( const game_t& game : g_builtinGames )
-		Sys_Printf( "  %s\n", game.arg );
+		Sys_Printf( "  %s\n", game.arg.c_str() );
 }
 
 void HelpMain( const char* arg )

@@ -960,7 +960,7 @@ static void ParseShaderFile( const char *filename ){
 			/* light <value> (old-style flare specification) */
 			else if ( striEqual( token, "light" ) ) {
 				text.GetToken( false );
-				si.flareShader = g_game->flareShader;
+				si.flareShader = g_game->flareShader.c_str();
 			}
 
 			/* ydnar: damageShader <shader> <health> (sof2 mods) */
@@ -1823,9 +1823,9 @@ void LoadShaderInfo(){
 				return std::ranges::any_of( shaderFiles, [file]( const CopiedString& str ){ return striEqual( str.c_str(), file ); } );
 			};
 
-			if( !path_extension_is( token , g_game->shaderExt ) ) {
+			if( !path_extension_is( token , g_game->shaderExt.c_str() ) ) {
 				strcatQ( token, ".", std::size( token ) );
-				strcatQ( token, g_game->shaderExt, std::size( token ) );
+				strcatQ( token, g_game->shaderExt.c_str(), std::size( token ) );
 			}
 			/* new shader file */
 			if ( !contains( token ) ) {
@@ -1836,7 +1836,7 @@ void LoadShaderInfo(){
 
 	if( shaderFiles.empty() ){
 		Sys_Printf( "%s", "No shaderlist.txt found: loading all shaders\n" );
-		shaderFiles = vfsListShaderFiles( g_game->shaderPath, g_game->shaderExt );
+		shaderFiles = vfsListShaderFiles( g_game->shaderPath.c_str(), g_game->shaderExt.c_str() );
 	}
 
 	/* parse the shader files */

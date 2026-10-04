@@ -37,12 +37,12 @@ int GamepackLib_Init(std::filesystem::path& path) {
 		return -1;
 	}
 
-	// clean up anything previous
-	GamepackLib_Quit();
-
-	// add radiant mode
-	pugi::xml_node radiantNode = gamepacksDoc.append_child("radiant");
-	radiantNode.append_attribute("xmlns") = RADIANT_XMLNS;
+	// add radiant mode if needed
+	pugi::xml_node radiantNode = gamepacksDoc.child("radiant");
+	if (!radiantNode) {
+		radiantNode = gamepacksDoc.append_child("radiant");
+		radiantNode.append_attribute("xmlns") = RADIANT_XMLNS;
+	}
 
 	// grab all gamepacks
 	for (const auto& entry : dir) {
@@ -134,7 +134,7 @@ void GamepackLib_Quit() {
 	gamepacksDoc.reset();
 }
 
-int GamepackLib_ForEach(const char* gameId, GamepackLib_Visitor& visitor) {
+int GamepackLib_ForEach(GamepackLib_Visitor& visitor, const char* gameId) {
 	// select nodes with this id
 	pugi::xpath_node_set nodes{};
 	std::string expression = std::format("/radiant/game[@id='{}']", gameId);
@@ -187,7 +187,7 @@ int GamepackLib_ForEach(GamepackLib_Visitor& visitor) {
 		}
 	}
 	for (const auto& name : names) {
-		if ((r = GamepackLib_ForEach(name.c_str(), visitor)) != 0) {
+		if ((r = GamepackLib_ForEach(visitor, name.c_str())) != 0) {
 			return r;
 		}
 	}

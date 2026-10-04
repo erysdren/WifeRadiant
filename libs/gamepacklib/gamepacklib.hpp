@@ -16,16 +16,21 @@
     You should have received a copy of the GNU Affero General Public License
     along with WifeRadiant.  If not, see <https://www.gnu.org/licenses/>.
 */
+#pragma once
 
 #include <filesystem>
 #include <vector>
 #include <string_view>
 
 // returns the number of gamepacks loaded, or -1 for error
+// can be called multiple times to add gamepacks from multiple directories
 int GamepackLib_Init(std::filesystem::path& path);
 
 // clean up any memory associated with gamepacklib
 void GamepackLib_Quit();
+
+// collect all content paths specified in the given gamepack
+int GamepackLib_GetContentPaths(std::vector<std::string>& contentPaths, const char* gameId);
 
 // visitor class
 class GamepackLib_Visitor {
@@ -40,4 +45,4 @@ public:
 int GamepackLib_ForEach(GamepackLib_Visitor& visitor);
 
 // iterate over all available keyvalues in the given game
-int GamepackLib_ForEach(const char* gameId, GamepackLib_Visitor& visitor);
+int GamepackLib_ForEach(GamepackLib_Visitor& visitor, const char* gameId);

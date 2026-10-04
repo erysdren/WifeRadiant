@@ -25,6 +25,8 @@
 #include <cstdlib>
 #include <cctype>
 
+#include "string/string.h"
+
 inline bool strEmpty( const char* string ){
 	return *string == '\0';
 }
@@ -53,11 +55,29 @@ inline char *copystring( const char *src ){	// version of strdup() with malloc()
 inline bool strEqual( const char* string, const char* other ){
 	return strcmp( string, other ) == 0;
 }
+inline bool strEqual( CopiedString string, const char* other ){
+	return strcmp( string.c_str(), other ) == 0;
+}
+inline bool strEqual( const char* string, CopiedString other ){
+	return strcmp( string, other.c_str() ) == 0;
+}
+inline bool strEqual( CopiedString string, CopiedString other ){
+	return strcmp( string.c_str(), other.c_str() ) == 0;
+}
 inline bool strnEqual( const char* string, const char* other, size_t n ){
 	return strncmp( string, other, n ) == 0;
 }
 inline bool striEqual( const char* string, const char* other ){
 	return Q_stricmp( string, other ) == 0;
+}
+inline bool striEqual( CopiedString string, const char* other ){
+	return Q_stricmp( string.c_str(), other ) == 0;
+}
+inline bool striEqual( const char* string, CopiedString other ){
+	return Q_stricmp( string, other.c_str() ) == 0;
+}
+inline bool striEqual( CopiedString string, CopiedString other ){
+	return Q_stricmp( string.c_str(), other.c_str() ) == 0;
 }
 inline bool strniEqual( const char* string, const char* other, size_t n ){
 	return Q_strnicmp( string, other, n ) == 0;

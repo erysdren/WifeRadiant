@@ -911,7 +911,7 @@ mapDrawSurface_t *DrawSurfaceForFlare( int entNum, const Vector3& origin, const 
 	}
 
 	/* allocate drawsurface */
-	mapDrawSurface_t& ds = AllocDrawSurface( ESurfaceType::Flare, ShaderInfoForShader( !strEmptyOrNull( flareShader )? flareShader : g_game->flareShader ) );
+	mapDrawSurface_t& ds = AllocDrawSurface( ESurfaceType::Flare, ShaderInfoForShader( !strEmptyOrNull( flareShader )? flareShader : g_game->flareShader.c_str() ) );
 
 	/* set it up */
 	ds.entityNum = entNum;
