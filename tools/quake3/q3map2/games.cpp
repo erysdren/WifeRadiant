@@ -934,7 +934,8 @@ struct game_fte : game_sof2
 
 
 
-const std::vector<game_t> g_games = { game_quake3(),
+const std::vector<game_t> g_builtinGames = {
+                                      game_quake3(),
                                       game_quakelive(),
                                       game_nexuiz(),
                                       game_xonotic(),
@@ -955,4 +956,5 @@ const std::vector<game_t> g_games = { game_quake3(),
                                       game_ja(),
                                       game_fte(),
                                     };
-const game_t *g_game = &g_games[0];
+std::vector<game_t> g_games{};
+const game_t *g_game = &g_builtinGames[0];
