@@ -478,6 +478,9 @@ void HelpGames(){
 	Sys_Printf( "Available games:\n" );
 	for( const game_t& game : g_games )
 		Sys_Printf( "  %s\n", game.arg );
+	Sys_Printf( "Builtin games:\n" );
+	for( const game_t& game : g_builtinGames )
+		Sys_Printf( "  %s\n", game.arg );
 }
 
 void HelpMain( const char* arg )
