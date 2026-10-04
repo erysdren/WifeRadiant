@@ -1,0 +1,12 @@
+// write to hl2ep1.xml
+-o "hl2ep1.xml"
+
+// inherits hl2.xml
+--inherits "hl2"
+
+// game id and name
+--id "hl2ep1"
+--name "Half-Life 2: Episode One"
+
+// content paths
+--path "episodic" "2"
