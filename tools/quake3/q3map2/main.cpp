@@ -32,6 +32,7 @@
 #include "q3map2.h"
 #include "autopk3.h"
 #include "timer.h"
+#include "gamepacklib.hpp"
 
 
 
@@ -80,6 +81,9 @@ int main( int argc, char **argv ){
 	std::set_new_handler( new_handler );
 
 	Args args( argc, argv );
+
+	/* init gamepacks */
+	InitGames();
 
 	/* read general options first */
 	{
@@ -256,6 +260,8 @@ int main( int argc, char **argv ){
 	else{
 		r = BSPMain( args );
 	}
+
+	GamepackLib_Quit();
 
 	/* emit time */
 	Sys_Printf( "%9.0f seconds elapsed\n", timer.elapsed_sec() );
