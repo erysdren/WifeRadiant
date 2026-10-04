@@ -112,5 +112,6 @@ struct game_t
 	int brushBevelsSurfaceFlagsMask;                    /* apply only these surfaceflags to bevels to reduce extra bsp shaders amount; applying them to get correct physics at walkable brush edges and vertices */
 };
 
-extern const std::vector<game_t> g_games;
+extern const std::vector<game_t> g_builtinGames;
+extern std::vector<game_t> g_games;
 extern const game_t *g_game;
