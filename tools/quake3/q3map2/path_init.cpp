@@ -235,7 +235,7 @@ const game_t *GetGame( const char *arg ){
 		/* test it */
 		for( const game_t& game : g_builtinGames )
 		{
-			if ( striEqual( arg, game.arg ) )
+			if ( !game.hidden && striEqual( arg, game.arg ) )
 				return &game;
 		}
 
@@ -248,14 +248,14 @@ const game_t *GetGame( const char *arg ){
 	/* test it */
 	for( const game_t& game : g_games )
 	{
-		if ( striEqual( arg, game.arg ) )
+		if ( !game.hidden && striEqual( arg, game.arg ) )
 			return &game;
 	}
 
 	/* fallback to builtin games */
 	for( const game_t& game : g_builtinGames )
 	{
-		if ( striEqual( arg, game.arg ) )
+		if ( !game.hidden && striEqual( arg, game.arg ) )
 			return &game;
 	}
 
