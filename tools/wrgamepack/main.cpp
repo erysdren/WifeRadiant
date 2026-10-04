@@ -35,9 +35,11 @@ static bool g_quiet = false;
 static std::filesystem::path g_outputPath{};
 static std::vector<std::filesystem::path> g_responsePaths{};
 
+static bool g_gameHidden = false;
 static std::string g_gameId{};
 static std::string g_gameName{};
 static std::string g_gameInherits{};
+static std::vector<std::array<std::string, 3>> g_gameEngines{};
 static std::vector<std::pair<std::string, std::string>> g_gameLinks{};
 static std::vector<std::pair<std::string, std::string>> g_gameContentPaths{};
 static std::vector<std::pair<std::string, std::string>> g_gameAssets{};
@@ -132,10 +134,12 @@ static argHelp generalArgs[] = {
 };
 
 static argHelp gamepackArgs[] = {
+	{ { "--hidden", NULL }, "Set gamepack to be hidden from selection" },
 	{ { "--id [id]", NULL }, "Set gamepack ID (required)" },
 	{ { "--name [name]", NULL }, "Set gamepack name (required)" },
 	{ { "--inherits [name]", NULL }, "Set gamepack to inherit from" },
 	{ { "--link [name] [url]", NULL }, "Add gamepack documentation link" },
+	{ { "--engine [os] [path] [exe]", NULL }, "Add gamepack engine searchpath" },
 	{ { "--path [path] [priority]", NULL }, "Add gamepack content search path" },
 	{ { "--asset [type] [name]", NULL }, "Add gamepack supported asset type" },
 	{ { "--entities [filename]", NULL }, "Set gamepack entities filename" },
@@ -180,6 +184,8 @@ static void parse_args(int argc, const char** argv, int start) {
 			g_quiet = true;
 		} else if (!strcmp(argv[i], "--nocolor")) {
 			g_terminalColor = false;
+		} else if (!strcmp(argv[i], "--hidden")) {
+			g_gameHidden = true;
 		} else if (!strcmp(argv[i], "--id") && i < argc - 1) {
 			g_gameId = argv[i + 1];
 			i += 1;
@@ -205,6 +211,9 @@ static void parse_args(int argc, const char** argv, int start) {
 			g_gameShaders.first = argv[i + 1];
 			g_gameShaders.second = argv[i + 2];
 			i += 2;
+		} else if (!strcmp(argv[i], "--engine") && i < argc - 3) {
+			g_gameEngines.push_back({argv[i + 1], argv[i + 2], argv[i + 3]});
+			i += 3;
 		} else if (!strcmp(argv[i], "--compiler") && i < argc - 8 && !strcmp(argv[i + 1], "surfaceparm")) {
 			g_compilerSurfaceParms.push_back({argv[i + 2], argv[i + 3], argv[i + 4], argv[i + 5], argv[i + 6], argv[i + 7], argv[i + 8]});
 			i += 8;
@@ -278,11 +287,22 @@ int main(int argc, const char** argv) {
 		gameNode.append_attribute("inherits") = g_gameInherits;
 	}
 
+	if (g_gameHidden) {
+		gameNode.append_attribute("hidden") = true;
+	}
+
 	// create link nodes
 	for (const auto& link : g_gameLinks) {
 		pugi::xml_node node = gameNode.append_child("link");
 		node.append_attribute("name") = link.first;
 		node.append_attribute("url") = link.second;
+	}
+
+	// create engine nodes
+	for (const auto& engine : g_gameEngines) {
+		pugi::xml_node node = gameNode.append_child(std::format("engine:{}", engine[0]));
+		node.append_attribute("path") = engine[1];
+		node.append_attribute("executable") = engine[2];
 	}
 
 	// create searchpath nodes
