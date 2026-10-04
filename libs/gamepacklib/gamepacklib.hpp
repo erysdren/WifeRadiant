@@ -21,6 +21,7 @@
 #include <filesystem>
 #include <vector>
 #include <string_view>
+#include <map>
 
 // returns the number of gamepacks loaded, or -1 for error
 // can be called multiple times to add gamepacks from multiple directories
@@ -30,7 +31,10 @@ int GamepackLib_Init(std::filesystem::path& path);
 void GamepackLib_Quit();
 
 // collect all content paths specified in the given gamepack
-int GamepackLib_GetContentPaths(std::vector<std::string>& contentPaths, const char* gameId);
+int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const char* gameId);
+
+// collect all assets of the given type specified in the given gamepack
+int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* gameId, const char* assetType);
 
 // visitor class
 class GamepackLib_Visitor {
