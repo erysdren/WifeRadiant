@@ -110,6 +110,7 @@ struct game_t
 	bspFunc load, write;                                /* load/write function pointers */
 	std::vector<surfaceParm_t> surfaceParms;            /* surfaceparm array */
 	int brushBevelsSurfaceFlagsMask;                    /* apply only these surfaceflags to bevels to reduce extra bsp shaders amount; applying them to get correct physics at walkable brush edges and vertices */
+	bool hidden = false;                                /* don't show in games list */
 };
 
 extern const std::vector<game_t> g_builtinGames;
