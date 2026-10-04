@@ -30,6 +30,7 @@
 
 /* dependencies */
 #include "q3map2.h"
+#include "gamepacklib.hpp"
 
 /* platform-specific */
 #if defined( __linux__ ) || defined( __APPLE__ )
@@ -37,6 +38,22 @@
 	#include <pwd.h>
 	#define Q_UNIX
 #endif
+
+#ifdef _WIN32
+#include <libloaderapi.h>
+#endif
+
+static std::filesystem::path GetExePath() {
+#ifdef Q_UNIX
+	return std::filesystem::canonical("/proc/self/exe").parent_path();
+#elif defined(_WIN32)
+	char buffer[2048];
+	uint32_t len = GetModuleFileNameA(NULL, buffer, sizeof(buffer));
+	return std::filesystem::canonical(buffer).parent_path();
+#else
+#error please implement your platform-specific code here!
+#endif
+}
 
 /*
    some of this code is based off the original q3map port from loki
@@ -49,9 +66,19 @@
  */
 
 static CopiedString LokiGetHomeDir(){
-	#ifndef Q_UNIX
-	return "";
-	#else
+#ifdef _WIN32
+	const char *userprofile = getenv( "USERPROFILE" );
+	const char *homedrive = getenv( "HOMEDRIVE" );
+	const char *homepath = getenv( "HOMEPATH" );
+
+	if (userprofile) {
+		return userprofile;
+	} else if (homedrive && homepath) {
+		return StringStream(homedrive, homepath).c_str();
+	} else {
+		return "";
+	}
+#else
 	/* get the home environment variable */
 	const char *home = getenv( "HOME" );
 
@@ -69,7 +96,7 @@ static CopiedString LokiGetHomeDir(){
 	}
 	/* return it */
 	return "";
-	#endif
+#endif
 }
 
 
@@ -88,10 +115,14 @@ static void LokiInitPaths( const char *argv0, CopiedString& homePath, CopiedStri
 		}
 	}
 
-	#ifndef Q_UNIX
+	installPath = GetExePath().c_str();
+
+	// old code for reference --erysdren
+#if 0
+#ifndef Q_UNIX
 	/* this is kinda crap, but hey */
 	installPath = "../";
-	#else
+#else
 	const char *path = getenv( "PATH" );
 	auto temp = StringStream( argv0 );
 
@@ -163,7 +194,8 @@ static void LokiInitPaths( const char *argv0, CopiedString& homePath, CopiedStri
 		installPath = real;
 		free( real );
 	}
-	#endif
+#endif
+#endif
 }
 
 
@@ -180,6 +212,8 @@ const game_t *GetGame( const char *arg ){
 		return nullptr;
 	}
 
+	// this is no time for jokes! --erysdren
+#if 0
 	/* joke */
 	if ( striEqual( arg, "quake1" ) ||
 	     striEqual( arg, "quake2" ) ||
@@ -191,6 +225,7 @@ const game_t *GetGame( const char *arg ){
 		Sys_Printf( "April fools, silly rabbit!\n" );
 		exit( 0 );
 	}
+#endif
 
 	/* skip 'builtin:' prefix */
 	const char builtinPrefix[] = "builtin:";
@@ -228,6 +263,47 @@ const game_t *GetGame( const char *arg ){
 	Sys_Warning( "Game \"%s\" is unknown.\n", arg );
 	HelpGames();
 	return nullptr;
+}
+
+static void AddGames(std::filesystem::path path) {
+	int n = GamepackLib_Init(path);
+	if (n == -1) {
+		Sys_Warning( "Failed to read gamepacks from path '%s'\n", path.c_str() );
+		return;
+	}
+
+	Sys_FPrintf( SYS_VRB, "Added %d gamepacks from path '%s'\n", n, path.c_str() );
+
+	class AddGamesVisitor : public GamepackLib_Visitor {
+	private:
+		game_t m_game;
+	public:
+		virtual int begin(const char* gameId) override {
+			m_game.arg = gameId;
+			return 0;
+		}
+
+		virtual int visit(const char* gameId, const char* key, const Args& args) override {
+			return 0;
+		}
+
+		virtual void end(const char* gameId) override {
+			g_games.push_back(m_game);
+		}
+	} visitor;
+
+	int r = GamepackLib_ForEach(visitor);
+	if (r != 0) {
+		Sys_Warning( "Failed to load gamepacks from path '%s'\n", path.c_str() );
+	}
+}
+
+void InitGames() {
+	/* note it */
+	Sys_FPrintf( SYS_VRB, "--- InitGames ---\n" );
+
+	/* add gamepacks */
+	AddGames( GetExePath() / "gamepacks" );
 }
 
 
@@ -322,9 +398,7 @@ void InitPaths( Args& args ){
 	const char *homeBasePath = nullptr;
 
 	const char *baseGame = nullptr;
-	const char *gameName = nullptr;
 	StringOutputStream stream( 256 );
-
 
 	/* note it */
 	Sys_FPrintf( SYS_VRB, "--- InitPaths ---\n" );
@@ -339,7 +413,9 @@ void InitPaths( Args& args ){
 	{
 		/* -game */
 		while ( args.takeArg( "-game" ) ) {
-			gameName = args.takeNext();
+			if ( const game_t *game = GetGame( args.takeNext() ) ) {
+				g_game = game;
+			}
 		}
 
 		/* -fs_forbiddenpath */
@@ -385,7 +461,7 @@ void InitPaths( Args& args ){
 	}
 
 	/* add standard game path */
-	insert_unique( gamePaths, stream( DirectoryCleaned( baseGame == nullptr? g_game->gamePath : baseGame ) ) );
+	insert_unique( gamePaths, stream( DirectoryCleaned( baseGame == nullptr? g_game->gamePath.c_str() : baseGame ) ) );
 
 	/* if there is no base path set, figure it out */
 	if ( basePaths.empty() ) {
@@ -396,9 +472,9 @@ void InitPaths( Args& args ){
 		{
 			/* extract the arg */
 			stream( DirectoryCleaned( arg ) );
-			Sys_FPrintf( SYS_VRB, "Searching for \"%s\" in \"%s\"...\n", g_game->magic, stream.c_str() );
+			Sys_FPrintf( SYS_VRB, "Searching for \"%s\" in \"%s\"...\n", g_game->magic.c_str(), stream.c_str() );
 			/* check for the game's magic word */
-			char* found = strIstr( stream.c_str(), g_game->magic );
+			char* found = strIstr( stream.c_str(), g_game->magic.c_str() );
 			if( found ){
 				/* now find the next slash and nuke everything after it */
 				found = strchr( found, '/' );
@@ -423,7 +499,7 @@ void InitPaths( Args& args ){
 	}
 
 	/* this only affects unix */
-	AddHomeBasePath( basePaths, homePath.c_str(), homeBasePath != nullptr? homeBasePath : g_game->homeBasePath );
+	AddHomeBasePath( basePaths, homePath.c_str(), homeBasePath != nullptr? homeBasePath : g_game->homeBasePath.c_str() );
 
 	/* support daemon engine nonsense */
 	const char *pk3ext = strEqual( g_game->arg, "unvanquished" )? "dpk" : "pk3";
