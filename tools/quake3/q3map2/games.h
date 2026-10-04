@@ -26,7 +26,7 @@
 #pragma once
 
 #include <vector>
-
+#include "string/string.h"
 
 /* ydnar: compiler flags, because games have widely varying content/surface flags */
 const int C_SOLID                = 0x00000001;
@@ -68,17 +68,17 @@ enum class EMiniMapMode
 
 struct game_t
 {
-	const char          *arg;                           /* -game matches this */
-	const char          *gamePath;                      /* main game data dir */
-	const char          *homeBasePath;                  /* home sub-dir on unix */
-	const char          *magic;                         /* magic word for figuring out base path */
-	const char          *shaderPath;                    /* shader directory */
-	const char          *shaderExt;                     /* shader extension (without dot) */
+	CopiedString arg;                                   /* -game matches this */
+	CopiedString gamePath;                              /* main game data dir */
+	CopiedString homeBasePath;                          /* home sub-dir on unix */
+	CopiedString magic;                                 /* magic word for figuring out base path */
+	CopiedString shaderPath;                            /* shader directory */
+	CopiedString shaderExt;                             /* shader extension (without dot) */
 	int maxLMSurfaceVerts;                              /* default maximum lightmapped surface verts */
 	int maxSurfaceVerts;                                /* default maximum surface verts */
 	int maxSurfaceIndexes;                              /* default maximum surface indexes (tris * 3) */
 	bool emitFlares;                                    /* when true, emit flare surfaces */
-	const char          *flareShader;                   /* default flare shader (MUST BE SET) */
+	CopiedString flareShader;                           /* default flare shader (MUST BE SET) */
 	bool wolfLight;                                     /* when true, lights work like wolf q3map  */
 	int lightmapSize;                                   /* bsp lightmap width/height */
 	float lightmapGamma;                                /* default lightmap gamma */
@@ -102,8 +102,8 @@ struct game_t
 	float miniMapBorder;                                /* minimap border amount */
 	bool miniMapKeepAspect;                             /* minimap keep aspect ratio by letterboxing */
 	EMiniMapMode miniMapMode;                           /* minimap mode */
-	const char          *miniMapNameFormat;             /* minimap name format */
-	const char          *bspIdent;                      /* 4-letter bsp file prefix */
+	CopiedString miniMapNameFormat;                     /* minimap name format */
+	CopiedString bspIdent;                              /* 4-letter bsp file prefix */
 	int bspVersion;                                     /* bsp version to use */
 	bool lumpSwap;                                      /* cod-style len/ofs order */
 	typedef void ( *bspFunc )( const char * );
