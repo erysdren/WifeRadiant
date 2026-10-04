@@ -1,0 +1,16 @@
+// write to quake3teamarena.xml
+-o "quake3teamarena.xml"
+
+// inherits quake3.xml
+--inherits "quake3"
+
+// game id and name
+--id "quake3teamarena"
+--name "Quake III: Team Arena"
+
+// links
+--link "TA Teams Manual" "docs/New_Teams_For_Q3TA/index.html"
+--link "Team Arena Mapping" "docs/Team_Arena_Mapping_Help/start.html"
+
+// content paths
+--path "missionpack" "1"
