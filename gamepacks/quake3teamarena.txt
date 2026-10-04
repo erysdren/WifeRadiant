@@ -14,3 +14,6 @@
 
 // content paths
 --path "missionpack" "1"
+
+// entities
+--entities "entities-ta.ent"

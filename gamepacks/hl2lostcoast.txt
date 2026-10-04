@@ -1,0 +1,12 @@
+// write to hl2lostcoast.xml
+-o "hl2lostcoast.xml"
+
+// inherits hl2.xml
+--inherits "hl2"
+
+// game id and name
+--id "hl2lostcoast"
+--name "Half-Life 2: Lost Coast"
+
+// content paths
+--path "lostcoast" "2"

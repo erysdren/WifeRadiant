@@ -1,0 +1,165 @@
+// NOTE: these are arguments to the wrgamepack tool.
+// C and C++ style comments are supported.
+
+// write to idtech3base.xml
+-o "idtech3base.xml"
+
+// mark as hidden
+--hidden
+
+// game id and name
+--id "idtech3base"
+--name "idTech 3 Base"
+
+// supported asset types
+// syntax [type] [name]
+--asset archive "pk3"
+--asset texture "tga"
+--asset texture "jpg"
+--asset sound "wav"
+--asset model "md3"
+--asset model "ase"
+--asset model "lwo"
+--asset map "quake3"
+--asset shader "quake3"
+--asset entity "def"
+--asset entity "xml"
+--asset brush "quake3"
+--asset patch "quake3"
+
+// shaders
+// syntax: [path] [extension]
+--shaders "scripts" "shader"
+
+// compiler options
+// syntax: [key] [arg] [value]
+--compiler flares enabled "false"
+--compiler flares shader "flareshader"
+--compiler limits lmsurfaceverts "64"
+--compiler limits surfaceverts "999"
+--compiler limits surfaceindexes "6000"
+--compiler lighting wolf "false"
+--compiler lightmaps size "128"
+--compiler lightmaps gamma "1.0"
+--compiler lightmaps srgb "false"
+--compiler lightmaps exposure "0.0"
+--compiler lightmaps compensate "1.0"
+--compiler lightgrid scale "1.0"
+--compiler lightgrid ambientscale "1.0"
+--compiler lightstyles enabled "true"
+--compiler lights keep "false"
+--compiler lights halflambert "false"
+--compiler textures srgb "false"
+--compiler colors srgb "false"
+--compiler patches subdivisions "8"
+--compiler patches shadows "false"
+--compiler deluxemaps enabled "true"
+--compiler deluxemaps mode "0"
+--compiler minimap size "512"
+--compiler minimap sharpener "1.0"
+--compiler minimap border "0.0"
+--compiler minimap keepaspect "true"
+--compiler minimap mode "gray"
+--compiler minimap nameformat "%s.tga"
+--compiler bsp magic "IBSP"
+--compiler bsp version "46"
+--compiler bsp lumpswap "false"
+--compiler bsp load "LoadIBSPFile"
+--compiler bsp write "WriteIBSPFile"
+--compiler bevelsurfaceflagsmask name "Q_SURF_BEVELSMASK"
+
+// compiler content flags
+// syntax: [name] [value]
+// 'value' may be a hexadecimal constant prefixed with '0x', a decimal constant, or an already registered flag name.
+// constants and/or flag names may be joined with a bitwise OR operator (the '|' character).
+--compiler flag Q_CONT_SOLID 1
+--compiler flag Q_CONT_LAVA 8
+--compiler flag Q_CONT_SLIME 16
+--compiler flag Q_CONT_WATER 32
+--compiler flag Q_CONT_FOG 64
+--compiler flag Q_CONT_AREAPORTAL 0x8000
+--compiler flag Q_CONT_PLAYERCLIP 0x10000
+--compiler flag Q_CONT_MONSTERCLIP 0x20000
+--compiler flag Q_CONT_TELEPORTER 0x40000
+--compiler flag Q_CONT_JUMPPAD 0x80000
+--compiler flag Q_CONT_CLUSTERPORTAL 0x100000
+--compiler flag Q_CONT_DONOTENTER 0x200000
+--compiler flag Q_CONT_BOTCLIP 0x400000
+--compiler flag Q_CONT_ORIGIN 0x1000000
+--compiler flag Q_CONT_BODY 0x2000000
+--compiler flag Q_CONT_CORPSE 0x4000000
+--compiler flag Q_CONT_DETAIL 0x8000000
+--compiler flag Q_CONT_STRUCTURAL 0x10000000
+--compiler flag Q_CONT_TRANSLUCENT 0x20000000
+--compiler flag Q_CONT_TRIGGER 0x40000000
+--compiler flag Q_CONT_NODROP 0x80000000
+
+// compiler surface flags
+// syntax: [name] [value]
+// 'value' may be a hexadecimal constant prefixed with '0x', a decimal constant, or an already registered flag name.
+// constants and/or flag names may be joined with a bitwise OR operator (the '|' character).
+--compiler flag Q_SURF_NODAMAGE 0x1
+--compiler flag Q_SURF_SLICK 0x2
+--compiler flag Q_SURF_SKY 0x4
+--compiler flag Q_SURF_LADDER 0x8
+--compiler flag Q_SURF_NOIMPACT 0x10
+--compiler flag Q_SURF_NOMARKS 0x20
+--compiler flag Q_SURF_FLESH 0x40
+--compiler flag Q_SURF_NODRAW 0x80
+--compiler flag Q_SURF_HINT 0x100
+--compiler flag Q_SURF_SKIP 0x200
+--compiler flag Q_SURF_NOLIGHTMAP 0x400
+--compiler flag Q_SURF_POINTLIGHT 0x800
+--compiler flag Q_SURF_METALSTEPS 0x1000
+--compiler flag Q_SURF_NOSTEPS 0x2000
+--compiler flag Q_SURF_NONSOLID 0x4000
+--compiler flag Q_SURF_LIGHTFILTER 0x8000
+--compiler flag Q_SURF_ALPHASHADOW 0x10000
+--compiler flag Q_SURF_NODLIGHT 0x20000
+--compiler flag Q_SURF_DUST 0x40000
+--compiler flag Q_SURF_VERTEXLIT "Q_SURF_POINTLIGHT | Q_SURF_NOLIGHTMAP"
+--compiler flag Q_SURF_BEVELSMASK "Q_SURF_NODAMAGE | Q_SURF_SLICK | Q_SURF_FLESH | Q_SURF_METALSTEPS | Q_SURF_NOSTEPS | Q_SURF_DUST"
+--compiler flag Q_SURF_NOOB 0x80000
+
+// compiler surfaceparms
+// syntax: [name] [contentflags] [contentflagsclear] [surfaceflags] [surfaceflagsclear] [compileflags] [compileflagsclear]
+// each flag value may be a hexadecimal constant prefixed with '0x', a decimal constant, or the name of a content/surface/compiler flag.
+// constants and/or flag names may be joined with a bitwise OR operator (the '|' character).
+--compiler surfaceparm "default" "Q_CONT_SOLID" "-1" "0" "-1" "C_SOLID" "-1"
+--compiler surfaceparm "lightgrid" "0" "0" "0" "0" "C_LIGHTGRID" "0"
+--compiler surfaceparm "antiportal" "0" "0" "0" "0" "C_ANTIPORTAL" "0"
+--compiler surfaceparm "skip" "0" "0" "0" "0" "C_SKIP" "0"
+--compiler surfaceparm "origin" "Q_CONT_ORIGIN" "Q_CONT_SOLID" "0" "0" "C_ORIGIN | C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "areaportal" "Q_CONT_AREAPORTAL" "Q_CONT_SOLID" "0" "0" "C_AREAPORTAL | C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "trans" "Q_CONT_TRANSLUCENT" "0" "0" "0" "C_TRANSLUCENT" "0"
+--compiler surfaceparm "detail" "Q_CONT_DETAIL" "0" "0" "0" "C_DETAIL" "0"
+--compiler surfaceparm "structural" "Q_CONT_STRUCTURAL" "0" "0" "0" "C_STRUCTURAL" "0"
+--compiler surfaceparm "hint" "0" "0" "Q_SURF_HINT" "0" "C_HINT" "0"
+--compiler surfaceparm "nodraw" "0" "0" "Q_SURF_NODRAW" "0" "C_NODRAW" "0"
+--compiler surfaceparm "alphashadow" "0" "0" "Q_SURF_ALPHASHADOW" "0" "C_ALPHASHADOW | C_TRANSLUCENT" "0"
+--compiler surfaceparm "lightfilter" "0" "0" "Q_SURF_LIGHTFILTER" "0" "C_LIGHTFILTER | C_TRANSLUCENT" "0"
+--compiler surfaceparm "nolightmap" "0" "0" "Q_SURF_VERTEXLIT" "0" "C_VERTEXLIT" "0"
+--compiler surfaceparm "pointlight" "0" "0" "Q_SURF_VERTEXLIT" "0" "C_VERTEXLIT" "0"
+--compiler surfaceparm "nonsolid" "0" "Q_CONT_SOLID" "Q_SURF_NONSOLID" "0" "0" "C_SOLID"
+--compiler surfaceparm "trigger" "Q_CONT_TRIGGER" "Q_CONT_SOLID" "0" "0" "C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "water" "Q_CONT_WATER" "Q_CONT_SOLID" "0" "0" "C_LIQUID | C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "slime" "Q_CONT_SLIME" "Q_CONT_SOLID" "0" "0" "C_LIQUID | C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "lava" "Q_CONT_LAVA" "Q_CONT_SOLID" "0" "0" "C_LIQUID | C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "playerclip" "Q_CONT_PLAYERCLIP" "Q_CONT_SOLID" "0" "0" "C_DETAIL | C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "monsterclip" "Q_CONT_MONSTERCLIP" "Q_CONT_SOLID" "0" "0" "C_DETAIL | C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "nodrop" "Q_CONT_NODROP" "Q_CONT_SOLID" "0" "0" "C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "clusterportal" "Q_CONT_CLUSTERPORTAL" "Q_CONT_SOLID" "0" "0" "C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "donotenter" "Q_CONT_DONOTENTER" "Q_CONT_SOLID" "0" "0" "C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "botclip" "Q_CONT_BOTCLIP" "Q_CONT_SOLID" "0" "0" "C_TRANSLUCENT" "C_SOLID"
+--compiler surfaceparm "fog" "Q_CONT_FOG" "Q_CONT_SOLID" "0" "0" "C_FOG" "C_SOLID"
+--compiler surfaceparm "sky" "0" "0" "Q_SURF_SKY" "0" "C_SKY" "0"
+--compiler surfaceparm "slick" "0" "0" "Q_SURF_SLICK" "0" "0" "0"
+--compiler surfaceparm "noimpact" "0" "0" "Q_SURF_NOIMPACT" "0" "0" "0"
+--compiler surfaceparm "nomarks" "0" "0" "Q_SURF_NOMARKS" "0" "C_NOMARKS" "0"
+--compiler surfaceparm "ladder" "0" "0" "Q_SURF_LADDER" "0" "0" "0"
+--compiler surfaceparm "nodamage" "0" "0" "Q_SURF_NODAMAGE" "0" "0" "0"
+--compiler surfaceparm "metalsteps" "0" "0" "Q_SURF_METALSTEPS" "0" "0" "0"
+--compiler surfaceparm "flesh" "0" "0" "Q_SURF_FLESH" "0" "0" "0"
+--compiler surfaceparm "nosteps" "0" "0" "Q_SURF_NOSTEPS" "0" "0" "0"
+--compiler surfaceparm "nodlight" "0" "0" "Q_SURF_NODLIGHT" "0" "0" "0"
+--compiler surfaceparm "dust" "0" "0" "Q_SURF_DUST" "0" "0" "0"
