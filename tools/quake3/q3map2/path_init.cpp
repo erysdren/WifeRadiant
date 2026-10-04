@@ -284,11 +284,22 @@ static void AddGames(std::filesystem::path path) {
 		}
 
 		virtual int visit(const char* gameId, const char* key, const Args& args) override {
+			if (striEqualPrefix(key, "compiler:")) {
+				key += strlen("compiler:");
+				if (striEqual(key, "flares")) {
+
+				} else if (striEqual(key, "limits")) {
+
+				}
+			} else if (striEqualPrefix(key, "asset:")) {
+				key += strlen("asset:");
+			}
 			return 0;
 		}
 
 		virtual void end(const char* gameId) override {
 			g_games.push_back(m_game);
+			m_game = {};
 		}
 	} visitor;
 

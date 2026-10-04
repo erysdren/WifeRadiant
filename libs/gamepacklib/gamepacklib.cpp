@@ -193,3 +193,32 @@ int GamepackLib_ForEach(GamepackLib_Visitor& visitor) {
 	}
 	return r;
 }
+
+int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const char* gameId) {
+	if (gameId == nullptr || gameId[0] == '\0') {
+		return -1;
+	}
+	int numPaths = 0;
+	std::string expression = std::format("/radiant/game[@id='{}']/content[@path and @priority]", gameId);
+	for (const auto& node : gamepacksDoc.select_nodes(expression.c_str())) {
+		contentPaths[node.node().attribute("priority").as_int()] = node.node().attribute("path").value();
+		numPaths++;
+	}
+	return numPaths;
+}
+
+int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* gameId, const char* assetType) {
+	if (gameId == nullptr || gameId[0] == '\0') {
+		return -1;
+	}
+	if (assetType == nullptr || assetType[0] == '\0') {
+		return -1;
+	}
+	int numAssets = 0;
+	std::string expression = std::format("/radiant/game[@id='{}']/asset:{}[@name]", gameId, assetType);
+	for (const auto& node : gamepacksDoc.select_nodes(expression.c_str())) {
+		assetTypes.push_back(node.node().attribute("name").value());
+		numAssets++;
+	}
+	return numAssets;
+}
