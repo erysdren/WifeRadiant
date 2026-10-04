@@ -192,8 +192,33 @@ const game_t *GetGame( const char *arg ){
 		exit( 0 );
 	}
 
+	/* skip 'builtin:' prefix */
+	const char builtinPrefix[] = "builtin:";
+	if (striEqualPrefix(arg, builtinPrefix)) {
+		arg += strlen(builtinPrefix);
+
+		/* test it */
+		for( const game_t& game : g_builtinGames )
+		{
+			if ( striEqual( arg, game.arg ) )
+				return &game;
+		}
+
+		/* no matching game */
+		Sys_Warning( "Game \"%s\" is unknown.\n", arg );
+		HelpGames();
+		return nullptr;
+	}
+
 	/* test it */
 	for( const game_t& game : g_games )
+	{
+		if ( striEqual( arg, game.arg ) )
+			return &game;
+	}
+
+	/* fallback to builtin games */
+	for( const game_t& game : g_builtinGames )
 	{
 		if ( striEqual( arg, game.arg ) )
 			return &game;
@@ -297,6 +322,7 @@ void InitPaths( Args& args ){
 	const char *homeBasePath = nullptr;
 
 	const char *baseGame = nullptr;
+	const char *gameName = nullptr;
 	StringOutputStream stream( 256 );
 
 
@@ -307,15 +333,13 @@ void InitPaths( Args& args ){
 	LokiInitPaths( args.getArg0(), homePath, installPath );
 
 	/* set game to default (q3a) */
-	g_game = &g_games[ 0 ];
+	g_game = &g_builtinGames[ 0 ];
 
 	/* parse through the arguments and extract those relevant to paths */
 	{
 		/* -game */
 		while ( args.takeArg( "-game" ) ) {
-			if ( const game_t *game = GetGame( args.takeNext() ) ) {
-				g_game = game;
-			}
+			gameName = args.takeNext();
 		}
 
 		/* -fs_forbiddenpath */

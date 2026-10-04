@@ -450,6 +450,7 @@ target_link_libraries(radiant
 		wiferadiant-library-l_net
 		wiferadiant-library-xmllib
 		wiferadiant-library-quickhull
+		wiferadiant-library-gamepacklib
 		sourcepp::toolpp
 		sourcepp::steampp
 		$<$<BOOL:${WIN32}>:ws2_32>
