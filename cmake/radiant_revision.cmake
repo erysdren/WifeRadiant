@@ -3,7 +3,7 @@ find_package(Git)
 
 if(Git_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 	execute_process(
-		COMMAND ${GIT_EXECUTABLE} describe --always --long --dirty
+		COMMAND ${GIT_EXECUTABLE} describe --always --long
 		WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
 		OUTPUT_VARIABLE git_commit
 		ERROR_QUIET
@@ -30,17 +30,21 @@ if(Git_FOUND AND EXISTS ${PROJECT_SOURCE_DIR}/.git)
 		ERROR_QUIET
 		OUTPUT_STRIP_TRAILING_WHITESPACE
 	)
-	if(git_is_shallow)
-		set(git_revision "${git_branch}-git-${git_commit}")
+	if(NOT ${git_branch} STREQUAL "main")
+		set(git_revision "${git_branch}-git-dirty")
 	else()
-		execute_process(
-			COMMAND ${GIT_EXECUTABLE} rev-list HEAD --count
-			WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
-			OUTPUT_VARIABLE git_revision
-			ERROR_QUIET
-			OUTPUT_STRIP_TRAILING_WHITESPACE
-		)
-		set(git_revision "${git_branch}-${git_revision}-git-${git_commit}")
+		if(git_is_shallow)
+			set(git_revision "${git_branch}-git-${git_commit}")
+		else()
+			execute_process(
+				COMMAND ${GIT_EXECUTABLE} rev-list HEAD --count
+				WORKING_DIRECTORY "${PROJECT_SOURCE_DIR}"
+				OUTPUT_VARIABLE git_revision
+				ERROR_QUIET
+				OUTPUT_STRIP_TRAILING_WHITESPACE
+			)
+			set(git_revision "${git_branch}-${git_revision}-git-${git_commit}")
+		endif()
 	endif()
 	message(STATUS "${PROJECT_NAME} revision ${git_revision}, ${git_date}")
 	list(APPEND RADIANT_COMMON_DEFINITIONS RADIANT_GIT_REVISION=\"${git_revision}\" RADIANT_GIT_DATE=\"${git_date}\" RADIANT_GIT_BRANCH=\"${git_branch}\")
