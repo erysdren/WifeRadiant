@@ -284,16 +284,6 @@ static void AddGames(std::filesystem::path path) {
 		}
 
 		virtual int visit(const char* gameId, const char* key, const Args& args) override {
-			if (striEqualPrefix(key, "compiler:")) {
-				key += strlen("compiler:");
-				if (striEqual(key, "flares")) {
-
-				} else if (striEqual(key, "limits")) {
-
-				}
-			} else if (striEqualPrefix(key, "asset:")) {
-				key += strlen("asset:");
-			}
 			return 0;
 		}
 

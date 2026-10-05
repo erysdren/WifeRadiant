@@ -222,3 +222,42 @@ int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* game
 	}
 	return numAssets;
 }
+
+std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName) {
+	pugi::xpath_node_set nodes{};
+	std::string expression = std::format("/radiant/game[@id='{}']/{}[@{}]", gameId, keyName, argName);
+	try {
+		nodes = gamepacksDoc.select_nodes(expression.c_str());
+	} catch(pugi::xpath_exception& e) {
+		std::cout << __func__ << ": error \"" << e.what() << "\"" << std::endl;
+		return "";
+	}
+	if (nodes.empty()) {
+		return "";
+	}
+	return nodes[0].node().attribute(argName).value();
+}
+
+std::vector<std::string> GamepackLib_QueryStrings(const char* gameId, const char* keyName, const char* argName) {
+	std::vector<std::string> retVal{};
+	pugi::xpath_node_set nodes{};
+	std::string expression = std::format("/radiant/game[@id='{}']/{}[@{}]", gameId, keyName, argName);
+	try {
+		nodes = gamepacksDoc.select_nodes(expression.c_str());
+	} catch(pugi::xpath_exception& e) {
+		std::cout << __func__ << ": error \"" << e.what() << "\"" << std::endl;
+		return retVal;
+	}
+	for (const auto& node : nodes) {
+		retVal.push_back(node.node().attribute(argName).value());
+	}
+	return retVal;
+}
+
+int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* argName, int def = 0) {
+	std::string s = GamepackLib_QueryString(gameId, keyName, argName);
+	if (s.empty()) {
+		return def;
+	}
+	return std::stoi(s);
+}
