@@ -53,10 +53,16 @@ const int C_DETAIL               = 0x08000000;  /* THIS MUST BE THE SAME AS IN R
 /* ydnar: for multiple game support */
 struct surfaceParm_t
 {
-	const char  *name;
+	CopiedString name;
 	int contentFlags, contentFlagsClear;
 	int surfaceFlags, surfaceFlagsClear;
 	int compileFlags, compileFlagsClear;
+};
+
+struct compileFlag_t
+{
+	CopiedString name;
+	int value;
 };
 
 enum class EMiniMapMode
@@ -111,6 +117,7 @@ struct game_t
 	std::vector<surfaceParm_t> surfaceParms;            /* surfaceparm array */
 	int brushBevelsSurfaceFlagsMask;                    /* apply only these surfaceflags to bevels to reduce extra bsp shaders amount; applying them to get correct physics at walkable brush edges and vertices */
 	bool hidden = false;                                /* don't show in games list */
+	std::vector<compileFlag_t> compileFlags{};          /* additional flags */
 };
 
 extern const std::vector<game_t> g_builtinGames;

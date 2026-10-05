@@ -36,6 +36,11 @@ int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const 
 // collect all assets of the given type specified in the given gamepack
 int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* gameId, const char* assetType);
 
+// query a specific item from a specific gamepack key
+std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName);
+std::vector<std::string> GamepackLib_QueryStrings(const char* gameId, const char* keyName, const char* argName);
+int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* argName, int def = 0);
+
 // visitor class
 class GamepackLib_Visitor {
 public:
