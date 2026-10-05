@@ -32,8 +32,7 @@ cmake_dependent_option(RADIANT_GENERATE_IDTECH4_GAMEPACKS "Generate idTech 4 gam
 cmake_dependent_option(RADIANT_GENERATE_SOURCE_GAMEPACKS "Generate Source Engine gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
 cmake_dependent_option(RADIANT_GENERATE_GOLDSRC_GAMEPACKS "Generate GoldSrc gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
 option(RADIANT_BUILD_MBSPC "Build mbspc" ON)
-cmake_dependent_option(RADIANT_BUILD_Q3MAP2 "Build q3map2" ON RADIANT_USE_ASSIMP OFF)
-cmake_dependent_option(RADIANT_BUILD_WRMAP "Build wrmap" ON RADIANT_USE_ASSIMP OFF)
+cmake_dependent_option(RADIANT_BUILD_WRMAP "Build wrmap compiler" ON RADIANT_USE_ASSIMP OFF)
 cmake_dependent_option(WRMAP_WITH_ERICWTOOLS "Embed the ericw-tools frontend into wrmap" OFF RADIANT_BUILD_WRMAP OFF) # note: doesn't work yet
 option(RADIANT_BUILD_Q2MAP "Build q2map" ON)
 option(RADIANT_BUILD_H2DATA "Build h2data" ON)
@@ -52,8 +51,6 @@ set(RADIANT_MAJOR_VERSION ${PROJECT_VERSION_MAJOR} CACHE BOOL "" FORCE)
 set(RADIANT_MINOR_VERSION ${PROJECT_VERSION_MINOR} CACHE BOOL "" FORCE)
 set(RADIANT_PATCH_VERSION ${PROJECT_VERSION_PATCH} CACHE BOOL "" FORCE)
 set(RADIANT_ABOUTMSG "fix your hearts or die" CACHE BOOL "" FORCE)
-set(Q3MAP_VERSION "2.5.17w" CACHE BOOL "" FORCE)
-set(Q3MAP_MOTD "Your map saw the pretty lights from q3map2's BFG" CACHE BOOL "" FORCE)
 set(WRMAP_VERSION "2.5.17w" CACHE BOOL "" FORCE)
 set(WRMAP_MOTD "your map saw my transgender boobs" CACHE BOOL "" FORCE)
 
@@ -542,18 +539,10 @@ if(RADIANT_GENERATE_GAMEPACKS OR RADIANT_GENERATE_USER_GAMEPACKS)
 	include(gamepacks)
 endif()
 
-# q3map2
-
-if(RADIANT_BUILD_Q3MAP2)
-	include(q3map2)
-endif()
-
 # wrmap
 
 if(RADIANT_BUILD_WRMAP)
-	set(BUILD_WRMAP TRUE)
-	include(q3map2)
-	unset(BUILD_WRMAP)
+	include(wrmap)
 endif()
 
 # mbspc

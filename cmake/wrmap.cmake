@@ -1,13 +1,7 @@
 
-# q3map2 / wrmap
+# wrmap
 
-if(BUILD_WRMAP)
-	set(EXECUTABLE_NAME wrmap)
-else()
-	set(EXECUTABLE_NAME q3map2)
-endif()
-
-add_executable(${EXECUTABLE_NAME}
+add_executable(wrmap
 	${PROJECT_SOURCE_DIR}/tools/quake3/common/cmdlib.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/common/qimagelib.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/common/inout.cpp
@@ -63,10 +57,10 @@ add_executable(${EXECUTABLE_NAME}
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/visflow.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/vis.cpp
 	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
-	$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/ewt.cpp>
+	$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/ewt.cpp>
 )
-radiant_add_common(${EXECUTABLE_NAME})
-target_link_libraries(${EXECUTABLE_NAME}
+radiant_add_common(wrmap)
+target_link_libraries(wrmap
 	PRIVATE
 		l_net
 		filematch
@@ -78,26 +72,25 @@ target_link_libraries(${EXECUTABLE_NAME}
 		pugixml::pugixml
 		assimp
 		$<$<BOOL:${WIN32}>:ws2_32>
-		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libqbsp>
-		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:libvis>
-		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:liblight>
+		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:libqbsp>
+		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:libvis>
+		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:liblight>
 )
-target_include_directories(${EXECUTABLE_NAME}
+target_include_directories(wrmap
 	PRIVATE
 		${PROJECT_SOURCE_DIR}/include
 		${PROJECT_SOURCE_DIR}/libs
 		${PROJECT_SOURCE_DIR}/tools/quake3/common
 )
-target_compile_options(${EXECUTABLE_NAME}
+target_compile_options(wrmap
 	PRIVATE
 		$<$<CXX_COMPILER_ID:GNU,Clang>:-Wno-dangling-pointer>
 )
-target_compile_definitions(${EXECUTABLE_NAME}
+target_compile_definitions(wrmap
 	PRIVATE
-		$<$<BOOL:${BUILD_WRMAP}>:__WRMAP__>
-		$<$<AND:$<BOOL:${BUILD_WRMAP}>,$<BOOL:${WRMAP_WITH_ERICWTOOLS}>>:__WRMAP_WITH_ERICWTOOLS__>
+		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:USE_ERICWTOOLS>
 )
-set_target_properties(${EXECUTABLE_NAME}
+set_target_properties(wrmap
 	PROPERTIES
 		LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
 		RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>

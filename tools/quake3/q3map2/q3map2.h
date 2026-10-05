@@ -31,19 +31,11 @@
 
 
 /* version */
-#ifdef __WRMAP__
 #ifndef WRMAP_VERSION
 #error no WRMAP_VERSION defined
 #endif
 #ifndef WRMAP_MOTD
 #error no WRMAP_MOTD defined
-#endif
-#endif
-#ifndef Q3MAP_VERSION
-#error no Q3MAP_VERSION defined
-#endif
-#ifndef Q3MAP_MOTD
-#error no Q3MAP_MOTD defined
 #endif
 
 
@@ -1571,7 +1563,7 @@ int                         ConvertBSPToOBJ( char *bspName );
 int                         ConvertJsonMain( Args& args );
 
 /* ewt.cpp */
-#ifdef __WRMAP_WITH_ERICWTOOLS__
+#ifdef USE_ERICWTOOLS
 int                         EwtMain( Args& args );
 #endif
 
