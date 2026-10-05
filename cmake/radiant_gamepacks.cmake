@@ -1,4 +1,19 @@
 
+file(GLOB gamepacks "${PROJECT_SOURCE_DIR}/gamepacks/*.txt")
+foreach(gamepack IN LISTS gamepacks)
+	cmake_path(GET gamepack STEM gamepack_stem)
+	set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${gamepack_stem}.xml")
+	add_custom_command(
+		OUTPUT "${output_file}"
+		DEPENDS wrgamepack
+		COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} "$<TARGET_FILE:wrgamepack>" "@${gamepack}" -q -o "${output_file}"
+		WORKING_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks"
+		COMMAND_EXPAND_LISTS
+		VERBATIM
+	)
+	add_custom_target(gamepack-${gamepack_stem} ALL DEPENDS "${output_file}")
+endforeach()
+
 function(radiant_add_gamepack name)
 	cmake_parse_arguments(PARSE_ARGV 1 ARG
 		"SUPPORT_PATCH_TESSELATION;READ_GAMEINFO_TXT;WRITE_DEFAULT_KEYVALUES;HAS_BASEGAME;USE_NEW_OUTPUT_SEPARATOR;SUPPORT_PATCHES;SUPPORT_OUTPUTS;SUPPORT_LIGHTMAP_SCALE;SUPPORT_WADS"
