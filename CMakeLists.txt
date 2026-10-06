@@ -32,12 +32,13 @@ cmake_dependent_option(RADIANT_GENERATE_IDTECH3_GAMEPACKS "Generate idTech 3 gam
 cmake_dependent_option(RADIANT_GENERATE_IDTECH4_GAMEPACKS "Generate idTech 4 gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
 cmake_dependent_option(RADIANT_GENERATE_SOURCE_GAMEPACKS "Generate Source Engine gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
 cmake_dependent_option(RADIANT_GENERATE_GOLDSRC_GAMEPACKS "Generate GoldSrc gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
-option(RADIANT_BUILD_MBSPC "Build mbspc" ON)
-cmake_dependent_option(RADIANT_BUILD_WRMAP "Build wrmap compiler" ON RADIANT_USE_ASSIMP OFF)
+option(RADIANT_BUILD_TOOLS "Build editor tools" ON)
+cmake_dependent_option(RADIANT_BUILD_MBSPC "Build mbspc" ON RADIANT_BUILD_TOOLS OFF)
+cmake_dependent_option(RADIANT_BUILD_WRMAP "Build wrmap compiler" ON "RADIANT_BUILD_TOOLS;RADIANT_USE_ASSIMP" OFF)
 cmake_dependent_option(WRMAP_WITH_ERICWTOOLS "Embed the ericw-tools frontend into wrmap" OFF RADIANT_BUILD_WRMAP OFF) # note: doesn't work yet
-option(RADIANT_BUILD_Q2MAP "Build q2map" ON)
-option(RADIANT_BUILD_H2DATA "Build h2data" ON)
-option(RADIANT_BUILD_QDATA3 "Build qdata3" ON)
+cmake_dependent_option(RADIANT_BUILD_Q2MAP "Build q2map" ON RADIANT_BUILD_TOOLS OFF)
+cmake_dependent_option(RADIANT_BUILD_H2DATA "Build h2data" ON RADIANT_BUILD_TOOLS OFF)
+cmake_dependent_option(RADIANT_BUILD_QDATA3 "Build qdata3" ON RADIANT_BUILD_TOOLS OFF)
 
 # install prefix
 
