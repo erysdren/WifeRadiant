@@ -38,6 +38,9 @@
 #endif
 
 bool Q_Exec( const char *cmd, char *cmdline, const char *execdir, bool bCreateConsole, bool waitfor ){
+#ifdef __EMSCRIPTEN__
+	return false;
+#else
 	QProcess *process = new QProcess();
 
 	QObject::connect(process, &QProcess::readyReadStandardOutput, [process](){
@@ -76,6 +79,7 @@ bool Q_Exec( const char *cmd, char *cmdline, const char *execdir, bool bCreateCo
 	}
 
 	return true;
+#endif
 }
 
 #if 0

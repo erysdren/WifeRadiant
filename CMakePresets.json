@@ -34,14 +34,24 @@
 			"displayName": "Emscripten (release)",
 			"toolchainFile": "$env{EMSCRIPTEN_ROOT}/cmake/Modules/Platform/Emscripten.cmake",
 			"binaryDir": "${sourceDir}/build-emscripten",
-			"cacheVariables": { "CMAKE_BUILD_TYPE": "Release" }
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Release",
+				"BUILD_SHARED_LIBS": false,
+				"ZSTD_BUILD_SHARED": false,
+				"RADIANT_USE_GLES2": true
+			}
 		},
 		{
 			"name": "emscripten-debug",
 			"displayName": "Emscripten (debug)",
 			"toolchainFile": "$env{EMSCRIPTEN_ROOT}/cmake/Modules/Platform/Emscripten.cmake",
 			"binaryDir": "${sourceDir}/build-emscripten",
-			"cacheVariables": { "CMAKE_BUILD_TYPE": "Debug" }
+			"cacheVariables": {
+				"CMAKE_BUILD_TYPE": "Debug",
+				"BUILD_SHARED_LIBS": false,
+				"ZSTD_BUILD_SHARED": false,
+				"RADIANT_USE_GLES2": true
+			}
 		}
 	],
 	"buildPresets": [
