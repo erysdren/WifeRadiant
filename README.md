@@ -17,6 +17,19 @@ Nightly, weekly, and monthly builds can be found [on my Patreon](https://www.pat
 - Q: How do I make WifeRadiant a "local" installation?
 	- A: Create an empty folder called "settings" in the WifeRadiant directory and the editor will save settings into there instead.
 
+## Compiling
+
+On Linux, building requires the `libxml2-devel`, `qt6-qtbase-devel` and `qt6-svg-dev` packages
+(note that package names vary by distro).
+
+```bash
+cmake -Bbuild -S.
+cmake --build build
+```
+
+A fully prepared copy of the editor will be placed under the `install`
+directory.
+
 ## Credits
 
 - [sourcepp](https://github.com/craftablescience/sourcepp)
@@ -197,16 +210,3 @@ Nightly, weekly, and monthly builds can be found [on my Patreon](https://www.pat
 * New bbox styled manipulator, allowing any affine transform (move, rotate, scale, skew)
 * rendering of Q3 shader based skyboxes
 * Incredible number of fixes and options
-
-## Compiling
-
-On Linux, building requires the `libxml2-devel`, `qt6-qtbase-devel` and `qt6-svg-dev` packages
-(note that package names vary by distro).
-
-```bash
-cmake -Bbuild -S.
-cmake --build build
-```
-
-A fully prepared copy of the editor will be placed under the `install`
-directory.
