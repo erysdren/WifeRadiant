@@ -107,10 +107,17 @@ public:
 		m_pixelHeight( m_metrics.height() ), m_pixelAscent( m_metrics.ascent() ), m_pixelDescent( m_metrics.descent() ){
 	}
 	~GLFontCallList(){
+#ifdef RADIANT_USE_GLES2
+
+#else
 		gl().glDeleteLists( m_displayList, 128 );
 		gl().glDeleteTextures( 1, &m_atlas );
+#endif
 	}
 	void printString( const char *s ) override {
+#ifdef RADIANT_USE_GLES2
+
+#else
 		GLboolean rasterPosValid;
 		gl().glGetBooleanv( GL_CURRENT_RASTER_POSITION_VALID, &rasterPosValid );
 		if( !rasterPosValid )
@@ -148,6 +155,7 @@ public:
 		gl().glPopMatrix();
 		gl().glMatrixMode( GL_MODELVIEW ); //! must leave GL_MODELVIEW mode, as renderer relies on this during Renderer.render()
 		gl().glPopMatrix();
+#endif
 	}
 
 	void renderString( const char *s, const GLuint& tex, const unsigned char colour[3], unsigned int& out_wid, unsigned int& out_hei ) override {
@@ -355,8 +363,9 @@ public:
 			}
 #endif // 0
 
+#ifdef RADIANT_USE_GLES2
 
-
+#else
 			//Now we just setup some texture parameters.
 			gl().glBindTexture( GL_TEXTURE_2D, tex );
 			gl().glTexParameteri( GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_CLAMP_TO_EDGE );
@@ -391,6 +400,8 @@ public:
 
 
 			gl().glBindTexture( GL_TEXTURE_2D, 0 );
+
+#endif
 
 			free( buf );
 			free( boo );
@@ -700,7 +711,11 @@ GLFont *glfont_create( const char* font_string ){
 #elif 1
 
 GLFont *glfont_create( const char* family, int fontSize, const char* appPath ){
+#ifdef RADIANT_USE_GLES2
+	GLuint font_list_base = 0;
+#else
 	GLuint font_list_base = gl().glGenLists( 128 );
+#endif
 
 	QFont font;
 	font.setPointSize( fontSize );
@@ -733,6 +748,9 @@ GLFont *glfont_create( const char* family, int fontSize, const char* appPath ){
 			painter.drawText( c % 12 * wid, ( c / 12 + 1 ) * hei - metrics.descent(), QString( static_cast<char>( c ) ) );
 
 			if ( rect.width() > 0 && rect.height() > 0 ) {
+#ifdef RADIANT_USE_GLES2
+
+#else
 				gl().glNewList( font_list_base + c, GL_COMPILE );
 				gl().glBegin( GL_QUADS );
 				const float x0 = 0;
@@ -754,6 +772,7 @@ GLFont *glfont_create( const char* family, int fontSize, const char* appPath ){
 				gl().glEnd();
 				gl().glTranslatef( metrics.horizontalAdvance( static_cast<char>( c ) ), 0, 0 );
 				gl().glEndList();
+#endif
 			}
 		}
 		painter.end();

@@ -26,12 +26,16 @@
 
 class XORRectangle {
 	void draw( const rect_t& rect, const GLenum mode ) const {
+#ifdef RADIANT_USE_GLES2
+
+#else
 		gl().glBegin( mode );
 		gl().glVertex2f( rect.min[0], rect.max[1] );
 		gl().glVertex2f( rect.max[0], rect.max[1] );
 		gl().glVertex2f( rect.max[0], rect.min[1] );
 		gl().glVertex2f( rect.min[0], rect.min[1] );
 		gl().glEnd();
+#endif
 	}
 public:
 	void render( rect_t rect, int viewWidth, int viewHeight ) {
@@ -39,6 +43,10 @@ public:
 			GlobalOpenGL_debugAssertNoErrors();
 
 			gl().glViewport( 0, 0, viewWidth, viewHeight );
+
+#ifdef RADIANT_USE_GLES2
+
+#else
 			// set up viewpoint
 			gl().glMatrixMode( GL_PROJECTION );
 			gl().glLoadIdentity();
@@ -89,6 +97,7 @@ public:
 			gl().glLineWidth( 1 );
 			gl().glColor3f( 1.f, .5f, 0.f );
 			draw( rect, GL_LINE_LOOP );
+#endif
 
 			GlobalOpenGL_debugAssertNoErrors();
 		}
