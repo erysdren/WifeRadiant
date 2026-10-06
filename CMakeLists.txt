@@ -510,11 +510,19 @@ target_include_directories(radiant
 		${PROJECT_SOURCE_DIR}/libs
 )
 
-set_target_properties(radiant
-	PROPERTIES
-		LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
-		RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
-)
+if(EMSCRIPTEN)
+	set_target_properties(radiant
+		PROPERTIES
+			LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
+			RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
+	)
+else()
+	set_target_properties(radiant
+		PROPERTIES
+			LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
+			RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
+	)
+endif()
 
 target_link_libraries(radiant PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 target_link_libraries(radiant PRIVATE LibXml2::LibXml2)
