@@ -2,7 +2,7 @@
 
 The open-source, cross-platform level editor for idTech, Source Engine, and GoldSrc based games.
 
-Nightly, weekly, and monthly builds can be found [on my Patreon](https://www.patreon.com/c/erysdren);
+Nightly, weekly, and monthly builds can be found [on my Patreon](https://www.patreon.com/c/erysdren).
 
 ## THIS PROJECT IS STILL IN AN EARLY ALPHA STATE!<br/>DO NOT OVERWRITE HAMMER-MADE VMFS WITH THIS!<br/>MAKE BACKUPS!
 
