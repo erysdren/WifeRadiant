@@ -50,7 +50,11 @@ void glwidget_context_created( QOpenGLWidget& widget ){
 	ASSERT_MESSAGE( widget.isValid(), "failed to create OpenGL widget" );
 
 	if ( ++g_context_count == 1 ) {
+#ifdef RADIANT_USE_GLES2
+		GlobalOpenGL().funcs = QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_ES2>( widget.context() );
+#else
 		GlobalOpenGL().funcs = QOpenGLVersionFunctionsFactory::get<QOpenGLFunctions_2_0>( widget.context() );
+#endif
 		ASSERT_MESSAGE( GlobalOpenGL().funcs, "failed to initializeOpenGLFunctions" );
 		GlobalOpenGL().contextValid = true;
 

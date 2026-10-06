@@ -25,7 +25,11 @@
 #include <cstring>
 #include "generic/constant.h"
 
+#ifdef RADIANT_USE_GLES2
+#include <QOpenGLFunctions_ES2>
+#else
 #include <QOpenGLFunctions_2_0>
+#endif
 #include "gtkutil/glfont.h"
 
 /// \brief A module which wraps a runtime-binding of the standard OpenGL functions.
@@ -41,7 +45,11 @@ struct OpenGLBinding
 	/// \brief Is true if the global shared OpenGL context is valid.
 	bool contextValid;
 
+#ifdef RADIANT_USE_GLES2
+	QOpenGLFunctions_ES2 *funcs;
+#else
 	QOpenGLFunctions_2_0 *funcs;
+#endif
 
 	OpenGLBinding() : contextValid( false ), funcs( nullptr ){
 	}
@@ -91,9 +99,15 @@ inline OpenGLBinding& GlobalOpenGL(){
 	return GlobalOpenGLModule::getTable();
 }
 
+#ifdef RADIANT_USE_GLES2
+inline QOpenGLFunctions_ES2& gl(){
+	return *GlobalOpenGL().funcs;
+}
+#else
 inline QOpenGLFunctions_2_0& gl(){
 	return *GlobalOpenGL().funcs;
 }
+#endif
 
 #if defined( _DEBUG )
 #define GlobalOpenGL_debugAssertNoErrors() GlobalOpenGL().assertNoErrors( __FILE__, __LINE__ )
