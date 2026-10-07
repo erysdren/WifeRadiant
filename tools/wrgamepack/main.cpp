@@ -36,7 +36,6 @@ static std::filesystem::path g_outputPath{};
 static std::vector<std::filesystem::path> g_responsePaths{};
 
 static bool g_gameHidden = false;
-static bool g_gameWrMap = false;
 static std::string g_gameId{};
 static std::string g_gameName{};
 static std::string g_gameInherits{};
@@ -136,7 +135,6 @@ static argHelp generalArgs[] = {
 
 static argHelp gamepackArgs[] = {
 	{ { "--hidden", NULL }, "Set gamepack to be hidden from selection" },
-	{ { "--wrmap", NULL }, "Set gamepack to be available to wrmap" },
 	{ { "--id [id]", NULL }, "Set gamepack ID (required)" },
 	{ { "--name [name]", NULL }, "Set gamepack name (required)" },
 	{ { "--inherits [name]", NULL }, "Set gamepack to inherit from" },
@@ -148,6 +146,7 @@ static argHelp gamepackArgs[] = {
 	{ { "--shaders [path] [extension]", NULL }, "Set gamepack shader load behaviour" },
 	{ { "--compiler [arg] [arg] [value]", NULL }, "Set map compiler keyvalue" },
 	{ { "--compiler flag [name] [value]", NULL }, "Add map compiler surface/content flag" },
+	{ { "--compiler type [name]", NULL }, "Set map compiler type" },
 	{ { "--compiler surfaceparm [args]", NULL }, "Add map compiler surfaceparm" },
 };
 
@@ -188,8 +187,6 @@ static void parse_args(int argc, const char** argv, int start) {
 			g_terminalColor = false;
 		} else if (!strcmp(argv[i], "--hidden")) {
 			g_gameHidden = true;
-		} else if (!strcmp(argv[i], "--wrmap")) {
-			g_gameWrMap = true;
 		} else if (!strcmp(argv[i], "--id") && i < argc - 1) {
 			g_gameId = argv[i + 1];
 			i += 1;
@@ -333,12 +330,6 @@ int main(int argc, const char** argv) {
 		pugi::xml_node shadersNode = gameNode.append_child("shaders");
 		shadersNode.append_attribute("path") = g_gameShaders.first;
 		shadersNode.append_attribute("extension") = g_gameShaders.second;
-	}
-
-	// create compiler type node
-	if (g_gameWrMap) {
-		pugi::xml_node node = gameNode.append_child("compiler");
-		node.append_attribute("type") = "wrmap";
 	}
 
 	// create compiler nodes

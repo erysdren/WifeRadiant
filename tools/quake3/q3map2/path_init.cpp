@@ -280,7 +280,7 @@ static void AddGames(std::filesystem::path path) {
 	for (const auto& gameId : gameIds) {
 		game_t game{};
 
-		if (GamepackLib_QueryString(gameId.c_str(), "compiler", "type") != "wrmap") {
+		if (GamepackLib_QueryString(gameId.c_str(), "compiler:type", "name") != "wrmap") {
 			continue;
 		}
 
