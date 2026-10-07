@@ -61,68 +61,13 @@ file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_MAJOR ${RADIANT_MAJOR_VERSION})
 file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_MINOR ${RADIANT_MINOR_VERSION})
 file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_PATCH ${RADIANT_PATCH_VERSION})
 
-# common compile options and definitions
-
-include(radiant_common)
-
 # git revision
 
 include(radiant_revision)
 
-# helper function to add common options and definitions
+# common compile options and definitions
 
-function(radiant_add_common target)
-	target_compile_options(${target} PRIVATE ${RADIANT_COMMON_OPTIONS})
-	target_compile_definitions(${target} PRIVATE ${RADIANT_COMMON_DEFINITIONS})
-	get_target_property(_target_type ${target} TYPE)
-	if(_target_type STREQUAL "EXECUTABLE")
-		set_target_properties(${target}
-			PROPERTIES
-				SUFFIX ".${RADIANT_EXECUTABLE_SUFFIX}"
-		)
-		if(WIN32)
-			set_property(TARGET ${target} PROPERTY RUNTIME_DLL_DIRS $<TARGET_RUNTIME_DLL_DIRS:${target}>)
-			set_property(TARGET ${target} PROPERTY FILE $<TARGET_FILE:${target}>)
-			set_property(TARGET ${target} PROPERTY FILE_DIR $<TARGET_FILE_DIR:${target}>)
-			file(GENERATE
-				OUTPUT "${PROJECT_BINARY_DIR}/${target}_install.cmake"
-				CONTENT [[
-file(GET_RUNTIME_DEPENDENCIES
-	RESOLVED_DEPENDENCIES_VAR _resolved_deps
-	UNRESOLVED_DEPENDENCIES_VAR _unresolved_deps
-	EXECUTABLES
-		$<GENEX_EVAL:$<TARGET_PROPERTY:FILE>>
-	PRE_EXCLUDE_REGEXES
-		"api-ms-" "ext-ms-" "Qt6"
-	POST_EXCLUDE_REGEXES
-		".*system32/.*\\.dll"
-	DIRECTORIES
-		$<GENEX_EVAL:$<TARGET_PROPERTY:RUNTIME_DLL_DIRS>>
-)
-if(_unresolved_deps)
-	message(WARNING "$<GENEX_EVAL:$<TARGET_PROPERTY:NAME>> unresolved dependencies: ${_unresolved_deps}")
-endif()
-file(COPY ${_resolved_deps} DESTINATION $<GENEX_EVAL:$<TARGET_PROPERTY:FILE_DIR>>)
-]]
-				TARGET ${target}
-			)
-			install(SCRIPT "${PROJECT_BINARY_DIR}/${target}_install.cmake")
-		endif()
-		if(EMSCRIPTEN)
-			target_compile_options(${target} PRIVATE -sMAIN_MODULE=1)
-		endif()
-	elseif(_target_type STREQUAL "SHARED_LIBRARY")
-		set_target_properties(${target}
-			PROPERTIES
-				SUFFIX ".${RADIANT_LIBRARY_SUFFIX}"
-				PREFIX ""
-		)
-		if(EMSCRIPTEN)
-			target_compile_options(${target} PRIVATE -sSIDE_MODULE=2 -nostdlib)
-			target_link_options(${target} PRIVATE -sSIDE_MODULE=2 -sSTANDALONE_WASM=1 -sERROR_ON_UNDEFINED_SYMBOLS=0 -nostdlib)
-		endif()
-	endif()
-endfunction()
+include(radiant_common)
 
 # external dependencies
 
