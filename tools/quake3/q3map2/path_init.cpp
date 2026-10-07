@@ -304,7 +304,7 @@ static void AddGames(std::filesystem::path path) {
 		std::map<int, std::string> contentPaths;
 		GamepackLib_GetContentPaths(contentPaths, gameId.c_str());
 		for (const auto& [key, value] : contentPaths) {
-			insert_unique(game.gamePaths, stream(DirectoryCleaned(value.c_str())));
+			game.gamePaths.push_back(CopiedString(value));
 		}
 		game.shaderPath = GamepackLib_QueryString(gameId.c_str(), "shaders", "path", "scripts");
 		game.shaderExt = GamepackLib_QueryString(gameId.c_str(), "shaders", "extension", "shader");
@@ -521,7 +521,9 @@ void InitPaths( Args& args ){
 	if (baseGame) {
 		insert_unique( gamePaths, stream( DirectoryCleaned( baseGame ) ) );
 	} else {
-		gamePaths.insert(gamePaths.end(), g_game->gamePaths.begin(), g_game->gamePaths.end());
+		for (const auto& gamePath : g_game->gamePaths) {
+			insert_unique( gamePaths, stream( DirectoryCleaned( gamePath.c_str() ) ) );
+		}
 	}
 
 	/* if there is no base path set, figure it out */
