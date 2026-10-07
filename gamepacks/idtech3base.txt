@@ -31,11 +31,9 @@
 // syntax: [path] [extension]
 --shaders "scripts" "shader"
 
-// supported by wrmap compiler
---wrmap
-
 // compiler options
 // syntax: [key] [arg] [value]
+--compiler type name wrmap
 --compiler flares enabled "false"
 --compiler flares shader "flareshader"
 --compiler limits lmsurfaceverts "64"
