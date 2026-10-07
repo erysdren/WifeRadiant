@@ -154,6 +154,14 @@ FetchContent_Declare(
 set(LIBXML2_WITH_ICONV OFF CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(LibXml2)
 
+FetchContent_Declare(
+	stb
+	GIT_REPOSITORY "https://github.com/nothings/stb.git"
+	GIT_SHALLOW TRUE
+	GIT_PROGRESS TRUE
+)
+FetchContent_MakeAvailable(stb)
+
 if(RADIANT_USE_ASSIMP)
 	FetchContent_Declare(
 		assimp
@@ -201,6 +209,7 @@ endif()
 add_library(stb STATIC
 	${PROJECT_SOURCE_DIR}/libs/stb_image.c
 )
+target_include_directories(stb PUBLIC ${stb_SOURCE_DIR})
 
 # commandlib
 
