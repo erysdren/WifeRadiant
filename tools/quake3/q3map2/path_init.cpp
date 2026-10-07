@@ -287,6 +287,10 @@ static void AddGames(std::filesystem::path path) {
 		game.arg = gameId;
 
 		game.hidden = GamepackLib_IsHidden(gameId.c_str());
+
+		std::map<int, std::string> contentPaths;
+		GamepackLib_GetContentPaths(contentPaths, gameId.c_str());
+		game.gamePath = contentPaths[0];
 		game.shaderPath = GamepackLib_QueryString(gameId.c_str(), "shaders", "path", "scripts");
 		game.shaderExt = GamepackLib_QueryString(gameId.c_str(), "shaders", "extension", "shader");
 		game.maxLMSurfaceVerts = GamepackLib_QueryInt(gameId.c_str(), "compiler:limits", "lmsurfaceverts", 64);
