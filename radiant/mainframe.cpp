@@ -877,6 +877,9 @@ void create_file_menu( QMenuBar *menubar ){
 	create_menu_item_with_mnemonic( menu, "Save s&elected...", "SaveSelected" );
 	create_menu_item_with_mnemonic( menu, "Save re&gion...", "SaveRegion" );
 	menu->addSeparator();
+	create_menu_item_with_mnemonic( menu, "&Export...", "Export" );
+	create_menu_item_with_mnemonic( menu, "Export &again...", "ExportAgain" );
+	menu->addSeparator();
 	create_menu_item_with_mnemonic( menu, "&Pointfile", "TogglePointfile" );
 	menu->addSeparator();
 	MRU_constructMenu( menu );
