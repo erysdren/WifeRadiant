@@ -2,69 +2,65 @@ if(NOT RADIANT_BUILD_WRMAP)
 	return()
 endif()
 
-# wrmap
-
-add_executable(wrmap
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/cmdlib.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/qimagelib.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/inout.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/md4.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/mutex.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/polylib.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/scriplib.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/threads.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/unzip.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/vfs.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/common/miniz.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/autopk3.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/brush.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bspfile_abstract.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bspfile_ibsp.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bspfile_rbsp.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bsp.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_ase.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_bsp.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_json.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_map.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_obj.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/decals.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/exportents.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/facebsp.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/fog.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/games.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/help.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/image.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/leakfile.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/light_bounce.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/lightmaps_ydnar.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/light.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/light_trace.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/light_ydnar.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/main.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/map.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/minimap.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/mesh.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/model.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/patch.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/path_init.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/portals.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/prtfile.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/shaders.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface_extra.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface_foliage.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface_fur.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface_meta.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/tjunction.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/tree.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/visflow.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/vis.cpp
-	${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
-	$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/ewt.cpp>
-)
-radiant_add_common(wrmap)
-target_link_libraries(wrmap
-	PRIVATE
+radiant_add_tool(wrmap
+	SOURCES
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/cmdlib.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/qimagelib.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/inout.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/md4.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/mutex.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/polylib.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/scriplib.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/threads.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/unzip.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/vfs.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/common/miniz.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/autopk3.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/brush.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bspfile_abstract.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bspfile_ibsp.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bspfile_rbsp.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bsp.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_ase.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_bsp.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_json.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_map.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_obj.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/decals.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/exportents.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/facebsp.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/fog.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/games.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/help.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/image.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/leakfile.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/light_bounce.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/lightmaps_ydnar.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/light.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/light_trace.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/light_ydnar.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/main.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/map.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/minimap.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/mesh.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/model.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/patch.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/path_init.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/portals.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/prtfile.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/shaders.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface_extra.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface_foliage.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface_fur.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface_meta.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/surface.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/tjunction.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/tree.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/visflow.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/vis.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
+		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/ewt.cpp>
+	DEPENDENCIES
 		l_net
 		filematch
 		ddslib
@@ -78,23 +74,12 @@ target_link_libraries(wrmap
 		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:libqbsp>
 		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:libvis>
 		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:liblight>
-)
-target_include_directories(wrmap
-	PRIVATE
+	INCLUDE_DIRECTORIES
 		${PROJECT_SOURCE_DIR}/include
 		${PROJECT_SOURCE_DIR}/libs
 		${PROJECT_SOURCE_DIR}/tools/quake3/common
-)
-target_compile_options(wrmap
-	PRIVATE
-		$<$<CXX_COMPILER_ID:GNU,Clang>:-Wno-dangling-pointer>
-)
-target_compile_definitions(wrmap
-	PRIVATE
+	COMPILE_DEFINITIONS
 		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:USE_ERICWTOOLS>
-)
-set_target_properties(wrmap
-	PROPERTIES
-		LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
-		RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
+	COMPILE_OPTIONS
+		$<$<CXX_COMPILER_ID:GNU,Clang>:-Wno-dangling-pointer>
 )

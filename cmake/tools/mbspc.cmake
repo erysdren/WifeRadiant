@@ -2,88 +2,73 @@ if(NOT RADIANT_BUILD_MBSPC)
 	return()
 endif()
 
-# mbspc
-
-find_package(Math)
-
-add_executable(mbspc
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_bspq3.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_cluster.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_move.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_optimize.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_reach.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_sample.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/l_libvar.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/l_precomp.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/l_script.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/l_struct.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_areamerging.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_cfg.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_create.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_edgemelting.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_facemerging.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_file.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_gsubdiv.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_map.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_prunenodes.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_store.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/be_aas_bspc.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/brushbsp.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/bspc.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/csg.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/faces.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/glfile.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_ent.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_hl.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_q1.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_q2.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_q3.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_sin.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_cmd.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_log.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_math.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_mem.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_poly.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_qfiles.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_threads.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_utils.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/leakfile.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_hl.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_q1.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_q2.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_q3.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_sin.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/nodraw.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/portals.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/prtfile.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/textures.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/tree.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/writebsp.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/cm_load.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/cm_patch.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/cm_test.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/cm_trace.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/md4.c
-	${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/unzip.c
-)
-radiant_add_common(mbspc)
-target_link_libraries(mbspc
-	PRIVATE
+radiant_add_tool(mbspc
+	SOURCES
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_bspq3.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_cluster.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_move.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_optimize.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_reach.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/be_aas_sample.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/l_libvar.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/l_precomp.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/l_script.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/botlib/l_struct.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_areamerging.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_cfg.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_create.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_edgemelting.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_facemerging.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_file.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_gsubdiv.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_map.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_prunenodes.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/aas_store.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/be_aas_bspc.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/brushbsp.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/bspc.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/csg.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/faces.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/glfile.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_ent.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_hl.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_q1.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_q2.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_q3.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_bsp_sin.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_cmd.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_log.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_math.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_mem.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_poly.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_qfiles.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_threads.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/l_utils.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/leakfile.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_hl.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_q1.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_q2.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_q3.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/map_sin.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/nodraw.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/portals.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/prtfile.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/textures.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/tree.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/mbspc/writebsp.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/cm_load.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/cm_patch.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/cm_test.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/cm_trace.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/md4.c
+		${PROJECT_SOURCE_DIR}/tools/mbspc/qcommon/unzip.c
+	DEPENDENCIES
 		$<TARGET_NAME_IF_EXISTS:Math::Math>
-)
-target_include_directories(mbspc
-	PRIVATE
+	INCLUDE_DIRECTORIES
 		${PROJECT_SOURCE_DIR}/libs
 		${PROJECT_SOURCE_DIR}/tools/mbspc
-)
-target_compile_definitions(mbspc
-	PRIVATE
+	COMPILE_DEFINITIONS
 		BSPC
 		BSPCINCLUDE
-)
-set_target_properties(mbspc
-	PROPERTIES
-		LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
-		RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
 )
