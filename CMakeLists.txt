@@ -197,10 +197,14 @@ radiant_add_library(l_net
 
 # gamepacklib
 
-add_library(gamepacklib STATIC ${PROJECT_SOURCE_DIR}/libs/gamepacklib/gamepacklib.cpp)
-target_include_directories(gamepacklib PUBLIC ${PROJECT_SOURCE_DIR}/libs/gamepacklib)
-target_link_libraries(gamepacklib PRIVATE pugixml::pugixml)
-radiant_add_common(gamepacklib)
+radiant_add_library(gamepacklib
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/gamepacklib/gamepacklib.cpp
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/libs/gamepacklib
+	DEPENDENCIES
+		pugixml::pugixml
+)
 
 # xmllib
 
