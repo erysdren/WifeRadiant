@@ -11,7 +11,7 @@ foreach(gamepack IN LISTS gamepacks)
 		COMMAND_EXPAND_LISTS
 		VERBATIM
 	)
-	add_custom_target(gamepack-${gamepack_stem} ALL DEPENDS "${output_file}")
+	add_custom_target(wiferadiant-gamepack-${gamepack_stem} ALL DEPENDS "${output_file}")
 endforeach()
 
 function(radiant_add_gamepack name)
