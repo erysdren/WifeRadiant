@@ -664,7 +664,7 @@ void Restart(){
 
 
 void OpenUpdateURL(){
-	// OpenURL( "https://github.com/Garux/netradiant-custom/releases/latest" );
+	OpenURL( "https://wiferadiant.org/" );
 #if 0
 	// build the URL
 	StringOutputStream URL( 256 );
@@ -689,6 +689,7 @@ void OpenHelpURL(){
 }
 
 void OpenBugReportURL(){
+	OpenURL( "https://github.com/erysdren/WifeRadiant/issues" );
 	// OpenURL( "http://www.icculus.org/netradiant/?cmd=bugs" );
 	// OpenURL( "https://github.com/Garux/netradiant-custom/issues" );
 }
@@ -1211,8 +1212,8 @@ void create_help_menu( QMenuBar *menubar ){
 	// it will take care of hooking the Sys_OpenURL calls etc.
 	create_game_help_menu( menu );
 
-	// create_menu_item_with_mnemonic( menu, "Bug report", makeCallbackF( OpenBugReportURL ) );
-	// create_menu_item_with_mnemonic( menu, "Check for WifeRadiant update", "CheckForUpdate" ); // FIXME
+	create_menu_item_with_mnemonic( menu, "File a bug report", makeCallbackF( OpenBugReportURL ) );
+	create_menu_item_with_mnemonic( menu, "Check for updates", "CheckForUpdate" );
 	create_menu_item_with_mnemonic( menu, "&About", makeCallbackF( DoAbout ) );
 }
 
