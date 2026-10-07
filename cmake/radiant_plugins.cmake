@@ -1,23 +1,41 @@
 # plugins are generally optional and extend editor functionality
 
 function(radiant_add_plugin name)
-	cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "SOURCES")
+	cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "SOURCES;INCLUDE_DIRECTORIES;DEPENDENCIES;COMPILE_DEFINITIONS;COMPILE_OPTIONS")
+	set(target "wiferadiant-plugin-${name}")
 	if(EMSCRIPTEN)
-		add_executable(${name} ${ARG_SOURCES})
+		add_executable(${target} ${ARG_SOURCES})
 	else()
-		add_library(${name} SHARED ${ARG_SOURCES})
+		add_library(${target} SHARED ${ARG_SOURCES})
 	endif()
-	radiant_add_common(${name})
-	set_target_properties(${name}
+	radiant_add_common(${target})
+	target_link_libraries(${target}
+		PRIVATE
+			${ARG_DEPENDENCIES}
+	)
+	target_compile_definitions(${target}
+		PRIVATE
+			${ARG_COMPILE_DEFINITIONS}
+	)
+	target_compile_options(${target}
+		PRIVATE
+			${ARG_COMPILE_OPTIONS}
+	)
+	target_include_directories(${target}
+		PRIVATE
+			${ARG_INCLUDE_DIRECTORIES}
+	)
+	set_target_properties(${target}
 		PROPERTIES
+			OUTPUT_NAME ${name}
 			LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}/plugins>
 			RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}/plugins>
 	)
-	target_link_options(${name}
+	target_link_options(${target}
 		PRIVATE
 			$<$<C_COMPILER_ID:GNU,Clang>:-Wl,--no-undefined>
 	)
-	target_include_directories(${name} PRIVATE
+	target_include_directories(${target} PRIVATE
 		${PROJECT_SOURCE_DIR}/include
 		${PROJECT_SOURCE_DIR}/libs
 	)
@@ -29,8 +47,14 @@ radiant_add_plugin(brushexport
 		${PROJECT_SOURCE_DIR}/plugins/brushexport/export.cpp
 		${PROJECT_SOURCE_DIR}/plugins/brushexport/interface.cpp
 		${PROJECT_SOURCE_DIR}/plugins/brushexport/plugin.cpp
+	DEPENDENCIES
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
 )
-target_link_libraries(brushexport PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
 radiant_add_plugin(prtview
 	SOURCES
@@ -39,14 +63,26 @@ radiant_add_plugin(prtview
 		${PROJECT_SOURCE_DIR}/plugins/prtview/LoadPortalFileDialog.cpp
 		${PROJECT_SOURCE_DIR}/plugins/prtview/portals.cpp
 		${PROJECT_SOURCE_DIR}/plugins/prtview/prtview.cpp
+	DEPENDENCIES
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
 )
-target_link_libraries(prtview PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
 radiant_add_plugin(sunplug
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/sunplug/sunplug.cpp
+	DEPENDENCIES
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
 )
-target_link_libraries(sunplug PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
 radiant_add_plugin(ufoaiplug
 	SOURCES
@@ -54,8 +90,14 @@ radiant_add_plugin(ufoaiplug
 		${PROJECT_SOURCE_DIR}/plugins/ufoaiplug/ufoai_gtk.cpp
 		${PROJECT_SOURCE_DIR}/plugins/ufoaiplug/ufoai_level.cpp
 		${PROJECT_SOURCE_DIR}/plugins/ufoaiplug/ufoai.cpp
+	DEPENDENCIES
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
 )
-target_link_libraries(ufoaiplug PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
 radiant_add_plugin(meshtex
 	SOURCES
@@ -72,8 +114,14 @@ radiant_add_plugin(meshtex
 		${PROJECT_SOURCE_DIR}/plugins/meshtex/PluginUI.cpp
 		${PROJECT_SOURCE_DIR}/plugins/meshtex/RefCounted.cpp
 		${PROJECT_SOURCE_DIR}/plugins/meshtex/SetScaleDialog.cpp
+	DEPENDENCIES
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
 )
-target_link_libraries(meshtex PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
 radiant_add_plugin(bobtoolz
 	SOURCES
@@ -100,15 +148,24 @@ radiant_add_plugin(bobtoolz
 		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/ScriptParser.cpp
 		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/shapes.cpp
 		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/visfind.cpp
+	DEPENDENCIES
+		commandlib
+		mathlib
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
 )
-target_link_libraries(bobtoolz PRIVATE commandlib mathlib)
-target_link_libraries(bobtoolz PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
 radiant_add_plugin(shaderplug
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/shaderplug/shaderplug.cpp
+	DEPENDENCIES
+		xmllib
+		LibXml2::LibXml2
 )
-target_link_libraries(shaderplug PRIVATE xmllib LibXml2::LibXml2)
 
 if(0)
 radiant_add_plugin(gensurf

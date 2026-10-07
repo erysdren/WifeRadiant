@@ -1,23 +1,41 @@
 # modules are generally not optional and add support for image formats, model formats, shader formats, etc
 
 function(radiant_add_module name)
-	cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "SOURCES")
+	cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "SOURCES;INCLUDE_DIRECTORIES;DEPENDENCIES;COMPILE_DEFINITIONS;COMPILE_OPTIONS")
+	set(target "wiferadiant-module-${name}")
 	if(EMSCRIPTEN)
-		add_executable(${name} ${ARG_SOURCES})
+		add_executable(${target} ${ARG_SOURCES})
 	else()
-		add_library(${name} SHARED ${ARG_SOURCES})
+		add_library(${target} SHARED ${ARG_SOURCES})
 	endif()
-	radiant_add_common(${name})
-	set_target_properties(${name}
+	radiant_add_common(${target})
+	target_link_libraries(${target}
+		PRIVATE
+			${ARG_DEPENDENCIES}
+	)
+	target_compile_definitions(${target}
+		PRIVATE
+			${ARG_COMPILE_DEFINITIONS}
+	)
+	target_compile_options(${target}
+		PRIVATE
+			${ARG_COMPILE_OPTIONS}
+	)
+	target_include_directories(${target}
+		PRIVATE
+			${ARG_INCLUDE_DIRECTORIES}
+	)
+	set_target_properties(${target}
 		PROPERTIES
+			OUTPUT_NAME ${name}
 			LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}/modules>
 			RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}/modules>
 	)
-	target_link_options(${name}
+	target_link_options(${target}
 		PRIVATE
 			$<$<C_COMPILER_ID:GNU,Clang>:-Wl,--no-undefined>
 	)
-	target_include_directories(${name} PRIVATE
+	target_include_directories(${target} PRIVATE
 		${PROJECT_SOURCE_DIR}/include
 		${PROJECT_SOURCE_DIR}/libs
 	)
@@ -34,8 +52,9 @@ radiant_add_module(archivevpk
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/archivevpk/archive.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivevpk/plugin.cpp
+	DEPENDENCIES
+		sourcepp::vpkpp
 )
-target_link_libraries(archivevpk PRIVATE sourcepp::vpkpp)
 
 radiant_add_module(archivezip
 	SOURCES
@@ -43,9 +62,11 @@ radiant_add_module(archivezip
 		${PROJECT_SOURCE_DIR}/modules/archivezip/pkzip.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivezip/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/archivezip/zlibstream.cpp
+	DEPENDENCIES
+		${ZLIB_LIBRARIES}
+	INCLUDE_DIRECTORIES
+		${ZLIB_INCLUDE_DIR}
 )
-target_link_libraries(archivezip PRIVATE ${ZLIB_LIBRARIES})
-target_include_directories(archivezip PRIVATE ${ZLIB_INCLUDE_DIR})
 
 radiant_add_module(archivewad
 	SOURCES
@@ -76,8 +97,14 @@ radiant_add_module(entity
 		${PROJECT_SOURCE_DIR}/modules/entity/scale.cpp
 		${PROJECT_SOURCE_DIR}/modules/entity/skincache.cpp
 		${PROJECT_SOURCE_DIR}/modules/entity/targetable.cpp
+	DEPENDENCIES
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
 )
-target_link_libraries(entity PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
 
 radiant_add_module(image
 	SOURCES
@@ -90,15 +117,21 @@ radiant_add_module(image
 		${PROJECT_SOURCE_DIR}/modules/image/stb.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/tga.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/webp.cpp
+	DEPENDENCIES
+		ddslib
+		etclib
+		crnlib
+		webplib
+		stb
 )
-target_link_libraries(image PRIVATE ddslib etclib crnlib webplib stb)
 
 radiant_add_module(imagevtf
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/imagevtf/imagevtf.cpp
 		${PROJECT_SOURCE_DIR}/modules/imagevtf/vtf.cpp
+	DEPENDENCIES
+		sourcepp::vtfpp
 )
-target_link_libraries(imagevtf PRIVATE sourcepp::vtfpp)
 
 radiant_add_module(imagepvr
 	SOURCES
@@ -127,9 +160,15 @@ if(RADIANT_USE_ASSIMP)
 			${PROJECT_SOURCE_DIR}/modules/assmodel/mdlimage.cpp
 			${PROJECT_SOURCE_DIR}/modules/assmodel/model.cpp
 			${PROJECT_SOURCE_DIR}/modules/assmodel/plugin.cpp
+		DEPENDENCIES
+			Qt6::Core
+			Qt6::Gui
+			Qt6::Widgets
+			Qt6::Svg
+			Qt6::OpenGL
+			Qt6::OpenGLWidgets
+			assimp
 	)
-	target_link_libraries(assmodel PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
-	target_link_libraries(assmodel PRIVATE assimp)
 endif()
 
 radiant_add_module(model
@@ -147,9 +186,15 @@ radiant_add_module(model
 		${PROJECT_SOURCE_DIR}/modules/model/mdlnormals.cpp
 		${PROJECT_SOURCE_DIR}/modules/model/model.cpp
 		${PROJECT_SOURCE_DIR}/modules/model/plugin.cpp
+	DEPENDENCIES
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
+		sourcepp::mdlpp
 )
-target_link_libraries(model PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
-target_link_libraries(model PRIVATE sourcepp::mdlpp)
 
 radiant_add_module(mapq3
 	SOURCES
@@ -161,31 +206,35 @@ radiant_add_module(mapq3
 radiant_add_module(mapvmf
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/mapvmf/plugin.cpp
+	DEPENDENCIES
+		sourcepp::kvpp
 )
-target_link_libraries(mapvmf PRIVATE sourcepp::kvpp)
 
 radiant_add_module(mapxml
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/mapxml/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/mapxml/xmlparse.cpp
 		${PROJECT_SOURCE_DIR}/modules/mapxml/xmlwrite.cpp
+	DEPENDENCIES
+		LibXml2::LibXml2
 )
-target_link_libraries(mapxml PRIVATE LibXml2::LibXml2)
 
 radiant_add_module(shaders
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/shaders/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/shaders/shaders.cpp
+	DEPENDENCIES
+		commandlib
+		LibXml2::LibXml2
+		sourcepp::kvpp
 )
-target_link_libraries(shaders PRIVATE commandlib)
-target_link_libraries(shaders PRIVATE LibXml2::LibXml2)
-target_link_libraries(shaders PRIVATE sourcepp::kvpp)
 
 radiant_add_module(vfspk3
 	SOURCES
 		${PROJECT_SOURCE_DIR}/modules/vfspk3/archive.cpp
 		${PROJECT_SOURCE_DIR}/modules/vfspk3/vfs.cpp
 		${PROJECT_SOURCE_DIR}/modules/vfspk3/vfspk3.cpp
+	DEPENDENCIES
+		LibXml2::LibXml2
+		filematch
 )
-target_link_libraries(vfspk3 PRIVATE LibXml2::LibXml2)
-target_link_libraries(vfspk3 PRIVATE filematch)
