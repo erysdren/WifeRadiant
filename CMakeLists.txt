@@ -39,6 +39,7 @@ cmake_dependent_option(WRMAP_WITH_ERICWTOOLS "Embed the ericw-tools frontend int
 cmake_dependent_option(RADIANT_BUILD_Q2MAP "Build q2map" ON RADIANT_BUILD_TOOLS OFF)
 cmake_dependent_option(RADIANT_BUILD_H2DATA "Build h2data" ON RADIANT_BUILD_TOOLS OFF)
 cmake_dependent_option(RADIANT_BUILD_QDATA3 "Build qdata3" ON RADIANT_BUILD_TOOLS OFF)
+cmake_dependent_option(RADIANT_BUILD_WRGAMEPACK "Build wrgamepack" ON RADIANT_BUILD_TOOLS OFF)
 
 # install prefix
 
