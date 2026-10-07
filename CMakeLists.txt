@@ -143,7 +143,7 @@ FetchContent_Declare(
 FetchContent_MakeAvailable(pugixml)
 
 FetchContent_Declare(
-	libxml2
+	LibXml2
 	GIT_REPOSITORY "https://gitlab.gnome.org/GNOME/libxml2.git"
 	GIT_TAG "v2.15.4"
 	EXCLUDE_FROM_ALL
@@ -152,7 +152,7 @@ FetchContent_Declare(
 	GIT_PROGRESS TRUE
 )
 set(LIBXML2_WITH_ICONV OFF CACHE BOOL "" FORCE)
-FetchContent_MakeAvailable(libxml2)
+FetchContent_MakeAvailable(LibXml2)
 
 if(RADIANT_USE_ASSIMP)
 	FetchContent_Declare(
