@@ -43,10 +43,13 @@ int GamepackLib_GetGameIds(std::vector<std::string>& gameIds);
 bool GamepackLib_IsHidden(const char* gameId);
 
 // query a specific item from a specific gamepack key
-std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName, const char* def = nullptr);
+template<typename T>
+T GamepackLib_QueryNumber(const char* gameId, const char* keyName, const char* argName);
+
+std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName, const char* def = "");
 std::vector<std::string> GamepackLib_QueryStrings(const char* gameId, const char* keyName, const char* argName);
 int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* argName, int def = 0);
-float GamepackLib_QueryFloat(const char* gameId, const char* keyName, const char* argName, float def = 0);
+float GamepackLib_QueryFloat(const char* gameId, const char* keyName, const char* argName, float def = 0.0f);
 bool GamepackLib_QueryBool(const char* gameId, const char* keyName, const char* argName, bool def = false);
 
 // visitor class
