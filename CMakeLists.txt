@@ -551,35 +551,9 @@ if(RADIANT_GENERATE_GAMEPACKS OR RADIANT_GENERATE_USER_GAMEPACKS)
 	include(gamepacks)
 endif()
 
-# wrmap
+# tools
 
-if(RADIANT_BUILD_WRMAP)
-	include(wrmap)
-endif()
-
-# mbspc
-
-if(RADIANT_BUILD_MBSPC)
-	include(mbspc)
-endif()
-
-# q2map
-
-if(RADIANT_BUILD_Q2MAP)
-	include(q2map)
-endif()
-
-# h2data
-
-if(RADIANT_BUILD_H2DATA)
-	include(h2data)
-endif()
-
-# qdata3
-
-if(RADIANT_BUILD_QDATA3)
-	include(qdata3)
-endif()
+include(radiant_tools)
 
 # modules
 

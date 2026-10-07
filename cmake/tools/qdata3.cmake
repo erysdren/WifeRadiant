@@ -1,3 +1,6 @@
+if(NOT RADIANT_BUILD_QDATA3)
+	return()
+endif()
 
 # qdata3
 

@@ -1,3 +1,6 @@
+if(NOT RADIANT_BUILD_MBSPC)
+	return()
+endif()
 
 # mbspc
 

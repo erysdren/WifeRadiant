@@ -1,3 +1,6 @@
+if(NOT RADIANT_BUILD_H2DATA)
+	return()
+endif()
 
 # h2data
 

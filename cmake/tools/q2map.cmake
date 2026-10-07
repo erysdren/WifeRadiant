@@ -1,3 +1,6 @@
+if(NOT RADIANT_BUILD_Q2MAP)
+	return()
+endif()
 
 # q2map
 
