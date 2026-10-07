@@ -75,7 +75,7 @@ enum class EMiniMapMode
 struct game_t
 {
 	CopiedString arg;                                   /* -game matches this */
-	CopiedString gamePath;                              /* main game data dir */
+	std::vector<CopiedString> gamePaths;                /* main game data dir */
 	CopiedString homeBasePath;                          /* home sub-dir on unix */
 	CopiedString magic;                                 /* magic word for figuring out base path */
 	CopiedString shaderPath;                            /* shader directory */
