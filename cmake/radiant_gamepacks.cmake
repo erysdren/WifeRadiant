@@ -5,8 +5,8 @@ foreach(gamepack IN LISTS gamepacks)
 	set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${gamepack_stem}.xml")
 	add_custom_command(
 		OUTPUT "${output_file}"
-		DEPENDS wrgamepack
-		COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} "$<TARGET_FILE:wrgamepack>" "@${gamepack}" -q -o "${output_file}"
+		DEPENDS wiferadiant-tool-wrgamepack
+		COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} "$<TARGET_FILE:wiferadiant-tool-wrgamepack>" "@${gamepack}" -q -o "${output_file}"
 		WORKING_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks"
 		COMMAND_EXPAND_LISTS
 		VERBATIM

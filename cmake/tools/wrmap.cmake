@@ -79,6 +79,7 @@ radiant_add_tool(wrmap
 		pugixml::pugixml
 		sourcepp::vtfpp
 		assimp
+		gamepacklib
 		$<$<BOOL:${WIN32}>:ws2_32>
 		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:libqbsp>
 		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:libvis>

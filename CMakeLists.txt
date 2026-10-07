@@ -37,6 +37,7 @@ option(RADIANT_BUILD_TOOLS "Build editor tools" ON)
 cmake_dependent_option(RADIANT_BUILD_MBSPC "Build mbspc" ON RADIANT_BUILD_TOOLS OFF)
 cmake_dependent_option(RADIANT_BUILD_WRMAP "Build wrmap" ON "RADIANT_BUILD_TOOLS;RADIANT_USE_ASSIMP" OFF)
 cmake_dependent_option(WRMAP_WITH_ERICWTOOLS "Embed the ericw-tools frontend into wrmap" OFF RADIANT_BUILD_WRMAP OFF) # note: doesn't work yet
+cmake_dependent_option(RADIANT_BUILD_WRGAMEPACK "Build wrgamepack" ON RADIANT_BUILD_TOOLS OFF)
 
 # install prefix
 
