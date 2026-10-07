@@ -31,6 +31,9 @@
 // syntax: [path] [extension]
 --shaders "scripts" "shader"
 
+// supported by wrmap compiler
+--wrmap
+
 // compiler options
 // syntax: [key] [arg] [value]
 --compiler flares enabled "false"
