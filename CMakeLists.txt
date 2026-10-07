@@ -485,7 +485,6 @@ if(APPLE)
 	set_source_files_properties(${radiant_icon_macos} PROPERTIES MACOSX_PACKAGE_LOCATION "Resources")
 	set_target_properties(radiant
 		PROPERTIES
-			OUTPUT_NAME WifeRadiant
 			MACOSX_BUNDLE TRUE
 			MACOSX_BUNDLE_BUNDLE_NAME "${PROJECT_NAME}"
 			MACOSX_BUNDLE_BUNDLE_VERSION "${PROJECT_VERSION}"
@@ -513,12 +512,14 @@ target_include_directories(radiant
 if(EMSCRIPTEN)
 	set_target_properties(radiant
 		PROPERTIES
+			OUTPUT_NAME WifeRadiant
 			LIBRARY_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
 			RUNTIME_OUTPUT_DIRECTORY ${RADIANT_INSTALL_PREFIX}
 	)
 else()
 	set_target_properties(radiant
 		PROPERTIES
+			OUTPUT_NAME WifeRadiant
 			LIBRARY_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
 			RUNTIME_OUTPUT_DIRECTORY $<1:${RADIANT_INSTALL_PREFIX}>
 	)
