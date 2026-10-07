@@ -274,6 +274,76 @@ static void AddGames(std::filesystem::path path) {
 
 	Sys_FPrintf( SYS_VRB, "Added %d gamepacks from path '%s'\n", n, path.c_str() );
 
+	std::vector<std::string> gameIds{};
+	GamepackLib_GetGameIds(gameIds);
+
+	for (const auto& gameId : gameIds) {
+		game_t game{};
+		game.arg = gameId;
+
+		game.hidden = GamepackLib_IsHidden(gameId.c_str());
+		game.shaderPath = GamepackLib_QueryString(gameId.c_str(), "shaders", "path", "scripts");
+		game.shaderExt = GamepackLib_QueryString(gameId.c_str(), "shaders", "extension", "shader");
+		game.maxLMSurfaceVerts = GamepackLib_QueryInt(gameId.c_str(), "compiler:limits", "lmsurfaceverts", 64);
+		game.maxSurfaceVerts = GamepackLib_QueryInt(gameId.c_str(), "compiler:limits", "surfaceverts", 999);
+		game.maxSurfaceIndexes = GamepackLib_QueryInt(gameId.c_str(), "compiler:limits", "surfaceindexes", 6000);
+		game.emitFlares = GamepackLib_QueryBool(gameId.c_str(), "compiler:flares", "enabled", false);
+		game.flareShader = GamepackLib_QueryString(gameId.c_str(), "compiler:flares", "shader", "flareshader");
+		game.wolfLight = GamepackLib_QueryBool(gameId.c_str(), "compiler:lighting", "wolf", false);
+		game.lightmapSize = GamepackLib_QueryInt(gameId.c_str(), "compiler:lightmaps", "size", 128);
+		game.lightmapGamma = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightmaps", "gamma", 1.0f);
+		game.lightmapsRGB = GamepackLib_QueryBool(gameId.c_str(), "compiler:lightmaps", "srgb", false);
+		game.texturesRGB = GamepackLib_QueryBool(gameId.c_str(), "compiler:textures", "srgb", false);
+		game.colorsRGB = GamepackLib_QueryBool(gameId.c_str(), "compiler:colors", "srgb", false);
+		game.lightmapExposure = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightmaps", "exposure", 0.0f);
+		game.lightmapCompensate = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightmaps", "compensate", 1.0f);
+		game.gridScale = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightgrid", "scale", 1.0f);
+		game.gridAmbientScale = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightgrid", "ambientscale", 1.0f);
+		game.lightAngleHL = GamepackLib_QueryBool(gameId.c_str(), "compiler:lights", "halflambert", false);
+		game.noStyles = !GamepackLib_QueryBool(gameId.c_str(), "compiler:lightstyles", "enabled", true);
+		game.keepLights = GamepackLib_QueryBool(gameId.c_str(), "compiler:lights", "keep", false);
+		game.patchSubdivisions = GamepackLib_QueryInt(gameId.c_str(), "compiler:patches", "subdivisions", 8);
+		game.brushSubdivisions = GamepackLib_QueryFloat(gameId.c_str(), "compiler:brushes", "subdivisions", 0.0f);
+		game.patchShadows = GamepackLib_QueryBool(gameId.c_str(), "compiler:patches", "shadows", false);
+		game.deluxeMap = GamepackLib_QueryBool(gameId.c_str(), "compiler:deluxemaps", "enabled", true);
+		game.deluxeMode = GamepackLib_QueryInt(gameId.c_str(), "compiler:deluxemaps", "mode", 0);
+		game.miniMapSize = GamepackLib_QueryInt(gameId.c_str(), "compiler:minimap", "size", 512);
+		game.miniMapSharpen = GamepackLib_QueryFloat(gameId.c_str(), "compiler:minimap", "sharpen", 1.0f);
+		game.miniMapBorder = GamepackLib_QueryFloat(gameId.c_str(), "compiler:minimap", "border", 0.0f);
+		game.miniMapKeepAspect = GamepackLib_QueryBool(gameId.c_str(), "compiler:minimap", "keepaspect", true);
+		std::string miniMapMode = GamepackLib_QueryString(gameId.c_str(), "compiler:minimap", "mode", "gray");
+		if (miniMapMode == "black") {
+			game.miniMapMode = EMiniMapMode::Black;
+		} else if (miniMapMode == "white") {
+			game.miniMapMode = EMiniMapMode::White;
+		} else {
+			game.miniMapMode = EMiniMapMode::Gray;
+		}
+		game.miniMapNameFormat = GamepackLib_QueryString(gameId.c_str(), "compiler:minimap", "nameformat", "%s");
+		game.bspIdent = GamepackLib_QueryString(gameId.c_str(), "compiler:bsp", "magic", "IBSP");
+		game.bspVersion = GamepackLib_QueryInt(gameId.c_str(), "compiler:bsp", "version", 46);
+		game.lumpSwap = GamepackLib_QueryBool(gameId.c_str(), "compiler:bsp", "lumpswap", false);
+		extern void LoadIBSPFile( const char *filename );
+		extern void LoadRBSPFile( const char *filename );
+		std::string bspLoadFunc = GamepackLib_QueryString(gameId.c_str(), "compiler:bsp", "load", "LoadIBSPFile");
+		if (bspLoadFunc == "LoadRBSPFile") {
+			game.load = LoadRBSPFile;
+		} else {
+			game.load = LoadIBSPFile;
+		}
+		extern void WriteIBSPFile( const char *filename );
+		extern void WriteRBSPFile( const char *filename );
+		std::string bspWriteFunc = GamepackLib_QueryString(gameId.c_str(), "compiler:bsp", "write", "WriteIBSPFile");
+		if (bspWriteFunc == "WriteRBSPFile") {
+			game.load = WriteRBSPFile;
+		} else {
+			game.load = WriteIBSPFile;
+		}
+
+		g_games.push_back(game);
+	}
+
+#if 0
 	class AddGamesVisitor : public GamepackLib_Visitor {
 	private:
 		game_t m_game;
@@ -297,6 +367,7 @@ static void AddGames(std::filesystem::path path) {
 	if (r != 0) {
 		Sys_Warning( "Failed to load gamepacks from path '%s'\n", path.c_str() );
 	}
+#endif
 }
 
 void InitGames() {

@@ -223,6 +223,30 @@ int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* game
 	return numAssets;
 }
 
+int GamepackLib_GetGameIds(std::vector<std::string>& gameIds) {
+	int numGames = 0;
+	for (const auto& node : gamepacksDoc.select_nodes("/radiant/game[@id]")) {
+		gameIds.push_back(node.node().attribute("id").value());
+		numGames++;
+	}
+	return numGames;
+}
+
+bool GamepackLib_IsHidden(const char* gameId) {
+	pugi::xpath_node_set nodes{};
+	std::string expression = std::format("/radiant/game[@id='{}' and @hidden]", gameId);
+	try {
+		nodes = gamepacksDoc.select_nodes(expression.c_str());
+	} catch(pugi::xpath_exception& e) {
+		std::cout << __func__ << ": error \"" << e.what() << "\"" << std::endl;
+		return false;
+	}
+	if (nodes.empty()) {
+		return false;
+	}
+	return nodes[0].node().attribute("hidden").as_bool();
+}
+
 std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName, const char* def) {
 	pugi::xpath_node_set nodes{};
 	std::string expression = std::format("/radiant/game[@id='{}']/{}[@{}]", gameId, keyName, argName);
@@ -261,6 +285,18 @@ int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* ar
 	}
 	try {
 		return std::stoi(s);
+	} catch(...) {
+		return def;
+	}
+}
+
+float GamepackLib_QueryFloat(const char* gameId, const char* keyName, const char* argName, float def) {
+	std::string s = GamepackLib_QueryString(gameId, keyName, argName);
+	if (s.empty()) {
+		return def;
+	}
+	try {
+		return std::stof(s);
 	} catch(...) {
 		return def;
 	}
