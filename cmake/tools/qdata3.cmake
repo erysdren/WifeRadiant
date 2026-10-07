@@ -23,7 +23,7 @@ radiant_add_tool(qdata3
 		${PROJECT_SOURCE_DIR}/tools/quake2/qdata/tables.c
 		${PROJECT_SOURCE_DIR}/tools/quake2/qdata/video.c
 	DEPENDENCIES
-		l_net
+		wiferadiant-library-l_net
 		$<$<BOOL:${WIN32}>:ws2_32>
 		LibXml2::LibXml2
 		$<TARGET_NAME_IF_EXISTS:Math::Math>

@@ -149,8 +149,8 @@ radiant_add_plugin(bobtoolz
 		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/shapes.cpp
 		${PROJECT_SOURCE_DIR}/plugins/bobtoolz/visfind.cpp
 	DEPENDENCIES
-		commandlib
-		mathlib
+		wiferadiant-library-commandlib
+		wiferadiant-library-mathlib
 		Qt6::Core
 		Qt6::Gui
 		Qt6::Widgets
@@ -163,7 +163,7 @@ radiant_add_plugin(shaderplug
 	SOURCES
 		${PROJECT_SOURCE_DIR}/plugins/shaderplug/shaderplug.cpp
 	DEPENDENCIES
-		xmllib
+		wiferadiant-library-xmllib
 		LibXml2::LibXml2
 )
 

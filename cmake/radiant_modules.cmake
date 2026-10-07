@@ -118,11 +118,11 @@ radiant_add_module(image
 		${PROJECT_SOURCE_DIR}/modules/image/tga.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/webp.cpp
 	DEPENDENCIES
-		ddslib
-		etclib
-		crnlib
-		webplib
-		stb
+		wiferadiant-library-ddslib
+		wiferadiant-library-etclib
+		wiferadiant-library-crnlib
+		wiferadiant-library-webplib
+		wiferadiant-library-stb
 )
 
 radiant_add_module(imagevtf
@@ -224,7 +224,7 @@ radiant_add_module(shaders
 		${PROJECT_SOURCE_DIR}/modules/shaders/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/shaders/shaders.cpp
 	DEPENDENCIES
-		commandlib
+		wiferadiant-library-commandlib
 		LibXml2::LibXml2
 		sourcepp::kvpp
 )
@@ -236,5 +236,5 @@ radiant_add_module(vfspk3
 		${PROJECT_SOURCE_DIR}/modules/vfspk3/vfspk3.cpp
 	DEPENDENCIES
 		LibXml2::LibXml2
-		filematch
+		wiferadiant-library-filematch
 )

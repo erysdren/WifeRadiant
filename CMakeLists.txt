@@ -79,126 +79,184 @@ if(Qt6_VERSION VERSION_GREATER 6.2.4)
 	qt_standard_project_setup()
 endif()
 
+# helper function for the various static libs that radiant uses
+
+function(radiant_add_library name)
+	cmake_parse_arguments(PARSE_ARGV 1 ARG "" "" "SOURCES;INCLUDE_DIRECTORIES;DEPENDENCIES;COMPILE_DEFINITIONS;COMPILE_OPTIONS")
+	set(target "wiferadiant-library-${name}")
+	add_library(${target} STATIC ${ARG_SOURCES})
+	radiant_add_common(${target})
+	target_link_libraries(${target}
+		PRIVATE
+			${ARG_DEPENDENCIES}
+	)
+	target_compile_definitions(${target}
+		PRIVATE
+			${ARG_COMPILE_DEFINITIONS}
+	)
+	target_compile_options(${target}
+		PRIVATE
+			${ARG_COMPILE_OPTIONS}
+	)
+	target_include_directories(${target}
+		PUBLIC
+			${ARG_INCLUDE_DIRECTORIES}
+	)
+endfunction()
+
 # stb
 
-add_library(stb STATIC
-	${PROJECT_SOURCE_DIR}/libs/stb_image.c
+radiant_add_library(stb
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/stb_image.c
+	INCLUDE_DIRECTORIES
+		${stb_SOURCE_DIR}
 )
-target_include_directories(stb PUBLIC ${stb_SOURCE_DIR})
 
 # commandlib
 
-add_library(commandlib STATIC
-	${PROJECT_SOURCE_DIR}/libs/commandlib.cpp
-)
-
-target_link_libraries(commandlib PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
-target_include_directories(commandlib PRIVATE
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/libs
+radiant_add_library(commandlib
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/commandlib.cpp
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/include
+		${PROJECT_SOURCE_DIR}/libs
+	DEPENDENCIES
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
 )
 
 # mathlib
 
-add_library(mathlib STATIC
-	${PROJECT_SOURCE_DIR}/libs/mathlib/bbox.c
-	${PROJECT_SOURCE_DIR}/libs/mathlib/line.c
-	${PROJECT_SOURCE_DIR}/libs/mathlib/m4x4.c
-	${PROJECT_SOURCE_DIR}/libs/mathlib/mathlib.c
-	${PROJECT_SOURCE_DIR}/libs/mathlib/ray.c
-)
-
-target_include_directories(mathlib PRIVATE
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/libs
+radiant_add_library(mathlib
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/mathlib/bbox.c
+		${PROJECT_SOURCE_DIR}/libs/mathlib/line.c
+		${PROJECT_SOURCE_DIR}/libs/mathlib/m4x4.c
+		${PROJECT_SOURCE_DIR}/libs/mathlib/mathlib.c
+		${PROJECT_SOURCE_DIR}/libs/mathlib/ray.c
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/include
+		${PROJECT_SOURCE_DIR}/libs
 )
 
 # gtkutil
 
-add_library(gtkutil STATIC
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/accelerator.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/clipboard.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/dialog.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/entry.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/filechooser.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/glfont.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/glwidget.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/guisettings.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/idledraw.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/image.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/menu.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/messagebox.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/nonmodal.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/toolbar.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/widget.cpp
-	${PROJECT_SOURCE_DIR}/libs/gtkutil/xorrectangle.cpp
-)
-
-target_link_libraries(gtkutil PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
-target_include_directories(gtkutil PRIVATE
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/libs
+radiant_add_library(gtkutil
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/accelerator.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/clipboard.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/dialog.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/entry.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/filechooser.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/glfont.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/glwidget.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/guisettings.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/idledraw.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/image.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/menu.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/messagebox.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/nonmodal.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/toolbar.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/widget.cpp
+		${PROJECT_SOURCE_DIR}/libs/gtkutil/xorrectangle.cpp
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/include
+		${PROJECT_SOURCE_DIR}/libs
+	DEPENDENCIES
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
 )
 
 # l_net
 
-add_library(l_net STATIC
-	${PROJECT_SOURCE_DIR}/libs/l_net/l_net.c
-	${PROJECT_SOURCE_DIR}/libs/l_net/l_net_wins.c
-)
-
-target_include_directories(l_net PRIVATE
-	${PROJECT_SOURCE_DIR}/libs/l_net
-	${PROJECT_SOURCE_DIR}/libs
+radiant_add_library(l_net
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/l_net/l_net.c
+		${PROJECT_SOURCE_DIR}/libs/l_net/l_net_wins.c
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/libs/l_net
+		${PROJECT_SOURCE_DIR}/libs
 )
 
 # xmllib
 
-add_library(xmllib STATIC
-	${PROJECT_SOURCE_DIR}/libs/xml/ixml.cpp
-	${PROJECT_SOURCE_DIR}/libs/xml/xmlelement.cpp
-	${PROJECT_SOURCE_DIR}/libs/xml/xmlparser.cpp
-	${PROJECT_SOURCE_DIR}/libs/xml/xmltextags.cpp
-	${PROJECT_SOURCE_DIR}/libs/xml/xmlwriter.cpp
+radiant_add_library(xmllib
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/xml/ixml.cpp
+		${PROJECT_SOURCE_DIR}/libs/xml/xmlelement.cpp
+		${PROJECT_SOURCE_DIR}/libs/xml/xmlparser.cpp
+		${PROJECT_SOURCE_DIR}/libs/xml/xmltextags.cpp
+		${PROJECT_SOURCE_DIR}/libs/xml/xmlwriter.cpp
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/include
+		${PROJECT_SOURCE_DIR}/libs
+	DEPENDENCIES
+		LibXml2::LibXml2
 )
-
-target_include_directories(xmllib PRIVATE
-	${PROJECT_SOURCE_DIR}/include
-	${PROJECT_SOURCE_DIR}/libs
-)
-
-target_link_libraries(xmllib PRIVATE LibXml2::LibXml2)
 
 # quickhull
 
-add_library(quickhull STATIC ${PROJECT_SOURCE_DIR}/libs/quickhull/QuickHull.cpp)
+radiant_add_library(quickhull
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/quickhull/QuickHull.cpp
+)
 
 # filematch
 
-add_library(filematch STATIC ${PROJECT_SOURCE_DIR}/libs/filematch/filematch.c)
-target_include_directories(filematch PUBLIC ${PROJECT_SOURCE_DIR}/libs/filematch)
+radiant_add_library(filematch
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/filematch/filematch.c
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/libs/filematch
+)
 
 # ddslib
 
-add_library(ddslib STATIC ${PROJECT_SOURCE_DIR}/libs/ddslib/ddslib.c)
-target_include_directories(ddslib PUBLIC ${PROJECT_SOURCE_DIR}/libs/ddslib)
+radiant_add_library(ddslib
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/ddslib/ddslib.c
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/libs/ddslib
+)
 
 # etclib
 
-add_library(etclib STATIC ${PROJECT_SOURCE_DIR}/libs/etclib/etclib.c)
-target_include_directories(etclib PRIVATE ${PROJECT_SOURCE_DIR}/libs)
-target_include_directories(etclib PUBLIC ${PROJECT_SOURCE_DIR}/libs/etclib)
+radiant_add_library(etclib
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/etclib/etclib.c
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/libs/etclib
+		${PROJECT_SOURCE_DIR}/libs
+)
 
 # crnlib
 
-add_library(crnlib STATIC ${PROJECT_SOURCE_DIR}/libs/crnlib/crnlib.cpp)
-target_include_directories(crnlib PUBLIC ${PROJECT_SOURCE_DIR}/libs/crnlib)
-target_link_libraries(crnlib PRIVATE ddslib)
+radiant_add_library(crnlib
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/crnlib/crnlib.cpp
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/libs/crnlib
+	DEPENDENCIES
+		wiferadiant-library-ddslib
+)
 
 # webplib
 
-add_library(webplib STATIC ${PROJECT_SOURCE_DIR}/libs/webplib/webplib.cpp)
-target_include_directories(webplib PUBLIC ${PROJECT_SOURCE_DIR}/libs/webplib)
+radiant_add_library(webplib
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/webplib/webplib.cpp
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/libs/webplib
+)
 
 # radiant
 
@@ -291,6 +349,8 @@ qt_add_executable(radiant WIN32
 	${PROJECT_SOURCE_DIR}/radiant/xywindow.cpp
 )
 
+radiant_add_common(radiant)
+
 file(GLOB RADIANT_RESOURCES "${PROJECT_SOURCE_DIR}/resources/*")
 qt_add_resources(radiant "radiant"
 	PREFIX
@@ -354,18 +414,25 @@ else()
 	)
 endif()
 
-target_link_libraries(radiant PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
-target_link_libraries(radiant PRIVATE LibXml2::LibXml2)
-target_link_libraries(radiant PRIVATE commandlib gtkutil l_net xmllib quickhull)
-target_link_libraries(radiant PRIVATE sourcepp::toolpp)
-target_link_libraries(radiant PRIVATE $<$<BOOL:${WIN32}>:ws2_32> $<$<BOOL:${WIN32}>:dbghelp>)
-target_link_libraries(radiant PRIVATE $<$<PLATFORM_ID:Haiku>:network>)
-
-radiant_add_common(radiant)
-radiant_add_common(commandlib)
-radiant_add_common(gtkutil)
-radiant_add_common(l_net)
-radiant_add_common(xmllib)
+target_link_libraries(radiant
+	PRIVATE
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
+		LibXml2::LibXml2
+		wiferadiant-library-commandlib
+		wiferadiant-library-gtkutil
+		wiferadiant-library-l_net
+		wiferadiant-library-xmllib
+		wiferadiant-library-quickhull
+		sourcepp::toolpp
+		$<$<BOOL:${WIN32}>:ws2_32>
+		$<$<BOOL:${WIN32}>:dbghelp>
+		$<$<PLATFORM_ID:Haiku>:network>
+)
 
 if(NOT APPLE)
 	file(GLOB RADIANT_DATA_FILES "${PROJECT_SOURCE_DIR}/resources/*")

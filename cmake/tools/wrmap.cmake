@@ -61,13 +61,13 @@ radiant_add_tool(wrmap
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
 		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/ewt.cpp>
 	DEPENDENCIES
-		l_net
-		filematch
-		ddslib
-		etclib
-		crnlib
-		webplib
-		stb
+		wiferadiant-library-l_net
+		wiferadiant-library-filematch
+		wiferadiant-library-ddslib
+		wiferadiant-library-etclib
+		wiferadiant-library-crnlib
+		wiferadiant-library-webplib
+		wiferadiant-library-stb
 		pugixml::pugixml
 		assimp
 		$<$<BOOL:${WIN32}>:ws2_32>

@@ -42,7 +42,7 @@ radiant_add_tool(h2data
 		${PROJECT_SOURCE_DIR}/include
 		${PROJECT_SOURCE_DIR}/libs
 	DEPENDENCIES
-		l_net
+		wiferadiant-library-l_net
 		$<$<BOOL:${WIN32}>:ws2_32>
 		LibXml2::LibXml2
 		$<TARGET_NAME_IF_EXISTS:Math::Math>
