@@ -259,5 +259,9 @@ int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* ar
 	if (s.empty()) {
 		return def;
 	}
-	return std::stoi(s);
+	try {
+		return std::stoi(s);
+	} catch(...) {
+		return def;
+	}
 }
