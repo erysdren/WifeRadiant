@@ -68,6 +68,8 @@
 #include "brush.h"
 #include "grid.h"
 
+#include <QPushButton>
+
 class NameObserver
 {
 	UniqueNames& m_names;
@@ -1907,7 +1909,7 @@ void SaveMap(){
 	}
 }
 
-void ExportMap(){
+void SaveSelected(){
 	const char* filename = map_save( "Export Selection" );
 
 	if ( filename != 0 ) {
@@ -1920,6 +1922,81 @@ void SaveRegion(){
 
 	if ( filename != 0 ) {
 		Map_SaveRegion( filename );
+	}
+}
+
+static void Exporter_doExport();
+static void Exporter_doExportAs();
+
+class Exporter {
+private:
+	QWidget* m_window = nullptr;
+	bool m_hasExported = false;
+public:
+	void create() {
+		if (m_window != nullptr) {
+			return;
+		}
+
+		m_window = new QWidget( MainFrame_getWindow(), Qt::Dialog | Qt::WindowCloseButtonHint );
+		m_window->setWindowTitle( "Export" );
+
+		{
+			auto* grid = new QGridLayout( m_window );
+			{
+				auto* button = new QPushButton( "Export" );
+				grid->addWidget( button, 0, 0 );
+				QObject::connect( button, &QAbstractButton::clicked, Exporter_doExport );
+			}
+			{
+				auto* button = new QPushButton( "Export As" );
+				grid->addWidget( button, 0, 1 );
+				QObject::connect( button, &QAbstractButton::clicked, Exporter_doExportAs );
+			}
+		}
+	}
+
+	void show() {
+		m_window->show();
+	}
+
+	bool hasExported() const {
+		return m_hasExported;
+	}
+
+	void doExport(const char* filename) {
+		m_hasExported = true;
+		globalOutputStream() << "exported " << filename << '\n';
+	}
+};
+
+static Exporter g_exporter{};
+
+static void Exporter_doExport() {
+	const char* path = Map_Unnamed( g_map )? getMapsPath() : g_map.m_name.c_str();
+	if (path != nullptr) {
+		g_exporter.doExport(path);
+	}
+}
+
+static void Exporter_doExportAs() {
+	const char* path = file_dialog( MainFrame_getWindow(), false, "Export As", nullptr, "obj", false, false, true );
+	if (path != nullptr) {
+		g_exporter.doExport(path);
+	}
+}
+
+void Export(){
+	g_exporter.create();
+	g_exporter.show();
+}
+
+void ExportAgain(){
+	if (!g_exporter.hasExported()) {
+		g_exporter.create();
+		g_exporter.show();
+	} else {
+		Exporter_doExport();
 	}
 }
 
@@ -2452,8 +2529,10 @@ void Map_Construct(){
 	GlobalCommands_insert( "ImportMap", makeCallbackF( ImportMap ) );
 	GlobalCommands_insert( "SaveMap", makeCallbackF( SaveMap ), QKeySequence( "Ctrl+S" ) );
 	GlobalCommands_insert( "SaveMapAs", makeCallbackF( SaveMapAs ) );
-	GlobalCommands_insert( "SaveSelected", makeCallbackF( ExportMap ) );
+	GlobalCommands_insert( "SaveSelected", makeCallbackF( SaveSelected ) );
 	GlobalCommands_insert( "SaveRegion", makeCallbackF( SaveRegion ) );
+	GlobalCommands_insert( "Export", makeCallbackF( Export ) );
+	GlobalCommands_insert( "ExportAgain", makeCallbackF( ExportAgain ) );
 
 	GlobalCommands_insert( "RegionOff", makeCallbackF( RegionOff ) );
 	GlobalCommands_insert( "RegionSetXY", makeCallbackF( RegionXY ) );
