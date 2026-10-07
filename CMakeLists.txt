@@ -548,7 +548,7 @@ endif()
 # gamepacks
 
 if(RADIANT_GENERATE_GAMEPACKS OR RADIANT_GENERATE_USER_GAMEPACKS)
-	include(gamepacks)
+	include(radiant_gamepacks)
 endif()
 
 # tools
@@ -557,8 +557,8 @@ include(radiant_tools)
 
 # modules
 
-include(modules)
+include(radiant_modules)
 
 # plugins
 
-include(plugins)
+include(radiant_plugins)
