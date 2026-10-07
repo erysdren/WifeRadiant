@@ -87,7 +87,7 @@ struct game_default : game_t
 
 	game_default() : game_t{
 	"quake3",           /* -game x */
-	"baseq3",           /* default base game data dir */
+	{"baseq3"},         /* default base game data dir */
 	".q3a",             /* unix home sub-dir */
 	"quake",            /* magic path word */
 	"scripts",          /* shader directory */
@@ -231,7 +231,7 @@ struct game_nexuiz : game_default
 {
 	game_nexuiz(){
 		arg = "nexuiz";
-		gamePath = "data";
+		gamePaths = {"data"};
 		homeBasePath = ".nexuiz";
 		magic = "nexuiz";
 		maxLMSurfaceVerts = 999;
@@ -246,7 +246,7 @@ struct game_xonotic : game_default
 {
 	game_xonotic(){
 		arg = "xonotic";
-		gamePath = "data";
+		gamePaths = {"data"};
 		homeBasePath = ".xonotic";
 		magic = "xonotic";
 		maxLMSurfaceVerts = 1048575;
@@ -277,7 +277,7 @@ struct game_tremulous : game_default
 
 	game_tremulous(){
 		arg = "tremulous";
-		gamePath = "base";
+		gamePaths = {"base"};
 		homeBasePath = ".tremulous";
 		magic = "tremulous";
 		surfaceParms.insert( surfaceParms.end(), {
@@ -296,7 +296,7 @@ struct game_unvanquished : game_tremulous
 {
 	game_unvanquished(){
 		arg = "unvanquished";
-		gamePath = "pkg";
+		gamePaths = {"pkg"};
 		homeBasePath = ".local/share/unvanquished";
 		magic = "unvanquished";
 		maxLMSurfaceVerts = 1048575;
@@ -312,7 +312,7 @@ struct game_tenebrae : game_default
 {
 	game_tenebrae(){
 		arg = "tenebrae";
-		gamePath = "base";
+		gamePaths = {"base"};
 		homeBasePath = ".tenebrae";
 		magic = "tenebrae";
 		maxLMSurfaceVerts = 1024;
@@ -353,7 +353,7 @@ struct game_wolf : game_default
 
 	game_wolf(){
 		arg = "wolf";
-		gamePath = "main";
+		gamePaths = {"main"};
 		homeBasePath = ".wolf";
 		magic = "wolf";
 		wolfLight = true;
@@ -407,7 +407,7 @@ struct game_wolfet : game_wolf
 
 	game_wolfet(){
 		arg = "et";
-		gamePath = "etmain";
+		gamePaths = {"etmain"};
 		homeBasePath = ".etwolf";
 		magic = "et";
 		maxLMSurfaceVerts = 1024;
@@ -460,7 +460,7 @@ struct game_etut : game_default
 
 	game_etut(){
 		arg = "etut";
-		gamePath = "etut";
+		gamePaths = {"etut"};
 		homeBasePath = ".etwolf";
 		magic = "et";
 		maxLMSurfaceVerts = 1024;
@@ -518,7 +518,7 @@ struct game_ef : game_default
 
 	game_ef(){
 		arg = "ef";
-		gamePath = "baseef";
+		gamePaths = {"baseef"};
 		homeBasePath = ".ef";
 		magic = "elite";
 		/* overwrite "ladder" entry; note: magic number */
@@ -536,7 +536,7 @@ struct game_qfusion : game_default
 {
 	game_qfusion(){
 		arg = "qfusion";
-		gamePath = "base";
+		gamePaths = {"base"};
 		homeBasePath = ".qfusion";
 		magic = "qfusion";
 		maxLMSurfaceVerts = 65535;
@@ -585,7 +585,7 @@ struct game_reaction : game_default
 
 	game_reaction(){
 		arg = "reaction";
-		gamePath = "Boomstick";
+		gamePaths = {"Boomstick"};
 		homeBasePath = ".Reaction";
 		magic = "reaction";
 		surfaceParms.insert( surfaceParms.end(), {
@@ -614,7 +614,7 @@ struct game_darkplaces : game_default
 {
 	game_darkplaces(){
 		arg = "darkplaces";
-		gamePath = "id1";
+		gamePaths = {"id1"};
 		homeBasePath = ".darkplaces";
 		magic = "darkplaces";
 		maxLMSurfaceVerts = 999;
@@ -632,7 +632,7 @@ struct game_dq : game_default
 {
 	game_dq(){
 		arg = "dq";
-		gamePath = "basedq";
+		gamePaths = {"basedq"};
 		homeBasePath = ".dq";
 		magic = "dq";
 		lightmapGamma = 1.2f;
@@ -653,7 +653,7 @@ struct game_prophecy : game_default
 {
 	game_prophecy(){
 		arg = "prophecy";
-		gamePath = "base";
+		gamePaths = {"base"};
 		homeBasePath = ".prophecy";
 		magic = "prophecy";
 		lightmapExposure = 200.0f;
@@ -750,7 +750,7 @@ struct game_sof2 : game_t
 
 	game_sof2() : game_t{
 	"sof2",                 /* -game x */
-	"base",                 /* default base game data dir */
+	{"base"},               /* default base game data dir */
 	".sof2",                /* unix home sub-dir */
 	"soldier",              /* magic path word */
 	"shaders",              /* shader directory */

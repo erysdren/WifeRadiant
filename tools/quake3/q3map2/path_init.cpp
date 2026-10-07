@@ -265,7 +265,20 @@ const game_t *GetGame( const char *arg ){
 	return nullptr;
 }
 
+inline bool is_unique( const std::vector<CopiedString>& list, const char *string ){
+	for( const auto& str : list )
+		if( striEqual( str.c_str(), string ) )
+			return false;
+	return true;
+}
+
+inline void insert_unique( std::vector<CopiedString>& list, const char *string ){
+	if( is_unique( list, string ) )
+		list.emplace_back( string );
+}
+
 static void AddGames(std::filesystem::path path) {
+	StringOutputStream stream(256);
 	int n = GamepackLib_Init(path);
 	if (n == -1) {
 		Sys_Warning( "Failed to read gamepacks from path '%s'\n", path.c_str() );
@@ -290,7 +303,9 @@ static void AddGames(std::filesystem::path path) {
 
 		std::map<int, std::string> contentPaths;
 		GamepackLib_GetContentPaths(contentPaths, gameId.c_str());
-		game.gamePath = contentPaths[0];
+		for (const auto& [key, value] : contentPaths) {
+			insert_unique(game.gamePaths, stream(DirectoryCleaned(value.c_str())));
+		}
 		game.shaderPath = GamepackLib_QueryString(gameId.c_str(), "shaders", "path", "scripts");
 		game.shaderExt = GamepackLib_QueryString(gameId.c_str(), "shaders", "extension", "shader");
 		game.maxLMSurfaceVerts = GamepackLib_QueryInt(gameId.c_str(), "compiler:limits", "lmsurfaceverts", 64);
@@ -351,32 +366,6 @@ static void AddGames(std::filesystem::path path) {
 
 		g_games.push_back(game);
 	}
-
-#if 0
-	class AddGamesVisitor : public GamepackLib_Visitor {
-	private:
-		game_t m_game;
-	public:
-		virtual int begin(const char* gameId) override {
-			m_game.arg = gameId;
-			return 0;
-		}
-
-		virtual int visit(const char* gameId, const char* key, const Args& args) override {
-			return 0;
-		}
-
-		virtual void end(const char* gameId) override {
-			g_games.push_back(m_game);
-			m_game = {};
-		}
-	} visitor;
-
-	int r = GamepackLib_ForEach(visitor);
-	if (r != 0) {
-		Sys_Warning( "Failed to load gamepacks from path '%s'\n", path.c_str() );
-	}
-#endif
 }
 
 void InitGames() {
@@ -385,19 +374,6 @@ void InitGames() {
 
 	/* add gamepacks */
 	AddGames( GetExePath() / "gamepacks" );
-}
-
-
-inline bool is_unique( const std::vector<CopiedString>& list, const char *string ){
-	for( const auto& str : list )
-		if( striEqual( str.c_str(), string ) )
-			return false;
-	return true;
-}
-
-inline void insert_unique( std::vector<CopiedString>& list, const char *string ){
-	if( is_unique( list, string ) )
-		list.emplace_back( string );
 }
 
 
@@ -541,8 +517,12 @@ void InitPaths( Args& args ){
 		}
 	}
 
-	/* add standard game path */
-	insert_unique( gamePaths, stream( DirectoryCleaned( baseGame == nullptr? g_game->gamePath.c_str() : baseGame ) ) );
+	/* add standard game paths */
+	if (baseGame) {
+		insert_unique( gamePaths, stream( DirectoryCleaned( baseGame ) ) );
+	} else {
+		gamePaths.insert(gamePaths.end(), g_game->gamePaths.begin(), g_game->gamePaths.end());
+	}
 
 	/* if there is no base path set, figure it out */
 	if ( basePaths.empty() ) {
