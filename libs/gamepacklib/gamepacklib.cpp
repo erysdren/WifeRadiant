@@ -233,7 +233,6 @@ int GamepackLib_GetGameIds(std::vector<std::string>& gameIds) {
 }
 
 bool GamepackLib_IsHidden(const char* gameId) {
-	pugi::xpath_node_set nodes{};
 	std::string expression = std::format("/radiant/game[@id='{}']/@hidden", gameId);
 	pugi::xpath_query query(expression.c_str());
 	return query.evaluate_boolean(gamepacksDoc);
