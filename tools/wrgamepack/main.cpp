@@ -44,6 +44,7 @@ static std::vector<std::array<std::string, 3>> g_gameEngines{};
 static std::vector<std::pair<std::string, std::string>> g_gameLinks{};
 static std::vector<std::pair<std::string, std::string>> g_gameContentPaths{};
 static std::vector<std::pair<std::string, std::string>> g_gameAssets{};
+static std::string g_gameType{};
 static std::string g_gameEntities{};
 static std::string g_gameIcon{};
 static std::pair<std::string, std::string> g_gameShaders{};
@@ -140,6 +141,7 @@ static argHelp gamepackArgs[] = {
 	{ { "--id [id]", NULL }, "Set gamepack ID (required)" },
 	{ { "--name [name]", NULL }, "Set gamepack name (required)" },
 	{ { "--inherits [name]", NULL }, "Set gamepack to inherit from" },
+	{ { "--type [name]", NULL }, "Set gamepack type" },
 	{ { "--link [name] [url]", NULL }, "Add gamepack documentation link" },
 	{ { "--wads", NULL }, "Gamepack uses .WAD files" },
 	{ { "--engine [os] [path] [exe]", NULL }, "Add gamepack engine searchpath" },
@@ -201,6 +203,9 @@ static void parse_args(int argc, const char** argv, int start) {
 			i += 1;
 		} else if (!strcmp(argv[i], "--inherits") && i < argc - 1) {
 			g_gameInherits = argv[i + 1];
+			i += 1;
+		} else if (!strcmp(argv[i], "--type") && i < argc - 1) {
+			g_gameType = argv[i + 1];
 			i += 1;
 		} else if (!strcmp(argv[i], "--link") && i < argc - 2) {
 			g_gameLinks.push_back({argv[i + 1], argv[i + 2]});
@@ -329,22 +334,28 @@ int main(int argc, const char** argv) {
 		node.append_attribute("name") = asset.second;
 	}
 
+	// create type node
+	if (!g_gameType.empty()) {
+		pugi::xml_node node = gameNode.append_child("type");
+		node.append_attribute("name") = g_gameType;
+	}
+
 	// create wad node
 	if (g_gameWads) {
-		pugi::xml_node entitiesNode = gameNode.append_child("wads");
-		entitiesNode.append_attribute("enabled") = true;
+		pugi::xml_node node = gameNode.append_child("wads");
+		node.append_attribute("enabled") = true;
 	}
 
 	// create icon node
 	if (!g_gameIcon.empty()) {
-		pugi::xml_node entitiesNode = gameNode.append_child("icon");
-		entitiesNode.append_attribute("name") = g_gameIcon;
+		pugi::xml_node node = gameNode.append_child("icon");
+		node.append_attribute("name") = g_gameIcon;
 	}
 
 	// create entities node
 	if (!g_gameEntities.empty()) {
-		pugi::xml_node entitiesNode = gameNode.append_child("entities");
-		entitiesNode.append_attribute("name") = g_gameEntities;
+		pugi::xml_node node = gameNode.append_child("entities");
+		node.append_attribute("name") = g_gameEntities;
 	}
 
 	// create shaders node
