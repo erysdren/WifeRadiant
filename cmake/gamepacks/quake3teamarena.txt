@@ -4,7 +4,7 @@
 // game id, name and icon
 --id "quake3teamarena"
 --name "Quake III: Team Arena"
---icon "quake3.png"
+--icon "icon.png"
 
 // links
 --link "TA Teams Manual" "docs/New_Teams_For_Q3TA/index.html"

@@ -4,7 +4,7 @@
 // game id, name and icon
 --id "dod"
 --name "Day of Defeat"
---icon "dod.png"
+--icon "icon.png"
 
 // content paths
 --path "dod" "1"

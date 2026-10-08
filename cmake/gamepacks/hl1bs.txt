@@ -4,10 +4,10 @@
 // game id, name and icon
 --id "hl1bs"
 --name "Half-Life: Blue Shift"
---icon "hl1bs.png"
+--icon "icon.png"
 
 // content paths
 --path "bshift" "1"
 
 // entities
---entities "bshift.fgd"
+--entities "halflife-bs.fgd"
