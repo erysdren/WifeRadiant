@@ -4,6 +4,7 @@ endif()
 
 if(WIN32)
 	set(WRMAP_ORIGINAL_FILENAME "wrmap.${RADIANT_EXECUTABLE_SUFFIX}")
+	set(WRMAP_ICON_FILENAME "${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/wrmap.ico")
 	configure_file("${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/wrmap.rc.in" "${PROJECT_BINARY_DIR}/wrmap.rc" @ONLY)
 endif()
 

@@ -1,4 +1,4 @@
-101                     ICON    DISCARDABLE     "wrmap.ico"
+101                     ICON    DISCARDABLE     "@WRMAP_ICON_FILENAME@"
 
 #define VS_FF_DEBUG 0x1L
 #define VS_VERSION_INFO 0x1L
