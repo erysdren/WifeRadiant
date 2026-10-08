@@ -4,9 +4,10 @@
 // inherits hl2.xml
 --inherits "hl2"
 
-// game id and name
+// game id, name and icon
 --id "hl2lostcoast"
 --name "Half-Life 2: Lost Coast"
+--icon "hl2.png"
 
 // content paths
 --path "lostcoast" "2"
