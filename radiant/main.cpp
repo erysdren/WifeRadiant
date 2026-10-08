@@ -234,7 +234,7 @@ void paths_init(){
 
 	Q_mkdir( home );
 
-	g_strSettingsPath = StringStream( home, RADIANT_MAJOR_VERSION "." RADIANT_MINOR_VERSION "." RADIANT_PATCH_VERSION "/" );
+	g_strSettingsPath = StringStream( home, RADIANT_VERSION_MAJOR "." RADIANT_VERSION_MINOR "." RADIANT_VERSION_PATCH "/" );
 
 	Q_mkdir( g_strSettingsPath.c_str() );
 
@@ -278,9 +278,9 @@ bool check_version(){
 	// http://zerowing.idsoftware.com/bugzilla/show_bug.cgi?id=431
 #ifndef _DEBUG
 	// locate and open RADIANT_MAJOR and RADIANT_MINOR
-	if ( !( check_version_file( StringStream( AppPath_get(), "RADIANT_MAJOR" ), RADIANT_MAJOR_VERSION )
-	     && check_version_file( StringStream( AppPath_get(), "RADIANT_MINOR" ), RADIANT_MINOR_VERSION )
-	     && check_version_file( StringStream( AppPath_get(), "RADIANT_PATCH" ), RADIANT_PATCH_VERSION ) ) ) {
+	if ( !( check_version_file( StringStream( AppPath_get(), "RADIANT_MAJOR" ), RADIANT_VERSION_MAJOR )
+	     && check_version_file( StringStream( AppPath_get(), "RADIANT_MINOR" ), RADIANT_VERSION_MINOR )
+	     && check_version_file( StringStream( AppPath_get(), "RADIANT_PATCH" ), RADIANT_VERSION_PATCH ) ) ) {
 		const auto msg = StringStream(
 			"This editor binary (" RADIANT_GIT_REVISION ") doesn't match what the latest setup has configured in this directory\n"
 			"Make sure you run the right/latest editor binary you installed\n", AppPath_get() );
