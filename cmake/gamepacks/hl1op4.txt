@@ -1,0 +1,13 @@
+// inherits hl1.xml
+--inherits "hl1"
+
+// game id, name and icon
+--id "hl1op4"
+--name "Half-Life: Opposing Force"
+--icon "hl1op4.png"
+
+// content paths
+--path "gearbox" "1"
+
+// entities
+--entities "halflife-op4.fgd"

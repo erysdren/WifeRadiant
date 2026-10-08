@@ -1,0 +1,13 @@
+// inherits hl1.xml
+--inherits "hl1"
+
+// game id, name and icon
+--id "ricochet"
+--name "Ricochet"
+--icon "ricochet.png"
+
+// content paths
+--path "ricochet" "1"
+
+// entities
+--entities "ricochet.fgd"
