@@ -1,0 +1,18 @@
+// inherits goldsrcbase.xml
+--inherits "goldsrcbase"
+
+// game id, name and icon
+--id "hl1"
+--name "Half-Life"
+--icon "hl1.png"
+
+// engines
+--engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Half-Life/" "hl.exe"
+--engine linux "~/.steam/steam/steamapps/common/Half-Life/" "hl.sh"
+--engine mac "~/Library/Application Support/Steam/steamapps/common/Half-Life/" "hl.sh"
+
+// content paths
+--path "valve" "0"
+
+// entities
+--entities "halflife.fgd"
