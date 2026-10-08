@@ -1,6 +1,3 @@
-// write to hl2lostcoast.xml
--o "hl2lostcoast.xml"
-
 // inherits hl2.xml
 --inherits "hl2"
 

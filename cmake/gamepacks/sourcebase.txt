@@ -1,6 +1,3 @@
-// write to sourcebase.xml
--o "sourcebase.xml"
-
 // mark as hidden
 --hidden
 
