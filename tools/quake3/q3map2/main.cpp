@@ -71,7 +71,7 @@ int main( int argc, char **argv ){
 	Timer timer;
 
 	/* this was changed to emit version number over the network */
-	printf( Q3MAP_VERSION "\n" );
+	printf( WRMAP_VERSION "\n" );
 
 	/* set exit call */
 	atexit( ExitQ3Map );
