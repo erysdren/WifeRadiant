@@ -450,7 +450,7 @@ int MiniMapBSPMain( Args& args ){
 
 	/* arg checking */
 	if ( args.empty() ) {
-		Sys_Printf( "Usage: q3map2 [-v] -minimap [-size n] [-sharpen f] [-samples n | -random n] [-o filename.tga] [-minmax Xmin Ymin Zmin Xmax Ymax Zmax] <mapname>\n" );
+		Sys_Printf( "Usage: wrmap [-v] -minimap [-size n] [-sharpen f] [-samples n | -random n] [-o filename.tga] [-minmax Xmin Ymin Zmin Xmax Ymax Zmax] <mapname>\n" );
 		return 0;
 	}
 

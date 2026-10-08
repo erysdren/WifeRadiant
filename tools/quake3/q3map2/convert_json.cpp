@@ -649,7 +649,7 @@ static void read_json( const char *directory, bool useFlagNames, bool skipUnknow
 int ConvertJsonMain( Args& args ){
 	/* arg checking */
 	if ( args.empty() ) {
-		Sys_Printf( "Usage: q3map2 -json <-unpack|-pack [-useflagnames[-skipflags]]> [-v] <mapname>\n" );
+		Sys_Printf( "Usage: wrmap -json <-unpack|-pack [-useflagnames[-skipflags]]> [-v] <mapname>\n" );
 		return 0;
 	}
 

@@ -82,7 +82,7 @@ static void ExportEntities(){
 int ExportEntitiesMain( Args& args ){
 	/* arg checking */
 	if ( args.empty() ) {
-		Sys_Printf( "Usage: q3map2 -exportents [-v] <mapname>\n" );
+		Sys_Printf( "Usage: wrmap -exportents [-v] <mapname>\n" );
 		return 0;
 	}
 

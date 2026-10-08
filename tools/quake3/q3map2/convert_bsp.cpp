@@ -46,7 +46,7 @@ inline void AAS_DData( unsigned char *data, int size ){
 int FixAAS( Args& args ){
 	/* arg checking */
 	if ( args.empty() ) {
-		Sys_Printf( "Usage: q3map2 -fixaas [-v] <mapname>\n" );
+		Sys_Printf( "Usage: wrmap -fixaas [-v] <mapname>\n" );
 		return 0;
 	}
 
@@ -141,7 +141,7 @@ int AnalyzeBSP( Args& args ){
 
 	/* arg checking */
 	if ( args.empty() ) {
-		Sys_Printf( "Usage: q3map2 -analyze [-lumpswap] [-v] <mapname>\n" );
+		Sys_Printf( "Usage: wrmap -analyze [-lumpswap] [-v] <mapname>\n" );
 		return 0;
 	}
 
@@ -357,7 +357,7 @@ int ScaleBSPMain( Args& args ){
 
 	/* arg checking */
 	if ( args.size() < 2 ) {
-		Sys_Printf( "Usage: q3map2 [-v] -scale [-tex] [-spawn_ref <value>] <value> <mapname>\n" );
+		Sys_Printf( "Usage: wrmap [-v] -scale [-tex] [-spawn_ref <value>] <value> <mapname>\n" );
 		return 0;
 	}
 
@@ -383,7 +383,7 @@ int ScaleBSPMain( Args& args ){
 	}
 
 	if ( scale == g_vector3_identity ) {
-		Sys_Printf( "Usage: q3map2 [-v] -scale [-tex] [-spawn_ref <value>] <value> <mapname>\n" );
+		Sys_Printf( "Usage: wrmap [-v] -scale [-tex] [-spawn_ref <value>] <value> <mapname>\n" );
 		Sys_Printf( "Non-zero scale value required.\n" );
 		return 0;
 	}
@@ -568,7 +568,7 @@ int ShiftBSPMain( Args& args ){
 
 	/* arg checking */
 	if ( args.size() < 2 ) {
-		Sys_Printf( "Usage: q3map2 [-v] -shift <value> <mapname>\n" );
+		Sys_Printf( "Usage: wrmap [-v] -shift <value> <mapname>\n" );
 		return 0;
 	}
 
@@ -673,7 +673,7 @@ int ShiftBSPMain( Args& args ){
 int MergeBSPMain( Args& args ){
 	/* arg checking */
 	if ( args.size() < 2 ) {
-		Sys_Printf( "Usage: q3map2 [-v] -mergebsp [-fixnames] [-world] <mainBsp> <bspToinject>\n" );
+		Sys_Printf( "Usage: wrmap [-v] -mergebsp [-fixnames] [-world] <mainBsp> <bspToinject>\n" );
 		return 0;
 	}
 
@@ -1031,7 +1031,7 @@ int ConvertBSPMain( Args& args ){
 
 	/* arg checking */
 	if ( args.empty() ) {
-		Sys_Printf( "Usage: q3map2 -convert [-format <ase|obj|map|map_bp|map_220|game name>] [-shadersasbitmap|-lightmapsastexcoord|-deluxemapsastexcoord] [-readbsp|-readmap [-meta|-patchmeta]] [-v] <mapname>\n" );
+		Sys_Printf( "Usage: wrmap -convert [-format <ase|obj|map|map_bp|map_220|game name>] [-shadersasbitmap|-lightmapsastexcoord|-deluxemapsastexcoord] [-readbsp|-readmap [-meta|-patchmeta]] [-v] <mapname>\n" );
 		return 0;
 	}
 

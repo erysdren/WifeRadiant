@@ -150,7 +150,7 @@ void ExportLightmaps(){
 int ExportLightmapsMain( Args& args ){
 	/* arg checking */
 	if ( args.empty() ) {
-		Sys_Printf( "Usage: q3map2 -export [-v] <mapname>\n" );
+		Sys_Printf( "Usage: wrmap -export [-v] <mapname>\n" );
 		return 0;
 	}
 
@@ -184,7 +184,7 @@ int ImportLightmapsMain( Args& args ){
 
 	/* arg checking */
 	if ( args.empty() ) {
-		Sys_Printf( "Usage: q3map2 -import [-v] <mapname>\n" );
+		Sys_Printf( "Usage: wrmap -import [-v] <mapname>\n" );
 		return 0;
 	}
 
