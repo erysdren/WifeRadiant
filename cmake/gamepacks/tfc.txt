@@ -4,7 +4,7 @@
 // game id, name and icon
 --id "tfc"
 --name "Team Fortress Classic"
---icon "tfc.png"
+--icon "icon.png"
 
 // content paths
 --path "tfc" "1"
