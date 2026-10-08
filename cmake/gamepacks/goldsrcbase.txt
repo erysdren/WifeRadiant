@@ -4,6 +4,9 @@
 // type
 --type hl
 
+// use wads
+--wads
+
 // game id and name
 --id "goldsrcbase"
 --name "GoldSrc Engine Base"
