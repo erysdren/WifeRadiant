@@ -46,11 +46,15 @@ int GamepackLib_Init(std::filesystem::path& path) {
 
 	// grab all gamepacks
 	for (const auto& entry : dir) {
-		if (entry.path().extension() != ".xml") {
+		if (!entry.is_directory()) {
+			continue;
+		}
+		std::filesystem::path path = entry.path() / "game.xml";
+		if (!std::filesystem::exists(path)) {
 			continue;
 		}
 		pugi::xml_document doc;
-		pugi::xml_parse_result result = doc.load_file(entry.path().c_str());
+		pugi::xml_parse_result result = doc.load_file(path.c_str());
 		if (!result) {
 			std::cout << __func__ << ": error \"" << result.description() << "\"" << std::endl;
 			continue;
