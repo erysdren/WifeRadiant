@@ -59,6 +59,7 @@ radiant_add_tool(wrmap
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/visflow.cpp
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/vis.cpp
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/writebsp.cpp
+		$<$<BOOL:${WIN32}>:${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/wrmap.rc>
 		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/ewt.cpp>
 	DEPENDENCIES
 		wiferadiant-library-l_net

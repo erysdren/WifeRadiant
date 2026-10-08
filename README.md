@@ -43,6 +43,7 @@ directory.
 - [Sean Barrett](https://github.com/nothings/stb)
 - [Hammer-Hotspots](https://github.com/koerismo/Hammer-Hotspots)
 - [vmap](https://code.idtech.space/vera/vmap)
+- [midna w.](https://superhell.org)
 
 ## Supported games
 
