@@ -1,6 +1,9 @@
 // mark as hidden
 --hidden
 
+// type
+--type source
+
 // game id and name
 --id "sourcebase"
 --name "Source Engine Base"

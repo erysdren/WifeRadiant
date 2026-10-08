@@ -4,6 +4,9 @@
 // mark as hidden
 --hidden
 
+// type
+--type q3
+
 // game id and name
 --id "idtech3base"
 --name "idTech 3 Base"
