@@ -1,7 +1,7 @@
 
-function(radiant_add_gamepack filename)
-	cmake_path(GET filename STEM gamepack_stem)
-	set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${gamepack_stem}.xml")
+function(radiant_add_gamepack name filename)
+	file(MAKE_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/")
+	set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/game.xml")
 	add_custom_command(
 		OUTPUT "${output_file}"
 		DEPENDS wiferadiant-tool-wrgamepack
@@ -10,12 +10,13 @@ function(radiant_add_gamepack filename)
 		COMMAND_EXPAND_LISTS
 		VERBATIM
 	)
-	add_custom_target(wiferadiant-gamepack-${gamepack_stem} ALL DEPENDS "${output_file}")
+	add_custom_target(wiferadiant-gamepack-${name} ALL DEPENDS "${output_file}")
 endfunction()
 
-file(GLOB gamepacks "${PROJECT_SOURCE_DIR}/gamepacks/*.txt")
+file(GLOB gamepacks "${PROJECT_SOURCE_DIR}/cmake/gamepacks/*.txt")
 foreach(gamepack IN LISTS gamepacks)
-	radiant_add_gamepack(${gamepack})
+	cmake_path(GET gamepack STEM gamepack_stem)
+	radiant_add_gamepack(${gamepack_stem} ${gamepack})
 endforeach()
 
 return()
