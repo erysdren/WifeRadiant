@@ -36,6 +36,7 @@ static std::filesystem::path g_outputPath{};
 static std::vector<std::filesystem::path> g_responsePaths{};
 
 static bool g_gameHidden = false;
+static bool g_gameWads = false;
 static std::string g_gameId{};
 static std::string g_gameName{};
 static std::string g_gameInherits{};
@@ -140,6 +141,7 @@ static argHelp gamepackArgs[] = {
 	{ { "--name [name]", NULL }, "Set gamepack name (required)" },
 	{ { "--inherits [name]", NULL }, "Set gamepack to inherit from" },
 	{ { "--link [name] [url]", NULL }, "Add gamepack documentation link" },
+	{ { "--wads", NULL }, "Gamepack uses .WAD files" },
 	{ { "--engine [os] [path] [exe]", NULL }, "Add gamepack engine searchpath" },
 	{ { "--path [path] [priority]", NULL }, "Add gamepack content search path" },
 	{ { "--asset [type] [name]", NULL }, "Add gamepack supported asset type" },
@@ -189,6 +191,8 @@ static void parse_args(int argc, const char** argv, int start) {
 			g_terminalColor = false;
 		} else if (!strcmp(argv[i], "--hidden")) {
 			g_gameHidden = true;
+		} else if (!strcmp(argv[i], "--wads")) {
+			g_gameWads = true;
 		} else if (!strcmp(argv[i], "--id") && i < argc - 1) {
 			g_gameId = argv[i + 1];
 			i += 1;
@@ -293,6 +297,7 @@ int main(int argc, const char** argv) {
 		gameNode.append_attribute("inherits") = g_gameInherits;
 	}
 
+	// set hidden
 	if (g_gameHidden) {
 		gameNode.append_attribute("hidden") = true;
 	}
@@ -322,6 +327,12 @@ int main(int argc, const char** argv) {
 	for (const auto& asset : g_gameAssets) {
 		pugi::xml_node node = gameNode.append_child(std::format("asset:{}", asset.first));
 		node.append_attribute("name") = asset.second;
+	}
+
+	// create wad node
+	if (g_gameWads) {
+		pugi::xml_node entitiesNode = gameNode.append_child("wads");
+		entitiesNode.append_attribute("enabled") = true;
 	}
 
 	// create icon node
