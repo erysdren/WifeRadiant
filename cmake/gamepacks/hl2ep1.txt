@@ -1,6 +1,3 @@
-// write to hl2ep1.xml
--o "hl2ep1.xml"
-
 // inherits hl2.xml
 --inherits "hl2"
 

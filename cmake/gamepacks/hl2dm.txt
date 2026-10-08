@@ -1,6 +1,3 @@
-// write to hl2dm.xml
--o "hl2dm.xml"
-
 // inherits hl2.xml
 --inherits "hl2"
 

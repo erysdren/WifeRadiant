@@ -1,9 +1,6 @@
 // NOTE: these are arguments to the wrgamepack tool.
 // C and C++ style comments are supported.
 
-// write to quake3.xml
--o "quake3.xml"
-
 // inherits idtech3base.xml
 --inherits "idtech3base"
 

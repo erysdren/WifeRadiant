@@ -1,6 +1,3 @@
-// write to quake3teamarena.xml
--o "quake3teamarena.xml"
-
 // inherits quake3.xml
 --inherits "quake3"
 
