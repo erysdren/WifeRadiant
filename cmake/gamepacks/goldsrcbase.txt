@@ -1,6 +1,9 @@
 // mark as hidden
 --hidden
 
+// type
+--type hl
+
 // game id and name
 --id "goldsrcbase"
 --name "GoldSrc Engine Base"
