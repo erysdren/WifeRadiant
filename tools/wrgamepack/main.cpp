@@ -44,6 +44,7 @@ static std::vector<std::pair<std::string, std::string>> g_gameLinks{};
 static std::vector<std::pair<std::string, std::string>> g_gameContentPaths{};
 static std::vector<std::pair<std::string, std::string>> g_gameAssets{};
 static std::string g_gameEntities{};
+static std::string g_gameIcon{};
 static std::pair<std::string, std::string> g_gameShaders{};
 static std::unordered_map<std::string, std::vector<std::pair<std::string, std::string>>> g_compilerOptions{};
 static std::vector<std::pair<std::string, std::string>> g_compilerFlags{};
@@ -143,6 +144,7 @@ static argHelp gamepackArgs[] = {
 	{ { "--path [path] [priority]", NULL }, "Add gamepack content search path" },
 	{ { "--asset [type] [name]", NULL }, "Add gamepack supported asset type" },
 	{ { "--entities [filename]", NULL }, "Set gamepack entities filename" },
+	{ { "--icon [filename]", NULL }, "Set gamepack icon filename" },
 	{ { "--shaders [path] [extension]", NULL }, "Set gamepack shader load behaviour" },
 	{ { "--compiler [arg] [arg] [value]", NULL }, "Set map compiler keyvalue" },
 	{ { "--compiler flag [name] [value]", NULL }, "Add map compiler surface/content flag" },
@@ -207,6 +209,9 @@ static void parse_args(int argc, const char** argv, int start) {
 			i += 2;
 		} else if (!strcmp(argv[i], "--entities") && i < argc - 1) {
 			g_gameEntities = argv[i + 1];
+			i += 1;
+		} else if (!strcmp(argv[i], "--icon") && i < argc - 1) {
+			g_gameIcon = argv[i + 1];
 			i += 1;
 		} else if (!strcmp(argv[i], "--shaders") && i < argc - 2) {
 			g_gameShaders.first = argv[i + 1];
@@ -317,6 +322,12 @@ int main(int argc, const char** argv) {
 	for (const auto& asset : g_gameAssets) {
 		pugi::xml_node node = gameNode.append_child(std::format("asset:{}", asset.first));
 		node.append_attribute("name") = asset.second;
+	}
+
+	// create icon node
+	if (!g_gameIcon.empty()) {
+		pugi::xml_node entitiesNode = gameNode.append_child("icon");
+		entitiesNode.append_attribute("name") = g_gameIcon;
 	}
 
 	// create entities node
