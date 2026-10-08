@@ -4,9 +4,10 @@
 // inherits hl2.xml
 --inherits "hl2"
 
-// game id and name
+// game id, name and icon
 --id "hl2dm"
 --name "Half-Life 2: Deathmatch"
+--icon "hl2.png"
 
 // engines
 --engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Half-Life 2 Deathmatch/" "hl2mp.exe"

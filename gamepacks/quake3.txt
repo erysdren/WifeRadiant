@@ -7,9 +7,10 @@
 // inherits idtech3base.xml
 --inherits "idtech3base"
 
-// game id and name
+// game id, name and icon
 --id "quake3"
 --name "Quake III Arena"
+--icon "quake3.png"
 
 // engine paths and executables
 --engine windows "C:/Program Files (x86)/Quake III Arena/" "quake3.exe"
