@@ -339,6 +339,7 @@ qt_add_executable(radiant WIN32
 	${PROJECT_SOURCE_DIR}/radiant/referencecache.cpp
 	${PROJECT_SOURCE_DIR}/radiant/renderer.cpp
 	${PROJECT_SOURCE_DIR}/radiant/renderstate.cpp
+	${PROJECT_SOURCE_DIR}/radiant/sceneexport.cpp
 	${PROJECT_SOURCE_DIR}/radiant/scenegraph.cpp
 	${PROJECT_SOURCE_DIR}/radiant/selection.cpp
 	${PROJECT_SOURCE_DIR}/radiant/select.cpp
