@@ -1,0 +1,13 @@
+// inherits hl1.xml
+--inherits "hl1"
+
+// game id, name and icon
+--id "dod"
+--name "Day of Defeat"
+--icon "dod.png"
+
+// content paths
+--path "dod" "1"
+
+// entities
+--entities "dod.fgd"

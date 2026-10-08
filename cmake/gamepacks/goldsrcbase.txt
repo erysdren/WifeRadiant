@@ -1,0 +1,23 @@
+// mark as hidden
+--hidden
+
+// game id and name
+--id "goldsrcbase"
+--name "GoldSrc Engine Base"
+
+// links
+--link "Valve Developer Community" "https://developer.valvesoftware.com"
+
+// supported asset types
+--asset archive "pak"
+--asset archive "wad"
+--asset texture "hlw"
+--asset texture "spr"
+--asset texture "mdl"
+--asset sound "wav"
+--asset sound "mp3"
+--asset model "mdl"
+--asset map "maphl"
+--asset shader "quake3"
+--asset entity "fgd"
+--asset brush "halflife"
