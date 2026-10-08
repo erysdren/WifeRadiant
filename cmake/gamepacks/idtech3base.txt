@@ -1,9 +1,6 @@
 // NOTE: these are arguments to the wrgamepack tool.
 // C and C++ style comments are supported.
 
-// write to idtech3base.xml
--o "idtech3base.xml"
-
 // mark as hidden
 --hidden
 

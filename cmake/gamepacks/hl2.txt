@@ -1,6 +1,3 @@
-// write to hl2.xml
--o "hl2.xml"
-
 // inherits sourcebase.xml
 --inherits "sourcebase"
 
