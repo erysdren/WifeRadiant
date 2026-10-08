@@ -4,7 +4,7 @@
 // game id, name and icon
 --id "cs"
 --name "Counter-Strike"
---icon "cs.png"
+--icon "icon.png"
 
 // content paths
 --path "cstrike" "1"
