@@ -33,7 +33,10 @@
 
 #include "debugging/debugging.h"
 
-class ExportObjDependencies :
+#include "obj.h"
+#include "gltf.h"
+
+class ExportDependencies :
 	public GlobalRadiantModuleRef,
 	public GlobalBrushModuleRef,
 	public GlobalPatchModuleRef,
@@ -43,12 +46,41 @@ class ExportObjDependencies :
 	public GlobalSceneGraphModuleRef
 {
 public:
-	ExportObjDependencies() :
+	ExportDependencies() :
 		GlobalBrushModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "brushtypes" ) ),
 		GlobalPatchModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "patchtypes" ) ),
 		GlobalEntityClassManagerModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "entityclass" ) ){
 	}
 };
+
+
+class ExportGltfAPI final : public TypeSystemRef, public SceneExport
+{
+public:
+	typedef SceneExport Type;
+	STRING_CONSTANT( Name, "gltf" );
+
+	virtual EFeatureFlags getFeatureFlags() const override {
+		return EFeatureFlags::eBrushes | EFeatureFlags::ePatches | EFeatureFlags::eLights | EFeatureFlags::eEntities;
+	}
+
+	virtual const char* getName() const override {
+		return "glTF";
+	}
+
+	SceneExport* getTable(){
+		return this;
+	}
+
+	virtual void writeGraph( scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream ) const override {
+		writeGLTF(root, traverse, outputStream);
+	}
+};
+
+typedef SingletonModule<ExportGltfAPI, ExportDependencies> ExportGltfModule;
+
+ExportGltfModule g_ExportGltfModule;
+
 
 class ExportObjAPI final : public TypeSystemRef, public SceneExport
 {
@@ -56,14 +88,11 @@ public:
 	typedef SceneExport Type;
 	STRING_CONSTANT( Name, "obj" );
 
-	ExportObjAPI() { }
-	~ExportObjAPI() { }
-
 	virtual EFeatureFlags getFeatureFlags() const override {
 		return EFeatureFlags::eBrushes;
 	}
 
-	virtual const char* getDescription() const override {
+	virtual const char* getName() const override {
 		return "Wavefront OBJ";
 	}
 
@@ -72,16 +101,17 @@ public:
 	}
 
 	virtual void writeGraph( scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream ) const override {
-
+		writeOBJ(root, traverse, outputStream);
 	}
 };
 
-typedef SingletonModule<ExportObjAPI, ExportObjDependencies> ExportObjModule;
+typedef SingletonModule<ExportObjAPI, ExportDependencies> ExportObjModule;
 
 ExportObjModule g_ExportObjModule;
 
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
 	initialiseModule( server );
 
+	g_ExportGltfModule.selfRegister();
 	g_ExportObjModule.selfRegister();
 }

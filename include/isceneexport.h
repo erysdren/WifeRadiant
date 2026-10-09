@@ -45,12 +45,17 @@ public:
 	/// \brief Returns a set of flags determining what features are available in this exporter.
 	virtual EFeatureFlags getFeatureFlags() const = 0;
 
-	/// \brief returns a null-terminated string with a user-facing description of the format.
-	virtual const char* getDescription() const = 0;
+	/// \brief returns a null-terminated string with a user-facing name of the format.
+	virtual const char* getName() const = 0;
 
 	/// \brief Write the map graph obtained by applying \p traverse to \p root into \p outputStream.
 	virtual void writeGraph( scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream ) const = 0;
 };
+
+inline SceneExport::EFeatureFlags operator|(SceneExport::EFeatureFlags a, SceneExport::EFeatureFlags b)
+{
+	return static_cast<SceneExport::EFeatureFlags>(static_cast<int>(a) | static_cast<int>(b));
+}
 
 template<typename Type>
 class ModuleRef;

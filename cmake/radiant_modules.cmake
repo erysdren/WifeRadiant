@@ -106,9 +106,11 @@ radiant_add_module(entity
 		Qt6::OpenGLWidgets
 )
 
-radiant_add_module(exportobj
+radiant_add_module(export
 	SOURCES
-		${PROJECT_SOURCE_DIR}/modules/exportobj/plugin.cpp
+		${PROJECT_SOURCE_DIR}/modules/export/plugin.cpp
+		${PROJECT_SOURCE_DIR}/modules/export/obj.cpp
+		${PROJECT_SOURCE_DIR}/modules/export/gltf.cpp
 )
 
 radiant_add_module(image
