@@ -59,6 +59,14 @@ public:
 	ExportObjAPI() { }
 	~ExportObjAPI() { }
 
+	virtual EFeatureFlags getFeatureFlags() const override {
+		return EFeatureFlags::eBrushes;
+	}
+
+	virtual const char* getDescription() const override {
+		return "Wavefront OBJ";
+	}
+
 	SceneExport* getTable(){
 		return this;
 	}

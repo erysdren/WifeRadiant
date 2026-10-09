@@ -25,12 +25,28 @@
 #include "imap.h"
 #include "stream/filestream.h"
 
+
 /// \brief A module that writes scene data in a specific format.
 class SceneExport
 {
 public:
 	INTEGER_CONSTANT( Version, 1 );
 	STRING_CONSTANT( Name, "sceneexport" );
+
+	/// \brief Flags describing what features this exporter supports.
+	enum EFeatureFlags {
+		eBrushes = 1 << 0, ///< can export brushes
+		ePatches = 1 << 1, ///< can export patch meshes
+		eLights = 1 << 2, ///< can export lights
+		eEntities = 1 << 3, ///< can export entities
+		eLayers = 1 << 4, ///< can export layer information
+	};
+
+	/// \brief Returns a set of flags determining what features are available in this exporter.
+	virtual EFeatureFlags getFeatureFlags() const = 0;
+
+	/// \brief returns a null-terminated string with a user-facing description of the format.
+	virtual const char* getDescription() const = 0;
 
 	/// \brief Write the map graph obtained by applying \p traverse to \p root into \p outputStream.
 	virtual void writeGraph( scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream ) const = 0;
