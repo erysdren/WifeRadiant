@@ -50,7 +50,7 @@ public:
 	}
 };
 
-class ExportObjAPI : public TypeSystemRef, public SceneExporter
+class ExportObjAPI final : public TypeSystemRef, public SceneExporter
 {
 public:
 	typedef SceneExporter Type;
