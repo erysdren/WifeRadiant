@@ -41,7 +41,7 @@ int GamepackLib_Init(std::filesystem::path& path) {
 	pugi::xml_node radiantNode = gamepacksDoc.child("radiant");
 	if (!radiantNode) {
 		radiantNode = gamepacksDoc.append_child("radiant");
-		radiantNode.append_attribute("xmlns") = RADIANT_XMLNS;
+		radiantNode.append_attribute("xmlns") = RADIANT_XMLNS_RADIANT;
 	}
 
 	// grab all gamepacks
