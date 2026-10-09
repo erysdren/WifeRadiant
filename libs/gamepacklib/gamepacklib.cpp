@@ -26,7 +26,7 @@
 #include "pugixml.hpp"
 #include "gamepacklib.hpp"
 
-pugi::xml_document gamepacksDoc{};
+static pugi::xml_document gamepacksDoc{};
 
 int GamepackLib_Init(std::filesystem::path& path) {
 	std::error_code error{};
