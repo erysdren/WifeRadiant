@@ -48,21 +48,21 @@ public:
 		m_window->setWindowTitle( "Export" );
 
 		// collect descriptions for each available export module
-		std::map<QString, QString> exportDescriptions;
+		std::map<QString, QString> exportNames;
 
 		class CollectSceneExportsVisitor : public SceneExportModules::Visitor {
 		private:
-			std::map<QString, QString>& m_exportDescriptions;
+			std::map<QString, QString>& m_exportNames;
 		public:
-			CollectSceneExportsVisitor(std::map<QString, QString>& exportDescriptions) : m_exportDescriptions(exportDescriptions) {
+			CollectSceneExportsVisitor(std::map<QString, QString>& exportNames) : m_exportNames(exportNames) {
 
 			}
 			void visit(const char* minor, const SceneExport& table) const override {
-				m_exportDescriptions[minor] = table.getDescription();
+				m_exportNames[minor] = table.getName();
 			}
 		};
 
-		Radiant_getExportModules().foreachModule( CollectSceneExportsVisitor( exportDescriptions ) );
+		Radiant_getExportModules().foreachModule( CollectSceneExportsVisitor( exportNames ) );
 
 		// setup gui
 		{
@@ -75,7 +75,7 @@ public:
 				}
 				{
 					auto* combo = new QComboBox;
-					for (const auto& [key, value] : exportDescriptions) {
+					for (const auto& [key, value] : exportNames) {
 						combo->addItem(value);
 					}
 					grid->addWidget( combo, 0, 1, 1, 2 );
