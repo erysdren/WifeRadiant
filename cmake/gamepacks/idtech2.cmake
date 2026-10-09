@@ -59,3 +59,33 @@ radiant_add_gamepack(q2
 	SHADER_NODRAW "textures/common/nodraw"
 	SHADER_TRIGGER "textures/common/trigger"
 )
+
+if(0)
+# SiN
+radiant_add_gamepack(sin
+	GAME_TYPE "sin"
+	TITLE "SiN"
+	GAMEDIR "base"
+	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/SiN Reloaded/"
+	PATH_LINUX "~/.steam/steam/steamapps/common/SiN Reloaded/"
+	EXECUTABLE_WIN32 "SiNReloaded.exe"
+	ENTITIES_FILENAME "SiN.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	TEXTURE_PATH "textures"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "quake3"
+	BUILD_MENU_FILENAME "default_build_menu_sin.xml"
+	ARCHIVE_TYPES "sin"
+	TEXTURE_TYPES "pcx" "tga" "wal"
+	MODEL_TYPES "def"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapsin"
+	BRUSH_TYPES "sin"
+	PATCH_TYPES "quake3"
+	SHADER_CAULK "textures/common/caulk"
+	SHADER_NODRAW "textures/common/nodraw"
+	SHADER_TRIGGER "textures/common/trigger"
+)
+endif()

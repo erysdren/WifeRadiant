@@ -1,0 +1,2314 @@
+//
+// SiN game definition file (.fgd)
+//
+// Paril, mostly auto-generated
+
+//
+// worldspawn
+//
+
+@SolidClass = worldspawn : "World entity"
+[
+    sky(string) : "Environment map name"
+    skyaxis(string) : "Vector axis for rotating sky"
+    skyrotate(string) : "Speed of rotation (degrees/second)"
+    soundtrack(string) : "Music file to use"
+    gravity(integer) : "Gravity" : 800
+    message(string) : "Level name"
+    nextmap(string) : "Next map (DM only)"
+    skipthread(string) : "Thread that is activated to skip this level (if cinematic)"
+    watercolor(color1) : "specifies the view blend color while in water." : "0 0 1"
+    wateralpha(float) : "specifies the alpha of the view blend while in water." : "0.1"
+    lavacolor(color1) : "specifies the view blend color while in lava." : "1.0 0.3 0.0"
+    lavaalpha(float) : "specifies the alpha of the view blend while in lava." : "0.6"
+    lightcolor(color1) : "specifies the view blend color while in light." : "1 1 1"
+    lightalpha(float) : "specifies the alpha of the view blend while in light." : "0.5"
+    lavadamage(integer) : "sets the amount of damage laval should do per waterheight level." : 10
+    cpsounds(string) : "checkpoint sounds" : "global/default_cp_sounds.scr"
+    script(string) : "script file to load"
+
+    spawnflags(Flags) =
+    [
+        1 : "Cinematic" : 0
+        4 : "Bikes Only" : 0
+        8 : "Bodies Fade" : 0
+    ]
+]
+
+// base class for all other entities
+@baseclass model({"path":model,"skin":skin,"scale":scale,"alpha":alpha}) = Entity
+[
+    spawnflags(Flags) =
+    [
+        256 : "Not in Easy" : 0
+        512 : "Not in Normal" : 0
+        1024 : "Not in Hard" : 0
+        2048 : "Not in Deathmatch" : 0
+        4096 : "Not in Coop" : 0
+        8192 : "Developer Only" : 0
+        16384 : "Detail (unused in Reloaded)" : 0
+        32768 : "Reserved Editor Flag" : 0
+    ]
+
+    alpha(float) : "opacity" : "1.0"
+    scale(float) : "scale" : "1.0"
+    minlight(integer) : "sets minlight flag" : 0
+    lightoffset(float) : "light offset (darken entity)" : "0.0"
+    team(string) : "team, for movers"
+    gravityaxis(choices) : "gravity axis of this object" : 0 =
+    [
+        0 : "+XYZ"
+        1 : "+YZX"
+        2 : "+ZXY"
+        3 : "-XYZ"
+        4 : "-YZX"
+        5 : "-ZXY"
+    ]
+    targetname(target_source) : "targetname"
+    targetname2(target_source) : "targetname2"
+    target(target_destination) : "target"
+    target2(target_destination) : "target2"
+    target3(target_destination) : "target3"
+    target4(target_destination) : "target4"
+    model(string) : "def file to use"
+	skin(string) : "Skin to use for this object"
+    bind(target_destination) : "entity to auto-bind to"
+]
+
+@baseclass = AnglesOnly
+[
+	angles(string) : "angles (pitch yaw roll)" : "0 0 0"
+]
+
+@SolidClass base(Entity) = func_areaportal : "This is a non-visible object that divides the world into areas that are seperated when this portal is not activated. Usually enclosed in the middle of a door."
+[
+]
+
+@baseclass base(Entity) = Trigger
+[
+    spawnflags(Flags) =
+    [
+        4 : "Not Players; the trigger does not respond to players" : 0
+        8 : "Monsters; the trigger will respond to monsters" : 0
+        16 : "Projectiles; the trigger will respond to projectiles (rockets, grenades, etc.)" : 0
+        32 : "Hover bikes; the trigger will respond to vroom vrooms" : 0
+    ]
+
+    delay(float) : "delay before firing, in seconds"
+    wait(float) : "time after firing to wait before re-firing" : "0.2"
+    health(float) : "health of this trigger; the trigger must be killed to activate each time" : "0"
+    cnt(integer) : "how many times it can be triggered; -1 is infinite" : -1
+    noise(string) : "noise to make" : "environment/switch/switch2.wav"
+    message(string) : "message to display"
+    killtarget(target_destination) : "any objects that have a matching `target` will be removed when the trigger is fired"
+    key(string) : "item classname that must be owned to trigger this object"
+    thread(string) : "name of thread to trigger. This can be in a different script file as well by using the '::' notation."
+]
+
+@SolidClass base(Trigger) = trigger_multiple : "Variable sized repeatable trigger.  Must be targeted at one or more entities."
+[
+]
+
+@SolidClass base(Trigger) = trigger_once : "Variable sized trigger. Triggers once, then removes itself. You must set the key `target` to the name of another object in the level that has a matching targetname."
+[
+]
+
+@PointClass base(Trigger) = trigger_relay : "This fixed size trigger cannot be touched, it can only be fired by other events. It can contain killtargets, targets, delays, and messages."
+[
+]
+
+@SolidClass base(Trigger) = trigger_damagethreshold : "Triggers only when a threshold of damage is exceeded. When used in conjunction with func_breakawaywall, allows walls that may be destroyed with a rocket blast. Will also trigger any targeted func_areaportals when not invisible."
+[
+    spawnflags(Flags) =
+    [
+        1 : "Invisible" : 0
+        16 : "Accumulative; health goes down each time it takes damage instead of only triggering if a single damage event hurts it enough" : 0
+    ]
+
+    cnt(integer) : "how many times it can be triggered; -1 is infinite" : 1
+    health(float) : "health of this trigger; the trigger must be killed to activate each time" : "60"
+]
+
+@SolidClass base(trigger_once) = trigger_secret : "Secret counter trigger. Automatically sets and increments script variables level.total_secrets and level.found_secrets."
+[
+	thread(string) : "name of thread to trigger. This can be in a different script file as well by using the '::' notation." : "global/universal_script.scr::secret"
+]
+
+@baseclass = GetMovedir
+[
+	angle(float) : "-1 = up, -2 = down, anything else is yaw"
+]
+
+@baseclass = AngleYawOnly
+[
+	angle(float) : "yaw only"
+]
+
+@baseclass base(Trigger) = Pusher
+[
+    spawnflags(Flags) =
+    [
+        4 : "Not Players; the trigger does not respond to players" : 0
+        8 : "Not Monsters; the trigger will respond to monsters" : 0
+        16 : "Not Projectiles; the trigger will respond to projectiles (rockets, grenades, etc.)" : 0
+        32 : "Start Off" : 0
+    ]
+
+	speed(float) : "push velocity" : "1000"
+]
+
+@SolidClass base(Pusher, GetMovedir) = trigger_push : "Pushes entities as if they were caught in a heavy wind."
+[
+]
+
+@SolidClass base(Pusher, AnglesOnly) = trigger_pushany : "Pushes entities as if they were caught in a heavy wind."
+[
+]
+
+@PointClass base(Entity) model({"path":"iris.def","skin":skin,"scale":scale,"alpha":alpha}) = trap_bouncingbetty : "Bouncing Betty"
+[
+    health(float) : "object health" : "200"
+]
+
+@SolidClass base(Entity) = func_box : "Explodable box that falls when boxes below it are destroyed."
+[
+    health(float) : "box health" : "60"
+    items(string) : "list of items, separated by spaces"
+    angle(float) : "box rotation" : "0"
+]
+
+@SolidClass base(Entity, AnglesOnly) = func_camera : "Camera used for cinematic sequences."
+[
+    spawnflags(Flags) =
+    [
+        1 : "Orbit; tells the camera to create a circular path around the object it points to.  It the camera points to a path, it will loop when it gets to the end of the path." : 0
+        2 : "Start On; causes the camera to be moving as soon as it is spawned" : 0
+        4 : "Panning; camera should pan from right to left" : 0
+    ]
+
+	fov(float) : "field of view" : "90"
+	yaw(float) : "yaw of camera" : "0"
+	distance(float) : "the distance to follow or orbit if the target is not a path" : "128"
+	height(float) : "specifies height of camera from origin" : "128"
+	speed(float) : "specifies how fast to move on the path or orbit" : "1"
+	panspeed(float) : "speed at which to pan" : "7"
+	panmax(float) : "maximum angle offset for panning" : "45"
+	nextcamera(target_destination) : "a link to the next camera in a chain of cameras"
+	overlay(string) : "an overlay to use while looking through the camera"
+	thread(string) : "a thread label that will be fired when the camera is looked through"
+]
+
+@PointClass base(Trigger) = play_sound_triggered : "DO NOT USE, USE TRIGGER_SPEAKER INSTEAD. play a sound when it is used. Normal sounds play each time the target is used. Ambient Looped sounds have an attenuation of 2 by default, volume 1, and the use function toggles it on/off. Multiple identical ambient looping sounds will just increase volume without any speed cost. The attenuation factor can be over-ridden by specifying an attenuation factor."
+[
+    spawnflags(Flags) =
+    [
+        1 : "Ambient (start on)" : 0
+        2 : "Reliable" : 0
+        32 : "Ambient (start off)" : 0
+        128 : "Toggle" : 0
+    ]
+
+	volume(float) : "how loud" : "1.0"
+    noise(string) : "sound to play"
+	channel(integer) : "sound channel to play on; 0-6 are individual channels, 7 is auto. single fire only"
+	attenuation(float) : "sound attenuation, between 0-3"
+]
+
+@PointClass base(play_sound_triggered) = trigger_speaker : "play a sound when it is used. Normal sounds play each time the target is used. Ambient Looped sounds have an attenuation of 2 by default, volume 1, and the use function toggles it on/off. Multiple identical ambient looping sounds will just increase volume without any speed cost. The attenuation factor can be over-ridden by specifying an attenuation factor."
+[
+	pitch(float) : "pitch multiplier" : "1.0"
+	fadetime(float) : "fade time" : "0"
+	timeofs(float) : "time offset" : "0"
+]
+
+@baseclass = MinMaxDelay
+[
+	mindelay(float) : "minimum time delay" : "3"
+	maxdelay(float) : "maximum time delay" : "10"
+]
+
+@PointClass base(trigger_speaker, MinMaxDelay) = trigger_randomspeaker : "play a sound at random times. Normal sounds play each time the target is used. Ambient Looped sounds have an attenuation of 2 by default, volume 1, and the use function toggles it on/off. Multiple identical ambient looping sounds will just increase volume without any speed cost. The attenuation factor can be over-ridden by specifying an attenuation factor."
+[
+]
+
+@SolidClass base(Trigger) = trigger_changelevel : "When the player touches this, he gets sent to the map listed in the `map` variable. Unless the NO_INTERMISSION flag is set, the view will go to the info_intermission spot and display stats. Set the first character to '*' to clear save game data from previous levels. To specify a specific spawn spot, follow the map name with the targetname of the spawn spot. Example: '*mymap $thisspot'"
+[
+	map(string) : "map to switch to"
+	thread(string) : "thread to call" : "LevelComplete"
+]
+
+@SolidClass base(Trigger) = trigger_use : "Activates targets when 'used' by an entity"
+[
+    spawnflags(Flags) =
+    [
+        1 : "Visible" : 0
+        8 : "Monsters; the trigger will respond to monsters" : 0
+    ]
+]
+
+@SolidClass base(trigger_use) = trigger_useonce : "Activates targets when 'used' by an entity, but only once"
+[
+    spawnflags(Flags) =
+    [
+        1 : "Visible" : 0
+    ]
+
+	cnt(integer) readonly : "only one use" : 1
+]
+
+@SolidClass base(Trigger) = trigger_hurt : "hurty stuff"
+[
+    spawnflags(Flags) =
+    [
+        4 : "Not Players; the trigger does not respond to players" : 0
+        8 : "Not Monsters; the trigger will respond to monsters" : 0
+        16 : "Projectiles; the trigger will respond to projectiles (rockets, grenades, etc.)" : 0
+        32 : "Not Hoverbikes" : 0
+    ]
+
+	damage(float) : "amount of damage to cause" : "10"
+]
+
+@PointClass base(Trigger) = trigger_damagetargets : "damages stuff"
+[
+    spawnflags(Flags) =
+    [
+		1 : "Solid if set and shot at, the damage is passed on to the targets" : 0
+        4 : "Not Players; the trigger does not respond to players" : 0
+        8 : "Not Monsters; the trigger will respond to monsters" : 0
+        16 : "Projectiles; the trigger will respond to projectiles (rockets, grenades, etc.)" : 0
+    ]
+
+	damage(float) : "damage to deal" : "0"
+]
+
+@PointClass base(trigger_damagetargets, GetMovedir) = trigger_damagetargetsfixed : "damages stuff; no touch event"
+[
+]
+
+@PointClass base(Trigger, GetMovedir) = trigger_particles : "spawn some particles when triggering the object"
+[
+    spawnflags(Flags) =
+    [
+		1 : "Start On" : 0
+    ]
+
+    noise(string) : "noise to make"
+    count(integer) : "number of particles" : 10
+	particlestyle(integer) : "style of particles - sample styles (121 blood, 120 gunsmoke, 122 sparks, 123 orangeglow, 124 blueyellow, 125 debris trail, 128 oil, 129 waterspray)" : 122
+	attenuation(float) : "sound attenuation, between 0-3"
+	spawntarget(target_destination) : "triggered when particles are spawned"
+	size(integer) : "specifies the size of the particles to make" : 1
+	growrate(integer) : "specifies the rate at which the particles change size" : 0
+	speed(integer) : "constant amount of speed that particles are given" : 20
+	spread(integer) : "random amount of speed that particles are given" : 15
+	accel(string) : "acceleration that the particles have" : "0 0 -40"
+	fire(integer) : "causes flame type particles to be made" : 0
+	hit_solid(integer) : "causes particles to collision detect to solid objects" : 0
+	hit_ents(integer) : "causes particles to collision detect to characters" : 0
+	hit_remove(integer) : "causes particles to be removed when they collide with something" : 0
+	additive(integer) : "causes the particles to be displayed with an additive blend mode" : 0
+	time(float) : "will toggle throwing particles on and off when set to a non-0 value. When set, it specifies the time delay between time particles are thrown. Positive value means start on, and negative means start off." : "0"
+	target(target_destination) : "if set, used to set the angle of particle spawning towards this entity"
+]
+
+@PointClass base(trigger_particles, MinMaxDelay) = trigger_randomparticles : "spawn some particles randomly when triggering the object"
+[
+]
+
+@SolidClass base(Trigger) = trigger_thread : "Variable sized trigger. After firing cnt times, removes itself."
+[
+    cnt(integer) : "how many times it can be triggered; -1 is 1" : 1
+]
+
+@SolidClass base(trigger_use) = trigger_camerause : "Activates 'targeted' camera when 'used'. If activated, toggles through cameras"
+[
+]
+
+@SolidClass base(trigger_use) = trigger_movecapture : "Captures movement for players and sends them to a console"
+[
+    spawnflags(Flags) =
+    [
+		1 : "No Use; a user can't use it directly to activate it" : 0
+    ]
+
+	outputvar(string) : "Variable to output to"
+]
+
+@SolidClass base(trigger_use) = console : "le epic sin console"
+[
+    spawnflags(Flags) =
+    [
+		1 : "No Use; a user can't use it directly to activate it" : 0
+		2 : "Scroll" : 0
+		4 : "Menu" : 0
+		8 : "Ignore PVS" : 0
+    ]
+
+	consolename(string) : "Console name"
+	wait(float) : "Wait time" : "1.0"
+	virtualwidth(float) : "Virtual screen width" : "640.0"
+	virtualheight(float) : "Virtual screen height" : "480.0"
+	fraction(float) : "Screen fraction" : "1.0"
+	rows(integer) : "Number of rows" : 32
+	cols(integer) : "Number of columns" : 80
+	menufile(string) : "Menu file to use"
+	scroll(integer) : "Whether this console scrolls"
+	menu(integer) : "Whether this console is a menu"
+]
+
+@SolidClass base(trigger_use) = trigger_mutate : "mutates whatever triggers it."
+[
+    spawnflags(Flags) =
+    [
+        4 : "Not Players; the trigger does not respond to players" : 0
+        8 : "Not Monsters; the trigger will respond to monsters" : 0
+    ]
+]
+
+@SolidClass base(Trigger) = trigger_exit : "When the player touches this, an exit icon will be displayed in his hud. This is to inform him that he is near an exit."
+[
+    spawnflags(Flags) =
+    [
+		1 : "Start On" : 0
+		2 : "Toggle" : 0
+    ]
+]
+
+@SolidClass base(Trigger) = trigger_triggeredhurt : "only hurts entities for a time after it's triggered."
+[
+    spawnflags(Flags) =
+    [
+		32 : "Start On" : 0
+    ]
+
+	damage(float) : "amount of damage to cause" : "10"
+	hurttime(float) : "the amount of time after it's triggered that it will hurt things. 0 will make it toggle on and off each time it's triggered. Default will hurt once." : "0.1"
+]
+
+@PointClass base(play_sound_triggered) = func_fire : "Makes a triggerable particle flame. These flames do not cause any damage. They can be positioned as a single spot of fire, or a row of fire."
+[
+    spawnflags(Flags) =
+    [
+		1 : "Start Off" : 0
+    ]
+
+	count(integer) : "specifies the density of the flame" : 1
+	offset(string) : "a vector offset that flame are made to. Example: If you specified '64 0 0', then flames would be made between the entity's origin and the point 64 away on the X-axis, resulting in a solid row of flames." : "0 0 0"
+	startdir(string) : "the velocity that the begining flames are given.Example: the default of '0 0 32' would give the flames a velocity of 32 straight up" : "0 0 32"
+	enddir(string) : "the velocity that the ending flames are given.Example: the default '0 0 32' would give the flames a velocity of 324 straight up" : "0 0 32"
+	rate(float) : "the time delay between each time the flame is updated" : "0.2"
+	randomrate(float) : "the amount of random time delay there is for the flame updating" : "0"
+	lightstyle(integer) : "the lightstyle type of the flame. Valid values are from 150 to 159" : 151
+	size(integer) : "the size of the flame particles to make" : 20
+	damage(integer) : "amount of damage the hurt field should do" : 1
+]
+
+@PointClass base(Trigger, GetMovedir) = fx_sprite : "'sprite' Sets the sprite file ( Default none )\n'angles' Sets the orientation ( Default none )\n'frame'  Frame of the sprite to dispay ( Default is 0 )\n'scale'  Scale of the sprite ( Default is 1.0 )\n'alpha'  Alpha of the sprite ( Default is 1.0 )\n'color'  Color to modulate ( Default is none )\nAUTOANIM    - Auto animate this sprite\nTRACETOSURF - Trace to surface and apply sprite on surface"
+[
+    spawnflags(Flags) =
+    [
+		1 : "Auto Animate" : 0
+		2 : "Splats on wall via movedir" : 0
+    ]
+
+	sprite(string) : "sprite model"
+	frame(integer) : "frame number to use"
+	color(color1) : "sprite color" : "1 1 1"
+]
+
+@baseclass color(255 255 0) size(6 6 6) base(Trigger) = BaseLight
+[
+	style(integer) : "style to use"
+	onstyle(string) : "lightstyle string when on" : "m"
+	offstyle(string) : "lightstyle string when off" : "a"
+]
+
+@PointClass base(BaseLight) = light_ramp : "Non-displayed light that ramps its intensity from one level to another when trigger."
+[
+	startlevel(float) : "Value between 0 and 2.0" : "1.0"
+	endlevel(float) : "Value between 0 and 2.0" : "0.0"
+	time(float) : "How many seconds the ramping will take" : "1.0"
+]
+
+@PointClass base(BaseLight) = light : "Non-displayed light."
+[
+    spawnflags(Flags) =
+    [
+		1 : "Start Off" : 0
+    ]
+]
+
+@PointClass base(light) = fx_fire : "This creates a fire sprite. If you want flickering, set style to the identifier contained in groupname in the surfaces to control."
+[
+]
+
+@PointClass base(light) = trigger_SetLightStyle : "Used for controlling light sources. Set style to the identifier contained in groupname in the surfaces to control."
+[
+	style(string) : "style to control, for surface lights; use the same name as direct group"
+]
+
+@SolidClass base(Entity) = func_remove : "Removed by game"
+[
+]
+
+@PointClass color(0 127 0) size(4 4 4) base(Entity) = info_null : "Removed by game"
+[
+]
+
+@PointClass color(0 127 0) size(4 4 4) base(Entity) = info_notnull : "Positional target"
+[
+]
+
+@SolidClass base(Trigger) = func_electrocute : "Electrocutes everything it can see if it is in the water"
+[
+	radius(float) : "range of the effect" : "500"
+]
+
+@PointClass base(Entity, AngleYawOnly) model({"path":modelname}) = func_spawn : "Spawns a thing"
+[
+	modelname(string) : "model to spawn"
+	spawntargetname(target_source) : "This will be the targetname of the spawned model"
+	attackmode(integer) : "Copied over to the spawned object"
+]
+
+@PointClass base(func_spawn) = func_respawn : "When the thing that is spawned is killed, this func_respawn will get triggered."
+[
+]
+
+@PointClass base(func_spawn) = func_spawnoutofsight : "Will only spawn something out of sight of its targets."
+[
+]
+
+@PointClass base(func_spawn) = func_spawnchain : "Tries to spawn something out of the sight of players. If it fails, it will trigger its targets. "
+[
+]
+
+@SolidClass base(Entity) = func_wall : "This is just a solid wall if not inhibited"
+[
+]
+
+@SolidClass base(Entity) = func_illusionary : "A simple entity that looks solid but lets you walk through it."
+[
+]
+
+@SolidClass base(trigger_once) = func_breakawaywall : "Special walltype that removes itself when triggered. Will also trigger any func_areaportals that it targets."
+[
+]
+
+@SolidClass base(Trigger) = func_explodingwall : "Blows up on activation or when attacked."
+[
+    spawnflags(Flags) =
+    [
+		1 : "Random Angles; object randomly spins while in the air" : 0
+		2 : "Land Shatter; object shatters when it hits the ground" : 0
+		32 : "Invisible; these are invisible and not solid until triggered" : 0
+		64 : "Accumulative; damage is accumulative not threshold" : 0
+		128 : "Two stage; object can be shattered once it lands on the ground" : 0
+    ]
+
+	health(float) : "health" : "60"
+	anglespeed(float) : "Speed at which pieces rotate; default 600 for Random Angles, otherwise 100"
+	land_radius(float) : "The distance of the ground the piece should be when on the ground" : "0"
+	land_angles(string) : "The angles you want this piece to orient to when it lands on the ground"
+	explosions(integer) : "number of explosions to spawn"
+	scale(float) : "the scale of the explosions to make" : "1.0"
+]
+
+@SolidClass base(Trigger) = misc_oxygen : "Touching this entity will reset the drowning time - only responds to players."
+[
+    spawnflags(Flags) =
+    [
+		1 : "Visible" : 0
+    ]
+]
+
+@SolidClass base(Trigger) = misc_teleporter : "Touching this entity will teleport players to the targeted object."
+[
+    spawnflags(Flags) =
+    [
+		1 : "Visible" : 0
+        4 : "Not Players; the trigger does not respond to players" : 0
+        8 : "Not Monsters; the trigger will respond to monsters" : 0
+        16 : "Not Projectiles; the trigger will respond to projectiles (rockets, grenades, etc.)" : 0
+		32 : "Not Hoverbikes" : 0
+		64 : "No Effects; it will not make a teleporting sound or particles" : 0
+		128 : "Offset Move; it will 'offset' the player to the destination, not actually teleport him" : 0
+    ]
+
+    gravityaxis(choices) : "gravity axis objects teleported will be changed to" : 0 =
+    [
+        0 : "+XYZ"
+        1 : "+YZX"
+        2 : "+ZXY"
+        3 : "-XYZ"
+        4 : "-YZX"
+        5 : "-ZXY"
+    ]
+]
+
+@PointClass base(Entity, GetMovedir) = misc_teleporter_dest : "Point teleporters at these."
+[
+]
+
+@PointClass color(0 127 0) size(4 4 4) base(Entity) = waypoint : "Used as a positioning device for objects"
+[
+]
+
+@SolidClass base(Trigger) = func_shatter : "For shattering objects. Triggers only when a threshold of damage is exceeded. Will also trigger any targeted func_areaportals when not invisible."
+[
+    spawnflags(Flags) =
+    [
+        4 : "Not Players; the trigger does not respond to players" : 0
+        8 : "Not Monsters; the trigger will respond to monsters" : 0
+        16 : "Not Projectiles; the trigger will respond to projectiles (rockets, grenades, etc.)" : 0
+		32 : "Hurt Shatter; when the thing gets hurt, spawn pieces of itself" : 0
+		64 : "Threshold; damage threshold behavior" : 0
+    ]
+
+	cnt(integer) readonly : "only one use" : 1
+	percentage(float) : "specifies how much of the thing to shatter" : "15"
+	minsize(integer) : "specifies minsize for tesselation, default based off size"
+	maxsize(integer) : "specifies maxsize for tesselation, default based off size"
+	health(float) : "specifies how much damage must occur before trigger fires" : "20"
+	noise(string) : "sound to play when shattered"
+]
+
+@SolidClass base(func_shatter) = func_glass : "For glass objects. Shatters when the accumulated damage is exceeded, or when activated. Sets a default noise if unset."
+[
+]
+
+@PointClass base(Entity, GetMovedir) = func_launcher : "Creates an object that launches projectiles. "
+[
+	projectile(string) : "the projectile that you want to launch (Examples: Rocket, Spear, etc...)"
+	launchsound(string) : "sound to play"
+	target(target_destination) : "if set, will launch at this target"
+]
+
+@baseclass = Angles
+[
+	angle(float) : "Yaw used if 'angles' is not set"
+	angles(string) : "Angle to display the entity at"
+]
+
+@baseclass base(Trigger, Angles) size(-10 -10 0, 10 10 20) color(0 0 255) = Item
+[
+	itemname(target_source) : "If the targetname is set by the spawn args, then this item will have a targetname.  If we try to remove the owner of this item, then we will remove the owner, then try to remove the item which will already have been removed by the previous event. This doesn't allow any items to have a targetname. This key is used as a fix for that bug."
+	targetname(target_source) readonly : "DO NOT SET"
+	amount(integer) : "override number (& potentially max) given when picked up"
+]
+
+@baseclass base(Item) = Ammo
+[
+]
+
+@baseclass base(Item) = Armor
+[
+]
+
+@baseclass base(Item) = Health
+[
+]
+
+@baseclass base(Item) = InventoryItem
+[
+]
+
+@PointClass base(InventoryItem) model({"path":"pulsepart1.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_genericpulsepart : "Pulse weapon part"
+[
+]
+
+@PointClass base(InventoryItem) = ctf_flag_hardcorps : "CTF Flag (HC)"
+[
+]
+
+@PointClass base(InventoryItem) = ctf_flag_sintek : "CTF Flag (ST)"
+[
+]
+
+@baseclass base(Item) = Weapon
+[
+	ammo_in_clip(integer) : "Ammo left in clip"
+	weaponmode(integer) : "Weapon mode"
+	silenced(integer) : "Silenced"
+]
+
+@PointClass color(0 127 0) size(4 4 4) base(Entity) = info_grav_pathnode : "node for gravity paths"
+[
+    spawnflags(Flags) =
+    [
+        1 : "Head Node; the head of the path" : 0
+        2 : "Force; un-fightable gravity ( i.e. can't go backwards )" : 0
+    ]
+
+	speed(float) : "Speed of the pull (Use negative for a repulsion)" : "100"
+	radius(float) : "Radius of the effect of the pull" : "256"
+]
+
+@baseclass base(Entity, AngleYawOnly) = Hoverbike
+[
+    spawnflags(Flags) =
+    [
+        1 : "HardCORPS only" : 0
+        2 : "SiNTEK only" : 0
+    ]
+]
+
+@PointClass base(Trigger) = lensflare : "Lens flare"
+[
+	color(color1) : "color of the flare" : "1 1 1"
+	light(integer) : "If set, flare emits dynamic light"
+	radius(integer) : "Radius of the dynamic light"
+	scale(float) : "Scale of the lens flare" : "0.5"
+	sprite(string) : "Sprite to use" : "sprites/glow.spr"
+	lightstyle(integer) : "Light style to use" : 255
+]
+
+@PointClass base(Entity, Angles) = object : "Generic object"
+[
+    spawnflags(Flags) =
+    [
+        1 : "Non-solid" : 0
+        2 : "Not shootable" : 0
+    ]
+
+	killtarget(target_destination) : "Kill this object when triggered/killed"
+	anim(string) : "Animation to use for this object"
+]
+
+@PointClass base(object) = func_throwobject : "This is an object you can pickup and throw at people"
+[
+]
+
+@baseclass base(func_throwobject) = goliathobject
+[
+    spawnflags(Flags) =
+    [
+        1 : "Non-solid; makes it not solid while sitting around" : 0
+        2 : "Not shootable; makes it not damagable while sitting around" : 0
+        4 : "makes it be affected by gravity while waiting around to be thrown" : 0
+        8 : "makes the object stay on top of other BBOX entities so they can be stacked" : 0
+    ]
+
+	attackmode(integer) : "Quick hack to get these workin with func_spawn" : 0
+]
+
+@PointClass base(goliathobject) = func_goliathobject : "This is a func_throwobject with added functionality that's been optimized for use by a goliath"
+[
+]
+
+@PointClass base(object) model({"path":"skeet.def","skin":skin,"scale":scale,"alpha":alpha}) = pigeon : "Skeet entity"
+[
+]
+
+@PointClass base(Entity) = skeetlauncher : "Skeet launcher"
+[
+]
+
+@PointClass base(Entity, AngleYawOnly) size(-16 -16 0, 16 16 72) color(127 127 0) = info_player_start : "Normal starting point for a level."
+[
+    spawnflags(Flags) =
+    [
+        1 : "Start on bike" : 0
+    ]
+
+	targetname(string) : "Name for the spawn point for maps"
+]
+
+@PointClass base(info_player_start) = info_player_progressivestart : "Starting point for a level.  When triggered, sets next spawnpoint to itself. Used for respawn point in Sin Arcade.  This must have a targetname for it to work."
+[
+]
+
+@PointClass base(info_player_start) = info_player_deathmatch : "Potential spawning position for deathmatch games."
+[
+]
+
+@PointClass base(info_player_start) = info_player_coop : "Potential spawning position for co-op games."
+[
+]
+
+@PointClass base(func_camera) size(8 8 8) = info_player_intermission : "Viewing point in between deathmatch levels."
+[
+]
+
+@PointClass base(Entity) model({"path":"spline.def"}) = info_splinepath : "Mostly used for camera paths"
+[
+	loop_name(target_destination) : "Camera loop point"
+	angles(string) : "Pitch yaw roll angles"
+	speed(float) : "Node speed" : "1"
+]
+
+@baseclass base(Entity, Angles) = Sentient
+[
+]
+
+@baseclass color(255 0 0) base(Sentient) = Actor
+[
+	health(float) : "health" : "100"
+	mass(float) : "mass" : "200"
+	weapon(string) : "weapon this actor holds"
+	spawngroup(string) : "spawning group"
+	attackmode(integer) : "attack mode" : 0
+	attackrange(float) : "range of attack" : "8192"
+	visiondistance(float) : "vision distance" : "1024"
+	script(string) : "AI actor script" : "global/enemy.scr"
+	thread(string) : "Called when actor starts"
+	killthread(string) : "Called when actor dies" : ""
+	aim(float) : "Inverted aim accuracy (0.0 = 100% accuracy)"
+	painthreshold(float) : "Pain threshold; default is based on skill"
+	shotsperattack(float) : "Shots per attack; default is based on skill"
+	skin(string) : "Skin to use"
+]
+
+@baseclass base(Actor) = bacrodai
+[
+]
+
+@baseclass base(Actor) = Bat
+[
+]
+
+@baseclass base(Actor) = bob
+[
+]
+
+@baseclass base(Actor) = crawler
+[
+]
+
+@baseclass base(Actor) = Fish
+[
+]
+
+@baseclass base(Actor) = goliath
+[
+]
+
+@baseclass base(Actor) = mortician
+[
+]
+
+@baseclass base(Actor) = Peon
+[
+]
+
+@baseclass base(Actor) = EonAndPeon
+[
+]
+
+@baseclass base(Actor) = rat
+[
+]
+
+@baseclass base(Actor) = splitter
+[
+]
+
+@baseclass base(Actor) = ThrallMaster
+[
+]
+
+@baseclass base(Sentient) = Turret
+[
+	sightthread(string) : "thread when sight"
+	sighttarget(target_destination) : "target when sight"
+	patience(float) : "turret patience" : "1.0"
+	lagtime(float) : "lag time"
+	health(float) : "health, if any"
+]
+
+@PointClass model({"path":"camgun2.def","skin":skin,"scale":scale,"alpha":alpha}) size(-12 -10 -10, 68 10 10) base(Turret) = trap_camgun : "Camgun"
+[
+	yawrange(float) : "Yaw range" : "180"
+	pitchrange(float) : "Pitch range" : "180"
+
+	wakeupdistance(float) : "Distance until the turret wakes up" : "750"
+	firingdistance(float) : "Distance the turret will fire at" : "800"
+]
+
+@PointClass model({"path":"rockturtop.def","skin":skin,"scale":scale,"alpha":alpha}) base(Turret) = trap_rocketturret : "Rocket turret"
+[
+	wakeupdistance(float) : "Distance until the turret wakes up" : "1950"
+	firingdistance(float) : "Distance the turret will fire at" : "2000"
+]
+
+@PointClass model({"path":"turtop.def","skin":skin,"scale":scale,"alpha":alpha}) base(Turret) = trap_securityturret : "Security turret. Senses when player is near and raises up, searches for player, and fires. When player is dead or not near, it lowers down and goes back to sleep."
+[
+	health(float) : "Health" : "100"
+	wakeupdistance(float) : "Distance until the turret wakes up" : "750"
+	firingdistance(float) : "Distance the turret will fire at" : "800"
+]
+
+@SolidClass base(Trigger) = ctf_anti-nuke-zone : "This trigger field prevents nukes from blowing up fully while they're in it."
+[
+]
+
+@PointClass base(Trigger) = func_exploder : "Spawns an explosion when triggered. Triggers any targets."
+[
+    spawnflags(Flags) =
+    [
+        8 : "Big Explosions" : 0
+    ]
+
+	dmg(integer) : "how much damage to cause from each explosion" : 120
+	attenuation(float) : "attenuation for explosions" : "1.0"
+	volume(float) : "volume to play explosion sound at" : "1.0"
+]
+
+@SolidClass base(Trigger) = func_multi_exploder : "Spawns an explosion when triggered. Triggers any targets. size of brush determines where explosions will occur."
+[
+    spawnflags(Flags) =
+    [
+        2 : "Random Time" : 0
+        4 : "Random Scale" : 0
+        8 : "Big Explosions" : 0
+    ]
+
+	dmg(integer) : "how much damage to cause from each explosion" : 120
+	attenuation(float) : "attenuation for explosions" : "1.0"
+	volume(float) : "volume to play explosion sound at" : "1.0"
+	duration(float) : "how long to explode for" : "1.0"
+	wait(float) : "time between each explosion" : "0.25"
+	random(float) : "random factor" : "0.25"
+]
+
+@baseclass base(Trigger) = Mover
+[
+	dangerous(integer) : "whether this mover is an OSHA violation"
+]
+
+@baseclass base(Mover) = ScriptSlave
+[
+    spawnflags(Flags) =
+    [
+        1 : "Not Solid" : 0
+    ]
+
+	speed(float) : "Movement speed" : "100"
+	angle(float) : "The forward direction of this script slave; -1 is up, -2 is down, any other value is yaw"
+	dmg(integer) : "Damage when smunched" : 2
+]
+
+@SolidClass base(ScriptSlave) = func_scriptobject : "Script Object"
+[
+]
+
+@PointClass base(ScriptSlave) = func_scriptobject : "Script Object"
+[
+]
+
+@baseclass base(ScriptSlave, GetMovedir) = Door
+[
+    spawnflags(Flags) =
+    [
+        1   : "Start Open; causes the door to move to its destination when spawned, and operate in reverse. It is used to temporarily or permanently close off an area when triggered (not useful for touch or takedamage doors)." : 0
+        2   : "Open Direction; indicates which direction to open when START_OPEN is set" : 0
+        4   : "Don't Link; for when you have two doors that are touching but you want to operate independently" : 0
+        8   : "Not Players" : 0
+        16  : "Not Monsters" : 0
+        32  : "Toggle; causes the door to wait in both the start and end states for a trigger event" : 0
+        64 : "Auto Open; causes the door to open when a player is near instead of waiting for the player to use the door" : 0
+        128 : "Targeted; door is only operational from triggers or script" : 0
+    ]
+
+	sound_stop(string) : "Sound to use when the door stops" : "door_stop"
+	sound_move(string) : "Sound to use when the door moves" : "door_moving"
+	sound_message(string) : "Sound to play when the door prints a message"
+	sound_locked(string) : "Sound to play if the door is locked"
+	sound_close_stop(string) : "Sound to play when closed; if unset, uses `sound_stop`"
+	sound_close_move(string) : "Sound to play when closing; if unset, uses `sound_move`"
+	preciseuse(integer) : "Whether you need to precisely target the door"
+	triggerdist(float) : "Trigger distance for using this door" : "60"
+	health(float) : "Door health"
+	time(float) : "Travel time" : "0.3"
+	wait(float) : "Wait before closing; only if non-toggle; -1 = never return" : "3"
+	dmg(float) : "Door damage"
+]
+
+@SolidClass base(Door) = func_rotatingdoor : "Rotating door"
+[
+	angle(float) : "determines the opening direction.  point toward the middle of the door (away from the hinge)"
+	openangle(float) : "how wide to open the door" : "90"
+	onewayangles(string) : "the angles to rotate through when opening. Setting this makes the door only open in one direction"
+]
+
+@SolidClass base(Door) = func_door : "Sliding door"
+[
+	lip(float) : "lip remaining at end of move" : "8"
+]
+
+@SolidClass base(Door) = func_scriptdoor : "Scriptable door"
+[
+	initthread(string) : "code to execute to setup the door (optional)"
+	openthread(string) : "code to execute when opening the door (required)"
+	closethread(string) : "code to execute when closing the door (required)"
+	sound_stop(string) : "Sound when stopping" : ""
+	sound_move(string) : "Sound when moving" : ""
+]
+
+@PointClass base(ScriptSlave, Angles) = func_beam : "This creates a beam effect from the origin to the target's origin. If no target is specified, uses angles and projects beam out from there."
+[
+    spawnflags(Flags) =
+    [
+        1   : "Start On; starts the beam on" : 0
+        2   : "Animate; plays animation of the model" : 0
+        4   : "Fast; plays at 20hz" : 0
+        8   : "Roll" : 0
+        16  : "RandStart; Starts each segment of the beam's animation on a different frame" : 0
+        32  : "Electric; Applies a random electric effect to the beam" : 0
+        64 : "RandAlpha; Randomly generate the alpha for the beam" : 0
+    ]
+
+	model(string) : "Specifies model to use. If the model field is not set, then a straight beam will be created using the color specified. color, minoffset, maxoffset ,ANIMATE, FAST, ROLL, RANDSTART, ELECTRIC, and RANDALPHA are not applicable if the model is not set."
+	maxoffset(float) : "Amount of electrical variation in the middle of beam" : "25"
+	minoffset(float) : "Amount of electrical variation at the endpoints of beam" : "5"
+	overlap(integer) : "Specifies the amount of overlap each beam link should have. Use this to fill in the cracks when using electric on beams"
+	diameter(integer) : "Diameter when no model set" : 4
+	beamstyle(integer) : "Sets the style for this beam to cycle through. This applies only to beams without models. sample styles (121 blood, 120 gunsmoke, 123 orangeglow, 124 blueyellow, 125 debris trail, 128 oil, 129 waterspray 130 blue-yellow-blue); See global0.scr for more style numbers"
+	color(color1) : "Color when no model set" : "1 1 1"
+	damage(float) : "Amount of damage the beam inflicts if beam hits someone"
+	life(float) : "Deactivates the beam life seconds after the beam is activated. If not set, beam will not be deactivated"
+]
+
+@PointClass base(ScriptSlave) model({"path":"rope.def"}) = rope_piece : "Rope Piece - A single piece of a rope. All other settings are set in the rope's rope_base entity."
+[
+    spawnflags(Flags) =
+    [
+        1   : "Steam; makes this piece of the rope shoot out steam. Only does this while not attached" : 0
+        2   : "Wiggle; makes this piece of the rope wiggle about randomly. Only does this while not attached" : 0
+        4   : "Attached Steam; makes this piece of the rope spray steam even while attached. STEAM must also be marked for this to work" : 0
+        8   : "Attached Wiggle; makes this piece of the rope wiggle around even while attached. WIGGLE must also be marked for this to work" : 0
+    ]
+
+	target(target_destination) : "the `targetname` of the next piece in the rope. This should be blank if it's the last piece in the rope. If a non-rope_piece entity is targeted, it will attach itself to it"
+	targetname(target_source) : "used for the previous piece in the rope to find and link to this piece of the rope"
+	target2(target_destination) : "the targetname of the entity to attach this piece of the rope to. Any piece of a rope can be attached to something and be triggered at any time to detach it. Triggering the base of an attached rope will detach all attached points on that rope"
+	wigglemove(integer) : "the amount of force the random wiggling has. Also used for the number of particles to throw while steaming" : 32
+	steamtime(float) : "number of seconds between each time the rope shoots out steam" : "0.2"
+	wiggletime(float) : "number of seconds between each time the rope wiggles" : "0.5"
+	damage(integer) : "Amount of damage the rope piece does to things when it touches them. Will not hurt things if the rope is an untriggered START_STILL rope"
+]
+
+@PointClass base(rope_piece) model({"path":model,"skin":skin,"scale":scale,"alpha":alpha}) = rope_base : "Rope Base - the main control and top end attachment entity for ropes. This entity is the point to where ropes attach their top end. It's a stationary point entity. All setting for the whole rope are specified through this entity. If you want/need to trigger a rope to do something, then this is the entity to trigger. Trying to trigger a rope_piece will do nothing."
+[
+    spawnflags(Flags) =
+    [
+        1   : "No Attached Grab; makes the entire rope non-grabbable when attached anywhere along the rope" : 0
+        2   : "Start Still; specifies that the whole rope will be completely stationary until it is either triggered, or grabbed" : 0
+        4   : "No Grab; Specifies that player's can not grab the rope. They'll still bump it from walking through it, but they can not grab it" : 0
+    ]
+
+	target(target_destination) : "The `targetname` of the first rope_piece in the rope"
+	targetname(target_source) : "The name that the rope is triggered with"
+	piecelength(float) : "The distance between each piece of the rope" : "24"
+	piecemodel(string) : "The model to use for the rope pieces" : "rope.def"
+	pieceskin(integer) : "The skin number of the model to use for the rope pieces"
+	ropedampener(float) : "Horizontal velocity dampener for the rope" : "0.75"
+	playerdampener(float) : "Horizontal velocity dampener for a player grabbing the rope" : "0.95"
+	stiffness(float) : "Movement restricter on the amount that the rope can flex and bend. Valid values are from -1 (no restriction) to 1 (tried to be perfectly straight. The position of the first rope piece determines what direction the rope is pushed from the base of the rope" : "-1"
+	strength(float) : "How strongly a stiff rope goes to position" : "1"
+]
+
+@SolidClass base(ScriptSlave) = func_volumetric : "Use this to make non-solid volumes.  You still need to set up the surface properties with the `add` flag."
+[
+]
+
+@PointClass base(ScriptSlave) = func_scriptorigin : "Used as an alternate origin for objects. Bind the object to the func_scriptorigin in order to simulate changing that object's origin"
+[
+]
+
+@PointClass base(ScriptSlave, Angles) = func_scriptmodel : "Script Model"
+[
+	anim(string) : "Animation to use"
+	skin(string) : "Skin to use"
+	frame(integer) : "Frame index, one-indexed"
+]
+
+@PointClass base(func_scriptmodel) = monster_helicopterboss : "Heli Boss"
+[
+]
+
+@baseclass base(func_scriptmodel) = VehicleBase
+[
+]
+
+@baseclass base(VehicleBase) = backwheels
+[
+]
+
+@baseclass base(VehicleBase) = frontwheels
+[
+]
+
+@baseclass base(VehicleBase) = vehicle
+[
+]
+
+@baseclass base(vehicle) = drivablevehicle
+[
+	respawntime(float) : "Respawn time in CTF" : "60"
+]
+
+@baseclass base(VehicleBase) = CTFDrivableTurret
+[
+]
+
+@baseclass base(VehicleBase) = CTFTurret
+[
+]
+
+@PointClass base(Trigger) = func_earthquake : "Earthquake"
+[
+	duration(float) : "Duration of the earthquake." : "0.8"
+]
+
+@SolidClass base(Trigger) = func_checkpoint : "Bike Checkpoint"
+[
+    spawnflags(Flags) =
+    [
+        1   : "Any Order; only settable on the goal line. When set, it allows players to hit the checkpoints in the level in any order. They must still hit them all" : 0
+        2   : "Random Reward; specifies that the checkpoint will give out only one type of ammo (choosen randomly) when touched. Otherwise, a player will recieve some of each type of ammo" : 0
+        4   : "Turbo Fill; makes this checkpoint refill a hoverbike's turbo meter when passed" : 0
+        8   : "Always Reward; always gives a player the ammo and health reward even if he's already hit it" : 0
+    ]
+
+	rockets(integer) : "the amount of rocket ammo that the player may receive" : 10
+	bullets(integer) : "the amount of bullet ammo that the player may receive" : 25
+	mines(integer) : "the number of mines that the player may receive" : 3
+	bikehealth(integer) : "the amount of health a hoverbike may receive" : -1
+	riderhealth(integer) : "the amount of health a hoverbike may receive" : -1
+	disabletime(float) : "sets how long after someone successfully hits this checkpoint that it will be disabled. No one can successfully hit the checkpoint while it's disabled. Default is 0, don't disable. If ALWAYSREWARD is set, default is 5"
+	id(integer) : "the id number of the checkpoint. Set to 0 for the goal line and 1 or greater for checkpoints"
+	points(integer) : "is the number of frag points recieved for passing this checkpoint. Default is 0 for checkpoints and 1 for goal lines"
+	fastestpoints(integer) : "the number of points rewarded for making the fastest lap; defaults to 1 on goals"
+	previous_id(integer) : "the id number of the checkpoint that comes before this one"
+]
+
+@SolidClass base(Trigger) = ctf_bikerefill : "Bike refill station"
+[
+    spawnflags(Flags) =
+    [
+        1   : "Random Reward; specifies that the checkpoint will give out only one type of ammo (choosen randomly) when touched. Otherwise, a player will recieve some of each type of ammo" : 0
+        2   : "Turbo Fill; makes this checkpoint refill a hoverbike's turbo meter when passed" : 0
+        4   : "HardCORPS only" : 0
+        8   : "SiNTEK only" : 0
+    ]
+
+	rockets(integer) : "the amount of rocket ammo that the player may receive" : 10
+	bullets(integer) : "the amount of bullet ammo that the player may receive" : 25
+	mines(integer) : "the number of mines that the player may receive" : 3
+	bikehealth(integer) : "the amount of health a hoverbike may receive" : -1
+	riderhealth(integer) : "the amount of health a hoverbike may receive" : -1
+	disabletime(float) : "sets how long after someone hits this refiller that it will be disabled. No one can get more ammo from it while it's disabled." : "10"
+]
+
+@baseclass base(Trigger) = BaseJitter
+[
+    spawnflags(Flags) =
+    [
+        1   : "Toggle" : 0
+        2   : "Start On" : 0
+    ]
+]
+
+@PointClass base(BaseJitter) = func_jitter_global : "Causes an angle and offset jitter of players' views"
+[
+	duration(float) : "the duration of the jitter" : "0.8"
+	angleduration(float) : "angle jitter duration. Set to -1 for no angle jitter."
+	anglemagnitude(float) : "angle jitter magnitude." : "3"
+	anglefalloff(float) : "angle jitter falloff rate." : "4"
+	offsetduration(float) : " offset jitter duration. Set to -1 for no offset jitter."
+	offsetmagnitude(float) : "offset jitter magnitude." : "2"
+	offsetfalloff(float) : "offset jitter falloff rate." : "3"
+]
+
+@PointClass base(BaseJitter) = func_jitter_radius : "Causes an angle and offset jitter of players' views that are within a certain radius of the entity"
+[
+	radius(float) : "the max effective radius of the view jitter" : "128"
+	outerjitter(float) : "the percentage of the full jitter that will be used at the max effective range" : "0.25"
+	duration(float) : "the duration of the jitter" : "0.25"
+	angleduration(float) : "angle jitter duration. Set to -1 for no angle jitter."
+	anglemagnitude(float) : "angle jitter magnitude." : "6"
+	anglefalloff(float) : "angle jitter falloff rate." : "9"
+	offsetduration(float) : "offset jitter duration. Set to -1 for no offset jitter."
+	offsetmagnitude(float) : "offset jitter magnitude." : "5"
+	offsetfalloff(float) : "offset jitter falloff rate." : "8"
+]
+
+@PointClass color(127 0 0) size(4 4 4) = info_pathnode : "Monster navigation nodes"
+[
+    spawnflags(Flags) =
+    [
+        1   : "Flee" : 0
+        2   : "Duck" : 0
+        4   : "Cover" : 0
+        8   : "Door" : 0
+        16  : "Jump" : 0
+        32  : "Ladder" : 0
+    ]
+
+	target(target_destination) : "Jump target"
+	targetname(target_source) : "Jump targetname"
+]
+
+@SolidClass = ewt_lightgrid : "Lightgrid for rad compiler"
+[
+	_dist(float) : "distance between grid points"
+	_priority(integer) : "priority; higher priorities are used if multiple are intersecting" : 0
+]
+
+// base classes
+@baseclass base(Ammo) = Bullet10mm [ ]
+@baseclass base(Ammo) = Bullet50mm [ ]
+@baseclass base(Ammo) = IlludiumModule [ ]
+@baseclass base(Ammo) = Missiles [ ]
+@baseclass base(Weapon) = AssaultRifle [ ]
+@baseclass base(InventoryItem) = BlueCraneCard [ ]
+@baseclass base(InventoryItem) = CraneIdentityCard [ ]
+@baseclass base(InventoryItem) = OrangeCraneCard [ ]
+@baseclass base(InventoryItem) = SecurityL1Card [ ]
+@baseclass base(InventoryItem) = SecurityOverrideCard [ ]
+@baseclass base(InventoryItem) = TerminalAccessCard [ ]
+@baseclass base(InventoryItem) = Cloak [ ]
+@baseclass base(InventoryItem) = Decoder [ ]
+@baseclass base(InventoryItem) = Coin [ ]
+@baseclass base(InventoryItem) = ComLink [ ]
+@baseclass base(Weapon) = ConcussionGun [ ]
+@baseclass base(Weapon) = PlasmaBow [ ]
+@baseclass base(InventoryItem) = EasterCandy [ ]
+@baseclass base(InventoryItem) = EasterCoke [ ]
+@baseclass base(Armor) = FlakJacket [ ]
+@baseclass base(Armor) = FlakPants [ ]
+@baseclass base(Weapon) = FlameThrower [ ]
+@baseclass base(InventoryItem) = Flashlight [ ]
+@baseclass base(InventoryItem) = Goggles [ ]
+@baseclass base(Item) = Grapple [ ]
+@baseclass base(Item) = Poofs [ ]
+@baseclass base(Weapon) = HeliGun [ ]
+@baseclass base(Weapon) = ChainGun [ ]
+@baseclass base(InventoryItem) = KeyRing [ ]
+@baseclass base(Weapon) = Magnum [ ]
+@baseclass base(Ammo) = SpiderMines [ ]
+@baseclass base(Weapon) = IP36 [ ]
+@baseclass base(InventoryItem) = Oxygen [ ]
+@baseclass base(InventoryItem) = StingerPack [ ]
+@baseclass base(InventoryItem) = ParadoxDiamond [ ]
+@baseclass base(Ammo) = BulletPulse [ ]
+@baseclass base(Weapon) = PulseRifle [ ]
+@baseclass base(Item) = pulsepart1 [ ]
+@baseclass base(Item) = pulsepart2 [ ]
+@baseclass base(Item) = pulsepart3 [ ]
+@baseclass base(Weapon) = RocketLauncher [ ]
+@baseclass base(Armor) = RiotHelmet [ ]
+@baseclass base(Ammo) = Rockets [ ]
+@baseclass base(InventoryItem) = ScubaGear [ ]
+@baseclass base(Weapon) = Shotgun [ ]
+@baseclass base(Ammo) = ShotgunClip [ ]
+@baseclass base(InventoryItem) = Silencer [ ]
+@baseclass base(Weapon) = SniperRifle [ ]
+@baseclass base(Ammo) = BulletSniper [ ]
+@baseclass base(Weapon) = SpearGun [ ]
+@baseclass base(Ammo) = Spears [ ]
+@baseclass base(InventoryItem) = Mutagen [ ]
+@baseclass base(InventoryItem) = U4Sample [ ]
+@baseclass base(InventoryItem) = Adrenaline [ ]
+@baseclass base(Weapon) = QuantumDestabilizer [ ]
+@baseclass base(InventoryItem) = GlowStick [ ]
+
+// aliases from DEF files
+@PointClass base(Bullet10mm) model({"path":"10mm.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_10mm : "Ammo Bullet Weapons - 10mm (Large)" [
+]
+@PointClass base(Bullet10mm) model({"path":"357.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_Magnum : "Ammo Bullet Weapons - Magnum (Small)" [
+]
+@PointClass base(Bullet50mm) model({"path":"50mm.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_50mm : "Ammo 50mm - HV Chain Gun" [
+]
+@PointClass base(object) model({"path":"acduct.def","skin":skin,"scale":scale,"alpha":alpha}) = world_acduct : "Air Conditioning Duct" [
+]
+@PointClass base(object) model({"path":"acvent.def","skin":skin,"scale":scale,"alpha":alpha}) = world_acvent : "Air Conditioner Vent" [
+]
+@PointClass base(Adrenaline) model({"path":"adren.def","skin":skin,"scale":scale,"alpha":alpha}) = Powerup_Adrenaline : "Adrenaline Boost - Temporary 200 Health" [
+]
+@PointClass base(object) model({"path":"alarm.def","skin":skin,"scale":scale,"alpha":alpha}) = items_alarm : "alarm" [
+]
+@PointClass base(object) model({"path":"alter.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_alter : "Rituals Sacrificial Stone Alter" [
+]
+@PointClass base(IlludiumModule) model({"path":"ammo_illudium.def","skin":skin,"scale":scale,"alpha":alpha}) = ammo_illudium : "Eludium Module" [
+]
+@PointClass base(Missiles) model({"path":"ammo_missiles.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_Missiles : "Ammo Missiles" [
+]
+@PointClass base(object) model({"path":"apple.def","skin":skin,"scale":scale,"alpha":alpha}) = items_apple : "Pickaxe" [
+]
+@PointClass base(AssaultRifle) model({"path":"asrifle.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_assaultrifle : "Assault Rifle - World Model" [
+]
+@PointClass size(-46 -26 0, 46 26 96) base(drivablevehicle) model({"path":"atv.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_atv : "ATV" [
+]
+@PointClass base(BackWheels) model({"path":"atvtire_back.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_atv_backtire : "ATV Tire" [
+]
+@PointClass base(FrontWheels) model({"path":"atvtire_front.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_atv_fronttire : "ATV Tire" [
+]
+@PointClass base(object) model({"path":"axefire.def","skin":skin,"scale":scale,"alpha":alpha}) = items_fireaxe : "Fireaxe" [
+]
+@PointClass base(object) model({"path":"axepick.def","skin":skin,"scale":scale,"alpha":alpha}) = items_axepick : "Pickaxe" [
+]
+@PointClass size(-16 -16 0, 16 16 88) base(bacrodai) model({"path":"bacrodai.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Bachrodai : "Bachrodai" [
+]
+@PointClass base(object) model({"path":"bag.def","skin":skin,"scale":scale,"alpha":alpha}) = items_bag : "Cement Bag" [
+]
+@PointClass base(object) model({"path":"banana.def","skin":skin,"scale":scale,"alpha":alpha}) = items_banana : "Pickaxe" [
+]
+@PointClass size(-16 -16 0, 16 16 122) base(object) model({"path":"banktree.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_banktree : "Small Potted Tree\nSPECIAL CASE-Attach extra box around upper portion" [
+]
+@PointClass base(object) model({"path":"barstool.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_barstool : "Barstool" [
+]
+@PointClass size(-16 -16 -18, 16 16 18) base(Bat) model({"path":"bat.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_Bat : "Bat" [
+]
+@PointClass size(-16 -16 -18, 16 16 18) base(Bat) model({"path":"batlow.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_BatLow : "Bat Low-Poly" [
+]
+@PointClass size(-1 -4 0, 1 4 8) base(object) model({"path":"battery.def","skin":skin,"scale":scale,"alpha":alpha}) = items_battery : "" [
+]
+@PointClass base(object) model({"path":"bchair.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_bchair : "Our very own breakroom chair." [
+]
+@PointClass base(object) model({"path":"beaker.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_beaker : "Lab Beaker" [
+]
+@PointClass base(object) model({"path":"beaker_zied.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_beakerZied : "Lab Beaker" [
+]
+@PointClass base(object) model({"path":"beaker_zied2.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_beakerZied2 : "Lab Beaker" [
+]
+@PointClass size(-18 -18 -8, 18 18 8) base(actor) model({"path":"bee.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Beecadrone : "Beecadrone" [
+]
+@PointClass base(object) model({"path":"beercan.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_beercan : "SinTek Beercan" [
+]
+@PointClass base(object) model({"path":"bell_alarm.def","skin":skin,"scale":scale,"alpha":alpha}) = items_bellalarm : "bell_alarm" [
+]
+@PointClass base(object) model({"path":"belt.def","skin":skin,"scale":scale,"alpha":alpha}) = items_belt : "Belt-Ammo or Backpack?" [
+]
+@PointClass base(Hoverbike) model({"path":"bike_prototype.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_hoverbike : "Player ridable Hoverbike vehicle\n\nHC_TEAM makes it so that only HardCorps team members can use the bike.\nST_TEAM makes it so that only SinTech team members can use the bike." [
+]
+@PointClass base(object) model({"path":"blockade.def","skin":skin,"scale":scale,"alpha":alpha}) = world_blockade : "Blockade Saw-Horse" [
+]
+@PointClass size(-8 -8 0, 8 8 8) base(item) model({"path":"blueprints.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_blueprints : "Blueprints" [
+]
+@PointClass base(object) model({"path":"blueprints_desk.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_blueprints : "Blueprints" [
+]
+@PointClass size(-14 -14 -14, 14 14 14) base(bob) model({"path":"bob.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Bob : "Janitor Bob" [
+]
+@PointClass base(object) model({"path":"bookclosed.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_book_closed : "Book-Closed" [
+]
+@PointClass base(object) model({"path":"bookclosed2.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_book_closed2 : "Book-Closed 2" [
+]
+@PointClass base(object) model({"path":"bookclosed3.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_book_closed3 : "Book-Closed 3" [
+]
+@PointClass base(object) model({"path":"bookclosed4.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_book_closed4 : "Book-Closed 4" [
+]
+@PointClass base(object) model({"path":"bookclosed5.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_book_closed5 : "Book-Closed 5 Don't Panic" [
+]
+@PointClass base(object) model({"path":"bookopen.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_book_open : "Book-Opened" [
+]
+@PointClass base(object) model({"path":"bookopen2.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_book_open2 : "Book-Opened" [
+]
+@PointClass size(-40 -40 0, 40 40 104) base(EonAndPeon) model({"path":"boss_peon.def","skin":skin,"scale":scale,"alpha":alpha}) = Boss_EonAndPeon : "Eon and Peon" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"bouncer.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_Bouncer : "Menero's Thug working on the side as a bouncer" [
+]
+@PointClass base(object) model({"path":"boxfan.def","skin":skin,"scale":scale,"alpha":alpha}) = world_boxfan : "Box Fan" [
+]
+@PointClass base(object) model({"path":"briefcase.def","skin":skin,"scale":scale,"alpha":alpha}) = items_briefcase : "" [
+]
+@PointClass base(object) model({"path":"bubbles.def","skin":skin,"scale":scale,"alpha":alpha}) = fx_bubbles : "Bubble generator" [
+]
+@PointClass size(-24 -24 0, 24 24 20) base(actor) model({"path":"bug.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Bug : "Parasite bug from Split mutant" [
+]
+@PointClass base(object) model({"path":"bulb.def","skin":skin,"scale":scale,"alpha":alpha}) = items_bulb_on : "Hanging Bulb\nLight Bulb (White & Red)" [
+]
+@PointClass base(object) model({"path":"bulb_off.def","skin":skin,"scale":scale,"alpha":alpha}) = items_bulb_off : "Hanging Bulb Off\nLight Bulb" [
+]
+@PointClass size(-4 -4 0, 4 4 8) base(actor) model({"path":"bulb_toggle.def","skin":skin,"scale":scale,"alpha":alpha}) = items_bulb_toggle_on : "Hanging Bulb On\nLight Bulb (White & Red)\n!!! Now with high-tech triggering function !!!" [
+]
+@PointClass size(-4 -4 0, 4 4 8) base(actor) model({"path":"bulb_toggle_off.def","skin":skin,"scale":scale,"alpha":alpha}) = items_bulb_toggle_off : "Hanging Bulb Off\nLight Bulb (White & Red)\n!!! Now with high-tech triggering function !!!" [
+]
+@PointClass base(drivablevehicle) model({"path":"bulldozer.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_bulldozer : "Bulldozer" [
+]
+@PointClass size(-80 -80 0, 80 80 144) base(drivablevehicle) model({"path":"bulldozer_zied.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_bulldozerZied : "Bulldozer" [
+]
+@PointClass base(object) model({"path":"bullhorn.def","skin":skin,"scale":scale,"alpha":alpha}) = world_bullhorn : "Bull Horn" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"bum.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Bum1 : "Bum 1" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"bum2.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Bum2 : "Bum 2" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"bum2_sit.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Bum2Sitting : "Bum 2 - Sitting" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"bum2_sleep.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Bum2Sleeping : "Bum 2 - Sleeping" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"bum_sit.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Bum1Sitting : "Bum 1 - Sitting" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"bum_sleep.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Bum1Sleeping : "Bum 1 - Sleeping" [
+]
+@PointClass base(object) model({"path":"bunsen.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_bunsenburner : "" [
+]
+@PointClass base(object) model({"path":"cabinet.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_cabinet : "Large Metal Storage Cabinet" [
+]
+@PointClass base(object) model({"path":"calendar1.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_calendar1 : "Calendar #1" [
+]
+@PointClass base(object) model({"path":"calendar2.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_calendar2 : "Calendar #2" [
+]
+@PointClass base(object) model({"path":"calendar3.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_calendar3 : "Calendar #3" [
+]
+@PointClass base(func_camera) model({"path":"camera.def","skin":skin,"scale":scale,"alpha":alpha}) = func_securitycamera : "Camera used for security etc.\nHas visible model.\n\n'target' points to the target to orbit or follow.  If it points to a path, the camera will follow the path.\n'distance' the distance to follow or orbit if the target is not a path. (default 128).\n'speed' specifies how fast to move on the path or orbit.  (default 1).\n'fov' specifies fov of camera, default 90.\n'yaw' specifies yaw of camera, default 0.\n'height' specifies height of camera from origin, default 128.\n'panspeed' speed at which to pan ( 7 degrees per second )\n'panmax' maximum angle offset for panning ( 45 degrees )\n'nextcamera' a link to the next camera in a chain of cameras\n'overlay' an overlay to use while looking through the camera\n'thread' a thread label that will be fired when the camera is looked through\n\nORBIT tells the camera to create a circular path around the object it points to.  It the camera points to a path, it will loop when it gets to the end of the path.\nSTART_ON causes the camera to be moving as soon as it is spawned.\nPAN camera should pan from right to left" [
+]
+@PointClass base(object) model({"path":"can.def","skin":skin,"scale":scale,"alpha":alpha}) = world_barrel : "Large Metal Trash Container" [
+]
+@PointClass size(-8 -8 0, 8 8 8) base(item) model({"path":"candybar.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_candybar : "Candy Bar" [
+]
+@PointClass base(object) model({"path":"car.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_car : "Street Cars - Five skins" [
+]
+@PointClass base(object) model({"path":"cards.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_playingcards : "Playing Cards" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(item) model({"path":"card_blu.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_BlueCard : "Blue Security Card" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(BlueCraneCard) model({"path":"card_crane_blue.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_BlueCraneCard : "Blue Crane Security Card" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(CraneIdentityCard) model({"path":"card_crane_identity.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_CraneIdentityCard : "Crane Identity Card" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(OrangeCraneCard) model({"path":"card_crane_orange.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_OrangeCraneCard : "Orange Crane Security Card" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(item) model({"path":"card_grn.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_GreenCard : "Green Security Card" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(item) model({"path":"card_orng.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_OrangeCard : "Orange Security Card" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(SecurityL1Card) model({"path":"card_security_l1.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_SecurityL1Card : "Security Level 1 Card" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(SecurityOverrideCard) model({"path":"card_security_override.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_SecurityOverrideCard : "Security Override Card" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(TerminalAccessCard) model({"path":"card_terminal_access.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_TerminalAccessCard : "Terminal Access Card" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(item) model({"path":"card_yel.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_YellowCard : "Yellow Security Card" [
+]
+@PointClass base(object) model({"path":"car_door.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cardoor : "Old car door" [
+]
+@PointClass base(object) model({"path":"car_tyre.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_car_tyre : "car tyre" [
+]
+@PointClass base(object) model({"path":"cd.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_cdrack : "CD Rack" [
+]
+@PointClass base(object) model({"path":"chair.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_chair1 : "Chair-Green-Small desk chair" [
+]
+@PointClass base(object) model({"path":"chair1.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_chair2 : "Chair-Black-Hightech office chair attached to gound" [
+]
+@PointClass base(object) model({"path":"chair2.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_chair3 : "Chair-Red-High back office chair" [
+]
+@PointClass base(object) model({"path":"chair_large1.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_chairs_largered : "High back office chair-Red" [
+]
+@PointClass base(object) model({"path":"chair_large2.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_chairs_largeblack : "High back office chair-Black" [
+]
+@PointClass base(object) model({"path":"chair_small1.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_chairs_smallgreen : "Small desk chair-Green" [
+]
+@PointClass base(object) model({"path":"chair_small2.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_chairs_smallblue : "Small desk chair-Blue" [
+]
+@PointClass size(-12 -12 0, 12 12 68) base(actor) model({"path":"chem.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_ChemicalWorker : "Chemical Plant Worker-Suited Up" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"chemfem.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_ChemFemale : "Chem Plant Female" [
+]
+@PointClass size(-8 -8 0, 8 8 64) base(item) model({"path":"chemsuit.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_ChemBioSuit : "Chem Bio-Suit" [
+]
+@PointClass size(-19 -19 0, 19 19 50) base(actor) model({"path":"church_fungus_dog.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ChurchCutscene_Grogg : "Fungus Dog" [
+]
+@PointClass size(-22 -22 0, 22 22 70) base(mortician) model({"path":"church_mortician.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ChurchCutscene_Mortician : "Mortician" [
+]
+@PointClass size(-16 -16 0, 16 16 75) base(actor) model({"path":"church_slim.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ChurchCutscene_Slim : "The base test version of Slim" [
+]
+@PointClass size(-22 -22 0, 22 22 85) base(Actor) model({"path":"church_splitter.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ChurchCutscene_Splitter : "Splitter host mutant" [
+]
+@PointClass size(-24 -24 0, 24 24 72) base(actor) model({"path":"church_vultorn.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ChurchCutscene_Vultorn : "Vultorn" [
+]
+@PointClass base(object) model({"path":"cinematic_bike.def","skin":skin,"scale":scale,"alpha":alpha}) = cinematic_hoverbike : "Player ridable Hoverbike vehicle" [
+]
+@PointClass size(-32 -32 0, 32 32 80) base(actor) model({"path":"cine_blade.def","skin":skin,"scale":scale,"alpha":alpha}) = cinematic_blade : "Blade used for Cinematics" [
+]
+@PointClass size(-32 -32 0, 32 32 80) base(actor) model({"path":"cine_blade_vacant.def","skin":skin,"scale":scale,"alpha":alpha}) = cinematic_blade_vacant : "Blade used for Cinematics" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"cine_elexis.def","skin":skin,"scale":scale,"alpha":alpha}) = cinematic_elexis : "Elexis Sinclaire used for Cinematics" [
+]
+@PointClass size(-24 -24 0, 24 24 80) base(actor) model({"path":"cine_jc.def","skin":skin,"scale":scale,"alpha":alpha}) = cinematic_jc : "JC used for Cinematics" [
+]
+@PointClass size(-4 -8 0, 4 8 72) base(actor) model({"path":"cine_mancini.def","skin":skin,"scale":scale,"alpha":alpha}) = cinematic_mancini : "Mancini - Cinematics Version" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"cine_manero.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_Manero : "The base test version of Manero" [
+]
+@PointClass size(-24 -24 0, 24 24 88) base(actor) model({"path":"cine_manumit.def","skin":skin,"scale":scale,"alpha":alpha}) = cinematic_manumit : "Cinematic Manumit" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"cine_mthug.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_ManeroThug : "The base test version of the Manero Thug" [
+]
+@PointClass size(-24 -24 0, 24 24 80) base(actor) model({"path":"cine_thug.def","skin":skin,"scale":scale,"alpha":alpha}) = cinematic_thug : "Thug for Cinematic" [
+]
+@PointClass size(-12 -12 0, 12 12 138) base(object) model({"path":"citytree.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_citytree : "Tree-Used in city-Large and leafy\nSPECIAL CASE-Attach extra box around upper portion" [
+]
+@PointClass size(-12 -12 0, 12 12 138) base(object) model({"path":"citytreebig.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_citytreebig : "Tree-Used in city-Large and leafy\nSPECIAL CASE-Attach extra box around upper portion" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civfemale.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FemaleCivilian : "Female Civilian" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civfemale_phouse1.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_PenthousePet1 : "I never thought this would happen to me..." [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civfemale_phouse2.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_PenthousePet2 : "Bob Guccioni for President?" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civfemale_showergirl.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Showergirl : "As naked as the censors will allow." [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civfemale_showgirl.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Showgirl : "As naked as the censors will allow." [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civfemale_showgirl2.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_PenthousePets : "I never thought this would happen to me..." [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civfemale_waitress.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Waitress : "Would you like fresh ground pepper?" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civfemale_waitress2.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_Waitress2 : "Would you like fresh ground pepper?" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civmale.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleCivilian : "Male Civilian" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"civmale_dealer.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_DealerBartender : "Casino or Nightclub employee type guy." [
+]
+@PointClass size(-4 -4 0, 4 4 8) base(object) model({"path":"clamp.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_clamp : "Clamp" [
+]
+@PointClass size(-32 -32 0, 32 32 80) base(actor) model({"path":"clean_pl_blade.def","skin":skin,"scale":scale,"alpha":alpha}) = Clean_Hero_Blade : "Blade (Our Hero)" [
+]
+@PointClass size(-32 -32 0, 32 32 80) base(actor) model({"path":"clean_pl_elexis.def","skin":skin,"scale":scale,"alpha":alpha}) = Clean_Hero_Elexis : "Elexis Sinclaire" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"clean_pl_jc.def","skin":skin,"scale":scale,"alpha":alpha}) = Clean_Hero_JC : "JC" [
+]
+@PointClass base(Cloak) model({"path":"cloak.def","skin":skin,"scale":scale,"alpha":alpha}) = Powerup_Cloaking : "Cloaking Device (PODD) - Invisibility" [
+]
+@PointClass base(object) model({"path":"clothes.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_clothes_pile : "Pile of old clothes" [
+]
+@PointClass base(object) model({"path":"coatrack.def","skin":skin,"scale":scale,"alpha":alpha}) = furniture_coatrack : "Coat Rack" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(Decoder) model({"path":"code.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_Decoder : "Computer Decoder" [
+]
+@PointClass base(object) model({"path":"coffeemug.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_coffeemug : "Coffee Mug with SinTek Logo" [
+]
+@PointClass base(object) model({"path":"coffeemug1.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_coffeemugs_sinteklogo : "Coffee Mug-SinTEK Logo" [
+]
+@PointClass base(object) model({"path":"coffeemug2.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_coffeemugs_fcblogo : "Coffee Mug-FCB Logo" [
+]
+@PointClass base(object) model({"path":"coffeemug3.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_coffeemugs_yellow : "Coffee Mug-Yellow" [
+]
+@PointClass base(object) model({"path":"coffeemug4.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_coffeemugs_blue : "Coffee Mug-Blue" [
+]
+@PointClass size(-4 -4 0, 4 4 4) base(Coin) model({"path":"coin.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_coin : "Coin" [
+]
+@PointClass base(object) model({"path":"coke.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_softdrink : "Soda Can" [
+]
+@PointClass size(-12 -12 0, 12 12 32) base(ComLink) model({"path":"comlink.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_comlink : "Remote Communications Device" [
+]
+@PointClass base(object) model({"path":"concrete1.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_Concrete1 : "Concrete Gib 1" [
+]
+@PointClass base(object) model({"path":"concrete2.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_Concrete2 : "Concrete Gib 2" [
+]
+@PointClass base(object) model({"path":"concrete3.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_Concrete3 : "Concrete Gib 3" [
+]
+@PointClass base(object) model({"path":"concrete4.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_Concrete4 : "Concrete Gib 4" [
+]
+@PointClass base(object) model({"path":"concrete5.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_Concrete5 : "Concrete Gib 5" [
+]
+@PointClass base(ConcussionGun) model({"path":"concussion_w.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_concussiongun : "Concussion Gun - World Model" [
+]
+@PointClass base(object) model({"path":"cond_bottlea.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cond_bottlea : "Ketchup bottle" [
+]
+@PointClass base(object) model({"path":"cond_bottleb.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cond_bottleb : "Squeezable mustard bottle" [
+]
+@PointClass base(object) model({"path":"cond_cutlery.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cond_cutlery : "Knife fork and spoon" [
+]
+@PointClass base(object) model({"path":"cond_glass.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cond_glass : "Old fashioned spirit glass" [
+]
+@PointClass base(object) model({"path":"cond_napkin.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cond_napkin : "Single napkin" [
+]
+@PointClass base(object) model({"path":"cond_napkins.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cond_napkins : "Napkins in holder" [
+]
+@PointClass base(object) model({"path":"cond_pepper.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cond_pepper : "Pepper shaker" [
+]
+@PointClass base(object) model({"path":"cond_plate.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cond_plate : "Dinner plate" [
+]
+@PointClass base(object) model({"path":"cond_salt.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cond_salt : "Salt shaker" [
+]
+@PointClass base(object) model({"path":"cookies.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_cookies : "Cookies" [
+]
+@PointClass base(object) model({"path":"corplant.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_coral : "Coral Plant-Spindly" [
+]
+@PointClass base(object) model({"path":"corplant1.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_coraltypes_green : "Coral Plant-Spindly-Green" [
+]
+@PointClass base(object) model({"path":"corplant2.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_coraltypes_blue : "Coral Plant-Spindly-Blue" [
+]
+@PointClass base(object) model({"path":"corplant3.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_coraltypes_brown : "Coral Plant-Spindly-Brown Redish" [
+]
+@PointClass base(object) model({"path":"cpu_case.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_cpu_case : "CPU Case" [
+]
+@PointClass size(-4 -6 0, 4 6 2) base(actor) model({"path":"cpu_keyboard.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_cpu_keyboard : "CPU Keyboard" [
+]
+@PointClass size(-4 -6 0, 4 6 2) base(object) model({"path":"cpu_keyboard_use.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_cpu_keyboarduseable : "CPU Keyboard - For usable consoles" [
+]
+@PointClass base(object) model({"path":"cpu_monitor.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_cpu_monitor : "CPU Monitor" [
+]
+@PointClass base(object) model({"path":"cpu_monitorjc.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_cpu_monitor_jc : "CPU Monitor JC" [
+]
+@PointClass base(object) model({"path":"cpu_monitor_manumit.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_cpu_monitor_manumit : "CPU Monitor w/ Manumit schematics" [
+]
+@PointClass base(object) model({"path":"cpu_monitor_use.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_cpu_monitoruseable : "CPU Monitor - For usable consoles" [
+]
+@PointClass base(object) model({"path":"crane.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_crane : "Crane" [
+]
+@PointClass size(-16 -16 0, 16 16 40) base(crawler) model({"path":"crawler.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Crawler : "Crawler" [
+]
+@PointClass base(PlasmaBow) model({"path":"crossbow_w.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_plasmabow : "Plasma Bow - World Model" [
+]
+@PointClass size(-4 -4 0, 4 4 4) base(object) model({"path":"crosshair.def","skin":skin,"scale":scale,"alpha":alpha}) = items_crosshair : "I hate everything" [
+]
+@PointClass size(-40 -40 0, 40 40 64) base(CTFDrivableTurret) model({"path":"ctf_fixedturret.def","skin":skin,"scale":scale,"alpha":alpha}) = ctf_fixedturret : "Fixed Turret for use in CTF\n'health' (default 1000) specify the health of the turret\n'maxpitch' (default 30) maximum pitch extents\n'maxyaw' (default 75) maximum yaw extents, a max yaw of 180 or higher\nwill allow the turret to spin freely.\n'respawntime' (default 60 seconds) respawn after death.\n'shotdamage' (default 16) damage per shot." [
+]
+@PointClass base(CTFTurret) model({"path":"ctf_turret.def","skin":skin,"scale":scale,"alpha":alpha}) = ctf_turret : "'health' (default 1000) specify the health of the turret\nTurret for use in CTF" [
+]
+@PointClass base(object) model({"path":"cup.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_cup : "Macdonalds coke cup" [
+]
+@PointClass base(object) model({"path":"cupandpens.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_cupandpens : "Cup and Pens" [
+]
+@PointClass size(-14 -14 0, 14 14 82) base(actor) model({"path":"cworker.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ConstrucWorker : "Construction Worker" [
+]
+@PointClass base(object) model({"path":"dampener.def","skin":skin,"scale":scale,"alpha":alpha}) = powerups_dampener : "Pickaxe" [
+]
+@PointClass size(-40 -40 0, 40 40 104) base(actor) model({"path":"dark.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_DarkCaptain : "Dark Captain" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"deadguy.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_DeadGuy : "Dead Guy with missing hand." [
+]
+@PointClass base(object) model({"path":"desklamp.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_lamp : "Desk Lamp" [
+]
+@PointClass base(object) model({"path":"desk_caddy.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_desk_caddy : "Little box of pens" [
+]
+@PointClass size(-20 -20 0, 20 20 30) base(actor) model({"path":"doggie.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Doggie : "Doggie" [
+]
+@PointClass size(-4 -4 0, 4 4 4) base(item) model({"path":"dollar.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_dollar : "Dollar Money - A thin little dollar" [
+]
+@PointClass base(object) model({"path":"doorbell.def","skin":skin,"scale":scale,"alpha":alpha}) = items_doorbell : "Doorbell" [
+]
+@PointClass size(-8 -8 0, 8 8 8) base(EasterCandy) model({"path":"eastercandy.def","skin":skin,"scale":scale,"alpha":alpha}) = powerup_eastercandy : "Easter Egg Candy Bar - gives 100 health when used" [
+]
+@PointClass size(-8 -8 0, 8 8 8) base(EasterCoke) model({"path":"eastercoke.def","skin":skin,"scale":scale,"alpha":alpha}) = powerup_eastercoke : "Easter Egg Candy Bar - gives 100 health when used" [
+]
+@PointClass size(-8 -8 0, 8 8 8) base(item) model({"path":"envelope.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_envelope : "Package" [
+]
+@PointClass size(-8 -8 0, 8 8 48) base(actor) model({"path":"eon.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Eon : "Eon" [
+]
+@PointClass base(object) model({"path":"estatue.def","skin":skin,"scale":scale,"alpha":alpha}) = items_statue_elexis : "She's trashy." [
+]
+@PointClass size(-8 -8 0, 8 8 8) base(item) model({"path":"evidence.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_evidence : "Evidence envelope" [
+]
+@PointClass size(-32 -32 0, 32 32 80) base(actor) model({"path":"evil_blade.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_EvilBlade : "Evil Blade (Our Alter Ego)" [
+]
+@PointClass base(object) model({"path":"eye.def","skin":skin,"scale":scale,"alpha":alpha}) = items_eye : "Pickaxe" [
+]
+@PointClass base(object) model({"path":"factory_broom.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_factory_broom : "A broom" [
+]
+@PointClass base(object) model({"path":"factory_oilcan.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_factory_oilcan : "Squeezy oil can" [
+]
+@PointClass base(object) model({"path":"factory_oildrum.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_factory_oil_drum : "20 litre oil drum" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FemaleDancer : "Female Dancer with all skins" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_bluedress.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_FDancer_BlueDress : "Nightclub receptionist in a blue dress with lighter spots" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_bluespotcrop.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_bluespotcrop : "Female Dancer in blue crop top with purple spots" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_browndress.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_BrownDress : "Female Dancer in a purple and orange dress which looks brown from a distance" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_camodress.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_CamoDress : "Female Dancer in a dress which looks suspiciously like it is made of \nthe skin of a reptile" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_greenswirlcrop.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_GreenSwirlCrop : "Female Dancer in green crop top with purple swirls on it" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_purpledress.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_PurpleDress : "Female Dancer in purple dress" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_purplestripecrop.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_PurpleStripeCrop : "Female Dancer in purple crop top with pink stripes on it" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_purpleswirlcrop.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_PurpleSwirlCrop : "Female Dancer in pink crop top with purple swirls on it" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_redcrop.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_redcrop : "Female Dancer in red crop top" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_squiddress.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_SquidDress : "Female Dancer in a dress which looks like it got slimed by the bull-squid from half-life" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_stripedress.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_StripeDress : "Female Dancer in a stripey dress - my personal favourite" [
+]
+@PointClass base(object) model({"path":"fdancer_unconscious.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_FDancer_unconscious : "Unconscious woman (in blue crop top with purple spots)" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_waterdress.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_WaterDress : "Female Dancer in a blue dress - I'm running out of names" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"fdancer_zisabastard.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_FDancer_ZisaBastard : "Female Dancer in a dress. now die\nFuck you're a bastard Z." [
+]
+@PointClass base(object) model({"path":"feather.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_feather : "Feather" [
+]
+@PointClass base(object) model({"path":"firecan.def","skin":skin,"scale":scale,"alpha":alpha}) = world_firebarrel : "Large Metal Trash Container with fire spewing from it!!!" [
+]
+@PointClass base(object) model({"path":"firegen.def","skin":skin,"scale":scale,"alpha":alpha}) = fx_firegen : "Fire Generator" [
+]
+@PointClass base(object) model({"path":"firelog.def","skin":skin,"scale":scale,"alpha":alpha}) = world_firelog : "Logs for the Fire" [
+]
+@PointClass base(object) model({"path":"fire_ext.def","skin":skin,"scale":scale,"alpha":alpha}) = world_FireExtinguisher : "Fire Extinguisher" [
+]
+@PointClass size(-8 -8 0, 8 8 24) base(Fish) model({"path":"fish.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_Fish : "Fish" [
+]
+@PointClass size(-8 -8 0, 8 8 24) base(Fish) model({"path":"fish_blue.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_TropicalFish_Blue : "Fish - Blue Tropical" [
+]
+@PointClass size(-8 -8 0, 8 8 24) base(Fish) model({"path":"fish_dope1.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_TropicalFish_Dope1 : "Dopefish #1" [
+]
+@PointClass size(-8 -8 0, 8 8 24) base(Fish) model({"path":"fish_dope2.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_TropicalFish_Dope2 : "Dopefish #2" [
+]
+@PointClass size(-8 -8 0, 8 8 24) base(Fish) model({"path":"fish_green.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_TropicalFish_Green : "Fish - Green Tropical" [
+]
+@PointClass size(-8 -8 0, 8 8 24) base(Fish) model({"path":"fish_yellow.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_TropicalFish_Yellow : "Fish - Yellow Tropical" [
+]
+@PointClass base(object) model({"path":"flag.def","skin":skin,"scale":scale,"alpha":alpha}) = world_usflag : "US Flag-Animated" [
+]
+@PointClass base(FlakJacket) model({"path":"flakjack.def","skin":skin,"scale":scale,"alpha":alpha}) = Armor_FlakJacket : "Flak Jacket" [
+]
+@PointClass base(FlakPants) model({"path":"flakpants.def","skin":skin,"scale":scale,"alpha":alpha}) = Armor_FlakPants : "Flak Pants" [
+]
+@PointClass base(FlameThrower) model({"path":"flamethrower.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_flamethrower : "Flame Thrower - World Model" [
+]
+@PointClass base(Flashlight) model({"path":"flashlight.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_Flashlight : "duh, it's a flashlight :p" [
+]
+@PointClass base(object) model({"path":"flower.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_flower : "Flower-Purple Plummage" [
+]
+@PointClass base(object) model({"path":"folder1.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_folder1 : "Desk Folder #1" [
+]
+@PointClass base(object) model({"path":"folder2.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_folder2 : "Desk Folder #2" [
+]
+@PointClass size(-8 -12 0, 8 12 80) base(actor) model({"path":"foreman.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ConstructForeman : "Construction Foreman" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"foreman_oilrig.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_OilRigForeman : "Oilrig Foreman" [
+]
+@PointClass size(-14 -14 0, 14 14 60) base(actor) model({"path":"foreman_warehouse.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_WarehouseForeman : "Warehouse Foreman - Civilian Male" [
+]
+@PointClass size(-56 -56 0, 56 56 112) base(drivablevehicle) model({"path":"forklift.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_forklift : "Forklift" [
+]
+@PointClass size(-56 -56 0, 56 56 112) base(drivablevehicle) model({"path":"forkliftzied.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_forkliftZied : "Forklift" [
+]
+@PointClass size(-56 -56 0, 56 56 112) base(actor) model({"path":"forklift_attack.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_forkliftAttack : "Forklift" [
+]
+@PointClass size(-19 -19 0, 19 19 50) base(actor) model({"path":"fungus_dog.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Grogg : "Fungus Dog" [
+]
+@PointClass base(object) model({"path":"gib1.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_gib1 : "Gib1" [
+]
+@PointClass base(object) model({"path":"gib2.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_gib2 : "Gib2" [
+]
+@PointClass base(object) model({"path":"gibarm.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_Arm : "Arm Gib" [
+]
+@PointClass base(object) model({"path":"gibhead.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_Head : "Head Gib" [
+]
+@PointClass base(object) model({"path":"gibleg.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_Leg : "Leg Gib" [
+]
+@PointClass base(object) model({"path":"gibribs.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_Rib : "Rib Gib" [
+]
+@PointClass base(object) model({"path":"gibtorso.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_torso : "Torso Gib" [
+]
+@PointClass size(-4 -4 0, 4 4 4) base(GlowStick) model({"path":"glowstick.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_GlowStick : "Greeeeeeen Glowstick" [
+]
+@PointClass base(Goggles) model({"path":"goggles.def","skin":skin,"scale":scale,"alpha":alpha}) = Powerup_Goggles : "Therm-Optic Goggles - night/infared vision" [
+]
+@PointClass size(-40 -40 0, 40 40 240) base(goliath) model({"path":"goliath.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Goliath : "Da Big Goliath" [
+]
+@PointClass base(object) model({"path":"goliath_child.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Goliath_Child : "One Baby Mutha Fucka!" [
+]
+@PointClass base(object) model({"path":"goliath_foetus.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Goliath_Foetus : "One Baby Mutha Fucka!" [
+]
+@PointClass base(Grapple) model({"path":"grapple.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_grapple : "Grapple - World Model" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntcapt_2015.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntCapt_ChainGunNL : "Grunt Captain with Chain Gun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntcapt_ass.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntCapt_AssaultRifle : "Grunt Captain with Assault Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntcapt_flame.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntCapt_FlamethrowerNL : "Grunt Captain with Flamethrower, but no logo, but with an attitude, but without remorse." [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntcapt_gren.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntCapt_GrenadeLauncher : "Grunt Captain with Grenade Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntcapt_hv.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntCapt_ChainGun : "Grunt Captain with Chain Gun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntcapt_mag.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntCapt_Magnum : "Grunt Captain with Magnum" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntcapt_none.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntCapt_NoWeapon : "Grunt Captain with No Weapon" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntcapt_rckt.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntCapt_RocketLauncher : "Grunt Captain with Rocket Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntcapt_shtg.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntCapt_Shotgun : "Grunt Captain with Shotgun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntstreet_ass.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntStreet_AssaultRifle : "Street Grunt with Assault Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntstreet_gren.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntStreet_GrenadeLauncher : "Street Grunt with Grenade Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntstreet_hv.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntStreet_ChainGun : "Street Grunt with Chain Gun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntstreet_mag.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntStreet_Magnum : "Street Grunt with Magnum" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntstreet_none.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntStreet_NoWeapon : "Street Grunt with No Weapon" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntstreet_rckt.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntStreet_RocketLauncher : "Street Grunt with Rocket Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"gruntstreet_shtg.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GruntStreet_Shotgun : "Street Grunt with Shotgun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"grunt_ass.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Grunt_AssaultRifle : "Grunt with Assault Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"grunt_gren.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Grunt_GrenadeLauncher : "Grunt with Grenade Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"grunt_hv.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Grunt_ChainGun : "Grunt with Chain Gun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"grunt_mag.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Grunt_Magnum : "Grunt with Magnum" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"grunt_none.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Grunt_NoWeapon : "Grunt with No Weapon" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"grunt_rckt.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Grunt_RocketLauncher : "Grunt with Rocket Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"grunt_shtg.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Grunt_Shotgun : "Grunt with Shotgun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"guerilla_ass.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guerilla_AssaultRifle : "Guerilla Soldier with Assault Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"guerilla_hv.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guerilla_ChainGun : "Guerilla Soldier with a Chain Gun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"guerilla_mag.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guerilla_Magnum : "Guerilla Soldier with Magnum" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"guerilla_none.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guerilla_NoWeapon : "Guerilla Soldier with No Weapon" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"guerilla_rckt.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guerilla_RocketLauncher : "Guerilla Soldier with Rocket Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"guerilla_shtg.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guerilla_Shotgun : "Guerilla Soldier with Shotgun" [
+]
+@PointClass base(object) model({"path":"hammer1.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hammer1 : "Large Sledgehammer" [
+]
+@PointClass base(object) model({"path":"hammer2.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hammer2 : "Hammer-Small ballpinned" [
+]
+@PointClass size(-8 -8 0, 8 8 16) base(item) model({"path":"hand.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_Hand : "Hand" [
+]
+@PointClass base(object) model({"path":"hanglight1.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hanglite1_on : "Hanging light fixture\nWire with Light Bulb (White & Red)" [
+]
+@PointClass base(object) model({"path":"hanglight1_off.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hanglite1_off : "Hanging light fixture Off\nWire with Light Bulb" [
+]
+@PointClass base(object) model({"path":"hanglight2.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hanglite2_on : "Hanging light fixture\nWire hanging down with square hooded light" [
+]
+@PointClass base(object) model({"path":"hanglight2_off.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hanglite2_off : "Hanging light fixture Off\nWire hanging down with square hooded light" [
+]
+@PointClass base(object) model({"path":"hanglite.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hanglite : "Hanging light fixture \nWire hanging down with round hooded light\nNOTE-Larger Bounding box underneth" [
+]
+@PointClass base(object) model({"path":"hanglite2.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hanglite2 : "" [
+]
+@PointClass base(object) model({"path":"hanglite3.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hanglite3 : "Hanging light fixture\nWire hanging down with cylindrical hooded light\nFancy Style" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hank.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Hank : "2015 Technician-Crane" [
+]
+@PointClass base(object) model({"path":"hardhat.def","skin":skin,"scale":scale,"alpha":alpha}) = items_hardhat : "Hardhat - Orange" [
+]
+@PointClass base(vehicle) model({"path":"hcboat.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_HCBoat : "Hardcorps Boat" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hcofficer1_ass.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_HCOfficer1_AssaultRifle : "HC Officer 1 with Assault Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hcofficer1_cinematic.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_HCOfficer1_Cinematic : "HC Officer 1 for Cinematics" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hcofficer1_mag.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_HCOfficer1_Magnum : "HC Officer 1 with Magnum" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hcofficer1_none.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_HCOfficer1_NoWeapon : "HC Officer 1 with No Weapon" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hcofficer1_shtg.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_HCOfficer1_Shotgun : "HC Officer 1 with Shotgun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hcofficer2_ass.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_HCOfficer2_AssaultRifle : "HC Officer 2 with Assault Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hcofficer2_mag.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_HCOfficer2_Magnum : "HC Officer 2 with Magnum" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hcofficer2_none.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_HCOfficer2_NoWeapon : "HC Officer 2 with No Weapon" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"hcofficer2_shtg.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_HCOfficer2_Shotgun : "HC Officer 2 with Shotgun" [
+]
+@PointClass base(Health) model({"path":"health.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_020 : "Health Powerup-Normal - 20" [
+]
+@PointClass base(Health) model({"path":"health_apple.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_Apple : "Apple" [
+]
+@PointClass base(Health) model({"path":"health_banana.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_Banana : "Banana" [
+]
+@PointClass base(Health) model({"path":"health_cookies.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_Cookies : "Cookies" [
+]
+@PointClass base(Health) model({"path":"health_icecream.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_IceCream : "Ice Cream" [
+]
+@PointClass base(Health) model({"path":"health_large.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_050 : "Health Powerup-Large - 50 - Red" [
+]
+@PointClass base(Health) model({"path":"health_medkit.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_100 : "Health Powerup- 100 - Medkit" [
+]
+@PointClass base(Health) model({"path":"health_milk.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_Milk : "Milk Carton" [
+]
+@PointClass base(Health) model({"path":"health_pizza.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_Pizza : "Pizza" [
+]
+@PointClass base(Poofs) model({"path":"health_poofs.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_CheesyPoofs : "Cheesy Poofs - Yummy" [
+]
+@PointClass base(Health) model({"path":"health_sandwich.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_Sandwich : "Sandwich" [
+]
+@PointClass base(Health) model({"path":"health_searation.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_SeaRation : "Sea Ration" [
+]
+@PointClass base(Health) model({"path":"health_small.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_005 : "Health Powerup-Small - 5" [
+]
+@PointClass base(Health) model({"path":"health_soda.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_Soda : "Soda Pop" [
+]
+@PointClass base(Health) model({"path":"health_u4.def","skin":skin,"scale":scale,"alpha":alpha}) = Health_U4 : "Health Powerup-Small - 20" [
+]
+@PointClass base(HeliGun) model({"path":"heligun.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_heligun : "Heligun - Helicopter Mounted Weapon" [
+]
+@PointClass size(-113 -60 0, 113 60 96) base(drivablevehicle) model({"path":"humv.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humv : "HUMV" [
+]
+@PointClass base(BackWheels) model({"path":"humv_back_tire.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humv_backtire : "HUMV Tire" [
+]
+@PointClass base(BackWheels) model({"path":"humv_back_tire2.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humv_backtire2 : "HUMV Tire" [
+]
+@PointClass base(FrontWheels) model({"path":"humv_front_tire.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humv_fronttire : "HUMV Tire" [
+]
+@PointClass base(FrontWheels) model({"path":"humv_front_tire2.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humv_fronttire2 : "HUMV Tire" [
+]
+@PointClass base(FrontWheels) model({"path":"humv_front_tire3.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humv_fronttire3 : "HUMV Tire" [
+]
+@PointClass base(object) model({"path":"humv_low.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humvlowpoly : "HUMV - Low Poly" [
+]
+@PointClass size(-113 -60 0, 113 60 96) base(drivablevehicle) model({"path":"humv_sintek.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humv_sintek : "HUMV-Sintek paint job" [
+]
+@PointClass size(-113 -60 0, 113 60 96) base(drivablevehicle) model({"path":"humv_tan.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humv_tan : "HUMV-Hardcorps-Tan paint job" [
+]
+@PointClass base(object) model({"path":"humv_tire.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_humv_tire : "HUMV Tire" [
+]
+@PointClass base(ChainGun) model({"path":"hvgun.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_highvelocitygun : "HV Chain Gun - World Model" [
+]
+@PointClass base(object) model({"path":"hydrant.def","skin":skin,"scale":scale,"alpha":alpha}) = world_hydrant : "Fire Hydrant" [
+]
+@PointClass base(object) model({"path":"icecream.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_icecream : "Ice Cream container" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(item) model({"path":"identcard.def","skin":skin,"scale":scale,"alpha":alpha}) = Inventory_IdentCard : "Identification Card" [
+]
+@PointClass base(object) model({"path":"jacket.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_jacket : "jacket hanging on wall" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"jessica.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Jessica : "She swore she was 18!" [
+]
+@PointClass base(object) model({"path":"kevlar.def","skin":skin,"scale":scale,"alpha":alpha}) = armor_kevlar : "Pickaxe" [
+]
+@PointClass size(-4 -4 0, 4 4 4) base(KeyRing) model({"path":"keys.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_keyring : "Keys for locked doors" [
+]
+@PointClass size(-20 -24 0, 20 24 72) base(actor) model({"path":"lab.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_LabWorker : "Lab Worker" [
+]
+@PointClass base(object) model({"path":"lamp.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_tablelamp : "Table Lamp" [
+]
+@PointClass base(vehicle) model({"path":"lamprey.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_lamprey : "Lamprey Helicopter" [
+]
+@PointClass base(vehicle) model({"path":"lamprey_man.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_lamprey_manero : "Lamprey Helicopter - Manero" [
+]
+@PointClass base(object) model({"path":"lamprey_rotors.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_lamprey_rotors : "Lamprey Rotors\nTwo skins - One for HC and Sintek" [
+]
+@PointClass base(vehicle) model({"path":"lamprey_sintek.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_lamprey_sintek : "Lamprey Sintek Helicopter" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"lansing.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Lansing : "Dr Lansing" [
+]
+@PointClass base(object) model({"path":"launcher.def","skin":skin,"scale":scale,"alpha":alpha}) = trap_oldlauncher : "Old Launcher Model" [
+]
+@PointClass size(-36 -36 0, 36 36 80) base(actor) model({"path":"launcher_top.def","skin":skin,"scale":scale,"alpha":alpha}) = trap_missilelauncher_top : "Missile Launcher - Top." [
+]
+@PointClass base(object) model({"path":"lavabubble.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_lava_bubble : "" [
+]
+@PointClass base(object) model({"path":"lavarock1.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_lava_rock1 : "" [
+]
+@PointClass base(Magnum) model({"path":"magnum.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_magnum : "Magnum - World Model" [
+]
+@PointClass base(object) model({"path":"mailbox.def","skin":skin,"scale":scale,"alpha":alpha}) = world_mailbox : "US Mailbox" [
+]
+@PointClass size(-4 -8 0, 4 8 72) base(actor) model({"path":"mancini.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Mancini : "Mancini" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"manero.def","skin":skin,"scale":scale,"alpha":alpha}) = Manero : "The base test version of Manero" [
+]
+@PointClass size(-24 -24 0, 24 24 88) base(actor) model({"path":"manumit.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Manumit : "Manumit" [
+]
+@PointClass base(object) model({"path":"matress.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_matress : "Old single matress" [
+]
+@PointClass base(object) model({"path":"mdancer_chop1.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_ChoppedArm : "Male with some mutations and some detachable body parts" [
+]
+@PointClass base(object) model({"path":"mdancer_chop2.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_ChoppedHead : "Male with some mutations and some detachable body parts" [
+]
+@PointClass base(object) model({"path":"mdancer_chop3.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_ChoppedBody : "Male with some mutations and some detachable body parts" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_green.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_green : "Male GAMBLER with green shirt" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_greent.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_GreenT : "Male Dancer with green sweatshirt" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_mutated.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_MaleDancer_Mutated : "Unconscious man who has begun to mutate" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_pink.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_pink : "Male Dancer with pink shirt" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_psych.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_Psych : "Male Dancer with sweatshirt with green and purple psychadelic swirly patterns" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_psych2.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_psych2 : "Male GAMBLER with sweatshirt with pink and purple psychadelic patterns" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_red.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_red : "Male GAMBLER with red shirt" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_redt.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_RedT : "Male GAMBLER with red (actually purple) sweatshirt" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_target.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_Target : "Male Dancer with sweatshirt with target on it" [
+]
+@PointClass base(object) model({"path":"mdancer_unconscious.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_MaleDancer_Unconscious : "Unconscious man who has begun to mutate" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_vomit.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_vomit : "Male Dancer with vomit shirt" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mdancer_zisabastard.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_MaleDancer_ZisaBastard : "Male Dancer with some fuding clothes" [
+]
+@PointClass base(object) model({"path":"meathook.def","skin":skin,"scale":scale,"alpha":alpha}) = items_meathook : "Meat Hook" [
+]
+@PointClass base(object) model({"path":"meter.def","skin":skin,"scale":scale,"alpha":alpha}) = world_meter : "Parking Meter" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"military1.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_Military_1LyinginBed : "Military #1 - Guy in Bed" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"military2.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_Military_2Injured : "Military #2 - Sitting injured" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"military3.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_Military_3Medic : "Military #3 - Medic" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"military4.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_Military_4Leader : "Military #4 - Guy who is the leader" [
+]
+@PointClass base(SpiderMines) model({"path":"mine.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_SpiderMine : "Spider Mines Ammo Container" [
+]
+@PointClass base(object) model({"path":"minitrucklow.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_minitruck : "Mini Truck - Street scenes - Low Poly" [
+]
+@PointClass base(object) model({"path":"moneybag.def","skin":skin,"scale":scale,"alpha":alpha}) = items_moneybag : "Money bag from heist" [
+]
+@PointClass size(-8 -8 0, 8 8 8) base(item) model({"path":"moneybag_inv.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_moneybag : "Money bags from heist that you can pick-up" [
+]
+@PointClass size(-22 -22 0, 22 22 70) base(mortician) model({"path":"mortician.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Mortician_Normal : "Mortician with a magnum" [
+]
+@PointClass size(-22 -22 0, 22 22 70) base(mortician) model({"path":"mortician_boss.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Mortician_Druglab : "Mortician with no weapon, for Z's druglab scene" [
+]
+@PointClass size(-22 -22 0, 22 22 70) base(mortician) model({"path":"mortician_stinger.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Mortician_Stinger : "Mortician with Stinger pack, for Casino1" [
+]
+@PointClass base(object) model({"path":"mouse.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_mouse : "Mouse for Computer" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mthug.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ManeroThug_Magnum : "The base version of the Manero Thug - carries a magnum" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mthug_assrifle.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ManeroThug_tommygun : "Manero Thug with tommy gun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mthug_chain.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ManeroThug_chain : "Manero Thug with chaingun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mthug_flame.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ManeroThug_flame : "Manero Thug with flamethrower" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mthug_grenade.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ManeroThug_grenade : "Manero Thug with grenade launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mthug_kungfu.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ManeroThug_Kungfu : "Manero Thug action figure with full kung-fu action!" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mthug_rocket.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ManeroThug_rocket : "Manero Thug with rocket launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mthug_shtgn.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ManeroThug_shtgn : "Manero Thug with shotgun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"mthug_unarmed.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_ManeroThug_Unarmed : "Menero Thug, unarmed, for cinematics" [
+]
+@PointClass size(-14 -14 0, 14 14 82) base(actor) model({"path":"mworker.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_MetalWorker : "Metal Works Worker" [
+]
+@PointClass size(-40 -40 0, 40 40 48) base(actor) model({"path":"nautic.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Nautic : "Nautic" [
+]
+@PointClass base(object) model({"path":"news.def","skin":skin,"scale":scale,"alpha":alpha}) = world_newsbox : "Newspaper Dispenser" [
+]
+@PointClass base(IP36) model({"path":"nuke_w.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_ip36 : "IP36 - World Model" [
+]
+@PointClass base(object) model({"path":"o2tank.def","skin":skin,"scale":scale,"alpha":alpha}) = world_o2tank : "O2 Tank" [
+]
+@PointClass base(object) model({"path":"old_boot.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_old_boot : "Old discarded boot" [
+]
+@PointClass size(-28 -28 0, 28 28 80) base(actor) model({"path":"onethumb.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_OneThumb : "Greaseball." [
+]
+@PointClass size(-14 -14 0, 14 14 82) base(actor) model({"path":"oworker.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_OilRigWorker : "Oil Rig Worker" [
+]
+@PointClass base(Oxygen) model({"path":"oxygen.def","skin":skin,"scale":scale,"alpha":alpha}) = Powerup_Oxygen : "Oxygen" [
+]
+@PointClass base(StingerPack) model({"path":"pack_w.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_stinger : "Stinger rocket pack - World Model" [
+]
+@PointClass size(-40 -12 0, 10 12 256) base(object) model({"path":"palmtree.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_palmtree : "Palmtree\nSPECIAL CASE-Attach extra box around upper portion" [
+]
+@PointClass size(-12 -12 0, 12 12 14) base(ParadoxDiamond) model({"path":"paradox.def","skin":skin,"scale":scale,"alpha":alpha}) = items_paradox : "The world-famous Paradox Diamond." [
+]
+@PointClass size(-8 -8 0, 8 8 8) base(item) model({"path":"password.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_passcode : "Password Paper" [
+]
+@PointClass size(-40 -40 0, 40 40 104) base(Peon) model({"path":"peon.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Peon : "Peon" [
+]
+@PointClass size(-56 -56 0, 56 56 160) base(Peon) model({"path":"peon_ship.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_PeonShip : "Peon" [
+]
+@PointClass base(object) model({"path":"phone1.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_phone1 : "Desk Phone #1" [
+]
+@PointClass base(object) model({"path":"phone2.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_phone2 : "Desk Phone #2" [
+]
+@PointClass size(-12 -12 0, 12 12 24) base(actor) model({"path":"pigeon.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_Pigeon : "Pigeon" [
+]
+@PointClass size(-44 -44 0, 44 44 96) base(actor) model({"path":"pinphat.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Pinphat : "Pinphat" [
+]
+@PointClass base(object) model({"path":"pizzabox.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_pizza_box : "Old pizza box" [
+]
+@PointClass size(-24 -24 0, 24 24 40) base(object) model({"path":"plant1.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_plant : "Plant-Small one sitting on ground" [
+]
+@PointClass base(BulletPulse) model({"path":"plasma.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_Plasma : "Ammo Energy Weapons - Plasma (Small)" [
+]
+@PointClass size(-32 -32 0, 32 32 80) base(actor) model({"path":"pl_blade.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_Blade : "Blade (Ritual's Hero)" [
+]
+@PointClass size(-32 -32 0, 32 32 80) base(actor) model({"path":"pl_elexis.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_Elexis : "Elexis Sinclaire" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"pl_jc.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_JC : "JC" [
+]
+@PointClass size(-32 -32 0, 32 32 80) base(actor) model({"path":"pl_manero.def","skin":skin,"scale":scale,"alpha":alpha}) = Hero_Manero : "The base version of the Manero player model" [
+]
+@PointClass base(object) model({"path":"poofs.def","skin":skin,"scale":scale,"alpha":alpha}) = items_CheesyPoofs : "Cheesy Poofs - Yummy" [
+]
+@PointClass base(object) model({"path":"portolet.def","skin":skin,"scale":scale,"alpha":alpha}) = world_portolet : "Port-o-let Portable John" [
+]
+@PointClass size(-8 -8 0, 8 8 60) base(actor) model({"path":"priest.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ChurchCutscene_Priest : "Mutant priest" [
+]
+@PointClass base(object) model({"path":"propane.def","skin":skin,"scale":scale,"alpha":alpha}) = world_propane : "Propane Tank" [
+]
+@PointClass base(PulseRifle) model({"path":"pulse2.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_pulserifle : "Pulse Rifle - World Model" [
+]
+@PointClass base(pulsepart1) model({"path":"pulsepart1.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_pulsepart1 : "Pulse Weapon Part #1 (do not use; use generic pulse part)" [
+]
+@PointClass base(pulsepart2) model({"path":"pulsepart2.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_pulsepart2 : "Pulse Weapon Part #2 (do not use; use generic pulse part)" [
+]
+@PointClass base(pulsepart3) model({"path":"pulsepart3.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_pulsepart3 : "Pulse Weapon Part #3 (do not use; use generic pulse part)" [
+]
+@PointClass base(BulletPulse) model({"path":"pulse_ammo.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_Pulse : "Ammo Energy Weapons - Pulse Rifle (Large)" [
+]
+@PointClass base(QuantumDestabilizer) model({"path":"quantum.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_quantumd : "Quantum Destabilizer - World Model" [
+]
+@PointClass base(object) model({"path":"rain_128x128.def","skin":skin,"scale":scale,"alpha":alpha}) = fx_rain_128x128 : "128 x 128 area of rain" [
+]
+@PointClass base(object) model({"path":"rain_256x256.def","skin":skin,"scale":scale,"alpha":alpha}) = fx_rain_256x256 : "256 x 256 area of rain" [
+]
+@PointClass base(object) model({"path":"rain_64x64.def","skin":skin,"scale":scale,"alpha":alpha}) = fx_rain_64x64 : "64 x 64 area of rain" [
+]
+@PointClass size(-10 -10 0, 10 10 12) base(rat) model({"path":"rat.def","skin":skin,"scale":scale,"alpha":alpha}) = Animals_Rat : "Rat" [
+]
+@PointClass base(object) model({"path":"recbio_arm.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_ReconahArm : "Reconah Arm" [
+]
+@PointClass base(object) model({"path":"recbio_gun.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_ReconahGun : "Reconah Gun" [
+]
+@PointClass base(object) model({"path":"recbio_leg.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_ReconahLeg : "Reconah Leg" [
+]
+@PointClass base(object) model({"path":"recbio_torso.def","skin":skin,"scale":scale,"alpha":alpha}) = gib_ReconahTorso : "Reconah Torso" [
+]
+@PointClass size(-28 -28 0, 28 28 88) base(actor) model({"path":"reconah.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Reconah : "Reconah" [
+]
+@PointClass base(RiotHelmet) model({"path":"riothelm.def","skin":skin,"scale":scale,"alpha":alpha}) = Armor_RiotHelmet : "Riot Helmet" [
+]
+@PointClass base(object) model({"path":"ritualsign.def","skin":skin,"scale":scale,"alpha":alpha}) = world_sign_ritual : "Ritual Billboard" [
+]
+@PointClass base(RocketLauncher) model({"path":"rlaunch.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_rocketlauncher : "Rocket Launcher - World Model" [
+]
+@PointClass base(Rockets) model({"path":"rockets.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_Rockets : "Ammo Rockets" [
+]
+@PointClass base(object) model({"path":"roulette.def","skin":skin,"scale":scale,"alpha":alpha}) = items_roulette : "Roulette wheel with ball" [
+]
+@PointClass base(object) model({"path":"safelite.def","skin":skin,"scale":scale,"alpha":alpha}) = world_safelite : "Emergency Light - Red" [
+]
+@PointClass base(object) model({"path":"safelitez.def","skin":skin,"scale":scale,"alpha":alpha}) = world_safelitez : "Emergency Light - Red" [
+]
+@PointClass base(object) model({"path":"safelitezfb.def","skin":skin,"scale":scale,"alpha":alpha}) = world_safelitezFullbright : "Emergency Light - Red" [
+]
+@PointClass size(-24 -32 0, 24 32 96) base(actor) model({"path":"sarge.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Sergeant : "Sergeant" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"scientist.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Scientist : "Scientist Type Guy" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"scientist_nl.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Scientist_Nologo : "Scientist Type Guy (with no logo)" [
+]
+@PointClass size(-4 -4 0, 4 4 8) base(object) model({"path":"scissors.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_scissors : "Pair of Scissors" [
+]
+@PointClass base(object) model({"path":"scope1.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_telescope1 : "Telescope-Large 6ft high-Observation Tower Type" [
+]
+@PointClass size(-7 -5 0, 7 5 48) base(object) model({"path":"scope2.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_telescope2 : "Telescope-Small 6ft high-Hobbyist Type\nSPECIAL CASE-Attach extra box around upper portion" [
+]
+@PointClass base(ScubaGear) model({"path":"scubagear.def","skin":skin,"scale":scale,"alpha":alpha}) = Powerup_ScubaGear : "Rebreather Unit" [
+]
+@PointClass size(-24 -36 0, 24 36 96) base(actor) model({"path":"sea.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Seabonite : "Seabonite" [
+]
+@PointClass base(object) model({"path":"seaweed.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_seaweed : "Seaweed-Single strand" [
+]
+@PointClass size(-24 -36 0, 24 36 96) base(actor) model({"path":"sea_capt.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_SeaboniteCaptain : "Seabonite Captain - Red Suit markings" [
+]
+@PointClass base(actor) model({"path":"secrover.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_SecurityRover : "Security Rover" [
+]
+@PointClass size(-16 -16 0, 16 16 58) base(actor) model({"path":"securton.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Securton : "Securton" [
+]
+@PointClass base(object) model({"path":"shield.def","skin":skin,"scale":scale,"alpha":alpha}) = Powerup_Shield : "Photonic Shield - Invincibility" [
+]
+@PointClass base(object) model({"path":"shipcrate.def","skin":skin,"scale":scale,"alpha":alpha}) = world_shipcrate : "" [
+]
+@PointClass base(Shotgun) model({"path":"shotgun.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_shotgun : "Shotgun - World Model" [
+]
+@PointClass base(ShotgunClip) model({"path":"shotgunclip.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_Shotgun : "Ammo Shotgun" [
+]
+@PointClass base(object) model({"path":"shrub.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_shrub : "Hedge-Rectangular" [
+]
+@PointClass base(object) model({"path":"signbig.def","skin":skin,"scale":scale,"alpha":alpha}) = world_sign_large : "Vanity Billboard" [
+]
+@PointClass base(object) model({"path":"signsmall.def","skin":skin,"scale":scale,"alpha":alpha}) = world_sign_small : "Your Ad Here Billboard" [
+]
+@PointClass size(-8 -4 0, 8 4 8) base(silencer) model({"path":"silencer.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_silencer : "Silencer for Magnum & Assault Rifle" [
+]
+@PointClass base(actor) model({"path":"sink.def","skin":skin,"scale":scale,"alpha":alpha}) = world_sink : "Bathroom Sink" [
+]
+@PointClass base(object) model({"path":"sink_item.def","skin":skin,"scale":scale,"alpha":alpha}) = item_sink : "Bathroom Sink" [
+]
+@PointClass size(-22 -22 0, 22 22 75) base(actor) model({"path":"slim.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Slim_Normal : "The base test version of Slim - with a shotgun" [
+]
+@PointClass size(-16 -16 0, 16 16 75) base(actor) model({"path":"slimwithcgun.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Slim_Concussion : "Slim with a concussion gun - not yet functional" [
+]
+@PointClass base(object) model({"path":"slot01.def","skin":skin,"scale":scale,"alpha":alpha}) = items_slotface : "Spin me." [
+]
+@PointClass size(-32 -32 0, 32 32 200) base(goliath) model({"path":"smallgoliath.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_SmallGoliath : "Da almost as big as da Big Goliath kind of Goliath" [
+]
+@PointClass base(object) model({"path":"smokegen.def","skin":skin,"scale":scale,"alpha":alpha}) = fx_smokegen : "Smoke Generator" [
+]
+@PointClass size(-16 -16 0, 16 16 88) base(actor) model({"path":"sniper.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Sniper : "Sniper - Female" [
+]
+@PointClass base(SniperRifle) model({"path":"sniperrifle.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_sniperrifle : "Sniper Rifle - World Model" [
+]
+@PointClass base(BulletSniper) model({"path":"sniper_ammo.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_SniperRifle : "Ammo Sniper Rifle" [
+]
+@PointClass base(object) model({"path":"software1.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_software1 : "Software Item #1" [
+]
+@PointClass base(object) model({"path":"software2.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_software2 : "Software Item #2" [
+]
+@PointClass base(object) model({"path":"software3.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_software3 : "Software Item #3" [
+]
+@PointClass base(object) model({"path":"software4.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_software4 : "Software Item #4" [
+]
+@PointClass base(SpearGun) model({"path":"speargun.def","skin":skin,"scale":scale,"alpha":alpha}) = weapon_speargun : "Speargun - World Model" [
+]
+@PointClass base(Spears) model({"path":"spear_ammo.def","skin":skin,"scale":scale,"alpha":alpha}) = Ammo_SpearGun : "Ammo Spear Gun - Pack" [
+]
+@PointClass size(-8 -8 -8, 8 8 8) base(actor) model({"path":"spidermine_modelonly.def","skin":skin,"scale":scale,"alpha":alpha}) = trap_SpiderMine : "Spider Mines Trap" [
+]
+@PointClass size(-22 -22 0, 22 22 85) base(Splitter) model({"path":"splitter.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Splitter : "Splitter host mutant" [
+]
+@PointClass base(object) model({"path":"stalag.def","skin":skin,"scale":scale,"alpha":alpha}) = world_stalagtite : "Stalagtite" [
+]
+@PointClass base(object) model({"path":"steamgen.def","skin":skin,"scale":scale,"alpha":alpha}) = fx_steamgen : "Steam Generator" [
+]
+@PointClass size(-9 -9 0, 9 9 240) base(object) model({"path":"streetlight.def","skin":skin,"scale":scale,"alpha":alpha}) = world_streetlight : "Streetlight\nSPECIAL CASE-Attach extra box around upper portion" [
+]
+@PointClass size(-7 -7 0, 7 7 128) base(object) model({"path":"streetsign.def","skin":skin,"scale":scale,"alpha":alpha}) = world_sign_street : "Street Sign-Lamar and McKinney\nSPECIAL CASE-Attach extra box around upper portion" [
+]
+@PointClass base(object) model({"path":"stump.def","skin":skin,"scale":scale,"alpha":alpha}) = world_stump : "Stump" [
+]
+@PointClass size(-69 -54 0, 109 54 80) base(object) model({"path":"sub.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_Sub : "Sub" [
+]
+@PointClass base(object) model({"path":"techsuit.def","skin":skin,"scale":scale,"alpha":alpha}) = items_browntechuniform : "Tech Uniform for Blade's disguise" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"tech_chem.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Technician_ChemicalWorker : "Technician-Chemical" [
+]
+@PointClass size(-20 -20 0, 20 20 80) base(actor) model({"path":"tech_crane.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Technician_Crane : "2015 Technician-Crane" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"tech_freeport.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Technician_Freeport : "Technician-Freeport" [
+]
+@PointClass size(-20 -20 0, 20 20 80) base(actor) model({"path":"tech_generic.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Technician_Generic1 : "2015 Technician-Crane" [
+]
+@PointClass size(-20 -20 0, 20 20 80) base(actor) model({"path":"tech_generic2.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Technician_Generic2 : "2015 Technician-Crane" [
+]
+@PointClass size(-20 -20 0, 20 20 80) base(actor) model({"path":"tech_generic3.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Technician_Generic3 : "2015 Technician-Crane" [
+]
+@PointClass size(-20 -20 0, 20 20 80) base(actor) model({"path":"tech_guard_crane.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guard_Crane_Ass : "2015 Guard-Crane with assault rifle" [
+]
+@PointClass size(-20 -20 0, 20 20 80) base(actor) model({"path":"tech_guard_crane_pis.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guard_Crane_Pis : "2015 Guard-Crane with pistol" [
+]
+@PointClass size(-20 -20 0, 20 20 80) base(actor) model({"path":"tech_guard_crane_rckt.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guard_Crane_rocket : "2015 Guard-Crane (from hell) with rocket launcher" [
+]
+@PointClass size(-20 -20 0, 20 20 80) base(actor) model({"path":"tech_guard_crane_shot.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Guard_Crane_shotgun : "2015 Guard-Crane with shotgun" [
+]
+@PointClass size(-20 -20 0, 20 20 80) base(actor) model({"path":"tech_guard_museum.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Guard_MuseumShotgun : "2015 Guard - Museum guard with shotgun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"tech_marine.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Technician_Marine : "Technician-Marine" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"tech_sintek.def","skin":skin,"scale":scale,"alpha":alpha}) = Neutral_Technician_SinTEK : "Technician-SinTEK" [
+]
+@PointClass base(object) model({"path":"testtube.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_testtube : "Test Tube-For Labs" [
+]
+@PointClass size(-64 -64 0, 64 64 320) base(ThrallMaster) model({"path":"thrall.def","skin":skin,"scale":scale,"alpha":alpha}) = Boss_ThrallMaster : "Thrallmaster" [
+]
+@PointClass base(goliathobject) model({"path":"throwrubble.def","skin":skin,"scale":scale,"alpha":alpha}) = world_rubble : "Goliath crate for playing catch" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thugbald_ass.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ThugBald_AssaultRifle : "Bald Thug with Assault Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thugbald_flame.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ThugBald_Flamethrower : "Bald Thug with Flame Thrower" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thugbald_gernade.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ThugBald_Gernade : "Bald Thug with Gernade Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thugbald_pulse.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ThugBald_PulseRifle : "Bald Thug with Pulse Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thugbald_rckt.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ThugBald_RocketLauncher : "Bald Thug with Rocket Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thugbald_shtg.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ThugBald_Shotgun : "Bald Thug with Shotgun" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thugbald_sniper.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_ThugBald_Sniper : "Bald Thug with Sniper Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thug_ass.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Thug_AssaultRifle : "Thug with Assault Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thug_cine.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Thug_4Cinematic : "Thug for Cinematic" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thug_mag.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Thug_Magnum : "Thug with Magnum" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thug_none.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Thug_NoWeapon : "Thug with No Weapon" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thug_pulse.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Thug_PulseRifle : "Thug with Pulse Rifle" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thug_rckt.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Thug_RocketLauncher : "Thug with Rocket Launcher" [
+]
+@PointClass size(-16 -16 0, 16 16 80) base(actor) model({"path":"thug_shtg.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Thug_Shotgun : "Thug with Shotgun" [
+]
+@PointClass size(0 -20 -15, 5 20 15) base(object) model({"path":"title_of.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_WagesofSin2-new : "The middle piece of the wages of sin logo: 'of'" [
+]
+@PointClass size(0 -30 -15, 5 35 15) base(object) model({"path":"title_sin.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_WagesofSin3-new : "The last piece of the wages of sin logo: 'Sin'" [
+]
+@PointClass size(0 -70 -15, 5 70 15) base(object) model({"path":"title_wages.def","skin":skin,"scale":scale,"alpha":alpha}) = Cinematic_WagesofSin1-new : "The first piece of the wages of sin logo: 'Wages'" [
+]
+@PointClass base(actor) model({"path":"toilet.def","skin":skin,"scale":scale,"alpha":alpha}) = world_toilet : "Toilet" [
+]
+@PointClass base(object) model({"path":"toolbox.def","skin":skin,"scale":scale,"alpha":alpha}) = items_toolbox : "Toolbox" [
+]
+@PointClass base(object) model({"path":"torch.def","skin":skin,"scale":scale,"alpha":alpha}) = world_torch : "Torch for Fire" [
+]
+@PointClass size(-9 -9 0, 9 9 240) base(object) model({"path":"trafflite.def","skin":skin,"scale":scale,"alpha":alpha}) = world_trafflite : "Streetlight\nSPECIAL CASE-Attach extra box around upper portion" [
+]
+@PointClass base(object) model({"path":"trashcan1.def","skin":skin,"scale":scale,"alpha":alpha}) = world_trashcan1 : "Trash Can-Round and Metal" [
+]
+@PointClass base(object) model({"path":"trashcan2.def","skin":skin,"scale":scale,"alpha":alpha}) = world_trashcan2 : "Trash Can-Square and Plastic" [
+]
+@PointClass base(object) model({"path":"trashcan3.def","skin":skin,"scale":scale,"alpha":alpha}) = world_trashcan3 : "Desk Trash Can-Small and Plastic" [
+]
+@PointClass base(object) model({"path":"tray.def","skin":skin,"scale":scale,"alpha":alpha}) = deskitems_tray : "Small metal lab tray" [
+]
+@PointClass base(object) model({"path":"tree1.def","skin":skin,"scale":scale,"alpha":alpha}) = plant_tree : "Tree" [
+]
+@PointClass base(object) model({"path":"truck.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_truck : "Troop Transport Truck" [
+]
+@PointClass base(object) model({"path":"tub.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_bathtub : "Claw-footed bathtub, used for mixing chemicals in" [
+]
+@PointClass base(object) model({"path":"tv_crt.def","skin":skin,"scale":scale,"alpha":alpha}) = 2015_tv_crt : "Broken CRT television" [
+]
+@PointClass base(object) model({"path":"u4.def","skin":skin,"scale":scale,"alpha":alpha}) = Powerup_U4 : "U4 container" [
+]
+@PointClass base(object) model({"path":"u4inject.def","skin":skin,"scale":scale,"alpha":alpha}) = items_u4injector : "Pickaxe" [
+]
+@PointClass base(Mutagen) model({"path":"u4vial.def","skin":skin,"scale":scale,"alpha":alpha}) = Powerup_U4Vial : "U4 Injector - 60 second Mutant powerup" [
+]
+@PointClass base(U4Sample) model({"path":"u4_sample.def","skin":skin,"scale":scale,"alpha":alpha}) = inventory_U4Sample : "U4 Sample" [
+]
+@PointClass base(actor) model({"path":"urinal.def","skin":skin,"scale":scale,"alpha":alpha}) = world_urinal : "Urinal" [
+]
+@PointClass base(object) model({"path":"urinal_item.def","skin":skin,"scale":scale,"alpha":alpha}) = item_urinal : "Urinal" [
+]
+@PointClass base(object) model({"path":"uwshock.def","skin":skin,"scale":scale,"alpha":alpha}) = fx_uwshock : "Shock effect used in UWPASS" [
+]
+@PointClass base(object) model({"path":"van.def","skin":skin,"scale":scale,"alpha":alpha}) = vehicles_van : "Cool Grue Van" [
+]
+@PointClass size(-32 -32 0, 32 32 72) base(actor) model({"path":"vultorn.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_Vultorn : "Vultorn" [
+]
+@PointClass size(-20 -20 0, 20 20 70) base(actor) model({"path":"vultornzied.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_VultornZied : "Vultorn #2" [
+]
+@PointClass size(-10 -32 0, 30 32 50) base(actor) model({"path":"vultorn_small.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_VultornSmall : "Vultorn Small" [
+]
+@PointClass base(object) model({"path":"wirespool.def","skin":skin,"scale":scale,"alpha":alpha}) = world_wirespool : "Wirespool, found at construction sites" [
+]
+@PointClass size(-10 -10 0, 10 10 12) base(object) model({"path":"worker_mauled.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_DeadWorker : "Construction worker who got mauled by mutants" [
+]
+@PointClass size(-8 -12 0, 8 12 80) base(actor) model({"path":"worker_nl.def","skin":skin,"scale":scale,"alpha":alpha}) = Monster_GenericWorker : "Oil Rig Worker without SinTek Logo" [
+]
+@PointClass base(object) model({"path":"wreckball.def","skin":skin,"scale":scale,"alpha":alpha}) = world_wreckingball : "Wrecking Ball." [
+]
+@PointClass base(object) model({"path":"xeno_body.def","skin":skin,"scale":scale,"alpha":alpha}) = Innocent_XenoBody : "Xeno Body" [
+]
