@@ -36,6 +36,13 @@ int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const 
 // collect all assets of the given type specified in the given gamepack
 int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* gameId, const char* assetType);
 
+// get base query string for the given game id
+std::string GamepackLib_GetBaseQueryForGame(std::string gameId);
+std::string GamepackLib_GetBaseQueryForGame(const char* gameId);
+
+// run an xpath query on the global document in memory, returned as a string
+std::string GamepackLib_Query(const std::string& expression);
+
 // collect all game ids
 int GamepackLib_GetGameIds(std::vector<std::string>& gameIds);
 
