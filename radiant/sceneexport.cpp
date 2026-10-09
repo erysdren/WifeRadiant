@@ -29,13 +29,16 @@
 #include <QComboBox>
 #include <QLabel>
 
-class SceneExporter {
+class SceneExporter : public QObject {
 private:
 	QWidget* m_window = nullptr;
+	QComboBox* m_combo = nullptr;
 	bool m_hasExported = false;
 
 	void selectionChanged(int index) {
-
+		// FIXME: this sucks
+		const SceneExport* table = *static_cast<const SceneExport**>(m_combo->currentData().data());
+		globalOutputStream() << table->getName() << '\n';
 	}
 public:
 	void create() {
@@ -48,21 +51,21 @@ public:
 		m_window->setWindowTitle( "Export" );
 
 		// collect descriptions for each available export module
-		std::map<QString, QString> exportNames;
+		std::map<QString, const SceneExport&> exports;
 
 		class CollectSceneExportsVisitor : public SceneExportModules::Visitor {
 		private:
-			std::map<QString, QString>& m_exportNames;
+			std::map<QString, const SceneExport&>& m_exports;
 		public:
-			CollectSceneExportsVisitor(std::map<QString, QString>& exportNames) : m_exportNames(exportNames) {
+			CollectSceneExportsVisitor(std::map<QString, const SceneExport&>& exports) : m_exports(exports) {
 
 			}
 			void visit(const char* minor, const SceneExport& table) const override {
-				m_exportNames[minor] = table.getName();
+				m_exports.emplace(minor, table);
 			}
 		};
 
-		Radiant_getExportModules().foreachModule( CollectSceneExportsVisitor( exportNames ) );
+		Radiant_getExportModules().foreachModule( CollectSceneExportsVisitor( exports ) );
 
 		// setup gui
 		{
@@ -74,13 +77,13 @@ public:
 					grid->addWidget( label, 0, 0 );
 				}
 				{
-					auto* combo = new QComboBox;
-					for (const auto& [key, value] : exportNames) {
-						combo->addItem(value);
+					m_combo = new QComboBox;
+					for (const auto& [key, value] : exports) {
+						m_combo->addItem(value.getName(), QVariant::fromValue(&value));
 					}
-					grid->addWidget( combo, 0, 1, 1, 2 );
+					grid->addWidget( m_combo, 0, 1, 1, 2 );
 
-					// QObject::connect( combo, &QComboBox::activated, SceneExporter::selectionChanged );
+					QObject::connect( m_combo, &QComboBox::activated, this, &SceneExporter::selectionChanged );
 				}
 			}
 			// second row
