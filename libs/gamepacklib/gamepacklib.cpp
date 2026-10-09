@@ -181,7 +181,6 @@ int GamepackLib_ForEach(GamepackLib_Visitor& visitor, const char* gameId) {
 	return r;
 }
 
-
 int GamepackLib_ForEach(GamepackLib_Visitor& visitor) {
 	int r = 0;
 	std::vector<std::string> names;
@@ -225,6 +224,19 @@ int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* game
 		numAssets++;
 	}
 	return numAssets;
+}
+
+std::string GamepackLib_GetBaseQueryForGame(const char* gameId) {
+	return std::format("/radiant/game[@id='{}']", gameId);
+}
+
+std::string GamepackLib_GetBaseQueryForGame(std::string gameId) {
+	return GamepackLib_GetBaseQueryForGame(gameId.c_str());
+}
+
+std::string GamepackLib_Query(const std::string& expression) {
+	pugi::xpath_query query(expression.c_str());
+	return query.evaluate_string(gamepacksDoc);
 }
 
 int GamepackLib_GetGameIds(std::vector<std::string>& gameIds) {
