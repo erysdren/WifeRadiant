@@ -42,6 +42,7 @@
 #include "itoolbar.h"
 #include "iplugin.h"
 #include "imap.h"
+#include "isceneexport.h"
 #include "namespace.h"
 
 #include "gtkutil/messagebox.h"
@@ -208,6 +209,7 @@ class RadiantDependencies :
 	MapModulesRef m_map_modules;
 	ToolbarModulesRef m_toolbar_modules;
 	PluginModulesRef m_plugin_modules;
+	SceneExportModulesRef m_sceneexport_modules;
 
 public:
 	RadiantDependencies() :
@@ -218,7 +220,8 @@ public:
 		m_image_modules( GlobalRadiant().getRequiredGameDescriptionKeyValue( "texturetypes" ) ),
 		m_map_modules( GlobalRadiant().getRequiredGameDescriptionKeyValue( "maptypes" ) ),
 		m_toolbar_modules( "*" ),
-		m_plugin_modules( "*" ){
+		m_plugin_modules( "*" ),
+		m_sceneexport_modules( "*" ){
 	}
 
 	ImageModules& getImageModules(){
@@ -232,6 +235,9 @@ public:
 	}
 	PluginModules& getPluginModules(){
 		return m_plugin_modules.get();
+	}
+	SceneExportModules& getSceneExportModules(){
+		return m_sceneexport_modules.get();
 	}
 };
 
@@ -359,4 +365,7 @@ ToolbarModules& Radiant_getToolbarModules(){
 }
 PluginModules& Radiant_getPluginModules(){
 	return g_RadiantDependencies->getPluginModules();
+}
+SceneExportModules& Radiant_getExportModules(){
+	return g_RadiantDependencies->getSceneExportModules();
 }
