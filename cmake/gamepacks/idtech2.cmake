@@ -60,6 +60,74 @@ radiant_add_gamepack(q2
 	SHADER_TRIGGER "textures/common/trigger"
 )
 
+# Quake 2 Mission Pack: The Reckoning
+radiant_add_gamepack(q2xatrix
+	GAME_TYPE "q2"
+	HAS_BASEGAME
+	BASE_TITLE "Quake 2"
+	BASE_GAMEDIR "baseq2"
+	TITLE "Quake 2 Mission Pack: The Reckoning"
+	KNOWN_GAMEDIRS "xatrix"
+	KNOWN_TITLES "Quake 2 Mission Pack: The Reckoning"
+	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Quake 2/"
+	PATH_LINUX "~/.steam/steam/steamapps/common/Quake 2/"
+	EXECUTABLE_WIN32 "quake2.exe"
+	EXECUTABLE_LINUX "quake2"
+	EXECUTABLE_MACOS "Quake2.app"
+	ENTITIES_FILENAME "quake2.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	TEXTURE_PATH "textures"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "quake3"
+	BUILD_MENU_FILENAME "default_build_menu_quake2_ericwtools.xml"
+	ARCHIVE_TYPES "pak"
+	TEXTURE_TYPES "pcx" "tga" "wal"
+	MODEL_TYPES "md2"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapq2"
+	BRUSH_TYPES "quake2"
+	PATCH_TYPES "quake3"
+	SHADER_CAULK "textures/common/caulk"
+	SHADER_NODRAW "textures/common/nodraw"
+	SHADER_TRIGGER "textures/common/trigger"
+)
+
+# Quake 2 Mission Pack: Ground Zero
+radiant_add_gamepack(q2rogue
+	GAME_TYPE "q2"
+	HAS_BASEGAME
+	BASE_TITLE "Quake 2"
+	BASE_GAMEDIR "baseq2"
+	TITLE "Quake 2 Mission Pack: Ground Zero"
+	KNOWN_GAMEDIRS "rogue"
+	KNOWN_TITLES "Quake 2 Mission Pack: Ground Zero"
+	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Quake 2/"
+	PATH_LINUX "~/.steam/steam/steamapps/common/Quake 2/"
+	EXECUTABLE_WIN32 "quake2.exe"
+	EXECUTABLE_LINUX "quake2"
+	EXECUTABLE_MACOS "Quake2.app"
+	ENTITIES_FILENAME "quake2.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	TEXTURE_PATH "textures"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "fgd"
+	ENTITIES "quake3"
+	BUILD_MENU_FILENAME "default_build_menu_quake2_ericwtools.xml"
+	ARCHIVE_TYPES "pak"
+	TEXTURE_TYPES "pcx" "tga" "wal"
+	MODEL_TYPES "md2"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapq2"
+	BRUSH_TYPES "quake2"
+	PATCH_TYPES "quake3"
+	SHADER_CAULK "textures/common/caulk"
+	SHADER_NODRAW "textures/common/nodraw"
+	SHADER_TRIGGER "textures/common/trigger"
+)
+
 if(0)
 # SiN
 radiant_add_gamepack(sin
