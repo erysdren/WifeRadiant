@@ -45,7 +45,7 @@
 
 static std::filesystem::path GetExePath() {
 #ifdef Q_UNIX
-	return std::filesystem::canonical("/proc/self/exe").parent_path();
+	return std::filesystem::canonical(std::filesystem::read_symlink("/proc/self/exe")).parent_path();
 #elif defined(_WIN32)
 	char buffer[2048];
 	uint32_t len = GetModuleFileNameA(NULL, buffer, sizeof(buffer));
