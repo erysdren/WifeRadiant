@@ -41,3 +41,6 @@ ToolbarModules& Radiant_getToolbarModules();
 struct _QERPluginTable;
 typedef Modules<_QERPluginTable> PluginModules;
 PluginModules& Radiant_getPluginModules();
+class SceneExport;
+typedef Modules<SceneExport> SceneExportModules;
+SceneExportModules& Radiant_getExportModules();
