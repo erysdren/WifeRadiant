@@ -266,6 +266,13 @@ radiant_add_library(webplib
 
 # radiant
 
+if(WIN32)
+	set(RADIANT_RC_ORIGINAL_FILENAME "WifeRadiant.${RADIANT_EXECUTABLE_SUFFIX}")
+	set(RADIANT_RC_ICON_FILENAME "${PROJECT_SOURCE_DIR}/resources/bitmaps/logo.ico")
+	set(RADIANT_RC_FILEVERSION "${RADIANT_VERSION_MAJOR},${RADIANT_VERSION_MINOR},${RADIANT_VERSION_PATCH},0")
+	configure_file("${PROJECT_SOURCE_DIR}/radiant/radiant.rc.in" "${PROJECT_BINARY_DIR}/radiant.rc" @ONLY)
+endif()
+
 qt_add_executable(radiant WIN32
 	${PROJECT_SOURCE_DIR}/radiant/autosave.cpp
 	${PROJECT_SOURCE_DIR}/radiant/brushmanip.cpp
@@ -305,7 +312,7 @@ qt_add_executable(radiant WIN32
 	${PROJECT_SOURCE_DIR}/radiant/gtkdlgs.cpp
 	${PROJECT_SOURCE_DIR}/radiant/gtkmisc.cpp
 	${PROJECT_SOURCE_DIR}/radiant/help.cpp
-	$<$<BOOL:${WIN32}>:${PROJECT_SOURCE_DIR}/radiant/radiant.rc>
+	$<$<BOOL:${WIN32}>:${PROJECT_BINARY_DIR}/radiant.rc>
 	${PROJECT_SOURCE_DIR}/radiant/image.cpp
 	${PROJECT_SOURCE_DIR}/radiant/layerswindow.cpp
 	${PROJECT_SOURCE_DIR}/radiant/mainframe.cpp
