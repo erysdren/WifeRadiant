@@ -26,7 +26,7 @@
 #include "stream/filestream.h"
 
 /// \brief A module that writes scene data in a specific format.
-class SceneExporter
+class SceneExport
 {
 public:
 	INTEGER_CONSTANT( Version, 1 );
@@ -35,3 +35,15 @@ public:
 	/// \brief Write the map graph obtained by applying \p traverse to \p root into \p outputStream.
 	virtual void writeGraph( scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream ) const = 0;
 };
+
+template<typename Type>
+class ModuleRef;
+typedef ModuleRef<SceneExport> SceneExportModuleRef;
+
+template<typename Type>
+class Modules;
+typedef Modules<SceneExport> SceneExportModules;
+
+template<typename Type>
+class ModulesRef;
+typedef ModulesRef<SceneExport> SceneExportModulesRef;

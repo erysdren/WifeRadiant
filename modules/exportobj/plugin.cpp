@@ -50,16 +50,16 @@ public:
 	}
 };
 
-class ExportObjAPI final : public TypeSystemRef, public SceneExporter
+class ExportObjAPI final : public TypeSystemRef, public SceneExport
 {
 public:
-	typedef SceneExporter Type;
+	typedef SceneExport Type;
 	STRING_CONSTANT( Name, "obj" );
 
 	ExportObjAPI() { }
 	~ExportObjAPI() { }
 
-	SceneExporter* getTable(){
+	SceneExport* getTable(){
 		return this;
 	}
 
