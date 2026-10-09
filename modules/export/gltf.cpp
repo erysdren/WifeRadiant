@@ -24,6 +24,9 @@
 
 #include "gltf.h"
 
+#define CGLTF_WRITE_IMPLEMENTATION
+#include "cgltf_write.h"
+
 void writeGLTF(scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream) {
 
 }

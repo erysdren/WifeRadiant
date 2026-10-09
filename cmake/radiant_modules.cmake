@@ -111,6 +111,8 @@ radiant_add_module(export
 		${PROJECT_SOURCE_DIR}/modules/export/plugin.cpp
 		${PROJECT_SOURCE_DIR}/modules/export/obj.cpp
 		${PROJECT_SOURCE_DIR}/modules/export/gltf.cpp
+	INCLUDE_DIRECTORIES
+		${cgltf_SOURCE_DIR}
 )
 
 radiant_add_module(image
