@@ -39,6 +39,8 @@
 #include "stream/textfilestream.h"
 #include "math/vector.h"
 
+#include "tokenizer.hpp"
+
 #include "entityinspector.h"
 
 #include <toolpp/toolpp.h>
@@ -209,7 +211,60 @@ static void addModelToEntity( EntityClass* entityClass, const toolpp::FGD::Entit
 	} else if ( auto studioProperty = findClassProperty( entity, "studioprop" ); studioProperty != entity.classProperties.end() ) {
 		entityClass->miscmodel_is = true;
 	} else if ( auto studioProperty = findClassProperty( entity, "model" ); studioProperty != entity.classProperties.end() ) {
-		entityClass->miscmodel_is = true;
+		if ( !(*studioProperty).arguments.empty() ) {
+			// support TrenchBroom syntax
+			if ((*studioProperty).arguments[0] == '{') {
+				Tokenizer tokenizer( (*studioProperty).arguments, "{}:" );
+				while (true) {
+					auto firstToken = tokenizer.getToken();
+					if (!firstToken || firstToken == "}") {
+						// end of parsing
+						break;
+					}
+					if (firstToken == "{") {
+						// opening
+						continue;
+					}
+					auto secondToken = tokenizer.getToken();
+					if (!secondToken) {
+						globalWarningStream() << "early end of string in model() in " << Quoted(entityClass->name()) << '\n';
+						break;
+					}
+					if (secondToken != ":") {
+						globalWarningStream() << "missing ':' in " << firstToken.c_str() <<  " in model() in " << Quoted(entityClass->name()) << '\n';
+						break;
+					}
+					auto thirdToken = tokenizer.getToken();
+					if (!thirdToken) {
+						globalWarningStream() << "early end of string in model() in " << Quoted(entityClass->name()) << '\n';
+						break;
+					}
+					if (firstToken == "path") {
+						if (thirdToken.quoted()) {
+							// if it was quoted, it's a VFS path to a model
+							entityClass->miscmodel_is = false;
+							if (thirdToken[0] == ':') {
+								// skip leading ':' which has some significance to TrenchBroom i guess?
+								entityClass->m_modelpath = thirdToken.c_str() + 1;
+							} else {
+								entityClass->m_modelpath = thirdToken.c_str();
+							}
+						} else {
+							// otherwise, it's a field to use
+							entityClass->m_miscmodel_key = thirdToken.c_str();
+							entityClass->miscmodel_is = true;
+						}
+						globalOutputStream() << entityClass->m_modelpath << '\n';
+					}
+				}
+			} else {
+				StringInputStream istream( (*studioProperty).arguments );
+				Tokeniser& tokeniser = GlobalScriptLibrary().m_pfnNewScriptTokeniser( istream );
+				auto modelNameCleaned = StringStream<64>( PathCleaned( tokeniser.getToken() ) );
+				entityClass->m_modelpath = string_to_lowercase( modelNameCleaned.c_str() );
+				entityClass->miscmodel_is = false;
+			}
+		}
 	}
 }
 
