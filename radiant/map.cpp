@@ -32,7 +32,6 @@
 #include "irender.h"
 #include "ientity.h"
 #include "ifilesystem.h"
-#include "isceneexport.h"
 #include "namespace.h"
 #include "moduleobserver.h"
 
@@ -68,10 +67,7 @@
 #include "brushmodule.h"
 #include "brush.h"
 #include "grid.h"
-
-#include <QPushButton>
-#include <QComboBox>
-#include <QLabel>
+#include "sceneexport.h"
 
 class NameObserver
 {
@@ -1928,143 +1924,20 @@ void SaveRegion(){
 	}
 }
 
-static void Exporter_doExport();
-static void Exporter_doExportAs();
-static void Exporter_selectionChanged(int index);
-
-class Exporter {
-private:
-	QWidget* m_window = nullptr;
-	bool m_hasExported = false;
-public:
-	void create() {
-		if (m_window != nullptr) {
-			return;
-		}
-
-		// create base window
-		m_window = new QWidget( MainFrame_getWindow(), Qt::Dialog | Qt::WindowCloseButtonHint );
-		m_window->setWindowTitle( "Export" );
-
-		// collect descriptions for each available export module
-		std::map<QString, QString> exportDescriptions;
-
-		class CollectSceneExportsVisitor : public SceneExportModules::Visitor {
-		private:
-			std::map<QString, QString>& m_exportDescriptions;
-		public:
-			CollectSceneExportsVisitor(std::map<QString, QString>& exportDescriptions) : m_exportDescriptions(exportDescriptions) {
-
-			}
-			void visit(const char* minor, const SceneExport& table) const override {
-				m_exportDescriptions[minor] = table.getDescription();
-			}
-		};
-
-		Radiant_getExportModules().foreachModule( CollectSceneExportsVisitor( exportDescriptions ) );
-
-		// setup gui
-		{
-			auto* grid = new QGridLayout( m_window );
-			// first row
-			{
-				{
-					auto* label = new QLabel( "Format:" );
-					grid->addWidget( label, 0, 0 );
-				}
-				{
-					auto* combo = new QComboBox;
-					for (const auto& [key, value] : exportDescriptions) {
-						combo->addItem(value);
-					}
-					grid->addWidget( combo, 0, 1, 1, 2 );
-
-					QObject::connect( combo, &QComboBox::activated, Exporter_selectionChanged );
-				}
-			}
-			// second row
-			{
-				{
-					auto* label = new QLabel( "Options:" );
-					grid->addWidget( label, 1, 0 );
-				}
-				{
-					auto *container = new QWidget;
-					grid->addWidget( container, 1, 1, 2, 2 );
-
-					auto *vbox = new QVBoxLayout( container );
-					vbox->setContentsMargins( 0, 0, 0, 0 );
-				}
-			}
-			// fourth row
-			{
-				{
-					auto* button = new QPushButton( "Export" );
-					grid->addWidget( button, 3, 0 );
-					QObject::connect( button, &QAbstractButton::clicked, Exporter_doExport );
-				}
-				{
-					auto* button = new QPushButton( "Export As" );
-					grid->addWidget( button, 3, 1 );
-					QObject::connect( button, &QAbstractButton::clicked, Exporter_doExportAs );
-				}
-				{
-					auto* button = new QPushButton( "Cancel" );
-					grid->addWidget( button, 3, 2 );
-					QObject::connect( button, &QAbstractButton::clicked, m_window, &QWidget::hide );
-				}
-			}
-		}
-	}
-
-	void show() {
-		m_window->show();
-	}
-
-	bool hasExported() const {
-		return m_hasExported;
-	}
-
-	void doExport(const char* filename) {
-		m_hasExported = true;
-		globalOutputStream() << "exported " << filename << '\n';
-	}
-};
-
-static Exporter g_exporter{};
-
-static void Exporter_doExport() {
-	const char* path = Map_Unnamed( g_map )? getMapsPath() : g_map.m_name.c_str();
-	if (path != nullptr) {
-		g_exporter.doExport(path);
-	}
-}
-
-static void Exporter_doExportAs() {
-	const char* path = file_dialog( MainFrame_getWindow(), false, "Export As", nullptr, "obj", false, false, true );
-	if (path != nullptr) {
-		g_exporter.doExport(path);
-	}
-}
-
-static void Exporter_selectionChanged(int index) {
-
-}
-
 void Export(){
-	g_exporter.create();
-	g_exporter.show();
+	SceneExporter_show();
 }
 
 void ExportAgain(){
-	if (!g_exporter.hasExported()) {
-		g_exporter.create();
-		g_exporter.show();
+	if (!SceneExporter_hasExported()) {
+		SceneExporter_show();
 	} else {
-		Exporter_doExport();
+		const char* path = Map_Unnamed( g_map ) ? getMapsPath() : g_map.m_name.c_str();
+		if (path != nullptr) {
+			SceneExporter_doExport(path);
+		}
 	}
 }
-
 
 void RegionOff(){
 	Map_RegionOff();
