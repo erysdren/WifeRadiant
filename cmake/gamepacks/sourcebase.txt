@@ -11,6 +11,9 @@
 // links
 --link "Valve Developer Community" "https://developer.valvesoftware.com"
 
+// support source engine i/o
+--outputs
+
 // supported asset types
 --asset archive "vpk"
 --asset archive "gma"
