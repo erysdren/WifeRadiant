@@ -18,3 +18,8 @@
 */
 
 #pragma once
+
+bool SceneExporter_hasExported();
+void SceneExporter_show();
+void SceneExporter_doExport(const char* path);
+void SceneExporter_doExportAs();
