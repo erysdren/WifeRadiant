@@ -296,12 +296,13 @@ int main(int argc, const char** argv) {
 	// create gamepack document
 	pugi::xml_document doc;
 	pugi::xml_node radiantNode = doc.append_child("radiant");
-	radiantNode.append_attribute("xmlns") = RADIANT_XMLNS;
+	radiantNode.append_attribute("xmlns") = RADIANT_XMLNS_RADIANT;
 
 	// create game node
 	pugi::xml_node gameNode = radiantNode.append_child("game");
 	gameNode.append_attribute("id") = g_gameId;
 	gameNode.append_attribute("name") = g_gameName;
+	gameNode.append_attribute("xmlns") = RADIANT_XMLNS_GAME;
 	if (!g_gameInherits.empty()) {
 		gameNode.append_attribute("inherits") = g_gameInherits;
 	}
