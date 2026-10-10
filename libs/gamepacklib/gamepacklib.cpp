@@ -46,10 +46,14 @@ int GamepackLib_Init(std::filesystem::path& path) {
 
 	// grab all gamepacks
 	for (const auto& entry : dir) {
-		if (!entry.is_directory()) {
+		std::filesystem::path path;
+		if (entry.is_directory()) {
+			path = entry.path() / "game.xml";
+		} else if (entry.path().extension() == ".xml") {
+			path = entry.path();
+		} else {
 			continue;
 		}
-		std::filesystem::path path = entry.path() / "game.xml";
 		if (!std::filesystem::exists(path)) {
 			continue;
 		}
