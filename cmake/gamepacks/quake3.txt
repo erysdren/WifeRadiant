@@ -7,7 +7,7 @@
 // game id, name and icon
 --id "quake3"
 --name "Quake III Arena"
---icon "icon.png"
+--icon "icon.svg"
 
 // engine paths and executables
 --engine windows "C:/Program Files (x86)/Quake III Arena/" "quake3.exe"

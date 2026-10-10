@@ -1,0 +1,18 @@
+// inherits hl2.xml
+--inherits "hl2"
+
+// game id, name and icon
+--id "css"
+--name "Counter-Strike: Source"
+--icon "icon.svg"
+
+// engines
+--engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Counter-Strike Source/" "cstrike.exe"
+--engine linux "~/.steam/steam/steamapps/common/Counter-Strike Source/" "cstrike.sh"
+--engine mac "~/Library/Application Support/Steam/steamapps/common/Counter-Strike Source/" "cstrike.sh"
+
+// content paths
+--path "cstrike" "2"
+
+// entities
+--entities "cstrike.fgd"

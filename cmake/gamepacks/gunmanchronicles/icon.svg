@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="24"
+   height="24"
+   viewBox="0 0 6.3499999 6.35"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="gunman.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="mm"
+     inkscape:zoom="16"
+     inkscape:cx="12.40625"
+     inkscape:cy="12.0625"
+     inkscape:window-width="1920"
+     inkscape:window-height="1116"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path29"
+       style="fill:#ffce39;stroke-width:3;stroke-linecap:square;paint-order:markers stroke fill"
+       d="M 3.1749262,0.00206704 A 3.1750255,3.1750255 0 0 0 0.04851017,2.6235593 H 1.182474 A 2.0679438,2.0679438 0 0 1 3.1749262,1.1090814 2.0679438,2.0679438 0 0 1 4.4685559,1.5637446 L 5.2544929,0.77780845 A 3.1750255,3.1750255 0 0 0 3.1749262,0.00206704 Z m 0,2.62149226 V 3.7305765 H 5.1673784 A 2.0679438,2.0679438 0 0 1 3.1749262,5.2450542 2.0679438,2.0679438 0 0 1 1.182474,3.7305765 H 0.04851017 A 3.1750255,3.1750255 0 0 0 3.1749262,6.3520672 3.1750255,3.1750255 0 0 0 6.3013423,3.7305765 3.1750255,3.1750255 0 0 0 6.35,3.1823848 V 3.1719221 A 3.1750255,3.1750255 0 0 0 6.3013423,2.6235796 H 5.1673784 4.1106229 Z" />
+  </g>
+</svg>
