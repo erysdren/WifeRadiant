@@ -1,7 +1,12 @@
 
 function(radiant_add_gamepack name filename)
-	file(MAKE_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/")
-	set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/game.xml")
+	cmake_parse_arguments(PARSE_ARGV 1 ARG "HIDDEN" "" "")
+	if(ARG_HIDDEN)
+		set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}.xml")
+	else()
+		file(MAKE_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/")
+		set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/game.xml")
+	endif()
 	add_custom_command(
 		OUTPUT "${output_file}"
 		DEPENDS wiferadiant-tool-wrgamepack
@@ -16,9 +21,13 @@ endfunction()
 file(GLOB gamepacks "${PROJECT_SOURCE_DIR}/cmake/gamepacks/*.txt")
 foreach(gamepack IN LISTS gamepacks)
 	cmake_path(GET gamepack STEM gamepack_stem)
-	radiant_add_gamepack(${gamepack_stem} ${gamepack})
-	if(EXISTS "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${gamepack_stem}/")
-		file(COPY "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${gamepack_stem}/" DESTINATION "${RADIANT_INSTALL_PREFIX}/gamepacks/${gamepack_stem}/")
+	if(gamepack_stem MATCHES "^base_*")
+		radiant_add_gamepack(${gamepack_stem} ${gamepack} HIDDEN)
+	else()
+		radiant_add_gamepack(${gamepack_stem} ${gamepack})
+		if(EXISTS "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${gamepack_stem}/")
+			file(COPY "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${gamepack_stem}/" DESTINATION "${RADIANT_INSTALL_PREFIX}/gamepacks/${gamepack_stem}/")
+		endif()
 	endif()
 endforeach()
 
