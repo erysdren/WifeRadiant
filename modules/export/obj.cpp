@@ -33,8 +33,11 @@ inline Brush* Node_getBrush(scene::Node& node){
 
 class ObjWalker : public scene::Traversable::Walker {
 private:
-	FileOutputStream& m_outputStream;
 public:
+	FileOutputStream& m_outputStream;
+	mutable unsigned int m_vertexCount = 0;
+	mutable unsigned int m_texcoordCount = 0;
+
 	void writeString(const char* buffer, size_t len) const {
 		m_outputStream.write(reinterpret_cast<const FileOutputStream::byte_type*>(buffer), len);
 	}
@@ -50,6 +53,7 @@ public:
 	class ObjBrushVisitor : public BrushVisitor {
 	private:
 		const ObjWalker& m_objWalker;
+		mutable std::vector<DoubleVector3> m_vertices{};
 	public:
 		ObjBrushVisitor(const ObjWalker& objWalker) : m_objWalker(objWalker) {
 
@@ -57,6 +61,34 @@ public:
 
 		virtual void visit(Face& face) const override {
 			const auto& winding = face.getWinding();
+
+			bool weld = true;
+
+			// write vertices
+			size_t i = winding.numpoints;
+			do{
+				--i;
+				++m_objWalker.m_texcoordCount;
+				std::size_t vertexN = 0; // vertex index to use, 0 is special value = no vertex to weld to found
+				const DoubleVector3& vertex = winding[i].vertex;
+				if( weld ){
+					auto found = std::ranges::find_if( m_vertices, [&vertex]( const DoubleVector3& othervertex ){
+						return Edge_isDegenerate( vertex, othervertex );
+					} );
+					if( found == m_vertices.end() ){ // unique vertex, add to the list
+						m_vertices.emplace_back( vertex );
+					}
+					else{
+						vertexN = m_objWalker.m_vertexCount - std::distance( found, m_vertices.end() ) + 1; // reuse existing index
+					}
+				}
+				// write vertices
+				if( vertexN == 0 ){
+					vertexN = ++m_objWalker.m_vertexCount;
+					m_objWalker.writeString(std::format("v {} {} {}\n", vertex.x(), vertex.z(), -vertex.y()));
+				}
+			}
+			while( i != 0 );
 		}
 	};
 
