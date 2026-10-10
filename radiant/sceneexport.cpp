@@ -154,8 +154,7 @@ public:
 	}
 
 	bool doExportAs() {
-		const SceneExport* table = getCurrentExportTable();
-		const char* path = file_dialog( MainFrame_getWindow(), false, "Export As", nullptr, table->getExtension(), false, false, true );
+		const char* path = file_dialog( MainFrame_getWindow(), false, "Export As", nullptr, SceneExport::Name, false, false, true );
 		if (path != nullptr) {
 			return doExport(path);
 		}
