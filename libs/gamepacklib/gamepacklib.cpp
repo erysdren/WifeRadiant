@@ -198,12 +198,17 @@ int GamepackLib_ForEach(GamepackLib_Visitor& visitor) {
 	return r;
 }
 
-int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const char* gameId) {
+int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const char* gameId, bool allowInherited) {
 	if (gameId == nullptr || gameId[0] == '\0') {
 		return -1;
 	}
 	int numPaths = 0;
-	std::string expression = std::format("/radiant/game[@id='{}']/content[@path and @priority]", gameId);
+	std::string expression;
+	if (allowInherited) {
+		expression = std::format("/radiant/game[@id='{}']/content[@path and @priority]", gameId);
+	} else {
+		expression = std::format("/radiant/game[@id='{}']/content[@path and @priority and not(@inherited)]", gameId);
+	}
 	for (const auto& node : gamepacksDoc.select_nodes(expression.c_str())) {
 		contentPaths[node.node().attribute("priority").as_int()] = node.node().attribute("path").value();
 		numPaths++;
@@ -211,7 +216,7 @@ int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const 
 	return numPaths;
 }
 
-int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* gameId, const char* assetType) {
+int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* gameId, const char* assetType, bool allowInherited) {
 	if (gameId == nullptr || gameId[0] == '\0') {
 		return -1;
 	}
@@ -219,7 +224,12 @@ int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* game
 		return -1;
 	}
 	int numAssets = 0;
-	std::string expression = std::format("/radiant/game[@id='{}']/asset:{}[@name]", gameId, assetType);
+	std::string expression;
+	if (allowInherited) {
+		expression = std::format("/radiant/game[@id='{}']/asset:{}[@name]", gameId, assetType);
+	} else {
+		expression = std::format("/radiant/game[@id='{}']/asset:{}[@name and not(@inherited)]", gameId, assetType);
+	}
 	for (const auto& node : gamepacksDoc.select_nodes(expression.c_str())) {
 		assetTypes.push_back(node.node().attribute("name").value());
 		numAssets++;
@@ -255,21 +265,31 @@ bool GamepackLib_IsHidden(const char* gameId) {
 	return query.evaluate_boolean(gamepacksDoc);
 }
 
-std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName, const char* def) {
+std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName, const char* def, bool allowInherited) {
 	if (def == nullptr) {
 		def = "";
 	}
-	std::string expression = std::format("string(/radiant/game[@id='{}']/{}/@{})", gameId, keyName, argName);
+	std::string expression;
+	if (allowInherited) {
+		expression = std::format("string(/radiant/game[@id='{}']/{}/@{})", gameId, keyName, argName);
+	} else {
+		expression = std::format("string(/radiant/game[@id='{}']/{}[not(@inherited)]/@{})", gameId, keyName, argName);
+	}
 	pugi::xpath_query query(expression.c_str());
 	std::string retVal = query.evaluate_string(gamepacksDoc);
 	// std::cout << __func__ << ": expression: \"" << expression << "\" result: \"" << retVal << "\"" << std::endl;
 	return retVal.empty() ? def : retVal;
 }
 
-std::vector<std::string> GamepackLib_QueryStrings(const char* gameId, const char* keyName, const char* argName) {
+std::vector<std::string> GamepackLib_QueryStrings(const char* gameId, const char* keyName, const char* argName, bool allowInherited) {
 	std::vector<std::string> retVal{};
 	pugi::xpath_node_set nodes{};
-	std::string expression = std::format("/radiant/game[@id='{}']/{}[@{}]", gameId, keyName, argName);
+	std::string expression;
+	if (allowInherited) {
+		expression = std::format("/radiant/game[@id='{}']/{}[@{}]", gameId, keyName, argName);
+	} else {
+		expression = std::format("/radiant/game[@id='{}']/{}[@{} and not(@inherited)]", gameId, keyName, argName);
+	}
 	try {
 		nodes = gamepacksDoc.select_nodes(expression.c_str());
 	} catch(pugi::xpath_exception& e) {
@@ -282,8 +302,8 @@ std::vector<std::string> GamepackLib_QueryStrings(const char* gameId, const char
 	return retVal;
 }
 
-int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* argName, int def) {
-	std::string s = GamepackLib_QueryString(gameId, keyName, argName);
+int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* argName, int def, bool allowInherited) {
+	std::string s = GamepackLib_QueryString(gameId, keyName, argName, "", allowInherited);
 	try {
 		return std::stoi(s);
 	} catch(...) {
@@ -291,8 +311,8 @@ int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* ar
 	}
 }
 
-float GamepackLib_QueryFloat(const char* gameId, const char* keyName, const char* argName, float def) {
-	std::string s = GamepackLib_QueryString(gameId, keyName, argName);
+float GamepackLib_QueryFloat(const char* gameId, const char* keyName, const char* argName, float def, bool allowInherited) {
+	std::string s = GamepackLib_QueryString(gameId, keyName, argName, "", allowInherited);
 	try {
 		return std::stof(s);
 	} catch(...) {
@@ -301,15 +321,20 @@ float GamepackLib_QueryFloat(const char* gameId, const char* keyName, const char
 }
 
 template<typename T>
-T GamepackLib_QueryNumber(const char* gameId, const char* keyName, const char* argName) {
+T GamepackLib_QueryNumber(const char* gameId, const char* keyName, const char* argName, bool allowInherited) {
 	static_assert(std::is_arithmetic<T>::value);
-	std::string expression = std::format("/radiant/game[@id='{}']/{}/@{}", gameId, keyName, argName);
+	std::string expression;
+	if (allowInherited) {
+		expression = std::format("/radiant/game[@id='{}']/{}/@{}", gameId, keyName, argName);
+	} else {
+		expression = std::format("/radiant/game[@id='{}']/{}[not(@inherited)]/@{}", gameId, keyName, argName);
+	}
 	pugi::xpath_query query(expression.c_str());
 	return T(query.evaluate_number(gamepacksDoc));
 }
 
-bool GamepackLib_QueryBool(const char* gameId, const char* keyName, const char* argName, bool def) {
-	std::string s = GamepackLib_QueryString(gameId, keyName, argName);
+bool GamepackLib_QueryBool(const char* gameId, const char* keyName, const char* argName, bool def, bool allowInherited) {
+	std::string s = GamepackLib_QueryString(gameId, keyName, argName, "", allowInherited);
 	if (s.empty()) {
 		return def;
 	}

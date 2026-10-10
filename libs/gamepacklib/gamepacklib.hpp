@@ -31,10 +31,10 @@ int GamepackLib_Init(std::filesystem::path& path);
 void GamepackLib_Quit();
 
 // collect all content paths specified in the given gamepack
-int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const char* gameId);
+int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const char* gameId, bool allowInherited = true);
 
 // collect all assets of the given type specified in the given gamepack
-int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* gameId, const char* assetType);
+int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* gameId, const char* assetType, bool allowInherited = true);
 
 // get base query string for the given game id
 std::string GamepackLib_GetBaseQueryForGame(std::string gameId);
@@ -51,13 +51,13 @@ bool GamepackLib_IsHidden(const char* gameId);
 
 // query a specific item from a specific gamepack key
 template<typename T>
-T GamepackLib_QueryNumber(const char* gameId, const char* keyName, const char* argName);
+T GamepackLib_QueryNumber(const char* gameId, const char* keyName, const char* argName, bool allowInherited = true);
 
-std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName, const char* def = "");
-std::vector<std::string> GamepackLib_QueryStrings(const char* gameId, const char* keyName, const char* argName);
-int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* argName, int def = 0);
-float GamepackLib_QueryFloat(const char* gameId, const char* keyName, const char* argName, float def = 0.0f);
-bool GamepackLib_QueryBool(const char* gameId, const char* keyName, const char* argName, bool def = false);
+std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName, const char* def = "", bool allowInherited = true);
+std::vector<std::string> GamepackLib_QueryStrings(const char* gameId, const char* keyName, const char* argName, bool allowInherited = true);
+int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* argName, int def = 0, bool allowInherited = true);
+float GamepackLib_QueryFloat(const char* gameId, const char* keyName, const char* argName, float def = 0.0f, bool allowInherited = true);
+bool GamepackLib_QueryBool(const char* gameId, const char* keyName, const char* argName, bool def = false, bool allowInherited = true);
 
 // visitor class
 class GamepackLib_Visitor {
