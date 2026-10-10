@@ -102,6 +102,16 @@ FetchContent_Declare(
 )
 FetchContent_MakeAvailable(stb)
 
+# cgltf
+
+FetchContent_Declare(
+	cgltf
+	GIT_REPOSITORY "https://github.com/jkuhlmann/cgltf.git"
+	GIT_SHALLOW TRUE
+	GIT_PROGRESS TRUE
+)
+FetchContent_MakeAvailable(cgltf)
+
 # assimp
 
 if(RADIANT_USE_ASSIMP)

@@ -67,6 +67,7 @@
 #include "brushmodule.h"
 #include "brush.h"
 #include "grid.h"
+#include "sceneexport.h"
 
 class NameObserver
 {
@@ -1907,7 +1908,7 @@ void SaveMap(){
 	}
 }
 
-void ExportMap(){
+void SaveSelected(){
 	const char* filename = map_save( "Export Selection" );
 
 	if ( filename != 0 ) {
@@ -1923,6 +1924,13 @@ void SaveRegion(){
 	}
 }
 
+void Export(){
+	SceneExporter_doExport();
+}
+
+void ExportAgain(){
+	SceneExporter_doExportAgain();
+}
 
 void RegionOff(){
 	Map_RegionOff();
@@ -2452,8 +2460,10 @@ void Map_Construct(){
 	GlobalCommands_insert( "ImportMap", makeCallbackF( ImportMap ) );
 	GlobalCommands_insert( "SaveMap", makeCallbackF( SaveMap ), QKeySequence( "Ctrl+S" ) );
 	GlobalCommands_insert( "SaveMapAs", makeCallbackF( SaveMapAs ) );
-	GlobalCommands_insert( "SaveSelected", makeCallbackF( ExportMap ) );
+	GlobalCommands_insert( "SaveSelected", makeCallbackF( SaveSelected ) );
 	GlobalCommands_insert( "SaveRegion", makeCallbackF( SaveRegion ) );
+	GlobalCommands_insert( "Export", makeCallbackF( Export ) );
+	GlobalCommands_insert( "ExportAgain", makeCallbackF( ExportAgain ) );
 
 	GlobalCommands_insert( "RegionOff", makeCallbackF( RegionOff ) );
 	GlobalCommands_insert( "RegionSetXY", makeCallbackF( RegionXY ) );
