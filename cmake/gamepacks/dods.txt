@@ -1,0 +1,18 @@
+// inherits hl2.xml
+--inherits "hl2"
+
+// game id, name and icon
+--id "css"
+--name "Day of Defeat: Source"
+--icon "icon.svg"
+
+// engines
+--engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Day of Defeat Source/" "dod.exe"
+--engine linux "~/.steam/steam/steamapps/common/Day of Defeat Source/" "dod.sh"
+--engine mac "~/Library/Application Support/Steam/steamapps/common/Day of Defeat Source/" "dod.sh"
+
+// content paths
+--path "dod" "2"
+
+// entities
+--entities "dod.fgd"

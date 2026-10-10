@@ -5,7 +5,7 @@
 --hidden
 
 // type
---type q3
+--type idtech3
 
 // game id and name
 --id "idtech3base"

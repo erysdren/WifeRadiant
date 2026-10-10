@@ -2,7 +2,7 @@
 --hidden
 
 // type
---type hl
+--type goldsrc
 
 // use wads
 --wads

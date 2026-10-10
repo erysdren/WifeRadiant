@@ -4,7 +4,7 @@
 // game id, name and icon
 --id "gunmanchronicles"
 --name "Gunman Chronicles"
---icon "icon.png"
+--icon "icon.svg"
 
 // engines
 --engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Half-Life/" "hl.exe"
