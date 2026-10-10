@@ -1925,7 +1925,7 @@ void SaveRegion(){
 }
 
 void Export(){
-	SceneExporter_show();
+	SceneExporter_doExport();
 }
 
 void ExportAgain(){
