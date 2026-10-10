@@ -112,7 +112,8 @@ int GamepackLib_Init(std::filesystem::path& path) {
 
 				// copy stuff in
 				for (const auto& childNode : node.node()) {
-					child.node().append_copy(childNode);
+					pugi::xml_node copiedNode = child.node().append_copy(childNode);
+					copiedNode.ensure_attribute("inherited") = true;
 				}
 			}
 
