@@ -60,16 +60,16 @@ public:
 	typedef SceneExport Type;
 	STRING_CONSTANT( Name, "gltf" );
 
+	ExportGltfAPI() {
+		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "gltf models", "*.gltf", false, false, true ) );
+	}
+
 	virtual EFeatureFlags getFeatureFlags() const override {
 		return EFeatureFlags::eBrushes | EFeatureFlags::ePatches | EFeatureFlags::eLights | EFeatureFlags::eEntities;
 	}
 
 	virtual const char* getName() const override {
 		return "glTF";
-	}
-
-	virtual const char* getExtension() const override {
-		return "gltf";
 	}
 
 	SceneExport* getTable(){
@@ -92,16 +92,16 @@ public:
 	typedef SceneExport Type;
 	STRING_CONSTANT( Name, "obj" );
 
+	ExportObjAPI() {
+		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "wavefront obj models", "*.obj", false, false, true ) );
+	}
+
 	virtual EFeatureFlags getFeatureFlags() const override {
 		return EFeatureFlags::eBrushes;
 	}
 
 	virtual const char* getName() const override {
 		return "Wavefront OBJ";
-	}
-
-	virtual const char* getExtension() const override {
-		return "obj";
 	}
 
 	SceneExport* getTable(){

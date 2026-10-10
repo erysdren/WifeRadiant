@@ -48,9 +48,6 @@ public:
 	/// \brief returns a null-terminated string with a user-facing name of the format.
 	virtual const char* getName() const = 0;
 
-	/// \brief returns a null-terminated string with the file extension of the format (no leading period).
-	virtual const char* getExtension() const = 0;
-
 	/// \brief Write the map graph obtained by applying \p traverse to \p root into \p outputStream.
 	virtual void writeGraph( scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream ) const = 0;
 };
