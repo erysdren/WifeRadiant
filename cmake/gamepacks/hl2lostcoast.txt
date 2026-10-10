@@ -4,7 +4,7 @@
 // game id, name and icon
 --id "hl2lostcoast"
 --name "Half-Life 2: Lost Coast"
---icon "icon.png"
+--icon "icon.svg"
 
 // content paths
 --path "lostcoast" "2"

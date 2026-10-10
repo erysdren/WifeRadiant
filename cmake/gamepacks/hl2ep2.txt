@@ -4,7 +4,7 @@
 // game id, name and icon
 --id "hl2ep2"
 --name "Half-Life 2: Episode Two"
---icon "icon.png"
+--icon "icon.svg"
 
 // content paths
 --path "ep2" "3"

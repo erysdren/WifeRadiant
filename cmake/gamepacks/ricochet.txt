@@ -4,7 +4,7 @@
 // game id, name and icon
 --id "ricochet"
 --name "Ricochet"
---icon "icon.png"
+--icon "icon.svg"
 
 // content paths
 --path "ricochet" "1"
