@@ -7,4 +7,6 @@ radiant_add_tool(wrgamepack
 		${PROJECT_SOURCE_DIR}/tools/wrgamepack/main.cpp
 	DEPENDENCIES
 		pugixml::pugixml
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/libs
 )
