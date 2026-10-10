@@ -19,6 +19,7 @@
 
 #include "sceneexport.h"
 #include "isceneexport.h"
+#include "filetypes.h"
 
 #include "gtkutil/filechooser.h"
 #include "plugin.h"
@@ -26,6 +27,7 @@
 #include "map.h"
 #include "os/path.h"
 
+#if 0
 #include <QGridLayout>
 #include <QPushButton>
 #include <QComboBox>
@@ -172,23 +174,39 @@ public:
 };
 
 static SceneExporter g_sceneExporter{};
+#endif
 
-void SceneExporter_show() {
-	g_sceneExporter.create();
-	g_sceneExporter.show();
+static std::string g_lastExportedPath{};
+
+bool SceneExporter_doExportAs(const char* filename) {
+	const char* moduleName = findModuleName( GetFileTypeRegistry(), SceneExport::Name, path_get_last_extension( filename ) );
+	const SceneExport* format = Radiant_getExportModules().findModule( moduleName );
+	globalOutputStream() << "Open file " << filename << " for write...";
+	FileOutputStream file(filename);
+	if (!file.failed()) {
+		globalOutputStream() << "success" << '\n';
+		ScopeDisableScreenUpdates disableScreenUpdates( path_get_filename_start( filename ), "Exporting Map" );
+		format->writeGraph(GlobalSceneGraph().root(), Map_Traverse, file);
+		g_lastExportedPath = filename;
+		return true;
+	}
+
+	globalErrorStream() << "failure" << '\n';
+	return false;
 }
 
-bool SceneExporter_hasExported() {
-	g_sceneExporter.create();
-	return g_sceneExporter.hasExported();
-}
-
-bool SceneExporter_doExport(const char* path) {
-	g_sceneExporter.create();
-	return g_sceneExporter.doExport(path);
+bool SceneExporter_doExport() {
+	const char* filename = file_dialog( MainFrame_getWindow(), false, "Export As", nullptr, SceneExport::Name, false, false, true );
+	if (filename != nullptr) {
+		return SceneExporter_doExportAs(filename);
+	}
+	return false;
 }
 
 bool SceneExporter_doExportAgain() {
-	g_sceneExporter.create();
-	return g_sceneExporter.doExportAgain();
+	if (g_lastExportedPath.empty()) {
+		return SceneExporter_doExport();
+	} else {
+		return SceneExporter_doExportAs(g_lastExportedPath.c_str());
+	}
 }

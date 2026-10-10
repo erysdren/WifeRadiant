@@ -62,6 +62,7 @@ public:
 
 	ExportGltfAPI() {
 		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "gltf models", "*.gltf", false, false, true ) );
+		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "glb models", "*.glb", false, false, true ) );
 	}
 
 	virtual EFeatureFlags getFeatureFlags() const override {

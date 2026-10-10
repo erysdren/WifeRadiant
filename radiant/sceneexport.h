@@ -19,7 +19,6 @@
 
 #pragma once
 
-bool SceneExporter_hasExported();
-void SceneExporter_show();
-bool SceneExporter_doExport(const char* path);
+bool SceneExporter_doExport();
+bool SceneExporter_doExportAs(const char* filename);
 bool SceneExporter_doExportAgain();
