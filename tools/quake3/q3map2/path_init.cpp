@@ -30,6 +30,7 @@
 
 /* dependencies */
 #include "q3map2.h"
+#include "gamepacklib.hpp"
 
 /* platform-specific */
 #if defined( __linux__ ) || defined( __APPLE__ )
@@ -37,6 +38,22 @@
 	#include <pwd.h>
 	#define Q_UNIX
 #endif
+
+#ifdef _WIN32
+#include <libloaderapi.h>
+#endif
+
+static std::filesystem::path GetExePath() {
+#ifdef Q_UNIX
+	return std::filesystem::canonical(std::filesystem::read_symlink("/proc/self/exe")).parent_path();
+#elif defined(_WIN32)
+	char buffer[2048];
+	uint32_t len = GetModuleFileNameA(NULL, buffer, sizeof(buffer));
+	return std::filesystem::canonical(buffer).parent_path();
+#else
+#error please implement your platform-specific code here!
+#endif
+}
 
 /*
    some of this code is based off the original q3map port from loki
@@ -49,9 +66,19 @@
  */
 
 static CopiedString LokiGetHomeDir(){
-	#ifndef Q_UNIX
-	return "";
-	#else
+#ifdef _WIN32
+	const char *userprofile = getenv( "USERPROFILE" );
+	const char *homedrive = getenv( "HOMEDRIVE" );
+	const char *homepath = getenv( "HOMEPATH" );
+
+	if (userprofile) {
+		return userprofile;
+	} else if (homedrive && homepath) {
+		return StringStream(homedrive, homepath).c_str();
+	} else {
+		return "";
+	}
+#else
 	/* get the home environment variable */
 	const char *home = getenv( "HOME" );
 
@@ -69,7 +96,7 @@ static CopiedString LokiGetHomeDir(){
 	}
 	/* return it */
 	return "";
-	#endif
+#endif
 }
 
 
@@ -88,10 +115,14 @@ static void LokiInitPaths( const char *argv0, CopiedString& homePath, CopiedStri
 		}
 	}
 
-	#ifndef Q_UNIX
+	installPath = GetExePath().c_str();
+
+	// old code for reference --erysdren
+#if 0
+#ifndef Q_UNIX
 	/* this is kinda crap, but hey */
 	installPath = "../";
-	#else
+#else
 	const char *path = getenv( "PATH" );
 	auto temp = StringStream( argv0 );
 
@@ -163,7 +194,8 @@ static void LokiInitPaths( const char *argv0, CopiedString& homePath, CopiedStri
 		installPath = real;
 		free( real );
 	}
-	#endif
+#endif
+#endif
 }
 
 
@@ -180,6 +212,8 @@ const game_t *GetGame( const char *arg ){
 		return nullptr;
 	}
 
+	// this is no time for jokes! --erysdren
+#if 0
 	/* joke */
 	if ( striEqual( arg, "quake1" ) ||
 	     striEqual( arg, "quake2" ) ||
@@ -191,11 +225,37 @@ const game_t *GetGame( const char *arg ){
 		Sys_Printf( "April fools, silly rabbit!\n" );
 		exit( 0 );
 	}
+#endif
+
+	/* skip 'builtin:' prefix */
+	const char builtinPrefix[] = "builtin:";
+	if (striEqualPrefix(arg, builtinPrefix)) {
+		arg += strlen(builtinPrefix);
+
+		/* test it */
+		for( const game_t& game : g_builtinGames )
+		{
+			if ( !game.hidden && striEqual( arg, game.arg ) )
+				return &game;
+		}
+
+		/* no matching game */
+		Sys_Warning( "Game \"%s\" is unknown.\n", arg );
+		HelpGames();
+		return nullptr;
+	}
 
 	/* test it */
 	for( const game_t& game : g_games )
 	{
-		if ( striEqual( arg, game.arg ) )
+		if ( !game.hidden && striEqual( arg, game.arg ) )
+			return &game;
+	}
+
+	/* fallback to builtin games */
+	for( const game_t& game : g_builtinGames )
+	{
+		if ( !game.hidden && striEqual( arg, game.arg ) )
 			return &game;
 	}
 
@@ -204,7 +264,6 @@ const game_t *GetGame( const char *arg ){
 	HelpGames();
 	return nullptr;
 }
-
 
 inline bool is_unique( const std::vector<CopiedString>& list, const char *string ){
 	for( const auto& str : list )
@@ -216,6 +275,105 @@ inline bool is_unique( const std::vector<CopiedString>& list, const char *string
 inline void insert_unique( std::vector<CopiedString>& list, const char *string ){
 	if( is_unique( list, string ) )
 		list.emplace_back( string );
+}
+
+static void AddGames(std::filesystem::path path) {
+	StringOutputStream stream(256);
+	int n = GamepackLib_Init(path);
+	if (n == -1) {
+		Sys_Warning( "Failed to read gamepacks from path '%s'\n", path.c_str() );
+		return;
+	}
+
+	Sys_FPrintf( SYS_VRB, "Added %d gamepacks from path '%s'\n", n, path.c_str() );
+
+	std::vector<std::string> gameIds{};
+	GamepackLib_GetGameIds(gameIds);
+
+	for (const auto& gameId : gameIds) {
+		game_t game{};
+
+		if (GamepackLib_QueryString(gameId.c_str(), "compiler:type", "name") != "wrmap") {
+			continue;
+		}
+
+		game.arg = gameId;
+
+		game.hidden = GamepackLib_IsHidden(gameId.c_str());
+
+		std::map<int, std::string> contentPaths;
+		GamepackLib_GetContentPaths(contentPaths, gameId.c_str());
+		for (const auto& [key, value] : contentPaths) {
+			game.gamePaths.push_back(CopiedString(value));
+		}
+		game.shaderPath = GamepackLib_QueryString(gameId.c_str(), "shaders", "path", "scripts");
+		game.shaderExt = GamepackLib_QueryString(gameId.c_str(), "shaders", "extension", "shader");
+		game.maxLMSurfaceVerts = GamepackLib_QueryInt(gameId.c_str(), "compiler:limits", "lmsurfaceverts", 64);
+		game.maxSurfaceVerts = GamepackLib_QueryInt(gameId.c_str(), "compiler:limits", "surfaceverts", 999);
+		game.maxSurfaceIndexes = GamepackLib_QueryInt(gameId.c_str(), "compiler:limits", "surfaceindexes", 6000);
+		game.emitFlares = GamepackLib_QueryBool(gameId.c_str(), "compiler:flares", "enabled", false);
+		game.flareShader = GamepackLib_QueryString(gameId.c_str(), "compiler:flares", "shader", "flareshader");
+		game.wolfLight = GamepackLib_QueryBool(gameId.c_str(), "compiler:lighting", "wolf", false);
+		game.lightmapSize = GamepackLib_QueryInt(gameId.c_str(), "compiler:lightmaps", "size", 128);
+		game.lightmapGamma = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightmaps", "gamma", 1.0f);
+		game.lightmapsRGB = GamepackLib_QueryBool(gameId.c_str(), "compiler:lightmaps", "srgb", false);
+		game.texturesRGB = GamepackLib_QueryBool(gameId.c_str(), "compiler:textures", "srgb", false);
+		game.colorsRGB = GamepackLib_QueryBool(gameId.c_str(), "compiler:colors", "srgb", false);
+		game.lightmapExposure = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightmaps", "exposure", 0.0f);
+		game.lightmapCompensate = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightmaps", "compensate", 1.0f);
+		game.gridScale = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightgrid", "scale", 1.0f);
+		game.gridAmbientScale = GamepackLib_QueryFloat(gameId.c_str(), "compiler:lightgrid", "ambientscale", 1.0f);
+		game.lightAngleHL = GamepackLib_QueryBool(gameId.c_str(), "compiler:lights", "halflambert", false);
+		game.noStyles = !GamepackLib_QueryBool(gameId.c_str(), "compiler:lightstyles", "enabled", true);
+		game.keepLights = GamepackLib_QueryBool(gameId.c_str(), "compiler:lights", "keep", false);
+		game.patchSubdivisions = GamepackLib_QueryInt(gameId.c_str(), "compiler:patches", "subdivisions", 8);
+		game.brushSubdivisions = GamepackLib_QueryFloat(gameId.c_str(), "compiler:brushes", "subdivisions", 0.0f);
+		game.patchShadows = GamepackLib_QueryBool(gameId.c_str(), "compiler:patches", "shadows", false);
+		game.deluxeMap = GamepackLib_QueryBool(gameId.c_str(), "compiler:deluxemaps", "enabled", true);
+		game.deluxeMode = GamepackLib_QueryInt(gameId.c_str(), "compiler:deluxemaps", "mode", 0);
+		game.miniMapSize = GamepackLib_QueryInt(gameId.c_str(), "compiler:minimap", "size", 512);
+		game.miniMapSharpen = GamepackLib_QueryFloat(gameId.c_str(), "compiler:minimap", "sharpen", 1.0f);
+		game.miniMapBorder = GamepackLib_QueryFloat(gameId.c_str(), "compiler:minimap", "border", 0.0f);
+		game.miniMapKeepAspect = GamepackLib_QueryBool(gameId.c_str(), "compiler:minimap", "keepaspect", true);
+		std::string miniMapMode = GamepackLib_QueryString(gameId.c_str(), "compiler:minimap", "mode", "gray");
+		if (miniMapMode == "black") {
+			game.miniMapMode = EMiniMapMode::Black;
+		} else if (miniMapMode == "white") {
+			game.miniMapMode = EMiniMapMode::White;
+		} else {
+			game.miniMapMode = EMiniMapMode::Gray;
+		}
+		game.miniMapNameFormat = GamepackLib_QueryString(gameId.c_str(), "compiler:minimap", "nameformat", "%s");
+		game.bspIdent = GamepackLib_QueryString(gameId.c_str(), "compiler:bsp", "magic", "IBSP");
+		game.bspVersion = GamepackLib_QueryInt(gameId.c_str(), "compiler:bsp", "version", 46);
+		game.lumpSwap = GamepackLib_QueryBool(gameId.c_str(), "compiler:bsp", "lumpswap", false);
+		extern void LoadIBSPFile( const char *filename );
+		extern void LoadRBSPFile( const char *filename );
+		std::string bspLoadFunc = GamepackLib_QueryString(gameId.c_str(), "compiler:bsp", "load", "LoadIBSPFile");
+		if (bspLoadFunc == "LoadRBSPFile") {
+			game.load = LoadRBSPFile;
+		} else {
+			game.load = LoadIBSPFile;
+		}
+		extern void WriteIBSPFile( const char *filename );
+		extern void WriteRBSPFile( const char *filename );
+		std::string bspWriteFunc = GamepackLib_QueryString(gameId.c_str(), "compiler:bsp", "write", "WriteIBSPFile");
+		if (bspWriteFunc == "WriteRBSPFile") {
+			game.load = WriteRBSPFile;
+		} else {
+			game.load = WriteIBSPFile;
+		}
+
+		g_games.push_back(game);
+	}
+}
+
+void InitGames() {
+	/* note it */
+	Sys_FPrintf( SYS_VRB, "--- InitGames ---\n" );
+
+	/* add gamepacks */
+	AddGames( GetExePath() / "gamepacks" );
 }
 
 
@@ -299,7 +457,6 @@ void InitPaths( Args& args ){
 	const char *baseGame = nullptr;
 	StringOutputStream stream( 256 );
 
-
 	/* note it */
 	Sys_FPrintf( SYS_VRB, "--- InitPaths ---\n" );
 
@@ -307,7 +464,7 @@ void InitPaths( Args& args ){
 	LokiInitPaths( args.getArg0(), homePath, installPath );
 
 	/* set game to default (q3a) */
-	g_game = &g_games[ 0 ];
+	g_game = &g_builtinGames[ 0 ];
 
 	/* parse through the arguments and extract those relevant to paths */
 	{
@@ -360,8 +517,14 @@ void InitPaths( Args& args ){
 		}
 	}
 
-	/* add standard game path */
-	insert_unique( gamePaths, stream( DirectoryCleaned( baseGame == nullptr? g_game->gamePath : baseGame ) ) );
+	/* add standard game paths */
+	if (baseGame) {
+		insert_unique( gamePaths, stream( DirectoryCleaned( baseGame ) ) );
+	} else {
+		for (const auto& gamePath : g_game->gamePaths) {
+			insert_unique( gamePaths, stream( DirectoryCleaned( gamePath.c_str() ) ) );
+		}
+	}
 
 	/* if there is no base path set, figure it out */
 	if ( basePaths.empty() ) {
@@ -372,9 +535,9 @@ void InitPaths( Args& args ){
 		{
 			/* extract the arg */
 			stream( DirectoryCleaned( arg ) );
-			Sys_FPrintf( SYS_VRB, "Searching for \"%s\" in \"%s\"...\n", g_game->magic, stream.c_str() );
+			Sys_FPrintf( SYS_VRB, "Searching for \"%s\" in \"%s\"...\n", g_game->magic.c_str(), stream.c_str() );
 			/* check for the game's magic word */
-			char* found = strIstr( stream.c_str(), g_game->magic );
+			char* found = strIstr( stream.c_str(), g_game->magic.c_str() );
 			if( found ){
 				/* now find the next slash and nuke everything after it */
 				found = strchr( found, '/' );
@@ -399,7 +562,7 @@ void InitPaths( Args& args ){
 	}
 
 	/* this only affects unix */
-	AddHomeBasePath( basePaths, homePath.c_str(), homeBasePath != nullptr? homeBasePath : g_game->homeBasePath );
+	AddHomeBasePath( basePaths, homePath.c_str(), homeBasePath != nullptr? homeBasePath : g_game->homeBasePath.c_str() );
 
 	/* support daemon engine nonsense */
 	const char *pk3ext = strEqual( g_game->arg, "unvanquished" )? "dpk" : "pk3";

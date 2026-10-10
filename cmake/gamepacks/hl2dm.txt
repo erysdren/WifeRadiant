@@ -1,0 +1,18 @@
+// inherits hl2.xml
+--inherits "hl2"
+
+// game id, name and icon
+--id "hl2dm"
+--name "Half-Life 2: Deathmatch"
+--icon "icon.svg"
+
+// engines
+--engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Half-Life 2 Deathmatch/" "hl2mp.exe"
+--engine linux "~/.steam/steam/steamapps/common/Half-Life 2 Deathmatch/" "hl2mp.sh"
+--engine mac "~/Library/Application Support/Steam/steamapps/common/Half-Life 2 Deathmatch/" "hl2mp.sh"
+
+// content paths
+--path "hl2mp" "2"
+
+// entities
+--entities "hl2mp.fgd"

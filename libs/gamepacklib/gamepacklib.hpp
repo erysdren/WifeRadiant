@@ -1,0 +1,75 @@
+/*
+    Copyright (C) 2025-2026 erysdren (it/its)
+
+    This file is part of WifeRadiant.
+
+    WifeRadiant is free software: you can redistribute it and/or modify
+    it under the terms of the GNU Affero General Public License as
+    published by the Free Software Foundation, either version 3 of the
+    License, or (at your option) any later version.
+
+    WifeRadiant is distributed in the hope that it will be useful,
+    but WITHOUT ANY WARRANTY; without even the implied warranty of
+    MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+    GNU Affero General Public License for more details.
+
+    You should have received a copy of the GNU Affero General Public License
+    along with WifeRadiant.  If not, see <https://www.gnu.org/licenses/>.
+*/
+#pragma once
+
+#include <filesystem>
+#include <vector>
+#include <string_view>
+#include <map>
+
+// returns the number of gamepacks loaded, or -1 for error
+// can be called multiple times to add gamepacks from multiple directories
+int GamepackLib_Init(std::filesystem::path& path);
+
+// clean up any memory associated with gamepacklib
+void GamepackLib_Quit();
+
+// collect all content paths specified in the given gamepack
+int GamepackLib_GetContentPaths(std::map<int, std::string>& contentPaths, const char* gameId, bool allowInherited = true);
+
+// collect all assets of the given type specified in the given gamepack
+int GamepackLib_GetAssets(std::vector<std::string>& assetTypes, const char* gameId, const char* assetType, bool allowInherited = true);
+
+// get base query string for the given game id
+std::string GamepackLib_GetBaseQueryForGame(std::string gameId);
+std::string GamepackLib_GetBaseQueryForGame(const char* gameId);
+
+// run an xpath query on the global document in memory, returned as a string
+std::string GamepackLib_Query(const std::string& expression);
+
+// collect all game ids
+int GamepackLib_GetGameIds(std::vector<std::string>& gameIds);
+
+// returns true if a gamepack is hidden
+bool GamepackLib_IsHidden(const char* gameId);
+
+// query a specific item from a specific gamepack key
+template<typename T>
+T GamepackLib_QueryNumber(const char* gameId, const char* keyName, const char* argName, bool allowInherited = true);
+
+std::string GamepackLib_QueryString(const char* gameId, const char* keyName, const char* argName, const char* def = "", bool allowInherited = true);
+std::vector<std::string> GamepackLib_QueryStrings(const char* gameId, const char* keyName, const char* argName, bool allowInherited = true);
+int GamepackLib_QueryInt(const char* gameId, const char* keyName, const char* argName, int def = 0, bool allowInherited = true);
+float GamepackLib_QueryFloat(const char* gameId, const char* keyName, const char* argName, float def = 0.0f, bool allowInherited = true);
+bool GamepackLib_QueryBool(const char* gameId, const char* keyName, const char* argName, bool def = false, bool allowInherited = true);
+
+// visitor class
+class GamepackLib_Visitor {
+public:
+	using Args = std::vector<std::pair<std::string_view, std::string_view>>;
+	virtual int begin(const char* gameId) { return 0; }
+	virtual int visit(const char* gameId, const char* key, const Args& args) { return 0; }
+	virtual void end(const char* gameId) { }
+};
+
+// iterate over all available games and keyvalue pairs
+int GamepackLib_ForEach(GamepackLib_Visitor& visitor);
+
+// iterate over all available keyvalues in the given game
+int GamepackLib_ForEach(GamepackLib_Visitor& visitor, const char* gameId);

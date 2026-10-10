@@ -8,6 +8,8 @@ GPL - GNU General Public License v2
 ( see GPL at the root of the tree )
 MPL2 - Mozilla Public License Version 2.0
 ( see MPL2 at the root of the tree )
+AGPL - GNU Affero General Public License v3
+( see AGPL at the root of the tree )
 
 How do I check which license applies to a given part of the source code?
 
@@ -36,3 +38,7 @@ GenSurf Plugin
 
 MPL2
 WifeRadiant Hotspot code
+
+AGPL:
+WifeRadiant Gamepack Tool
+WifeRadiant Gamepack Library

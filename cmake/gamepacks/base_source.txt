@@ -1,0 +1,32 @@
+// mark as hidden
+--hidden
+
+// type
+--type source
+
+// game id and name
+--id "sourcebase"
+--name "Source Engine Base"
+
+// links
+--link "Valve Developer Community" "https://developer.valvesoftware.com"
+
+// support source engine i/o
+--outputs
+
+// supported asset types
+--asset archive "vpk"
+--asset archive "gma"
+--asset archive "gcf"
+--asset texture "vtf"
+--asset texture "tth"
+--asset sound "wav"
+--asset sound "mp3"
+--asset model "sourcemodel"
+--asset map "source"
+--asset shader "source"
+--asset entity "fgd"
+--asset brush "source"
+
+// shaders
+--shaders "materials" "vmt"

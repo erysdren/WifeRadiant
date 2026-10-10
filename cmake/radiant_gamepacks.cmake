@@ -1,4 +1,38 @@
 
+function(radiant_add_gamepack name filename)
+	cmake_parse_arguments(PARSE_ARGV 1 ARG "HIDDEN" "" "")
+	if(ARG_HIDDEN)
+		set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}.xml")
+	else()
+		file(MAKE_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/")
+		set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/game.xml")
+	endif()
+	add_custom_command(
+		OUTPUT "${output_file}"
+		DEPENDS wiferadiant-tool-wrgamepack
+		COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} "$<TARGET_FILE:wiferadiant-tool-wrgamepack>" "@${filename}" -q -o "${output_file}"
+		WORKING_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks"
+		COMMAND_EXPAND_LISTS
+		VERBATIM
+	)
+	add_custom_target(wiferadiant-gamepack-${name} ALL DEPENDS "${output_file}")
+endfunction()
+
+file(GLOB gamepacks "${PROJECT_SOURCE_DIR}/cmake/gamepacks/*.txt")
+foreach(gamepack IN LISTS gamepacks)
+	cmake_path(GET gamepack STEM gamepack_stem)
+	if(gamepack_stem MATCHES "^base_*")
+		radiant_add_gamepack(${gamepack_stem} ${gamepack} HIDDEN)
+	else()
+		radiant_add_gamepack(${gamepack_stem} ${gamepack})
+		if(EXISTS "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${gamepack_stem}/")
+			file(COPY "${PROJECT_SOURCE_DIR}/cmake/gamepacks/${gamepack_stem}/" DESTINATION "${RADIANT_INSTALL_PREFIX}/gamepacks/${gamepack_stem}/")
+		endif()
+	endif()
+endforeach()
+
+return()
+
 function(radiant_add_gamepack name)
 	cmake_parse_arguments(PARSE_ARGV 1 ARG
 		"SUPPORT_PATCH_TESSELATION;READ_GAMEINFO_TXT;WRITE_DEFAULT_KEYVALUES;HAS_BASEGAME;USE_NEW_OUTPUT_SEPARATOR;SUPPORT_PATCHES;SUPPORT_OUTPUTS;SUPPORT_LIGHTMAP_SCALE;SUPPORT_WADS"

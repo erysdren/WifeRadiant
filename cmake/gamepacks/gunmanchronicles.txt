@@ -1,0 +1,18 @@
+// inherits goldsrcbase.xml
+--inherits "goldsrcbase"
+
+// game id, name and icon
+--id "gunmanchronicles"
+--name "Gunman Chronicles"
+--icon "icon.svg"
+
+// engines
+--engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Half-Life/" "hl.exe"
+--engine linux "~/.steam/steam/steamapps/common/Half-Life/" "hl.sh"
+--engine mac "~/Library/Application Support/Steam/steamapps/common/Half-Life/" "hl.sh"
+
+// content paths
+--path "rewolf" "0"
+
+// entities
+--entities "gunman.fgd"

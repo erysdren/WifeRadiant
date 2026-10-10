@@ -1,0 +1,17 @@
+// inherits quake3.xml
+--inherits "quake3"
+
+// game id, name and icon
+--id "quake3teamarena"
+--name "Quake III: Team Arena"
+--icon "icon.svg"
+
+// links
+--link "TA Teams Manual" "docs/New_Teams_For_Q3TA/index.html"
+--link "Team Arena Mapping" "docs/Team_Arena_Mapping_Help/start.html"
+
+// content paths
+--path "missionpack" "1"
+
+// entities
+--entities "entities-ta.ent"

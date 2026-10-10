@@ -1,0 +1,30 @@
+// NOTE: these are arguments to the wrgamepack tool.
+// C and C++ style comments are supported.
+
+// inherits idtech3base.xml
+--inherits "idtech3base"
+
+// game id, name and icon
+--id "quake3"
+--name "Quake III Arena"
+--icon "icon.svg"
+
+// engine paths and executables
+--engine windows "C:/Program Files (x86)/Quake III Arena/" "quake3.exe"
+--engine linux "/usr/local/games/quake3/" "quake3"
+--engine mac "/Applications/Quake3/" "Quake3.app"
+
+// links
+// syntax: [name] [url]
+--link "Model Manual" "docs/Model_Manual/model_manual.htm"
+--link "Terrain Manual" "docs/Terrain_Manual/start.html"
+--link "Compiling Manual (q3map & bspc)" "docs/Compile_Manual/index.html"
+
+// content paths
+// syntax: [path] [priority]
+// paths are loaded in ascending order, so 0 is first, 1 is second, etc
+--path "baseq3" "0"
+
+// entities
+// syntax: [filename]
+--entities "entities.ent"

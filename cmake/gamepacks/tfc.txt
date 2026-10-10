@@ -1,0 +1,13 @@
+// inherits hl1.xml
+--inherits "hl1"
+
+// game id, name and icon
+--id "tfc"
+--name "Team Fortress Classic"
+--icon "icon.svg"
+
+// content paths
+--path "tfc" "1"
+
+// entities
+--entities "tfc.fgd"

@@ -1,0 +1,10 @@
+// inherits hl2.xml
+--inherits "hl2"
+
+// game id, name and icon
+--id "hl2ep1"
+--name "Half-Life 2: Episode One"
+--icon "icon.svg"
+
+// content paths
+--path "episodic" "2"

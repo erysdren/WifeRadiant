@@ -1,0 +1,19 @@
+// inherits sourcebase.xml
+--inherits "sourcebase"
+
+// game id, name and icon
+--id "hl2"
+--name "Half-Life 2"
+--icon "icon.svg"
+
+// engines
+--engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Half-Life 2/" "hl2.exe"
+--engine linux "~/.steam/steam/steamapps/common/Half-Life 2/" "hl2.sh"
+--engine mac "~/Library/Application Support/Steam/steamapps/common/Half-Life 2/" "hl2.sh"
+
+// content paths
+--path "platform" "0"
+--path "hl2" "1"
+
+// entities
+--entities "halflife2.fgd"
