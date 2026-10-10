@@ -1929,14 +1929,7 @@ void Export(){
 }
 
 void ExportAgain(){
-	if (!SceneExporter_hasExported()) {
-		SceneExporter_show();
-	} else {
-		const char* path = Map_Unnamed( g_map ) ? getMapsPath() : g_map.m_name.c_str();
-		if (path != nullptr) {
-			SceneExporter_doExport(path);
-		}
-	}
+	SceneExporter_doExportAgain();
 }
 
 void RegionOff(){
