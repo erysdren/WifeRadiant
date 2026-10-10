@@ -68,6 +68,10 @@ public:
 		return "glTF";
 	}
 
+	virtual const char* getExtension() const override {
+		return "gltf";
+	}
+
 	SceneExport* getTable(){
 		return this;
 	}
@@ -94,6 +98,10 @@ public:
 
 	virtual const char* getName() const override {
 		return "Wavefront OBJ";
+	}
+
+	virtual const char* getExtension() const override {
+		return "obj";
 	}
 
 	SceneExport* getTable(){
