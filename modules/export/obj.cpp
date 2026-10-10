@@ -35,15 +35,15 @@ class ObjWalker : public scene::Traversable::Walker {
 private:
 	FileOutputStream& m_outputStream;
 public:
-	void writeString(const char* buffer, size_t len) {
+	void writeString(const char* buffer, size_t len) const {
 		m_outputStream.write(reinterpret_cast<const FileOutputStream::byte_type*>(buffer), len);
 	}
 
-	void writeString(const char* s) {
+	void writeString(const char* s) const {
 		writeString(s, strlen(s));
 	}
 
-	void writeString(std::string s) {
+	void writeString(std::string s) const {
 		writeString(s.data(), s.size());
 	}
 
