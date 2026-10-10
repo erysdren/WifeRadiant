@@ -23,6 +23,8 @@
 #include "gtkutil/filechooser.h"
 #include "plugin.h"
 #include "mainframe.h"
+#include "map.h"
+#include "os/path.h"
 
 #include <QGridLayout>
 #include <QPushButton>
@@ -34,10 +36,15 @@ private:
 	QWidget* m_window = nullptr;
 	QComboBox* m_combo = nullptr;
 	bool m_hasExported = false;
+	std::string m_lastExportedPath{};
+
+	const SceneExport* getCurrentExportTable() const {
+		// FIXME: this sucks
+		return *static_cast<const SceneExport**>(m_combo->currentData().data());
+	}
 
 	void selectionChanged(int index) {
-		// FIXME: this sucks
-		const SceneExport* table = *static_cast<const SceneExport**>(m_combo->currentData().data());
+		const SceneExport* table = getCurrentExportTable();
 		globalOutputStream() << table->getName() << '\n';
 	}
 public:
@@ -105,12 +112,12 @@ public:
 				{
 					auto* button = new QPushButton( "Export" );
 					grid->addWidget( button, 3, 0 );
-					// QObject::connect( button, &QAbstractButton::clicked, SceneExporter_doExport );
+					QObject::connect( button, &QAbstractButton::clicked, this, &SceneExporter::doExportAs );
 				}
 				{
-					auto* button = new QPushButton( "Export As" );
+					auto* button = new QPushButton( "Export Again" );
 					grid->addWidget( button, 3, 1 );
-					QObject::connect( button, &QAbstractButton::clicked, SceneExporter_doExportAs );
+					QObject::connect( button, &QAbstractButton::clicked, this, &SceneExporter::doExportAgain );
 				}
 				{
 					auto* button = new QPushButton( "Cancel" );
@@ -129,9 +136,39 @@ public:
 		return m_hasExported;
 	}
 
-	void doExport(const char* filename) {
-		m_hasExported = true;
-		globalOutputStream() << "exported " << filename << '\n';
+	bool doExport(const char* filename) {
+		const SceneExport* table = getCurrentExportTable();
+		globalOutputStream() << "Open file " << filename << " for write...";
+		FileOutputStream file(filename);
+		if (!file.failed()) {
+			globalOutputStream() << "success" << '\n';
+			ScopeDisableScreenUpdates disableScreenUpdates( path_get_filename_start( filename ), "Exporting Map" );
+			table->writeGraph(GlobalSceneGraph().root(), Map_Traverse, file);
+			m_hasExported = true;
+			m_lastExportedPath = filename;
+			return true;
+		}
+
+		globalErrorStream() << "failure" << '\n';
+		return false;
+	}
+
+	bool doExportAs() {
+		const SceneExport* table = getCurrentExportTable();
+		const char* path = file_dialog( MainFrame_getWindow(), false, "Export As", nullptr, table->getExtension(), false, false, true );
+		if (path != nullptr) {
+			return doExport(path);
+		}
+		return false;
+	}
+
+	bool doExportAgain() {
+		if (!hasExported() || m_lastExportedPath.empty()) {
+			show();
+		} else {
+			return doExport(m_lastExportedPath.c_str());
+		}
+		return false;
 	}
 };
 
@@ -143,16 +180,16 @@ void SceneExporter_show() {
 }
 
 bool SceneExporter_hasExported() {
+	g_sceneExporter.create();
 	return g_sceneExporter.hasExported();
 }
 
-void SceneExporter_doExport(const char* path) {
-	g_sceneExporter.doExport(path);
+bool SceneExporter_doExport(const char* path) {
+	g_sceneExporter.create();
+	return g_sceneExporter.doExport(path);
 }
 
-void SceneExporter_doExportAs() {
-	const char* path = file_dialog( MainFrame_getWindow(), false, "Export As", nullptr, "obj", false, false, true );
-	if (path != nullptr) {
-		g_sceneExporter.doExport(path);
-	}
+bool SceneExporter_doExportAgain() {
+	g_sceneExporter.create();
+	return g_sceneExporter.doExportAgain();
 }
