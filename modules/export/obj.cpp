@@ -26,6 +26,12 @@
 #include "isceneexport.h"
 #include "entitylib.h"
 
+#include <QGridLayout>
+#include <QPushButton>
+#include <QComboBox>
+#include <QLabel>
+#include <QMessageBox>
+
 #include "obj.h"
 
 inline Brush* Node_getBrush(scene::Node& node){
@@ -129,6 +135,65 @@ public:
 	}
 };
 
+class ObjWindow : public QWidget {
+	scene::Node& m_root;
+	GraphTraversalFunc m_traverse;
+	FileOutputStream& m_outputStream;
+public:
+	void doExport() const {
+		m_traverse(m_root, ObjWalker(m_outputStream));
+	}
+
+	ObjWindow(scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream) :
+		QWidget(GlobalRadiant().getMainWindow(), Qt::Dialog | Qt::WindowCloseButtonHint),
+		m_root(root),
+		m_traverse(traverse),
+		m_outputStream(outputStream)
+	{
+		this->setWindowModality(Qt::ApplicationModal);
+		this->setWindowTitle( "Wavefront OBJ Export Options" );
+
+		// setup gui
+		{
+			auto* grid = new QGridLayout( this );
+			// first row
+			{
+				{
+					auto* label = new QLabel( "Options:" );
+					grid->addWidget( label, 0, 0 );
+				}
+				{
+					auto *container = new QWidget;
+					grid->addWidget( container, 0, 1, 2, 2 );
+
+					auto *vbox = new QVBoxLayout( container );
+					vbox->setContentsMargins( 0, 0, 0, 0 );
+				}
+			}
+			// second row
+			{
+				{
+					auto* button = new QPushButton( "Continue" );
+					grid->addWidget( button, 1, 0 );
+					QObject::connect( button, &QAbstractButton::clicked, this, &ObjWindow::doExport );
+				}
+				{
+					auto* button = new QPushButton( "Cancel" );
+					grid->addWidget( button, 1, 1 );
+					QObject::connect( button, &QAbstractButton::clicked, this, &QWidget::hide );
+				}
+			}
+		}
+	}
+
+	~ObjWindow() = default;
+};
+
+static ObjWindow* g_window = nullptr;
+
 void writeOBJ(scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream) {
-	traverse(root, ObjWalker(outputStream));
+	if (g_window == nullptr) {
+		g_window = new ObjWindow(root, traverse, outputStream);
+	}
+	g_window->show();
 }
