@@ -194,6 +194,17 @@ scene::Node& loadSourceMDL( unsigned char* mdlBuffer, int mdlBufferLength, const
 	vtxFile->release();
 	vvdFile->release();
 
+#if 0
+	// set transform
+	Model& model = modelNode->model();
+	for (const auto& bone : mdl.mdl.bones) {
+		if (bone.parent == -1) {
+			model.setLocalToWorld(matrix4_rotation_for_quaternion_quantised(Quaternion(bone.rotationQuat[3], bone.rotationQuat[0], bone.rotationQuat[1], bone.rotationQuat[2])));
+			break;
+		}
+	}
+#endif
+
 	// bake and read in
 	mdlpp::BakedModel baked = mdl.processModelData();
 	if ( !baked.meshes.size() ) {

@@ -220,10 +220,15 @@ class Model :
 {
 	typedef std::vector<Surface*> surfaces_t;
 	surfaces_t m_surfaces;
+	Matrix4 m_local2world;
 
 	AABB m_aabb_local;
 public:
 	Callback<void()> m_lightsChanged;
+
+	Model() : m_local2world(g_matrix4_identity) {
+
+	}
 
 	~Model(){
 		for ( auto *surf : m_surfaces )
@@ -242,6 +247,12 @@ public:
 	}
 	std::size_t size() const {
 		return m_surfaces.size();
+	}
+	Matrix4 getLocalToWorld() const {
+		return m_local2world;
+	}
+	void setLocalToWorld(const Matrix4& localToWorld) {
+		m_local2world = localToWorld;
 	}
 
 	Surface& newSurface(){
@@ -370,7 +381,7 @@ public:
 	}
 
 	ModelInstance( const scene::Path& path, scene::Instance* parent, Model& model ) :
-		Instance( path, parent, this, StaticTypeCasts::instance().get() ),
+		Instance( path, parent, this, StaticTypeCasts::instance().get(), model.getLocalToWorld() ),
 		m_model( model ),
 		m_surfaceLightLists( m_model.size() ),
 		m_skins( m_model.size() ){

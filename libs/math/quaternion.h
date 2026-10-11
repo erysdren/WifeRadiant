@@ -273,6 +273,11 @@ inline void matrix4_pivoted_rotate_by_quaternion( Matrix4& self, const Quaternio
 	matrix4_translate_by_vec3( self, vector3_negated( pivotpoint ) );
 }
 
+/// \brief Returns \p self by \p rotation, using \p pivotpoint.
+inline Matrix4 matrix4_pivoted_rotated_by_quaternion( const Matrix4& self, const Quaternion& rotation, const Vector3& pivotpoint ){
+	return matrix4_translated_by_vec3( matrix4_rotated_by_quaternion( matrix4_translated_by_vec3(self, pivotpoint), rotation ), vector3_negated( pivotpoint ) );
+}
+
 inline Vector3 quaternion_transformed_point( const Quaternion& quaternion, const Vector3& point ){
 	const double xx = quaternion.x() * quaternion.x();
 	const double yy = quaternion.y() * quaternion.y();

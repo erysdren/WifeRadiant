@@ -557,6 +557,7 @@ class Instance
 	InstanceTypeCastTable& m_casts;
 
 	mutable Matrix4 m_local2world;
+	mutable Matrix4 m_local2world_init;
 	mutable AABB m_bounds;
 	mutable AABB m_childBounds;
 	mutable bool m_transformChanged;
@@ -580,7 +581,12 @@ class Instance
 			ASSERT_MESSAGE( !m_transformMutex, "re-entering transform evaluation" );
 			m_transformMutex = true;
 
-			m_local2world = ( m_parent != 0 ) ? m_parent->localToWorld() : g_matrix4_identity;
+			if (m_parent != 0) {
+				m_local2world = matrix4_multiplied_by_matrix4(m_parent->localToWorld(), m_local2world_init);
+			} else {
+				m_local2world = m_local2world_init;
+			}
+			// m_local2world = ( m_parent != 0 ) ? m_parent->localToWorld() : m_local2world_init;
 			TransformNode* transformNode = Node_getTransformNode( m_path.top() );
 			if ( transformNode != 0 ) {
 				matrix4_multiply_by_matrix4( m_local2world, transformNode->localToParent() );
@@ -624,12 +630,13 @@ class Instance
 	}
 
 public:
-	Instance( const scene::Path& path, Instance* parent, void* instance, InstanceTypeCastTable& casts ) :
+	Instance( const scene::Path& path, Instance* parent, void* instance, InstanceTypeCastTable& casts, const Matrix4& localToWorld = g_matrix4_identity ) :
 		m_path( path ),
 		m_parent( parent ),
 		m_instance( instance ),
 		m_casts( casts ),
-		m_local2world( g_matrix4_identity ),
+		m_local2world( localToWorld ),
+		m_local2world_init( localToWorld ),
 		m_transformChanged( true ),
 		m_transformMutex( false ),
 		m_boundsChanged( true ),
