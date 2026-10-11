@@ -2,13 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="24"
-   height="24"
-   viewBox="0 0 6.3499999 6.35"
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333332 4.2333333"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
-   sodipodi:docname="jk2.svg"
+   sodipodi:docname="gunmanchronicles.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -22,10 +22,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="16"
-     inkscape:cx="11.34375"
-     inkscape:cy="14.125"
+     inkscape:document-units="px"
+     inkscape:zoom="32"
+     inkscape:cx="7.609375"
+     inkscape:cy="7.8125"
      inkscape:window-width="1920"
      inkscape:window-height="1116"
      inkscape:window-x="0"
@@ -39,8 +39,8 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       id="path24"
-       style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#158dff;fill-opacity:1;stroke-width:0.999999;paint-order:markers stroke fill;enable-background:accumulate;stop-color:#000000"
-       d="M 2.0795282,0 V 3.4884927 L 0.44318741,5.1243881 v 1.2256121 l 1.63634079,-1.63634 v 1.63634 H 2.9459055 V 0 Z m 1.325012,0 V 6.3500002 H 4.2709174 V 4.7138108 L 5.9068127,6.3500002 V 5.1239411 L 4.4503125,3.6678881 5.9068127,2.2113895 V 0.98562483 L 4.2709174,2.6219679 V 0 Z" />
+       id="path29"
+       style="fill:#ffce39;stroke-width:3.00001;stroke-linecap:square;paint-order:markers stroke fill"
+       d="M 2.1166177,0 A 2.1166835,2.1166835 0 0 0 0.03234046,1.7476611 H 0.78831639 A 1.3786291,1.3786291 0 0 1 2.1166177,0.7380091 1.3786291,1.3786291 0 0 1 2.9790375,1.0411182 L 3.5029954,0.51716027 A 2.1166835,2.1166835 0 0 0 2.1166177,0 Z m 0,1.7476611 V 2.4856714 H 3.444919 A 1.3786291,1.3786291 0 0 1 2.1166177,3.4953237 1.3786291,1.3786291 0 0 1 0.78831639,2.4856714 H 0.03234046 A 2.1166835,2.1166835 0 0 0 2.1166177,4.2333332 2.1166835,2.1166835 0 0 0 4.2008949,2.4856714 2.1166835,2.1166835 0 0 0 4.2333332,2.120211 V 2.113251 A 2.1166835,2.1166835 0 0 0 4.2008949,1.7476611 H 3.444919 2.7404154 Z" />
   </g>
 </svg>

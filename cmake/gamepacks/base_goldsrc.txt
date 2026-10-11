@@ -8,7 +8,7 @@
 --wads
 
 // game id and name
---id "goldsrcbase"
+--id "base_goldsrc"
 --name "GoldSrc Engine Base"
 
 // links
