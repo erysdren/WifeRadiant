@@ -19,7 +19,12 @@ set(ZLIB_COMPAT ON CACHE BOOL "" FORCE)
 set(ZLIB_ALIASES ON CACHE BOOL "" FORCE)
 FetchContent_MakeAvailable(ZLIB)
 set(ZLIB_INCLUDE_DIR ${zlib_BINARY_DIR})
-set(ZLIB_LIBRARIES $<TARGET_FILE:zlibstatic>)
+# FIXME: scary hack
+if(MSVC)
+	set(ZLIB_LIBRARIES $<TARGET_FILE:zlibstatic>)
+else()
+	set(ZLIB_LIBRARIES zlibstatic)
+endif()
 
 # sourcepp
 
