@@ -29,6 +29,9 @@
 
 const Vector3 SCALEKEY_IDENTITY = Vector3( 1, 1, 1 );
 
+extern const char* g_modelscale_vec_key;
+extern const char* g_modelscale_key;
+
 inline void default_scale( Vector3& scale ){
 	scale = SCALEKEY_IDENTITY;
 }
@@ -53,8 +56,8 @@ inline void read_scalevec( Vector3& scale, const char* value ){
 }
 inline void write_scale( const Vector3& scale, Entity* entity ){
 	if ( scale[0] == 1 && scale[1] == 1 && scale[2] == 1 ) {
-		entity->setKeyValue( "modelscale", "" );
-		entity->setKeyValue( "modelscale_vec", "" );
+		entity->setKeyValue( g_modelscale_key, "" );
+		entity->setKeyValue( g_modelscale_vec_key, "" );
 	}
 	else
 	{
@@ -62,14 +65,14 @@ inline void write_scale( const Vector3& scale, Entity* entity ){
 
 		if ( scale[0] == scale[1] && scale[0] == scale[2] ) {
 			sprintf( value, "%g", scale[0] );
-			entity->setKeyValue( "modelscale_vec", "" );
-			entity->setKeyValue( "modelscale", value );
+			entity->setKeyValue( g_modelscale_vec_key, "" );
+			entity->setKeyValue( g_modelscale_key, value );
 		}
 		else
 		{
 			sprintf( value, "%g %g %g", scale[0], scale[1], scale[2] );
-			entity->setKeyValue( "modelscale", "" );
-			entity->setKeyValue( "modelscale_vec", value );
+			entity->setKeyValue( g_modelscale_key, "" );
+			entity->setKeyValue( g_modelscale_vec_key, value );
 		}
 	}
 }
@@ -96,7 +99,7 @@ public:
 	}
 
 	void uniformScaleChanged( const char* value ){
-		if( !m_entity.hasKeyValue( "modelscale_vec" ) ){
+		if( !m_entity.hasKeyValue( g_modelscale_vec_key ) ){
 			read_scale( m_scale, value );
 			m_scaleChanged();
 		}
@@ -104,10 +107,10 @@ public:
 	typedef MemberCaller<ScaleKey, void(const char*), &ScaleKey::uniformScaleChanged> UniformScaleChangedCaller;
 
 	void scaleChanged( const char* value ){
-		if( m_entity.hasKeyValue( "modelscale_vec" ) ) // check actual key presence, as this may be notified by default value on key removal
+		if( m_entity.hasKeyValue( g_modelscale_vec_key ) ) // check actual key presence, as this may be notified by default value on key removal
 			read_scalevec( m_scale, value );
 		else // "modelscale_vec" removed // improvable: also do this on invalid "modelscale_vec" key
-			read_scale( m_scale, m_entity.getKeyValue( "modelscale" ) );
+			read_scale( m_scale, m_entity.getKeyValue( g_modelscale_key ) );
 		m_scaleChanged();
 	}
 	typedef MemberCaller<ScaleKey, void(const char*), &ScaleKey::scaleChanged> ScaleChangedCaller;

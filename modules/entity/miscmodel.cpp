@@ -164,8 +164,8 @@ class MiscModel :
 		m_keyObservers.insert( "origin", OriginKey::OriginChangedCaller( m_originKey ) );
 		m_keyObservers.insert( "angle", m_anglesKey.getAngleChangedCallback() );
 		m_keyObservers.insert( "angles", m_anglesKey.getAnglesChangedCallback() );
-		m_keyObservers.insert( "modelscale", ScaleKey::UniformScaleChangedCaller( m_scaleKey ) );
-		m_keyObservers.insert( "modelscale_vec", ScaleKey::ScaleChangedCaller( m_scaleKey ) );
+		m_keyObservers.insert( g_modelscale_key, ScaleKey::UniformScaleChangedCaller( m_scaleKey ) );
+		m_keyObservers.insert( g_modelscale_vec_key, ScaleKey::ScaleChangedCaller( m_scaleKey ) );
 	}
 
 	void updateTransform(){

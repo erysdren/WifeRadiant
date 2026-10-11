@@ -35,6 +35,8 @@ radiant_add_gamepack(css
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 if(0)
@@ -78,6 +80,8 @@ radiant_add_gamepack(diprip
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 endif()
 
@@ -117,6 +121,8 @@ radiant_add_gamepack(dods
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 # Garry's Mod
@@ -155,6 +161,8 @@ radiant_add_gamepack(garrysmod
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 # Half-Life 2
@@ -193,6 +201,8 @@ radiant_add_gamepack(hl2
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 # Half-Life 2: Episode One
@@ -231,6 +241,8 @@ radiant_add_gamepack(hl2ep1
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 # Half-Life 2: Episode Two
@@ -269,6 +281,8 @@ radiant_add_gamepack(hl2ep2
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 # Half-Life 2: Lost Coast
@@ -307,6 +321,8 @@ radiant_add_gamepack(hl2lostcoast
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 # Half-Life 2: Deathmatch
@@ -345,6 +361,8 @@ radiant_add_gamepack(hl2mp
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 # Portal
@@ -383,6 +401,8 @@ radiant_add_gamepack(portal
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 if(0)
@@ -423,6 +443,8 @@ radiant_add_gamepack(portal2
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 endif()
 
@@ -467,6 +489,8 @@ radiant_add_gamepack(sinepisodes
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 endif()
 
@@ -506,6 +530,8 @@ radiant_add_gamepack(tf2
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 
 if(0)
@@ -549,5 +575,7 @@ radiant_add_gamepack(vampire
 	SHADER_CAULK "materials/tools/toolsnodraw"
 	SHADER_NODRAW "materials/tools/toolsnodraw"
 	SHADER_TRIGGER "materials/tools/toolstrigger"
+	MODELSCALE_VEC_KEY "scale"
+	MODELSCALE_KEY "uniformscale"
 )
 endif()

@@ -20,3 +20,6 @@
  */
 
 #include "scale.h"
+
+const char* g_modelscale_vec_key = "modelscale_vec";
+const char* g_modelscale_key = "modelscale";

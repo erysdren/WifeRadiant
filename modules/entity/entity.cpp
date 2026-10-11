@@ -451,6 +451,18 @@ void Entity_Construct( EGameType gameType ){
 	RenderableNamedEntity::StaticShader::instance() = GlobalShaderCache().capture( "$TEXT" );
 
 	GlobalShaderCache().attachRenderable( StaticRenderableConnectionLines::instance() );
+
+	// setup model scale
+	extern const char* g_modelscale_vec_key;
+	extern const char* g_modelscale_key;
+	g_modelscale_vec_key = GlobalRadiant().getGameDescriptionKeyValue( "modelscale_vec_key" );
+	g_modelscale_key = GlobalRadiant().getGameDescriptionKeyValue( "modelscale_key" );
+	if (string_empty(g_modelscale_vec_key)) {
+		g_modelscale_vec_key = "modelscale_vec";
+	}
+	if (string_empty(g_modelscale_key)) {
+		g_modelscale_key = "modelscale";
+	}
 }
 
 void Entity_Destroy(){
