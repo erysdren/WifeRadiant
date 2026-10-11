@@ -160,14 +160,17 @@ public:
 	std::size_t num_games(){
 		return m_knowngames.size() + 1;
 	}
-	GameComboConfiguration() : m_basegame( g_pGameDescription->getRequiredKeyValue( "basegame" ), g_pGameDescription->getRequiredKeyValue( "basegamename" ), 0, false ){
-		const char* dirs = g_pGameDescription->getRequiredKeyValue( "knowngames" );
-		const char* names = g_pGameDescription->getRequiredKeyValue( "knowngamenames" );
-		const char* defgame = g_pGameDescription->getRequiredKeyValue( "defaultgame" );
+	GameComboConfiguration() : m_basegame( g_pGameDescription->getKeyValue( "basegame" ), g_pGameDescription->getKeyValue( "basegamename" ), 0, false ){
+		const char* dirs = g_pGameDescription->getKeyValue( "knowngames" );
+		const char* names = g_pGameDescription->getKeyValue( "knowngamenames" );
+		const char* defgame = g_pGameDescription->getKeyValue( "defaultgame" );
+		if ( string_empty( defgame ) ) {
+			defgame = m_basegame.m_dir.c_str();
+		}
 		if ( string_compare_nocase( m_basegame.m_dir.c_str(), defgame ) == 0 ) {
 			m_basegame.m_defaultgame = true;
 		}
-		if ( dirs && names ) {
+		if ( !string_empty(dirs) && !string_empty(names) ) {
 			StringTokeniser knowngames( dirs );
 			StringTokeniser knowngamenames( names, ";" );
 			while ( true ) {
