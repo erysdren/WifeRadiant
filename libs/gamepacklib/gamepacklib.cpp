@@ -61,7 +61,7 @@ int GamepackLib_Init(std::filesystem::path& path) {
 			continue;
 		}
 
-		for (const auto& child : doc.select_nodes("/radiant/game")) {
+		for (const auto& child : doc.select_nodes("/radiant/game[@id]")) {
 			radiantNode.append_copy(child.node());
 		}
 	}
