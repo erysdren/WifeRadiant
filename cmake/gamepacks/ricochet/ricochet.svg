@@ -2,13 +2,13 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="24"
-   height="24"
-   viewBox="0 0 6.3499999 6.35"
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333332 4.2333333"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
-   sodipodi:docname="tf2.svg"
+   sodipodi:docname="ricochet.svg"
    xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
    xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
    xmlns="http://www.w3.org/2000/svg"
@@ -22,10 +22,10 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="16"
-     inkscape:cx="12.71875"
-     inkscape:cy="9"
+     inkscape:document-units="px"
+     inkscape:zoom="45.254834"
+     inkscape:cx="10.131514"
+     inkscape:cy="8.639961"
      inkscape:window-width="1920"
      inkscape:window-height="1116"
      inkscape:window-x="0"
@@ -40,8 +40,8 @@
      inkscape:groupmode="layer"
      id="layer1">
     <path
-       id="path11"
-       style="fill:#f46a00;fill-opacity:1;stroke:none;stroke-width:3;stroke-linecap:round;stroke-linejoin:miter;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
-       d="M 3.6775709,0.04002148 A 3.1750123,3.1750123 0 0 0 0.20871571,2.0428856 L 2.2441471,2.5882783 A 1.1003369,1.1003369 0 0 1 3.1321782,2.0754563 Z M 4.3071263,0.20871048 3.7617336,2.2441453 A 1.1003369,1.1003369 0 0 1 4.2745184,3.1323137 L 6.3099526,3.6777064 A 3.1750123,3.1750123 0 0 0 4.3071263,0.20871048 Z M 0.04002671,2.6724421 A 3.1750123,3.1750123 0 0 0 2.0427487,6.141261 L 2.5881414,4.1058267 A 1.1003369,1.1003369 0 0 1 2.0754581,3.2178351 Z M 4.1058294,3.7618719 A 1.1003369,1.1003369 0 0 1 3.2176968,4.2745157 L 2.6723041,6.30995 A 3.1750123,3.1750123 0 0 0 6.1412636,4.3072646 Z" />
+       id="path9"
+       style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#153aff;fill-opacity:1;stroke-width:1;stroke-linecap:round;paint-order:markers stroke fill;enable-background:accumulate;stop-color:#000000"
+       d="M 0.13155803,2.0067467e-6 V 0.31221806 0.6245311 h 0.3118274 0.64696307 2.2731064 c 0.067743,0 0.113816,0.04519 0.113816,0.11546702 V 1.812506 c 0,0.070272 -0.046075,0.1159522 -0.113816,0.1159522 H 1.365078 l 1.3665643,1.372585 0.8363319,0.8400211 a 0.31225817,0.31225822 0 0 0 0.4419571,0.00126 0.31225817,0.31225822 0 0 0 7.517e-4,-0.4415695 L 3.1743529,2.860345 2.8681576,2.5528876 h 0.4951752 c 0.4044099,0 0.7384424,-0.3364104 0.7384424,-0.740384 V 0.73999612 C 4.1017752,0.33602206 3.7677427,0 3.3633328,0 H 1.0903241 0.44375003 Z" />
   </g>
 </svg>

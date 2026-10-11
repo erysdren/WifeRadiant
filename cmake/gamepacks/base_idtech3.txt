@@ -8,7 +8,7 @@
 --type idtech3
 
 // game id and name
---id "idtech3base"
+--id "base_idtech3"
 --name "idTech 3 Base"
 
 // supported asset types

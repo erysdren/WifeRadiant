@@ -1,10 +1,10 @@
-// inherits sourcebase.xml
---inherits "sourcebase"
+// inherits base_source.xml
+--inherits "base_source"
 
 // game id, name and icon
 --id "hl2"
 --name "Half-Life 2"
---icon "icon.svg"
+--icon "hl2.svg"
 
 // engines
 --engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Half-Life 2/" "hl2.exe"

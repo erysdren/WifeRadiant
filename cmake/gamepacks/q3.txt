@@ -1,13 +1,13 @@
 // NOTE: these are arguments to the wrgamepack tool.
 // C and C++ style comments are supported.
 
-// inherits idtech3base.xml
---inherits "idtech3base"
+// inherits base_idtech3.xml
+--inherits "base_idtech3"
 
 // game id, name and icon
---id "quake3"
+--id "q3"
 --name "Quake III Arena"
---icon "icon.svg"
+--icon "q3.svg"
 
 // engine paths and executables
 --engine windows "C:/Program Files (x86)/Quake III Arena/" "quake3.exe"

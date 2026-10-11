@@ -2,9 +2,9 @@
 <!-- Created with Inkscape (http://www.inkscape.org/) -->
 
 <svg
-   width="24"
-   height="24"
-   viewBox="0 0 6.3499999 6.35"
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333332 4.2333333"
    version="1.1"
    id="svg1"
    inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
@@ -22,26 +22,31 @@
      inkscape:pageopacity="0.0"
      inkscape:pagecheckerboard="0"
      inkscape:deskcolor="#d1d1d1"
-     inkscape:document-units="mm"
-     inkscape:zoom="16"
-     inkscape:cx="13.78125"
-     inkscape:cy="13.9375"
+     inkscape:document-units="px"
+     inkscape:zoom="32"
+     inkscape:cx="12.390625"
+     inkscape:cy="10.9375"
      inkscape:window-width="1920"
      inkscape:window-height="1116"
      inkscape:window-x="0"
      inkscape:window-y="0"
      inkscape:window-maximized="1"
-     inkscape:current-layer="layer1"
-     showguides="false" />
+     inkscape:current-layer="layer1" />
   <defs
      id="defs1" />
   <g
      inkscape:label="Layer 1"
      inkscape:groupmode="layer"
      id="layer1">
+    <g
+       id="g2-4"
+       transform="matrix(0.09407407,0,0,0.09407407,-0.8795925,5e-8)"
+       style="fill:#35ccff;fill-opacity:1;stroke-width:2.8125">
+		
+	</g>
     <path
        id="path22"
-       style="fill:#158dff;fill-opacity:1;stroke:none;stroke-width:4.99998;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
-       d="M 0.38334699,0 0.88246579,1.5393767 1.8629799,2.2388322 1.2741285,2.7473654 1.6112711,3.7871582 2.4528801,3.5249879 2.0201891,5.0483807 2.885571,4.6850268 2.4421875,6.35 5.966653,2.574987 Z" />
+       style="fill:#158dff;fill-opacity:1;stroke:none;stroke-width:4.99999;stroke-linecap:round;stroke-linejoin:round;stroke-dasharray:none;stroke-opacity:1;paint-order:markers stroke fill"
+       d="M 0.25556467,2.5e-8 0.58831047,1.0262511 1.2419866,1.4925548 0.84941897,1.8315769 1.0741807,2.5247721 1.6352534,2.3499919 1.3467927,3.3655871 1.923714,3.1233511 1.628125,4.2333332 3.9777686,1.716658 Z" />
   </g>
 </svg>

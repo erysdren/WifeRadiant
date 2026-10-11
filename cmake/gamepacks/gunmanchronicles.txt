@@ -1,10 +1,10 @@
-// inherits goldsrcbase.xml
---inherits "goldsrcbase"
+// inherits base_goldsrc.xml
+--inherits "base_goldsrc"
 
 // game id, name and icon
 --id "gunmanchronicles"
 --name "Gunman Chronicles"
---icon "icon.svg"
+--icon "gunmanchronicles.svg"
 
 // engines
 --engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Half-Life/" "hl.exe"

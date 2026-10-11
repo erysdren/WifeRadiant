@@ -5,7 +5,7 @@
 --type source
 
 // game id and name
---id "sourcebase"
+--id "base_source"
 --name "Source Engine Base"
 
 // links
