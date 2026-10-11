@@ -1,10 +1,10 @@
-// inherits quake3.xml
---inherits "quake3"
+// inherits q3.xml
+--inherits "q3"
 
 // game id, name and icon
---id "quake3teamarena"
+--id "q3ta"
 --name "Quake III: Team Arena"
---icon "icon.svg"
+--icon "q3ta.svg"
 
 // links
 --link "TA Teams Manual" "docs/New_Teams_For_Q3TA/index.html"

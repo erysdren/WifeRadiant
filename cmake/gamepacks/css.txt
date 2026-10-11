@@ -4,7 +4,7 @@
 // game id, name and icon
 --id "css"
 --name "Counter-Strike: Source"
---icon "icon.svg"
+--icon "css.svg"
 
 // engines
 --engine windows "C:/Program Files (x86)/Steam/steam/steamapps/Counter-Strike Source/" "cstrike.exe"
