@@ -95,6 +95,8 @@ public:
 					vertexN = ++m_objWalker.m_vertexCount;
 					m_objWalker.writeString(std::format("v {} {} {}\n", vertex.x(), vertex.z(), -vertex.y()));
 				}
+				// write texcoords
+				m_objWalker.writeString(std::format("vt {} {}\n", winding[i].texcoord.x(), winding[i].texcoord.y()));
 				faceLine += std::format(" {}/{}", vertexN, m_objWalker.m_texcoordCount); // store faces
 			}
 			while( i != 0 );
