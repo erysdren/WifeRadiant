@@ -24,6 +24,7 @@
 #include "../../radiant/brush.h" // FIXME: evil
 #include "stream/filestream.h"
 #include "isceneexport.h"
+#include "entitylib.h"
 
 #include "obj.h"
 
@@ -110,6 +111,10 @@ public:
 		brush->forEachFace(ObjBrushVisitor(*this));
 	}
 
+	void writeEntity(Entity* entity) const {
+
+	}
+
 	ObjWalker(FileOutputStream& outputStream) : m_outputStream(outputStream) {
 		writeString(std::format("# exported by WifeRadiant version {}\n\n", RADIANT_GIT_REVISION));
 	}
@@ -117,6 +122,8 @@ public:
 	virtual bool pre(scene::Node& node) const override {
 		if (Node_isBrush(node)) {
 			writeBrush(Node_getBrush(node));
+		} else if (Node_isEntity(node)) {
+			writeEntity(Node_getEntity(node));
 		}
 		return true;
 	}
