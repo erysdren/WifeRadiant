@@ -582,9 +582,9 @@ class Instance
 			m_transformMutex = true;
 
 			if (m_parent != 0) {
-				m_local2world = matrix4_multiplied_by_matrix4(m_parent->localToWorld(), m_local2world_init);
+				m_local2world = matrix4_premultiplied_by_matrix4(m_local2world_init, m_parent->localToWorld());
 			} else {
-				m_local2world = m_local2world_init;
+				m_local2world = matrix4_premultiplied_by_matrix4(m_local2world_init, g_matrix4_identity);
 			}
 			// m_local2world = ( m_parent != 0 ) ? m_parent->localToWorld() : m_local2world_init;
 			TransformNode* transformNode = Node_getTransformNode( m_path.top() );
@@ -635,7 +635,7 @@ public:
 		m_parent( parent ),
 		m_instance( instance ),
 		m_casts( casts ),
-		m_local2world( localToWorld ),
+		m_local2world( g_matrix4_identity ),
 		m_local2world_init( localToWorld ),
 		m_transformChanged( true ),
 		m_transformMutex( false ),
