@@ -37,6 +37,7 @@ public:
 	FileOutputStream& m_outputStream;
 	mutable unsigned int m_vertexCount = 0;
 	mutable unsigned int m_texcoordCount = 0;
+	mutable size_t m_brushCount = 0;
 
 	void writeString(const char* buffer, size_t len) const {
 		m_outputStream.write(reinterpret_cast<const FileOutputStream::byte_type*>(buffer), len);
@@ -54,9 +55,14 @@ public:
 	private:
 		const ObjWalker& m_objWalker;
 		mutable std::vector<DoubleVector3> m_vertices{};
+		mutable size_t m_faceCount = 0;
 	public:
 		ObjBrushVisitor(const ObjWalker& objWalker) : m_objWalker(objWalker) {
+			m_objWalker.writeString(std::format("# brush {}\n", ++m_objWalker.m_brushCount));
+		}
 
+		~ObjBrushVisitor() {
+			m_objWalker.writeString("\n");
 		}
 
 		virtual void visit(Face& face) const override {
@@ -64,7 +70,9 @@ public:
 
 			bool weld = true;
 
-			// write vertices
+			// faces
+			std::string faceLine = "f";
+
 			size_t i = winding.numpoints;
 			do{
 				--i;
@@ -87,8 +95,12 @@ public:
 					vertexN = ++m_objWalker.m_vertexCount;
 					m_objWalker.writeString(std::format("v {} {} {}\n", vertex.x(), vertex.z(), -vertex.y()));
 				}
+				faceLine += std::format(" {}/{}", vertexN, m_objWalker.m_texcoordCount); // store faces
 			}
 			while( i != 0 );
+
+			faceLine += "\n";
+			m_objWalker.writeString(faceLine);
 		}
 	};
 
