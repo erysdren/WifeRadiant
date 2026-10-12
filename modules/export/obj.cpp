@@ -81,7 +81,7 @@ public:
 			std::string faceLine = "f";
 
 			size_t i = winding.numpoints;
-			do{
+			do {
 				--i;
 				++m_objWalker.m_texcoordCount;
 				std::size_t vertexN = 0; // vertex index to use, 0 is special value = no vertex to weld to found
@@ -98,15 +98,14 @@ public:
 					}
 				}
 				// write vertices
-				if( vertexN == 0 ){
+				if (vertexN == 0) {
 					vertexN = ++m_objWalker.m_vertexCount;
 					m_objWalker.writeString(std::format("v {} {} {}\n", vertex.x(), vertex.z(), -vertex.y()));
 				}
 				// write texcoords
 				m_objWalker.writeString(std::format("vt {} {}\n", winding[i].texcoord.x(), winding[i].texcoord.y()));
 				faceLine += std::format(" {}/{}", vertexN, m_objWalker.m_texcoordCount); // store faces
-			}
-			while( i != 0 );
+			} while( i != 0 );
 
 			faceLine += "\n";
 			m_objWalker.writeString(faceLine);
@@ -192,8 +191,12 @@ public:
 static ObjWindow* g_window = nullptr;
 
 void writeOBJ(scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream) {
+#if 0
 	if (g_window == nullptr) {
 		g_window = new ObjWindow(root, traverse, outputStream);
 	}
 	g_window->show();
+#else
+	traverse(root, ObjWalker(outputStream));
+#endif
 }
