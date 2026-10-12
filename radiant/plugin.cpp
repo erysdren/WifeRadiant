@@ -99,6 +99,10 @@ const char* getMapName(){
 	return Map_Name( g_map );
 }
 
+QWidget* getMainWindow(){
+	return MainFrame_getWindow();
+}
+
 scene::Node& getMapWorldEntity(){
 	return Map_FindOrInsertWorldspawn( g_map );
 }
@@ -163,6 +167,9 @@ public:
 		// erysdren: support for Source Engine mapversion field
 		m_radiantcore.Map_getVersion = getMapVersion;
 		m_radiantcore.Map_setVersion = setMapVersion;
+
+		// erysdren: get Qt main window
+		m_radiantcore.getMainWindow = getMainWindow;
 
 		m_radiantcore.m_pfnMessageBox = &qt_MessageBox;
 		m_radiantcore.m_pfnFileDialog = &file_dialog;

@@ -148,6 +148,9 @@ struct _QERFuncTable_1
 	int ( *Map_getVersion )();
 	void ( *Map_setVersion )( int mapversion );
 
+	// erysdren: get Qt main window
+	QWidget* ( *getMainWindow )();
+
 	// Qt functions
 	PFN_QERAPP_MESSAGEBOX m_pfnMessageBox;
 	PFN_QERAPP_FILEDIALOG m_pfnFileDialog;
