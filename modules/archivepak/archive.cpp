@@ -78,25 +78,102 @@ public:
 			header.dirsize = istream_read_uint32_le( m_pakfile );
 
 			if ( strncmp( header.magic, "PACK", 4 ) == 0 ) {
+				// get size of pak file
+				m_pakfile.seek( 0, SeekableStream::end );
+				uint32_t pakfilelen = m_pakfile.tell();
+
+				// see if it's from daikatana
 				m_pakfile.seek( header.diroffset );
+				bool isDaikatana = header.dirsize % sizeof(pakentry_t) != 0;
+				if (header.dirsize % 576 == 0) {
+					unsigned int num_entries = header.dirsize / sizeof(dkpakentry_t);
 
-				for ( unsigned int i = 0; i < header.dirsize; i += sizeof( pakentry_t ) )
-				{
-					pakentry_t entry;
+					for (unsigned int i = 0; i < num_entries; i++) {
+						dkpakentry_t entry;
+						int j;
 
-					m_pakfile.read( reinterpret_cast<FileInputStream::byte_type*>( entry.filename ), 0x38 );
-					entry.offset = istream_read_uint32_le( m_pakfile );
-					entry.size = istream_read_uint32_le( m_pakfile );
+						// check filename
+						m_pakfile.read( reinterpret_cast<FileInputStream::byte_type*>( entry.filename ), PAK_FILENAME_LEN );
 
-					buffer_findreplace( entry.filename, '\\', '/' );
+						for (j = 0; j < PAK_FILENAME_LEN; j++) {
+							if (entry.filename[j] == '\0' || !isalnum(entry.filename[i])) {
+								break;
+							}
+						}
 
-					PakFileSystem::entry_type& file = m_filesystem[entry.filename];
-					if ( !file.is_directory() ) {
-						globalWarningStream() << "Warning: pak archive " << Quoted( m_name ) << " contains duplicated file: " << Quoted( entry.filename ) << '\n';
+						if (j == 0 || !isalnum(entry.filename[i])) {
+							isDaikatana = false;
+							break;
+						}
+
+						entry.offset = istream_read_uint32_le( m_pakfile );
+						entry.size = istream_read_uint32_le( m_pakfile );
+
+						// check compression
+						entry.compressedsize = istream_read_uint32_le( m_pakfile );
+						entry.compressiontype = istream_read_uint32_le( m_pakfile );
+						if (entry.compressiontype != 0 && entry.compressiontype != 1) {
+							isDaikatana = false;
+							break;
+						}
+
+						uint32_t entrySize = entry.size;
+						if (entry.compressiontype == 1) {
+							entrySize = entry.compressedsize;
+						}
+
+						// check offset
+						if (entry.offset + entrySize > pakfilelen) {
+							isDaikatana = false;
+							break;
+						}
 					}
-					else
-					{
-						file = new PakRecord( entry.offset, entry.size );
+				}
+
+				// actually read file table
+				m_pakfile.seek( header.diroffset );
+				if (isDaikatana) {
+					for ( unsigned int i = 0; i < header.dirsize; i += sizeof( dkpakentry_t ) ) {
+						dkpakentry_t entry;
+
+						m_pakfile.read( reinterpret_cast<FileInputStream::byte_type*>( entry.filename ), PAK_FILENAME_LEN );
+						entry.offset = istream_read_uint32_le( m_pakfile );
+						entry.size = istream_read_uint32_le( m_pakfile );
+						entry.compressedsize = istream_read_uint32_le( m_pakfile );
+						entry.compressiontype = istream_read_uint32_le( m_pakfile );
+
+						buffer_findreplace( entry.filename, '\\', '/' );
+
+						if (entry.compressiontype != 0 && entry.compressiontype != 1) {
+							globalWarningStream() << "Warning: pak archive " << Quoted( m_name ) << " contains file with incorrect Daikatana compression type: " << Quoted( entry.filename ) << '\n';
+							continue;
+						}
+
+						PakFileSystem::entry_type& file = m_filesystem[entry.filename];
+						if ( !file.is_directory() ) {
+							globalWarningStream() << "Warning: pak archive " << Quoted( m_name ) << " contains duplicated file: " << Quoted( entry.filename ) << '\n';
+						}
+						else {
+							file = new PakRecord( entry.offset, entry.size );
+						}
+					}
+				} else {
+					for ( unsigned int i = 0; i < header.dirsize; i += sizeof( pakentry_t ) ) {
+						pakentry_t entry;
+
+						m_pakfile.read( reinterpret_cast<FileInputStream::byte_type*>( entry.filename ), PAK_FILENAME_LEN );
+						entry.offset = istream_read_uint32_le( m_pakfile );
+						entry.size = istream_read_uint32_le( m_pakfile );
+
+						buffer_findreplace( entry.filename, '\\', '/' );
+
+						PakFileSystem::entry_type& file = m_filesystem[entry.filename];
+						if ( !file.is_directory() ) {
+							globalWarningStream() << "Warning: pak archive " << Quoted( m_name ) << " contains duplicated file: " << Quoted( entry.filename ) << '\n';
+						}
+						else {
+							file = new PakRecord( entry.offset, entry.size );
+						}
 					}
 				}
 			}

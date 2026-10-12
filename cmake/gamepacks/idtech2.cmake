@@ -129,6 +129,37 @@ radiant_add_gamepack(q2rogue
 )
 
 if(0)
+# Daikatana
+radiant_add_gamepack(daikatana
+	GAME_TYPE "q2"
+	TITLE "Daikatana"
+	GAMEDIR "data"
+	PATH_WIN32 "C:/Program Files (x86)/Steam/steamapps/common/Daikatana/"
+	PATH_LINUX "~/.steam/steam/steamapps/common/Daikatana/"
+	EXECUTABLE_WIN32 "daikatana.exe"
+	EXECUTABLE_LINUX "daikatana"
+	ENTITIES_FILENAME "quake2.fgd"
+	SHADER_TYPE "quake3"
+	SHADER_PATH "scripts"
+	TEXTURE_PATH "textures"
+	ENTITY_CLASS "quake3"
+	ENTITY_CLASS_TYPES "def"
+	ENTITIES "quake3"
+	BUILD_MENU_FILENAME "default_build_menu_quake2_ericwtools.xml"
+	ARCHIVE_TYPES "pak"
+	TEXTURE_TYPES "pcx" "tga" "wal"
+	MODEL_TYPES "md2"
+	SOUND_TYPES "wav"
+	MAP_TYPES "mapq2"
+	BRUSH_TYPES "quake2"
+	PATCH_TYPES "quake3"
+	SHADER_CAULK "textures/common/caulk"
+	SHADER_NODRAW "textures/common/nodraw"
+	SHADER_TRIGGER "textures/common/trigger"
+)
+endif()
+
+if(0)
 # SiN
 radiant_add_gamepack(sin
 	GAME_TYPE "sin"

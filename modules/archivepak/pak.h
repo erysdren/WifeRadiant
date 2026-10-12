@@ -21,16 +21,35 @@
 
 #pragma once
 
+#include <cstdint>
+
+#define PAK_FILENAME_LEN (56)
+
 struct pakheader_t
 {
 	char magic[4];       // Name of the new WAD format ("PACK")
-	unsigned int diroffset; // Position of WAD directory from start of file
-	unsigned int dirsize; // Number of entries * 0x40 (64 char)
+	uint32_t diroffset; // Position of WAD directory from start of file
+	uint32_t dirsize; // Number of entries * 0x40 (64 char)
 };
+
+static_assert(sizeof(pakheader_t) == 12);
 
 struct pakentry_t
 {
-	char filename[0x38]; // Name of the file, Unix style, with extension, 50 chars, padded with '\0'.
-	unsigned int offset; // Position of the entry in PACK file
-	unsigned int size;   // Size of the entry in PACK file
+	char filename[PAK_FILENAME_LEN]; // Name of the file, Unix style, with extension, 56 chars, padded with '\0'.
+	uint32_t offset; // Position of the entry in PACK file
+	uint32_t size;   // Size of the entry in PACK file
 };
+
+static_assert(sizeof(pakentry_t) == 64);
+
+struct dkpakentry_t
+{
+	char filename[PAK_FILENAME_LEN]; // name of the file
+	uint32_t offset; // position of file data
+	uint32_t size;   // uncompressed size of file data
+	uint32_t compressedsize; // compressed size of file data
+	uint32_t compressiontype; // 0 = uncompressed 1 = compressed
+};
+
+static_assert(sizeof(dkpakentry_t) == 72);
