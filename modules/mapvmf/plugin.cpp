@@ -154,7 +154,7 @@ public:
 	MapFormat* getTable(){
 		return this;
 	}
-	static bool dispDef_from( kvpp::KV1 dispinfo, std::string *dispDef) {
+	static bool dispDef_from( auto dispinfo, std::string &dispDef) {
 		std::string head = "dispDef\n{\n";
 
 		float startpos[3];
@@ -308,7 +308,7 @@ public:
 								for ( auto sideelem : solidelem ) {
 									if (string_equal_nocase(sideelem.getKey().data(), "dispinfo")) {
 										std::string dispDef;
-										if ( dispDef_from( sideelem, &dispdef ) ) {
+										if ( dispDef_from( sideelem, dispDef ) ) {
 											StringInputStream istream_dd( dispDef );
 											importer->importTokens( NewScriptTokeniser( istream_dd ) );
 										} else {
@@ -420,21 +420,21 @@ public:
 			}
 			bool forEachLine(
 				int64_t& childID, kvpp::KV1ElementWritable<std::string>& solid,
-				std::function<bool(int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side)> side_func
+				std::function<bool(int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side)> side_func,
 				std::function<bool(std::vector<std::string>& lines, int& i, kvpp::KV1ElementWritable<std::string>& disp)> disp_func
 			  ) {
 				// TODO: compile & test this splice works as intended
 				bool func_ok = true;  // lines we don't catch are ok
 				kvpp::KV1ElementWritable<std::string> *prev_side = NULL;
-				for (int i = 0; i < m_lines.size(); i++) {
-					std::string line = m_lines.at(i)
+				for (int i = 0; i < (int)m_lines.size(); i++) {
+					std::string line = m_lines.at(i);
 					if ( line[0] == '(' ) {
 						prev_side = &solid.addChild("side");
 						func_ok = side_func( childID, line, *prev_side );
 					} else if ( line[0] == 'd' ) {  // ^dispDef
 						if (prev_side == NULL)
 							return false;  // dispDef with no brushside! invalid solid
-						func_ok = disp_func( m_lines, i, prev_side->addChild("dispinfo") )
+						func_ok = disp_func( m_lines, i, prev_side->addChild("dispinfo") );
 						prev_side = NULL;
 					}
 					if (!func_ok)
@@ -455,7 +455,7 @@ public:
 
 			#define NEXT_LINE() \
 				i++; \
-				if ( i >= lines.size() ) \
+				if ( i >= (int)lines.size() ) \
 					return false; \
 				line = lines.at(i);
 
@@ -477,7 +477,7 @@ public:
 			for (int row = 0; row < num_rows; row++) {
 				vertices.emplace_back();
 				// ( ( x y z a ) ... repeat num_rows times ... )
-				StringTokeniser tokeniser(line);
+				StringTokeniser tokeniser(line.c_str());
 				GET_TOKEN("(");
 				for (int col = 0; col < num_rows; col++) {
 					DispVert dispvert;
@@ -510,51 +510,59 @@ public:
 			disp["elevation"] = 0;
 			disp["subdiv"] = 0;
 			// child nodes
-			kvpp::KV1ElementWritable<std::string> normals = disp.addChild("normals");
-			kvpp::KV1ElementWritable<std::string> distances = disp.addChild("distances");
-			kvpp::KV1ElementWritable<std::string> alphas = disp.addChild("alphas");
-			kvpp::KV1ElementWritable<std::string> offsets = disp.addChild("offsets");
+			kvpp::KV1ElementWritable<std::string> normals        = disp.addChild("normals");
+			kvpp::KV1ElementWritable<std::string> distances      = disp.addChild("distances");
+			kvpp::KV1ElementWritable<std::string> alphas         = disp.addChild("alphas");
+			kvpp::KV1ElementWritable<std::string> offsets        = disp.addChild("offsets");
 			kvpp::KV1ElementWritable<std::string> offset_normals = disp.addChild("offset_normals");
 
 			// vertex rows
 			for (int row = 0; row < num_rows; row++) {
-				std::string row_index = std::format("row{}", row);
-				normals[row_index] = "";
-				distances[row_index] = "";
-				alphas[row_index] = "";
-				offsets[row_index] = "";
-				offset_normals[row_index] = "";
+                std::string row_normals        = "";
+				std::string row_distances      = "";
+				std::string row_alphas         = "";
+				std::string row_offsets        = "";
+				std::string row_offset_normals = "";
 				for (int col = 0; col < num_rows; col++) {
 					float x = vertices[row][col].x;
 					float y = vertices[row][col].y;
 					float z = vertices[row][col].z;
 					float a = vertices[row][col].a;
 					float m = sqrt(x * x + y * y + z * z);
-					float n_x = x / distance;
-					float n_y = y / distance;
-					float n_z = z / distance;
+					float n_x = x / m;
+					float n_y = y / m;
+					float n_z = z / m;
 
-					normals[row_index].append(std::format("{} {} {} ", n_x, n_y, n_z));
-					distances[row_index].append(std::format("{} ", m));
-					alphas[row_index].append(std::format("{} ", a));
+					row_normals.append(std::format("{} {} {} ", n_x, n_y, n_z));
+					row_distances.append(std::format("{} ", m));
+					row_alphas.append(std::format("{} ", a));
 					// defaults (unimplemented):
-					offsets[row_index].append("0 0 0 ");
-					offset_normals[row_index].append("0 0 1 ");  // match face normal?
+					row_offsets.append("0 0 0 ");
+					row_offset_normals.append("0 0 1 ");  // match face normal?
 				}
+				std::string row_index = std::format("row{}", row);
+				normals[row_index]        = row_normals;
+				distances[row_index]      = row_distances;
+				alphas[row_index]         = row_alphas;
+				offsets[row_index]        = row_offsets;
+				offset_normals[row_index] = row_offset_normals;
 			}
 
 			kvpp::KV1ElementWritable<std::string> triangle_tags = disp.addChild("triangle_tags");
 			// default triangle tags (8x16 @ p3)
 			for (int row = 0; row < (num_rows - 1); row++) {
-				std::string row_index = std::format("row{}", row);
-                triangle_tags[row_index] = "";
+                std::string row_triangle_tags = "";
                 for (int col = 0; col < (num_rows - 1); col++) {
-                    triangle_tags[row_index].append("9 9 ")
+                    row_triangle_tags.append("9 9 ");
                 }
+				std::string row_index = std::format("row{}", row);
+                triangle_tags[row_index] = row_triangle_tags;
             }
 
 			kvpp::KV1ElementWritable<std::string> allowed_verts = disp.addChild("allowed_verts");
 			allowed_verts["10"] = "-1 -1 -1 -1 -1 -1 -1 -1 -1 -1";  // default; unused?
+
+            return true;
 		}
 		static bool writeSide(int64_t &childID, std::string &line, kvpp::KV1ElementWritable<std::string> &side) {
 			// parse line
