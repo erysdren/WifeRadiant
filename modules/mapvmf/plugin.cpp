@@ -301,21 +301,23 @@ public:
 									solidelem["lightmapscale"].getValue()
 								);
 
-								MapImporter* importer = Node_getMapImporter( solid );
-								StringInputStream istream( faceData );
-								importer->importTokens( NewScriptTokeniser( istream ) );
-
 								for ( auto sideelem : solidelem ) {
+									// TODO: freak out if side has multiple dispinfo
 									if (string_equal_nocase(sideelem.getKey().data(), "dispinfo")) {
 										std::string dispDef;
 										if ( dispDef_from( sideelem, dispDef ) ) {
-											StringInputStream istream_dd( dispDef );
-											importer->importTokens( NewScriptTokeniser( istream_dd ) );
+											faceData.append("\n");
+											faceData.append(dispDef);
 										} else {
 											globalWarningStream() << "FIXME: bad dispinfo in " << Node_getEntity( entity )->getClassName() << '\n';
 										}
 									}
 								}
+
+								MapImporter* importer = Node_getMapImporter( solid );
+								StringInputStream istream( faceData );
+								importer->importTokens( NewScriptTokeniser( istream ) );
+
 							}  else if (string_equal_nocase(solidelem.getKey().data(), "editor")) {
 								if ( solidelem.hasChild("visgroupid") ) {
 									int32_t visgroupid = solidelem["visgroupid"].getValue<int32_t>();

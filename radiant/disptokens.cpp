@@ -28,6 +28,7 @@
 
 inline bool DispTokenImporter::importHeader(Disp &disp, Tokeniser &tokeniser) {
     tokeniser.nextLine();
+    RETURN_FALSE_IF_FAIL(Tokeniser_parseToken(tokeniser, "dispDef"));
     RETURN_FALSE_IF_FAIL(Tokeniser_parseToken(tokeniser, "{"));
     return true;
 }
@@ -93,6 +94,7 @@ bool DispTokenImporter::importTokens(Tokeniser &tokeniser) {
 /*********************/
 
 inline void DispTokenExporter::exportHeader(const Disp &disp, TokenWriter &writer) {
+    writer.writeToken("dispDef");
     writer.writeToken("{");
     writer.nextLine();
 }
