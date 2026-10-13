@@ -425,7 +425,6 @@ public:
 				std::function<bool(int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side)> side_func,
 				std::function<bool(std::vector<std::string>& lines, int& i, kvpp::KV1ElementWritable<std::string>& disp)> disp_func
 			  ) {
-				// TODO: compile & test this splice works as intended
 				bool func_ok = true;  // lines we don't catch are ok
 				kvpp::KV1ElementWritable<std::string> *prev_side = NULL;
 				for (int i = 0; i < (int)m_lines.size(); i++) {
@@ -520,7 +519,7 @@ public:
 
 			// vertex rows
 			for (int row = 0; row < num_rows; row++) {
-                std::string row_normals        = "";
+				std::string row_normals        = "";
 				std::string row_distances      = "";
 				std::string row_alphas         = "";
 				std::string row_offsets        = "";
@@ -553,18 +552,18 @@ public:
 			kvpp::KV1ElementWritable<std::string> triangle_tags = disp.addChild("triangle_tags");
 			// default triangle tags (8x16 @ p3)
 			for (int row = 0; row < (num_rows - 1); row++) {
-                std::string row_triangle_tags = "";
-                for (int col = 0; col < (num_rows - 1); col++) {
-                    row_triangle_tags.append("9 9 ");
-                }
+				std::string row_triangle_tags = "";
+				for (int col = 0; col < (num_rows - 1); col++) {
+					row_triangle_tags.append("9 9 ");
+				}
 				std::string row_index = std::format("row{}", row);
-                triangle_tags[row_index] = row_triangle_tags;
-            }
+				triangle_tags[row_index] = row_triangle_tags;
+			}
 
 			kvpp::KV1ElementWritable<std::string> allowed_verts = disp.addChild("allowed_verts");
 			allowed_verts["10"] = "-1 -1 -1 -1 -1 -1 -1 -1 -1 -1";  // default; unused?
 
-            return true;
+			return true;
 		}
 		static bool writeSide(int64_t &childID, std::string &line, kvpp::KV1ElementWritable<std::string> &side) {
 			// parse line
