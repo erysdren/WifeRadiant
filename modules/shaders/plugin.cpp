@@ -172,35 +172,35 @@ typedef SingletonModule<ShadersSourceAPI, ShadersDependencies, DependenciesAPICo
 ShadersSourceModule g_ShadersSourceModule;
 
 
-class ShadersNuclideAPI
+class ShadersFteqwAPI
 {
-	ShaderSystem* m_shadersnuclide;
+	ShaderSystem* m_shadersfteqw;
 public:
 	typedef ShaderSystem Type;
-	STRING_CONSTANT( Name, "nuclide" );
+	STRING_CONSTANT( Name, "fteqw" );
 
-	ShadersNuclideAPI( ShadersDependencies& dependencies ){
+	ShadersFteqwAPI( ShadersDependencies& dependencies ){
 		g_shadersExtension = "mat";
 		g_shadersDirectory = "textures/";
 		g_texturePrefix = "textures/";
 		g_enableDefaultShaders = false;
-		g_shaderLanguage = SHADERLANGUAGE_DOOM3;
+		g_shaderLanguage = SHADERLANGUAGE_FTEQW;
 		g_useShaderList = false;
 		g_bitmapModule = dependencies.getBitmapModule().getTable();
 		Shaders_Construct();
-		m_shadersnuclide = &GetShaderSystem();
+		m_shadersfteqw = &GetShaderSystem();
 	}
-	~ShadersNuclideAPI(){
+	~ShadersFteqwAPI(){
 		Shaders_Destroy();
 	}
 	ShaderSystem* getTable(){
-		return m_shadersnuclide;
+		return m_shadersfteqw;
 	}
 };
 
-typedef SingletonModule<ShadersNuclideAPI, ShadersDependencies, DependenciesAPIConstructor<ShadersNuclideAPI, ShadersDependencies> > ShadersNuclideModule;
+typedef SingletonModule<ShadersFteqwAPI, ShadersDependencies, DependenciesAPIConstructor<ShadersFteqwAPI, ShadersDependencies> > ShadersFteqwModule;
 
-ShadersNuclideModule g_ShadersNuclideModule;
+ShadersFteqwModule g_ShadersFteqwModule;
 
 
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
@@ -210,5 +210,5 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ShadersDoom3Module.selfRegister();
 	g_ShadersQuake4Module.selfRegister();
 	g_ShadersSourceModule.selfRegister();
-	g_ShadersNuclideModule.selfRegister();
+	g_ShadersFteqwModule.selfRegister();
 }

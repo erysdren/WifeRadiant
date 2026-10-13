@@ -1282,6 +1282,9 @@ bool ShaderTemplate::parseQuake3( Tokeniser& tokeniser ){
 			else if ( string_equal_nocase( token, "qer_editorimage" ) ) {
 				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_textureName ) );
 			}
+			else if ( string_equal_nocase( token, "diffusemap" ) ) {
+				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_textureName ) );
+			}
 			else if ( string_equal_nocase( token, "qer_rectanglemap" ) ) {
 				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_hotSpotDefName ) );
 			}
@@ -1457,26 +1460,41 @@ void ParseShaderFile( Tokeniser& tokeniser, const char* filename ){
 		{
 			if ( string_equal( token, "guide" ) ) {
 				parseTemplateInstance( tokeniser, filename );
-			}
-			else
-			{
-				if ( !string_equal( token, "material" )
-				  && !string_equal( token, "particle" )
-				  && !string_equal( token, "skin" ) ) {
-					tokeniser.ungetToken();
-				}
-				// first token should be the path + name.. (from base)
+			} else {
 				CopiedString name;
-				if ( !Tokeniser_parseShaderName( tokeniser, name ) ) {
+				if (g_shaderLanguage == SHADERLANGUAGE_FTEQW) {
+					parseTextureName(name, filename);
+				} else {
+					if ( !string_equal( token, "material" )
+					  && !string_equal( token, "particle" )
+					  && !string_equal( token, "skin" ) ) {
+						tokeniser.ungetToken();
+					}
+					// first token should be the path + name.. (from base)
+					if ( !Tokeniser_parseShaderName( tokeniser, name ) ) {
+					}
 				}
+
 				ShaderTemplatePointer shaderTemplate( new ShaderTemplate() );
 				shaderTemplate->setName( name.c_str() );
 
 				g_shaders.insert( ShaderTemplateMap::value_type( shaderTemplate->getName(), shaderTemplate ) );
 
-				bool result = ( g_shaderLanguage == SHADERLANGUAGE_QUAKE3 )
-				              ? shaderTemplate->parseQuake3( tokeniser )
-				              : shaderTemplate->parseDoom3( tokeniser );
+				bool result = false;
+				switch (g_shaderLanguage) {
+					case SHADERLANGUAGE_FTEQW:
+					case SHADERLANGUAGE_QUAKE3:
+						result = shaderTemplate->parseQuake3(tokeniser);
+						break;
+					case SHADERLANGUAGE_QUAKE4:
+					case SHADERLANGUAGE_DOOM3:
+						result = shaderTemplate->parseDoom3(tokeniser);
+						break;
+					case SHADERLANGUAGE_SOURCE:
+						// not parsed here
+						break;
+				}
+
 				if ( result ) {
 					// do we already have this shader?
 					if ( !g_shaderDefinitions.insert( ShaderDefinitionMap::value_type( shaderTemplate->getName(), ShaderDefinition( shaderTemplate.get(), ShaderArguments(), filename ) ) ).second ) {
