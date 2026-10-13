@@ -24,6 +24,7 @@
 #include "idatastream.h"
 #include <algorithm>
 #include <cstdio>
+#include <string>
 
 namespace FileStreamDetail
 {
@@ -49,8 +50,9 @@ inline int whence_for_seekdir( SeekableStream::seekdir direction ){
 class FileInputStream : public SeekableInputStream
 {
 	std::FILE* m_file;
+	std::string m_name;
 public:
-	FileInputStream( const char* name ){
+	FileInputStream( const char* name ) : m_name(name) {
 		m_file = name[0] == '\0' ? 0 : fopen( name, "rb" );
 	}
 	~FileInputStream(){
@@ -79,6 +81,9 @@ public:
 
 	std::FILE* file(){
 		return m_file;
+	}
+	const char* name() const {
+		return m_name.c_str();
 	}
 };
 
@@ -113,8 +118,9 @@ public:
 class FileOutputStream : public SeekableOutputStream
 {
 	std::FILE* m_file;
+	std::string m_name;
 public:
-	FileOutputStream( const char* name ){
+	FileOutputStream( const char* name ) : m_name(name) {
 		m_file = name[0] == '\0' ? 0 : fopen( name, "wb" );
 	}
 	~FileOutputStream(){
@@ -139,6 +145,9 @@ public:
 	}
 	size_type tell() const override {
 		return ftell( m_file );
+	}
+	const char* name() const {
+		return m_name.c_str();
 	}
 };
 
