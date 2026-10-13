@@ -62,6 +62,7 @@
 
 #include "winding.h"
 #include "brush_primit.h"
+#include "disp.h"
 
 const unsigned int BRUSH_DETAIL_FLAG = 27;
 const unsigned int BRUSH_DETAIL_MASK = ( 1 << BRUSH_DETAIL_FLAG );
@@ -923,6 +924,7 @@ public:
 
 	PlanePoints m_move_planepts;
 	PlanePoints m_move_planeptsTransformed;
+	Disp* m_disp;
 private:
 	FacePlane m_plane;
 	FacePlane m_planeTransformed;

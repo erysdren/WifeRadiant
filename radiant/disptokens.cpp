@@ -51,7 +51,7 @@ inline bool DispTokenImporter::importVertex(Disp &disp, Tokeniser &tokeniser) {
 
     tokeniser.nextLine();
     RETURN_FALSE_IF_FAIL(Tokeniser_parseToken(tokeniser, "("));
-    limit = disp.row_length;
+    limit = disp.rowLength();
     for (unsigned int col = 0; col < limit; ++col) {
         tokeniser.nextLine();
         RETURN_FALSE_IF_FAIL(Tokeniser_parseToken(tokeniser, "("));
@@ -115,7 +115,7 @@ inline void DispTokenExporter::exportVertex(const Disp &disp, TokenWriter &write
 
     writer.writeToken("(");
     writer.nextLine();
-    limit = disp.row_length;
+    limit = disp.rowLength();
     for (unsigned int col = 0; col < limit; ++col) {
         writer.writeToken("(");
         for (unsigned int row = 0; row < limit; ++row) {
@@ -135,7 +135,7 @@ inline void DispTokenExporter::exportVertex(const Disp &disp, TokenWriter &write
 }
 
 
-inline void DispTokenExporter::exportFooter(m_disp, writer) {
+inline void DispTokenExporter::exportFooter(const Disp &disp, TokenWriter &writer) {
     writer.writeToken("}");
     writer.nextLine();
 }

@@ -534,9 +534,7 @@ public:
 					RETURN_FALSE_IF_FAIL( importer.importTokens( tokeniser ) );
 					// NOTE: should fail if a dispDef appears without a face
 
-					// TODO: `Disp m_disp` member definition in `Face` class
-					// -- radiant/brush.h:885 `class Face final`
-
+					// referenced radiant/patch.h:1097
 					tokeniser.nextLine();
 					bool has_dispDef = string_equal( tokeniser.getToken(), "dispDef" );
 					tokeniser.ungetToken();
@@ -545,9 +543,8 @@ public:
 					// -- this should allow us to peek at the next line without skipping it
 					// -- when nextLine is called to advance the parser
 
-					// referenced radiant/patch.h:1097
 					if ( has_dispDef ) {
-						DispTokenImporter<true> importer( face->m_disp );
+						DispTokenImporter importer( *face.m_disp );
 						RETURN_FALSE_IF_FAIL( importer.importTokens( tokeniser ) );
 					}
 				}
@@ -675,6 +672,11 @@ public:
 					{
 						Valve220FaceTokenExporter<FaceExportFlags::yes, true> exporter( *face );
 						exporter.exportTokens( writer );
+						// TODO: export face m_disp tokens (SmartPointer makes this approach a nightmare)
+						// if ( *face->m_disp != NULL ) {
+						//	   DispTokenExporter disp_exporter( *face->m_disp );
+						//	   disp_exporter.exportTokens( writer );
+						// }
 					}
 					break;
 				}

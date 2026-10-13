@@ -28,25 +28,25 @@
 // TODO: void Disp::importState(const UndoMemento *state) override {  // Undoable
 
 
-VolumeIntersectionValue Disp::intersectVolume(  // Cullable
-    const VolumeTest &test,
-    const Matrix4    &localToWorld
-  ) const override {
-    return test.TestAABB(m_aabb_local, localToWorld);
-}
+// VolumeIntersectionValue Disp::intersectVolume(  // Cullable
+//     const VolumeTest &test,
+//     const Matrix4    &localToWorld
+//   ) const {
+//     return test.TestAABB(m_aabb_local, localToWorld);
+// }
 
 
-const AABB &Disp::localAABB() const override {  // Bounded
+const AABB &Disp::localAABB() const {  // Bounded
     return m_aabb_local;
 }
 
 
-const Matrix4 &Disp::localToParent() const override {  // TransformNode
+const Matrix4 &Disp::localToParent() const {  // TransformNode
     return g_matrix4_identity;
 }
 
 
-const char* Disp::name() const override {  // Nameable
+const char* Disp::name() const {  // Nameable
     return "disp";
 }
 

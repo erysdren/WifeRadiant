@@ -33,9 +33,11 @@
 #include "cullable.h"
 #include "editable.h"
 #include "ifilter.h"  // TODO: add disp filter
+#include "irender.h"
 #include "iundo.h"
 #include "nameable.h"
 // libs
+#include "container/array.h"
 #include "generic/vector.h"
 #include "scenelib.h"
 #include "string/string.h"
@@ -167,7 +169,7 @@ class Disp final:
     void                     detach(const NameCallback &callback) override;  // Nameable
     UndoMemento             *exportState() const override;  // Undoable
     void                     importState(const UndoMemento *state) override;  // Undoable
-    VolumeIntersectionValue  intersectVolume(const VolumeTest& test, const Matrix4 &localToWorld) const override;  // Cullable
+    // VolumeIntersectionValue  intersectVolume(const VolumeTest& test, const Matrix4 &localToWorld) const override;  // Cullable
     const AABB              &localAABB() const override;  // Bounded
     const Matrix4           &localToParent() const override;  // TransformNode
     const char*              name() const override;  // Nameable

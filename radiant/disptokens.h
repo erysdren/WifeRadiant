@@ -22,6 +22,8 @@
 #pragma once
 
 
+// include
+#include "imap.h"
 // libs
 #include "stringio.h"
 
@@ -48,10 +50,10 @@ class DispTokenExporter : public MapExporter {
   private:
     const Disp &m_disp;
 
-    inline static void exportHeader(Disp &disp, TokenWriter &writer);
-    inline static void exportParams(Disp &disp, TokenWriter &writer);
-    inline static void exportVertex(Disp &disp, TokenWriter &writer);
-    inline static void exportFooter(Disp &disp, TokenWriter &writer);
+    inline static void exportHeader(const Disp &disp, TokenWriter &writer);
+    inline static void exportParams(const Disp &disp, TokenWriter &writer);
+    inline static void exportVertex(const Disp &disp, TokenWriter &writer);
+    inline static void exportFooter(const Disp &disp, TokenWriter &writer);
 
   public:
     DispTokenExporter(Disp &disp) : m_disp(disp) {}
