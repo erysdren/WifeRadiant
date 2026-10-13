@@ -672,11 +672,10 @@ public:
 					{
 						Valve220FaceTokenExporter<FaceExportFlags::yes, true> exporter( *face );
 						exporter.exportTokens( writer );
-						// TODO: export face m_disp tokens (SmartPointer makes this approach a nightmare)
-						// if ( *face->m_disp != NULL ) {
-						//	   DispTokenExporter disp_exporter( *face->m_disp );
-						//	   disp_exporter.exportTokens( writer );
-						// }
+						if ( face->m_disp != NULL ) {
+							DispTokenExporter disp_exporter( *face->m_disp );
+							disp_exporter.exportTokens( writer );
+						}
 					}
 					break;
 				}
