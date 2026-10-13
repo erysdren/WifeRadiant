@@ -924,7 +924,7 @@ public:
 
 	PlanePoints m_move_planepts;
 	PlanePoints m_move_planeptsTransformed;
-	Disp* m_disp;
+	Disp* m_disp = nullptr;
 private:
 	FacePlane m_plane;
 	FacePlane m_planeTransformed;
@@ -956,7 +956,6 @@ public:
 		m_observer( observer ),
 		m_undoable_observer( 0 ),
 		m_map( 0 ){
-		m_disp = nullptr;
 		m_shader.attach( *this );
 		m_plane.copy( DoubleVector3( 0, 0, 0 ), DoubleVector3( 64, 0, 0 ), DoubleVector3( 0, 64, 0 ) );
 		m_texdef.setBasis( m_plane.plane3().normal() );
@@ -976,7 +975,6 @@ public:
 		m_observer( observer ),
 		m_undoable_observer( 0 ),
 		m_map( 0 ){
-		m_disp = nullptr;
 		m_shader.attach( *this );
 		m_plane.copy( p0, p1, p2 );
 		m_texdef.setBasis( m_plane.plane3().normal() );
@@ -991,7 +989,6 @@ public:
 		m_observer( observer ),
 		m_undoable_observer( 0 ),
 		m_map( 0 ){
-		m_disp = nullptr;
 		m_shader.attach( *this );
 		m_plane.copy( other.m_plane );
 //		m_texdef.setBasis( m_plane.plane3().normal() ); //don't reset basis on face clone
