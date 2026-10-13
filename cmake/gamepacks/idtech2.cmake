@@ -128,7 +128,6 @@ radiant_add_gamepack(q2rogue
 	SHADER_TRIGGER "textures/common/trigger"
 )
 
-if(0)
 # The Wastes
 radiant_add_gamepack(thewastes
 	GAME_TYPE "q2"
@@ -138,26 +137,25 @@ radiant_add_gamepack(thewastes
 	PATH_LINUX "~/.steam/steam/steamapps/common/The Wastes/"
 	EXECUTABLE_WIN32 "wastes64.exe"
 	EXECUTABLE_LINUX "wastes.amd64"
-	ENTITIES_FILENAME "quake2.fgd"
-	SHADER_TYPE "nuclide"
+	ENTITIES_FILENAME "wastes.def"
+	SHADER_TYPE "fteqw"
 	SHADER_PATH "textures"
 	TEXTURE_PATH "textures"
 	ENTITY_CLASS "quake3"
 	ENTITY_CLASS_TYPES "def"
 	ENTITIES "quake3"
-	# BUILD_MENU_FILENAME "default_build_menu_vmap.xml"
+	BUILD_MENU_FILENAME "default_build_menu_vmap.xml"
 	ARCHIVE_TYPES "pk3"
 	TEXTURE_TYPES "ktx" "tga"
 	MODEL_TYPES "md2"
 	SOUND_TYPES "wav"
-	MAP_TYPES "mapq2"
-	BRUSH_TYPES "quake2"
+	MAP_TYPES "mapq3"
+	BRUSH_TYPES "quake3"
 	PATCH_TYPES "quake3"
 	SHADER_CAULK "textures/common/caulk"
 	SHADER_NODRAW "textures/common/nodraw"
 	SHADER_TRIGGER "textures/common/trigger"
 )
-endif()
 
 if(0)
 # Daikatana

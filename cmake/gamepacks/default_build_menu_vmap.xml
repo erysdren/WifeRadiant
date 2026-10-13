@@ -1,0 +1,10 @@
+<?xml version="1.0"?>
+<project version="2.0">
+  <var name="VmapExecutable">"[RadiantPath]/vmap.[ExecutableType]" -basedir "[EnginePath]" -game "[GameName]"</var>
+  <build name="Default">
+       <command>[VmapExecutable] -bsp -meta "[MapFile]"</command>
+       <command>[VmapExecutable] -vis "[BspFile]"</command>
+       <command>[VmapExecutable] -light "[BspFile]"</command>
+       <command>[CopyCommand] "[BspFile]" "[MapsPath]"</command>
+  </build>
+</project>
