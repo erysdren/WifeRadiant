@@ -20,6 +20,7 @@
 #include "plugin.h"
 
 #include "stream/filestream.h"
+#include "string/string.h"
 #include "isceneexport.h"
 
 #include "gltf.h"
@@ -28,5 +29,8 @@
 #include "cgltf_write.h"
 
 void writeGLTF(scene::Node& root, GraphTraversalFunc traverse, FileOutputStream& outputStream) {
-
+	bool isGLB = false;
+	if (string_equal_suffix_nocase(outputStream.name(), ".glb")) {
+		isGLB = true;
+	}
 }
