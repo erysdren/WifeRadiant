@@ -32,26 +32,19 @@
 
 Image* ProcessVtf( vtfpp::VTF& vtf ) {
 	if (!vtf.hasImageData())
-		return NULL;
+		return nullptr;
 
-	auto image = new RGBAImageFlags( vtf.getWidth(), vtf.getHeight(), 0, 0, 0 );
+	int width = vtf.getWidth();
+	int height = vtf.getHeight();
 
 	auto vtfData = vtf.getImageDataAsRGBA8888();
-
-	size_t index = 0;
-	byte *dest = image->getRGBAPixels();
-	for (int y = 0; y < vtf.getHeight(); y++)
-	{
-		for (int x = 0; x < vtf.getWidth(); x++)
-		{
-			dest[index + 0] = (byte)vtfData[index + 0];
-			dest[index + 1] = (byte)vtfData[index + 1];
-			dest[index + 2] = (byte)vtfData[index + 2];
-			dest[index + 3] = (byte)vtfData[index + 3];
-
-			index += 4;
-		}
+	if (vtfData.empty()) {
+		return nullptr;
 	}
+
+	auto* image = new RGBAImageFlags( width, height, 0, 0, 0 );
+
+	memcpy(image->getRGBAPixels(), vtfData.data(), width * height * 4);
 
 	return image;
 }
@@ -62,22 +55,12 @@ Image* LoadVtf( ArchiveFile& file ){
 	return ProcessVtf(vtf);
 }
 
-#if !defined(MAX_PATH) && defined(PATH_MAX)
-#define MAX_PATH PATH_MAX
-#else
-#define MAX_PATH 260
-#endif
-
 Image* LoadTth( ArchiveFile& file ){
-	const char *tthFilename = file.getName();
-	const char *tthFilenameExtPtr = std::strrchr( tthFilename, '.' );
-	size_t tthFilenameExtPos = tthFilenameExtPtr - tthFilename;
+	std::filesystem::path tthFilename = file.getName();
+	std::filesystem::path ttzFilename = tthFilename;
+	ttzFilename.replace_extension(".ttz");
 
-	char ttzFilename[MAX_PATH];
-	std::strncpy( ttzFilename, tthFilename, sizeof(ttzFilename) );
-	std::strncpy( ttzFilename + tthFilenameExtPos, ".ttz", sizeof(ttzFilename) - tthFilenameExtPos );
-
-	ArchiveFile *ttzFile = GlobalFileSystem().openFile( ttzFilename );
+	ArchiveFile *ttzFile = GlobalFileSystem().openFile( ttzFilename.c_str() );
 	if ( ttzFile ) {
 		ScopedArchiveBuffer tthBuffer( file );
 		ScopedArchiveBuffer ttzBuffer( *ttzFile );

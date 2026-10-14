@@ -116,6 +116,7 @@ radiant_add_module(image
 		${PROJECT_SOURCE_DIR}/modules/image/pcx.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/stb.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/tga.cpp
+		${PROJECT_SOURCE_DIR}/modules/image/vtf.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/webp.cpp
 	DEPENDENCIES
 		wiferadiant-library-ddslib
@@ -123,14 +124,6 @@ radiant_add_module(image
 		wiferadiant-library-crnlib
 		wiferadiant-library-webplib
 		wiferadiant-library-stb
-		sourcepp::vtfpp
-)
-
-radiant_add_module(imagevtf
-	SOURCES
-		${PROJECT_SOURCE_DIR}/modules/imagevtf/imagevtf.cpp
-		${PROJECT_SOURCE_DIR}/modules/imagevtf/vtf.cpp
-	DEPENDENCIES
 		sourcepp::vtfpp
 )
 

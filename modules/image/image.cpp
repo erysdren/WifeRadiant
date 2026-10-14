@@ -28,6 +28,7 @@
 #include "bmp.h"
 #include "pcx.h"
 #include "stb.h"
+#include "vtf.h"
 
 #include "modulesystem/singletonmodule.h"
 
@@ -224,6 +225,44 @@ typedef SingletonModule<ImageWebpAPI, ImageDependencies> ImageWebpModule;
 ImageWebpModule g_ImageWebpModule;
 #endif
 
+class ImageVtfAPI
+{
+	_QERPlugImageTable m_imagevtf;
+public:
+	typedef _QERPlugImageTable Type;
+	STRING_CONSTANT( Name, "vtf" );
+
+	ImageVtfAPI(){
+		m_imagevtf.loadImage = LoadVtf;
+	}
+	_QERPlugImageTable* getTable(){
+		return &m_imagevtf;
+	}
+};
+
+typedef SingletonModule<ImageVtfAPI, ImageDependencies> ImageVtfModule;
+
+ImageVtfModule g_ImageVtfModule;
+
+class ImageTthAPI
+{
+	_QERPlugImageTable m_imagetth;
+public:
+	typedef _QERPlugImageTable Type;
+	STRING_CONSTANT( Name, "tth" );
+
+	ImageTthAPI(){
+		m_imagetth.loadImage = LoadTth;
+	}
+	_QERPlugImageTable* getTable(){
+		return &m_imagetth;
+	}
+};
+
+typedef SingletonModule<ImageTthAPI, ImageDependencies> ImageTthModule;
+
+ImageTthModule g_ImageTthModule;
+
 
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
 	initialiseModule( server );
@@ -233,6 +272,8 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ImagePNGModule.selfRegister();
 	g_ImageBMPModule.selfRegister();
 	g_ImagePCXModule.selfRegister();
+	g_ImageVtfModule.selfRegister();
+	g_ImageTthModule.selfRegister();
 #ifndef NO_DDS
 	g_ImageDDSModule.selfRegister();
 #endif
