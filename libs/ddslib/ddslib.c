@@ -202,7 +202,7 @@ int DDSGetInfo( ddsBuffer_t *dds, int *width, int *height, ddsPF_t *pf ){
    extracts colors from a dds color block
  */
 
-static void DDSGetColorBlockColors( ddsColorBlock_t *block, ddsColor_t colors[ 4 ] ){
+static void DDSGetColorBlockColors( const ddsColorBlock_t *block, ddsColor_t colors[ 4 ] ){
 	unsigned short word;
 
 
@@ -297,7 +297,7 @@ static void DDSGetColorBlockColors( ddsColorBlock_t *block, ddsColor_t colors[ 4
    fixme: make endian-safe
  */
 
-static void DDSDecodeColorBlock( unsigned int *pixel, ddsColorBlock_t *block, int width, unsigned int colors[ 4 ] ){
+static void DDSDecodeColorBlock( unsigned int *pixel, const ddsColorBlock_t *block, int width, unsigned int colors[ 4 ] ){
 	int r, n;
 	unsigned int bits;
 	unsigned int masks[] = { 3, 12, 3 << 4, 3 << 6 };       /* bit masks = 00000011, 00001100, 00110000, 11000000 */
@@ -353,7 +353,7 @@ static void DDSDecodeColorBlock( unsigned int *pixel, ddsColorBlock_t *block, in
    decodes a dds explicit alpha block
  */
 
-static void DDSDecodeAlphaExplicit( unsigned int *pixel, ddsAlphaBlockExplicit_t *alphaBlock, int width, unsigned int alphaZero ){
+static void DDSDecodeAlphaExplicit( unsigned int *pixel, const ddsAlphaBlockExplicit_t *alphaBlock, int width, unsigned int alphaZero ){
 	int row, pix;
 	unsigned short word;
 	ddsColor_t color;
@@ -390,7 +390,7 @@ static void DDSDecodeAlphaExplicit( unsigned int *pixel, ddsAlphaBlockExplicit_t
    decodes interpolated alpha block
  */
 
-static void DDSDecodeAlpha3BitLinear( unsigned int *pixel, ddsAlphaBlock3BitLinear_t *alphaBlock, int width, unsigned int alphaZero ){
+static void DDSDecodeAlpha3BitLinear( unsigned int *pixel, const ddsAlphaBlock3BitLinear_t *alphaBlock, int width, unsigned int alphaZero ){
 
 	int row, pix;
 	unsigned int stuff;
@@ -429,7 +429,7 @@ static void DDSDecodeAlpha3BitLinear( unsigned int *pixel, ddsAlphaBlock3BitLine
 	/* decode 3-bit fields into array of 16 bytes with same value */
 
 	/* first two rows of 4 pixels each */
-	stuff = *( (unsigned int*) &( alphaBlock->stuff[ 0 ] ) );
+	stuff = *( (const unsigned int*) &( alphaBlock->stuff[ 0 ] ) );
 
 	bits[ 0 ][ 0 ] = (unsigned char) ( stuff & 0x00000007 );
 	stuff >>= 3;
@@ -448,7 +448,7 @@ static void DDSDecodeAlpha3BitLinear( unsigned int *pixel, ddsAlphaBlock3BitLine
 	bits[ 1 ][ 3 ] = (unsigned char) ( stuff & 0x00000007 );
 
 	/* last two rows */
-	stuff = *( (unsigned int*) &( alphaBlock->stuff[ 3 ] ) ); /* last 3 bytes */
+	stuff = *( (const unsigned int*) &( alphaBlock->stuff[ 3 ] ) ); /* last 3 bytes */
 
 	bits[ 2 ][ 0 ] = (unsigned char) ( stuff & 0x00000007 );
 	stuff >>= 3;
@@ -500,10 +500,10 @@ static void DDSDecodeAlpha3BitLinear( unsigned int *pixel, ddsAlphaBlock3BitLine
    decompresses a dxt1 format texture
  */
 
-static int DDSDecompressDXT1( ddsBuffer_t *dds, int width, int height, unsigned char *pixels ){
+int DDSDecompressDXT1( const void *data, int width, int height, unsigned char *pixels ){
 	int x, y, xBlocks, yBlocks;
 	unsigned int    *pixel;
-	ddsColorBlock_t *block;
+	const ddsColorBlock_t *block;
 	ddsColor_t colors[ 4 ];
 
 
@@ -515,7 +515,7 @@ static int DDSDecompressDXT1( ddsBuffer_t *dds, int width, int height, unsigned 
 	for ( y = 0; y < yBlocks; ++y )
 	{
 		/* 8 bytes per block */
-		block = (ddsColorBlock_t*) ( (char *) dds->data + y * xBlocks * 8 );
+		block = (const ddsColorBlock_t*) ( (const char *) data + y * xBlocks * 8 );
 
 		/* walk x */
 		for ( x = 0; x < xBlocks; ++x, ++block )
@@ -537,11 +537,11 @@ static int DDSDecompressDXT1( ddsBuffer_t *dds, int width, int height, unsigned 
    decompresses a dxt3 format texture
  */
 
-static int DDSDecompressDXT3( ddsBuffer_t *dds, int width, int height, unsigned char *pixels ){
+int DDSDecompressDXT3( const void *data, int width, int height, unsigned char *pixels ){
 	int x, y, xBlocks, yBlocks;
 	unsigned int            *pixel, alphaZero;
-	ddsColorBlock_t         *block;
-	ddsAlphaBlockExplicit_t *alphaBlock;
+	const ddsColorBlock_t         *block;
+	const ddsAlphaBlockExplicit_t *alphaBlock;
 	ddsColor_t colors[ 4 ];
 
 
@@ -560,13 +560,13 @@ static int DDSDecompressDXT3( ddsBuffer_t *dds, int width, int height, unsigned 
 	for ( y = 0; y < yBlocks; ++y )
 	{
 		/* 8 bytes per block, 1 block for alpha, 1 block for color */
-		block = (ddsColorBlock_t*) ( (char *) dds->data + y * xBlocks * 16 );
+		block = (const ddsColorBlock_t*) ( (const char *) data + y * xBlocks * 16 );
 
 		/* walk x */
 		for ( x = 0; x < xBlocks; ++x, ++block )
 		{
 			/* get alpha block */
-			alphaBlock = (ddsAlphaBlockExplicit_t*) block;
+			alphaBlock = (const ddsAlphaBlockExplicit_t*) block;
 
 			/* get color block */
 			block++;
@@ -592,11 +592,11 @@ static int DDSDecompressDXT3( ddsBuffer_t *dds, int width, int height, unsigned 
    decompresses a dxt5 format texture
  */
 
-static int DDSDecompressDXT5( ddsBuffer_t *dds, int width, int height, unsigned char *pixels ){
+int DDSDecompressDXT5( const void *data, int width, int height, unsigned char *pixels ){
 	int x, y, xBlocks, yBlocks;
 	unsigned int                *pixel, alphaZero;
-	ddsColorBlock_t             *block;
-	ddsAlphaBlock3BitLinear_t   *alphaBlock;
+	const ddsColorBlock_t             *block;
+	const ddsAlphaBlock3BitLinear_t   *alphaBlock;
 	ddsColor_t colors[ 4 ];
 
 
@@ -615,13 +615,13 @@ static int DDSDecompressDXT5( ddsBuffer_t *dds, int width, int height, unsigned 
 	for ( y = 0; y < yBlocks; ++y )
 	{
 		/* 8 bytes per block, 1 block for alpha, 1 block for color */
-		block = (ddsColorBlock_t*) ( (char *) dds->data + y * xBlocks * 16 );
+		block = (const ddsColorBlock_t*) ( (const char *) data + y * xBlocks * 16 );
 
 		/* walk x */
 		for ( x = 0; x < xBlocks; ++x, ++block )
 		{
 			/* get alpha block */
-			alphaBlock = (ddsAlphaBlock3BitLinear_t*) block;
+			alphaBlock = (const ddsAlphaBlock3BitLinear_t*) block;
 
 			/* get color block */
 			block++;
@@ -647,12 +647,12 @@ static int DDSDecompressDXT5( ddsBuffer_t *dds, int width, int height, unsigned 
    decompresses a dxt2 format texture (fixme: un-premultiply alpha)
  */
 
-static int DDSDecompressDXT2( ddsBuffer_t *dds, int width, int height, unsigned char *pixels ){
+int DDSDecompressDXT2( const void *data, int width, int height, unsigned char *pixels ){
 	int r;
 
 
 	/* decompress dxt3 first */
-	r = DDSDecompressDXT3( dds, width, height, pixels );
+	r = DDSDecompressDXT3( data, width, height, pixels );
 
 	/* return to sender */
 	return r;
@@ -665,12 +665,12 @@ static int DDSDecompressDXT2( ddsBuffer_t *dds, int width, int height, unsigned 
    decompresses a dxt4 format texture (fixme: un-premultiply alpha)
  */
 
-static int DDSDecompressDXT4( ddsBuffer_t *dds, int width, int height, unsigned char *pixels ){
+int DDSDecompressDXT4( const void *data, int width, int height, unsigned char *pixels ){
 	int r;
 
 
 	/* decompress dxt5 first */
-	r = DDSDecompressDXT5( dds, width, height, pixels );
+	r = DDSDecompressDXT5( data, width, height, pixels );
 
 	/* return to sender */
 	return r;
@@ -683,13 +683,14 @@ static int DDSDecompressDXT4( ddsBuffer_t *dds, int width, int height, unsigned 
    decompresses an argb 8888 format texture
  */
 
-static int DDSDecompressARGB8888( ddsBuffer_t *dds, int width, int height, unsigned char *pixels ){
+int DDSDecompressARGB8888( const void *data, int width, int height, unsigned char *pixels ){
 	int x, y;
-	unsigned char               *in, *out;
+	const unsigned char *in;
+	unsigned char *out;
 
 
 	/* setup */
-	in = dds->data;
+	in = data;
 	out = pixels;
 
 	/* walk y */
@@ -732,27 +733,27 @@ int DDSDecompress( ddsBuffer_t *dds, unsigned char *pixels ){
 	{
 	case DDS_PF_ARGB8888:
 		/* fixme: support other [a]rgb formats */
-		r = DDSDecompressARGB8888( dds, width, height, pixels );
+		r = DDSDecompressARGB8888( dds->data, width, height, pixels );
 		break;
 
 	case DDS_PF_DXT1:
-		r = DDSDecompressDXT1( dds, width, height, pixels );
+		r = DDSDecompressDXT1( dds->data, width, height, pixels );
 		break;
 
 	case DDS_PF_DXT2:
-		r = DDSDecompressDXT2( dds, width, height, pixels );
+		r = DDSDecompressDXT2( dds->data, width, height, pixels );
 		break;
 
 	case DDS_PF_DXT3:
-		r = DDSDecompressDXT3( dds, width, height, pixels );
+		r = DDSDecompressDXT3( dds->data, width, height, pixels );
 		break;
 
 	case DDS_PF_DXT4:
-		r = DDSDecompressDXT4( dds, width, height, pixels );
+		r = DDSDecompressDXT4( dds->data, width, height, pixels );
 		break;
 
 	case DDS_PF_DXT5:
-		r = DDSDecompressDXT5( dds, width, height, pixels );
+		r = DDSDecompressDXT5( dds->data, width, height, pixels );
 		break;
 
 	default:
