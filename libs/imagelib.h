@@ -25,6 +25,7 @@
 #include "iarchive.h"
 #include "idatastream.h"
 #include <cstdlib>
+#include <cstdint>
 
 struct RGBAPixel
 {
@@ -111,22 +112,31 @@ public:
 class PointerInputStream : public InputStream
 {
 	const byte* m_read;
+	const std::size_t m_length;
+	std::size_t m_remaining;
 public:
-	PointerInputStream( const byte* pointer )
-		: m_read( pointer ){
+	PointerInputStream( const byte* pointer, std::size_t length = SIZE_MAX )
+		: m_read( pointer ), m_length( length ), m_remaining( length ){
 	}
 	std::size_t read( byte* buffer, std::size_t length ) override {
 		const byte* end = m_read + length;
 		while ( m_read != end )
 		{
 			*buffer++ = *m_read++;
+			--m_remaining;
 		}
 		return length;
 	}
 	void seek( std::size_t offset ){
 		m_read += offset;
 	}
-	const byte* get(){
+	const byte* get() const {
 		return m_read;
+	}
+	std::size_t length() const {
+		return m_length;
+	}
+	std::size_t remaining() const {
+		return m_remaining;
 	}
 };
