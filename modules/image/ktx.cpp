@@ -27,6 +27,7 @@
 
 #include "bytestreamutils.h"
 #include "etclib.h"
+#include "ddslib.h"
 #include "ifilesystem.h"
 #include "imagelib.h"
 
@@ -45,6 +46,11 @@ const int KTX_FORMAT_BGR					= 0x80E0;
 const int KTX_FORMAT_BGRA					= 0x80E1;
 
 const int KTX_FORMAT_ETC1_RGB8				= 0x8D64;
+
+const int KTX_FORMAT_RGB_S3TC_DXT1_EXT		= 0x83F0;
+const int KTX_FORMAT_RGBA_S3TC_DXT1_EXT 	= 0x83F1;
+const int KTX_FORMAT_RGBA_S3TC_DXT3_EXT		= 0x83F2;
+const int KTX_FORMAT_RGBA_S3TC_DXT5_EXT		= 0x83F3;
 
 class KTX_Decoder
 {
@@ -262,6 +268,30 @@ static void KTX_DecodeETC1( PointerInputStream& istream, Image& image ){
 	}
 }
 
+static void KTX_DecodeDXT1( PointerInputStream& istream, Image& image ){
+	unsigned int width = image.getWidth(), height = image.getHeight();
+	byte* pixbuf = image.getRGBAPixels();
+	const void* data = istream.get();
+
+	DDSDecompressDXT1(data, width, height, pixbuf);
+}
+
+static void KTX_DecodeDXT3( PointerInputStream& istream, Image& image ){
+	unsigned int width = image.getWidth(), height = image.getHeight();
+	byte* pixbuf = image.getRGBAPixels();
+	const void* data = istream.get();
+
+	DDSDecompressDXT3(data, width, height, pixbuf);
+}
+
+static void KTX_DecodeDXT5( PointerInputStream& istream, Image& image ){
+	unsigned int width = image.getWidth(), height = image.getHeight();
+	byte* pixbuf = image.getRGBAPixels();
+	const void* data = istream.get();
+
+	DDSDecompressDXT5(data, width, height, pixbuf);
+}
+
 Image* LoadKTXBuff( PointerInputStream& istream ){
 	byte identifier[12];
 	istream.read( identifier, 12 );
@@ -400,6 +430,16 @@ Image* LoadKTXBuff( PointerInputStream& istream ){
 		{
 		case KTX_FORMAT_ETC1_RGB8:
 			KTX_DecodeETC1( istream, *image );
+			break;
+		case KTX_FORMAT_RGB_S3TC_DXT1_EXT:
+		case KTX_FORMAT_RGBA_S3TC_DXT1_EXT:
+			KTX_DecodeDXT1( istream, *image );
+			break;
+		case KTX_FORMAT_RGBA_S3TC_DXT3_EXT:
+			KTX_DecodeDXT3( istream, *image );
+			break;
+		case KTX_FORMAT_RGBA_S3TC_DXT5_EXT:
+			KTX_DecodeDXT5( istream, *image );
 			break;
 		default:
 			globalErrorStream() << "LoadKTX: Image has an unsupported compressed format " << format << '\n';
