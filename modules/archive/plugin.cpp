@@ -88,10 +88,115 @@ typedef SingletonModule<ArchiveGcfAPI> ArchiveGcfModule;
 ArchiveGcfModule g_ArchiveGcfModule;
 
 
+class ArchivePakAPI
+{
+	_QERArchiveTable m_archivepak;
+public:
+	typedef _QERArchiveTable Type;
+	STRING_CONSTANT( Name, "pak" );
+
+	ArchivePakAPI(){
+		m_archivepak.m_pfnOpenArchive = &OpenArchive;
+	}
+	_QERArchiveTable* getTable(){
+		return &m_archivepak;
+	}
+};
+
+typedef SingletonModule<ArchivePakAPI> ArchivePakModule;
+
+ArchivePakModule g_ArchivePakModule;
+
+
+class ArchiveZipAPI
+{
+	_QERArchiveTable m_archivezip;
+public:
+	typedef _QERArchiveTable Type;
+	STRING_CONSTANT( Name, "zip" );
+
+	ArchiveZipAPI(){
+		m_archivezip.m_pfnOpenArchive = &OpenArchive;
+	}
+	_QERArchiveTable* getTable(){
+		return &m_archivezip;
+	}
+};
+
+typedef SingletonModule<ArchiveZipAPI> ArchiveZipModule;
+
+ArchiveZipModule g_ArchiveZipModule;
+
+
+class ArchivePk3API
+{
+	_QERArchiveTable m_archivepk3;
+public:
+	typedef _QERArchiveTable Type;
+	STRING_CONSTANT( Name, "pk3" );
+
+	ArchivePk3API(){
+		m_archivepk3.m_pfnOpenArchive = &OpenArchive;
+	}
+	_QERArchiveTable* getTable(){
+		return &m_archivepk3;
+	}
+};
+
+typedef SingletonModule<ArchivePk3API> ArchivePk3Module;
+
+ArchivePk3Module g_ArchivePk3Module;
+
+
+class ArchivePk4API
+{
+	_QERArchiveTable m_archivepk4;
+public:
+	typedef _QERArchiveTable Type;
+	STRING_CONSTANT( Name, "pk4" );
+
+	ArchivePk4API(){
+		m_archivepk4.m_pfnOpenArchive = &OpenArchive;
+	}
+	_QERArchiveTable* getTable(){
+		return &m_archivepk4;
+	}
+};
+
+typedef SingletonModule<ArchivePk4API> ArchivePk4Module;
+
+ArchivePk4Module g_ArchivePk4Module;
+
+
+class ArchiveDpkAPI
+{
+	_QERArchiveTable m_archivedpk;
+public:
+	typedef _QERArchiveTable Type;
+	STRING_CONSTANT( Name, "dpk" );
+
+	ArchiveDpkAPI(){
+		m_archivedpk.m_pfnOpenArchive = &OpenArchive;
+	}
+	_QERArchiveTable* getTable(){
+		return &m_archivedpk;
+	}
+};
+
+typedef SingletonModule<ArchiveDpkAPI> ArchiveDpkModule;
+
+ArchiveDpkModule g_ArchiveDpkModule;
+
+
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
 	initialiseModule( server );
 
 	g_ArchiveVpkModule.selfRegister();
 	g_ArchiveGmaModule.selfRegister();
 	g_ArchiveGcfModule.selfRegister();
+	g_ArchivePakModule.selfRegister();
+	g_ArchiveZipModule.selfRegister();
+	g_ArchivePk3Module.selfRegister();
+	g_ArchivePk4Module.selfRegister();
+	g_ArchiveDpkModule.selfRegister();
 }

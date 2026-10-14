@@ -142,6 +142,10 @@ public:
 			m_vpk = vpkpp::GMA::open(name);
 		} else if ( string_equal_suffix_nocase( name, ".gcf" ) ) {
 			m_vpk = vpkpp::GCF::open(name);
+		} else if ( string_equal_suffix_nocase( name, ".pak" ) || string_equal_suffix_nocase( name, ".sin" ) ) {
+			m_vpk = vpkpp::PAK::open(name);
+		} else if ( string_equal_suffix_nocase( name, ".zip" ) || string_equal_suffix_nocase( name, ".pk3" ) || string_equal_suffix_nocase( name, ".pk4" ) || string_equal_suffix_nocase( name, ".dpk" ) ) {
+			m_vpk = vpkpp::ZIP::open(name);
 		}
 	}
 
@@ -171,10 +175,7 @@ public:
 	}
 	bool containsFile( const char* name ) override {
 		if ( m_vpk ) {
-			auto entry = m_vpk->findEntry( name );
-			if ( entry ) {
-				return true;
-			}
+			return m_vpk->hasEntry( name );
 		}
 		return false;
 	}

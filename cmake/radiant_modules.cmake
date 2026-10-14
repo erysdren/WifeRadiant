@@ -41,31 +41,12 @@ function(radiant_add_module name)
 	)
 endfunction()
 
-radiant_add_module(archivepak
+radiant_add_module(archive
 	SOURCES
-		${PROJECT_SOURCE_DIR}/modules/archivepak/archive.cpp
-		${PROJECT_SOURCE_DIR}/modules/archivepak/pak.cpp
-		${PROJECT_SOURCE_DIR}/modules/archivepak/plugin.cpp
-)
-
-radiant_add_module(archivevpk
-	SOURCES
-		${PROJECT_SOURCE_DIR}/modules/archivevpk/archive.cpp
-		${PROJECT_SOURCE_DIR}/modules/archivevpk/plugin.cpp
+		${PROJECT_SOURCE_DIR}/modules/archive/archive.cpp
+		${PROJECT_SOURCE_DIR}/modules/archive/plugin.cpp
 	DEPENDENCIES
 		sourcepp::vpkpp
-)
-
-radiant_add_module(archivezip
-	SOURCES
-		${PROJECT_SOURCE_DIR}/modules/archivezip/archive.cpp
-		${PROJECT_SOURCE_DIR}/modules/archivezip/pkzip.cpp
-		${PROJECT_SOURCE_DIR}/modules/archivezip/plugin.cpp
-		${PROJECT_SOURCE_DIR}/modules/archivezip/zlibstream.cpp
-	DEPENDENCIES
-		${ZLIB_LIBRARIES}
-	INCLUDE_DIRECTORIES
-		${ZLIB_INCLUDE_DIR}
 )
 
 radiant_add_module(archivewad
