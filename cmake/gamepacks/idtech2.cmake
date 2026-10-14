@@ -137,7 +137,7 @@ radiant_add_gamepack(thewastes
 	PATH_LINUX "~/.steam/steam/steamapps/common/The Wastes/"
 	EXECUTABLE_WIN32 "wastes64.exe"
 	EXECUTABLE_LINUX "wastes.amd64"
-	ENTITIES_FILENAME "wastes.def"
+	ENTITIES_FILENAME "entities.def"
 	SHADER_TYPE "fteqw"
 	SHADER_PATH "textures"
 	TEXTURE_PATH "textures"
