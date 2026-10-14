@@ -60,7 +60,7 @@ Image* LoadTth( ArchiveFile& file ){
 	std::filesystem::path ttzFilename = tthFilename;
 	ttzFilename.replace_extension(".ttz");
 
-	ArchiveFile *ttzFile = GlobalFileSystem().openFile( ttzFilename.c_str() );
+	ArchiveFile *ttzFile = GlobalFileSystem().openFile( ttzFilename.string().c_str() );
 	if ( ttzFile ) {
 		ScopedArchiveBuffer tthBuffer( file );
 		ScopedArchiveBuffer ttzBuffer( *ttzFile );
