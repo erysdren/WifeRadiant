@@ -123,7 +123,7 @@ float DDSBigFloat( float src ){
    determines which pixel format the dds texture is in
  */
 
-static void DDSDecodePixelFormat( ddsBuffer_t *dds, ddsPF_t *pf ){
+static void DDSDecodePixelFormat( const ddsBuffer_t *dds, ddsPF_t *pf ){
 	unsigned int fourCC;
 
 
@@ -166,14 +166,14 @@ static void DDSDecodePixelFormat( ddsBuffer_t *dds, ddsPF_t *pf ){
    extracts relevant info from a dds texture, returns 0 on success
  */
 
-int DDSGetInfo( ddsBuffer_t *dds, int *width, int *height, ddsPF_t *pf ){
+int DDSGetInfo( const ddsBuffer_t *dds, int *width, int *height, ddsPF_t *pf ){
 	/* dummy test */
 	if ( dds == NULL ) {
 		return -1;
 	}
 
 	/* test dds header */
-	if ( *( (int*) dds->magic ) != *( (int*) "DDS " ) ) {
+	if ( *( (const int*) dds->magic ) != *( (int*) "DDS " ) ) {
 		return -1;
 	}
 	if ( DDSLittleLong( dds->size ) != 124 ) {
@@ -717,7 +717,7 @@ int DDSDecompressARGB8888( const void *data, int width, int height, unsigned cha
    decompresses a dds texture into an rgba image buffer, returns 0 on success
  */
 
-int DDSDecompress( ddsBuffer_t *dds, unsigned char *pixels ){
+int DDSDecompress( const ddsBuffer_t *dds, unsigned char *pixels ){
 	int width, height, r;
 	ddsPF_t pf;
 

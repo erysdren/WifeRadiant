@@ -233,8 +233,8 @@ ddsColor_t;
 
 
 /* public functions */
-int                     DDSGetInfo( ddsBuffer_t *dds, int *width, int *height, ddsPF_t *pf );
-int                     DDSDecompress( ddsBuffer_t *dds, unsigned char *pixels );
+int                     DDSGetInfo( const ddsBuffer_t *dds, int *width, int *height, ddsPF_t *pf );
+int                     DDSDecompress( const ddsBuffer_t *dds, unsigned char *pixels );
 
 /* erysdren: added for ktx decompression */
 int DDSDecompressARGB8888( const void *data, int width, int height, unsigned char *pixels );
