@@ -123,6 +123,7 @@ radiant_add_module(image
 		wiferadiant-library-crnlib
 		wiferadiant-library-webplib
 		wiferadiant-library-stb
+		sourcepp::vtfpp
 )
 
 radiant_add_module(imagevtf

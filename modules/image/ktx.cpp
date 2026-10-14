@@ -27,10 +27,9 @@
 
 #include "bytestreamutils.h"
 #include "etclib.h"
-#include "ddslib.h"
 #include "ifilesystem.h"
 #include "imagelib.h"
-
+#include <vtfpp/vtfpp.h>
 
 const int KTX_TYPE_UNSIGNED_BYTE			= 0x1401;
 const int KTX_TYPE_UNSIGNED_SHORT_4_4_4_4	= 0x8033;
@@ -268,28 +267,39 @@ static void KTX_DecodeETC1( PointerInputStream& istream, Image& image ){
 	}
 }
 
-static void KTX_DecodeDXT1( PointerInputStream& istream, Image& image ){
+static void KTX_DecodeDXT1( PointerInputStream& istream, Image& image, bool one_bit_alpha ){
 	unsigned int width = image.getWidth(), height = image.getHeight();
 	byte* pixbuf = image.getRGBAPixels();
-	const void* data = istream.get();
+	const std::byte* data = reinterpret_cast<const std::byte*>(istream.get());
+	size_t length = istream.remaining();
 
-	DDSDecompressDXT1(data, width, height, pixbuf);
+	vtfpp::ImageFormat format = vtfpp::ImageFormat::DXT1;
+	if (one_bit_alpha) {
+		format = vtfpp::ImageFormat::DXT1_ONE_BIT_ALPHA;
+	}
+
+	auto convertedData = vtfpp::ImageConversion::convertImageDataToFormat({data, data + length}, format, vtfpp::ImageFormat::RGBA8888, width, height);
+	memcpy(pixbuf, convertedData.data(), width * height * 4);
 }
 
 static void KTX_DecodeDXT3( PointerInputStream& istream, Image& image ){
 	unsigned int width = image.getWidth(), height = image.getHeight();
 	byte* pixbuf = image.getRGBAPixels();
-	const void* data = istream.get();
+	const std::byte* data = reinterpret_cast<const std::byte*>(istream.get());
+	size_t length = istream.remaining();
 
-	DDSDecompressDXT3(data, width, height, pixbuf);
+	auto convertedData = vtfpp::ImageConversion::convertImageDataToFormat({data, data + length}, vtfpp::ImageFormat::DXT3, vtfpp::ImageFormat::RGBA8888, width, height);
+	memcpy(pixbuf, convertedData.data(), width * height * 4);
 }
 
 static void KTX_DecodeDXT5( PointerInputStream& istream, Image& image ){
 	unsigned int width = image.getWidth(), height = image.getHeight();
 	byte* pixbuf = image.getRGBAPixels();
-	const void* data = istream.get();
+	const std::byte* data = reinterpret_cast<const std::byte*>(istream.get());
+	size_t length = istream.remaining();
 
-	DDSDecompressDXT5(data, width, height, pixbuf);
+	auto convertedData = vtfpp::ImageConversion::convertImageDataToFormat({data, data + length}, vtfpp::ImageFormat::DXT5, vtfpp::ImageFormat::RGBA8888, width, height);
+	memcpy(pixbuf, convertedData.data(), width * height * 4);
 }
 
 Image* LoadKTXBuff( PointerInputStream& istream ){
@@ -432,8 +442,10 @@ Image* LoadKTXBuff( PointerInputStream& istream ){
 			KTX_DecodeETC1( istream, *image );
 			break;
 		case KTX_FORMAT_RGB_S3TC_DXT1_EXT:
+			KTX_DecodeDXT1( istream, *image, false );
+			break;
 		case KTX_FORMAT_RGBA_S3TC_DXT1_EXT:
-			KTX_DecodeDXT1( istream, *image );
+			KTX_DecodeDXT1( istream, *image, true );
 			break;
 		case KTX_FORMAT_RGBA_S3TC_DXT3_EXT:
 			KTX_DecodeDXT3( istream, *image );
@@ -453,7 +465,7 @@ Image* LoadKTXBuff( PointerInputStream& istream ){
 
 Image* LoadKTX( ArchiveFile& file ){
 	ScopedArchiveBuffer buffer( file );
-	PointerInputStream istream( buffer.buffer );
+	PointerInputStream istream( buffer.buffer, buffer.length );
 	return LoadKTXBuff( istream );
 }
 
