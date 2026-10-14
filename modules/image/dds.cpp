@@ -32,25 +32,52 @@
 #include "ddslib.h"
 #include "imagelib.h"
 
-Image* LoadDDSBuff( const byte* buffer ){
+#include <vtfpp/vtfpp.h>
+
+Image* LoadDDSBuff( const byte* buffer, size_t length ){
 	int width, height;
 	ddsPF_t pixelFormat;
-	if ( DDSGetInfo( reinterpret_cast<ddsBuffer_t*>( const_cast<byte*>( buffer ) ), &width, &height, &pixelFormat ) == -1 ) {
-		return 0;
+	const ddsBuffer_t* dds = reinterpret_cast<const ddsBuffer_t*>( buffer );
+	if ( DDSGetInfo( dds, &width, &height, &pixelFormat ) == -1 ) {
+		return nullptr;
+	}
+
+	vtfpp::ImageFormat format;
+
+	switch (pixelFormat) {
+		case DDS_PF_ARGB8888:
+			format = vtfpp::ImageFormat::ABGR8888;
+			break;
+		case DDS_PF_DXT1:
+			format = vtfpp::ImageFormat::DXT1;
+			break;
+		case DDS_PF_DXT2:
+		case DDS_PF_DXT3:
+			format = vtfpp::ImageFormat::DXT3;
+			break;
+		case DDS_PF_DXT4:
+		case DDS_PF_DXT5:
+			format = vtfpp::ImageFormat::DXT5;
+			break;
+		case DDS_PF_UNKNOWN:
+			globalErrorStream() << __func__ << ": unknown pixel format" << '\n';
+			return nullptr;
 	}
 
 	auto *image = new RGBAImage( width, height );
 
-	if ( DDSDecompress( reinterpret_cast<ddsBuffer_t*>( const_cast<byte*>( buffer ) ), image->getRGBAPixels() ) == -1 ) {
-		image->release();
-		return 0;
-	}
+	const std::byte* data = reinterpret_cast<const std::byte*>(dds->data);
+	size_t dataLength = length - offsetof(ddsBuffer_t, data);
+
+	auto convertedData = vtfpp::ImageConversion::convertImageDataToFormat({data, data + dataLength}, format, vtfpp::ImageFormat::RGBA8888, width, height);
+	memcpy(image->getRGBAPixels(), convertedData.data(), width * height * 4);
+
 	return image;
 }
 
 Image* LoadDDS( ArchiveFile& file ){
 	ScopedArchiveBuffer buffer( file );
-	return LoadDDSBuff( buffer.buffer );
+	return LoadDDSBuff( buffer.buffer, buffer.length );
 }
 
 #endif // NO_DDS
