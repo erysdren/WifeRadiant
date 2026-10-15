@@ -1286,7 +1286,7 @@ bool ShaderTemplate::parseQuake3( Tokeniser& tokeniser ){
 			else if ( string_equal_nocase( token, "qer_editorimage" ) ) {
 				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_textureName ) );
 			}
-			else if ( string_equal_nocase( token, "diffusemap" ) ) {
+			else if ( string_equal_nocase( token, "diffusemap" ) && m_textureName.empty() ) {
 				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_textureName ) );
 			}
 			else if ( string_equal_nocase( token, "qer_rectanglemap" ) ) {
