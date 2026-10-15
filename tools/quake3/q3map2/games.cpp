@@ -921,6 +921,17 @@ struct game_ja : game_sof2
 	}
 };
 
+struct game_fte : game_sof2
+{
+	game_fte(){
+		arg = "fte";
+		homeBasePath = ".fte";
+		magic = "quake";
+		shaderPath = "textures";
+		shaderExt = "mat";
+	}
+};
+
 
 
 const std::vector<game_t> g_games = { game_quake3(),
@@ -942,5 +953,6 @@ const std::vector<game_t> g_games = { game_quake3(),
                                       game_sof2(),
                                       game_jk2(),
                                       game_ja(),
+                                      game_fte(),
                                     };
 const game_t *g_game = &g_games[0];

@@ -822,13 +822,22 @@ static void ParseShaderFile( const char *filename ){
 	/* tokenize it */
 	while ( GetToken( true ) ) /* test for end of file */
 	{
+		/* erysdren: check if FTEQW-style .mat shader */
+		CopiedString shaderName = token;
+		bool isFTE = false;
+		if ( striEqual( token, "{" ) ) {
+			shaderName = PathExtensionless( filename );
+			isFTE = true;
+			UnGetToken();
+		}
+
 		/* shader name is initial token */
 		/* ignore ":q3map" suffix */
-		const bool isQ3mapOnlyShader = striEqualSuffix( token, ":q3map" );
+		const bool isQ3mapOnlyShader = isFTE ? false : striEqualSuffix( token, ":q3map" );
 		if( isQ3mapOnlyShader )
 			strClear( token + strlen( token ) - strlen( ":q3map" ) );
 
-		shaderInfo_t& si = AllocShaderInfo( token );
+		shaderInfo_t& si = AllocShaderInfo( shaderName.c_str() );
 
 		/* handle { } section */
 		if ( !( text.GetToken( true ) && strEqual( token, "{" ) ) ) {

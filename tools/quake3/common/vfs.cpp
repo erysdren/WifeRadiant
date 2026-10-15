@@ -206,7 +206,7 @@ std::vector<CopiedString> vfsListShaderFiles( const char* shaderPath, const char
 		if ( std::filesystem::exists( path.c_str() ) ) {
 			std::filesystem::recursive_directory_iterator dir { path.c_str() };
 			for ( auto& entry : dir ) {
-				auto entryname = entry.path().filename().generic_u8string();
+				auto entryname = std::filesystem::relative(entry.path(), path.c_str()).generic_u8string();
 				const char* name = reinterpret_cast<char const*>(entryname.c_str());
 				if ( path_extension_is( name, shaderExt ) ) {
 					insert( name );
