@@ -143,7 +143,7 @@ void QE_InitVFS(){
 									steampp::AppID app = std::stoi(ptr, &pos);
 									ptr += pos + 1;
 									if (g_steam.isAppInstalled(app)) {
-										tempPath = std::format("{}{}", g_steam.getAppInstallDir(app).string(), ptr);
+										tempPath = std::format("{}/{}", g_steam.getAppInstallDir(app).string(), ptr);
 									} else {
 										globalWarningStream() << "Steam AppID " << app << " is not installed" << '\n';
 										tempPath = std::format("{}{}", globalRoot, ptr);
