@@ -1242,6 +1242,10 @@ bool ShaderTemplate::parseQuake3( Tokeniser& tokeniser ){
 	// name of the qtexture_t we'll use to represent this shader (this one has the "textures\" before)
 	m_textureName = m_Name;
 
+	if (g_shaderLanguage == SHADERLANGUAGE_FTEQW) {
+		tokeniser.ungetToken();
+	}
+
 	tokeniser.nextLine();
 
 	// we need to read until we hit a balanced }
