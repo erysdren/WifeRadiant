@@ -61,8 +61,10 @@
 
 #include <fstream>
 #include <kvpp/kvpp.h>
+#include <steampp/steampp.h>
 
 QEGlobals_t g_qeglobals;
+static steampp::Steam g_steam{};
 
 
 #if defined( POSIX )
@@ -135,6 +137,17 @@ void QE_InitVFS(){
 								} else if( string_equal_prefix_nocase( ptr, "|gameinfo_path|" ) ) {
 									ptr += string_length("|gameinfo_path|");
 									tempPath = std::format("{}{}/{}", globalRoot, gamename, ptr);
+								} else if( string_equal_prefix_nocase( ptr, "|appid_" ) ) {
+									ptr += string_length("|appid_");
+									size_t pos = 0;
+									steampp::AppID app = std::stoi(ptr, &pos);
+									ptr += pos + 1;
+									if (g_steam.isAppInstalled(app)) {
+										tempPath = std::format("{}{}", g_steam.getAppInstallDir(app).string(), ptr);
+									} else {
+										globalWarningStream() << "Steam AppID " << app << " is not installed" << '\n';
+										tempPath = std::format("{}{}", globalRoot, ptr);
+									}
 								} else {
 									tempPath = std::format("{}{}", globalRoot, ptr);
 								}

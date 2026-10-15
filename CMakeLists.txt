@@ -442,6 +442,7 @@ target_link_libraries(radiant
 		wiferadiant-library-xmllib
 		wiferadiant-library-quickhull
 		sourcepp::toolpp
+		sourcepp::steampp
 		$<$<BOOL:${WIN32}>:ws2_32>
 		$<$<BOOL:${WIN32}>:dbghelp>
 		$<$<PLATFORM_ID:Haiku>:network>
