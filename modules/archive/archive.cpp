@@ -50,6 +50,7 @@ public:
 	VpkFileInputStream( std::vector<std::byte>&& data ) : m_data( data ), m_pos( 0 ) { }
 
 	virtual size_type read( byte_type* buffer, size_type length ) {
+		if (m_pos >= m_data.size()) return 0;
 		size_type len = length > (m_data.size() - m_pos) ? (m_data.size() - m_pos) : length;
 		memcpy(buffer, m_data.data() + m_pos, len);
 		m_pos += len;
@@ -92,6 +93,7 @@ public:
 	VpkTextInputStream( std::vector<std::byte>&& data ) : m_data( data ), m_pos( 0 ) { }
 
 	virtual std::size_t read( char* buffer, std::size_t length ) {
+		if (m_pos >= m_data.size()) return 0;
 		std::size_t len = length > (m_data.size() - m_pos) ? (m_data.size() - m_pos) : length;
 		memcpy(buffer, m_data.data() + m_pos, len);
 		m_pos += len;
