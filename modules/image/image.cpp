@@ -29,6 +29,7 @@
 #include "pcx.h"
 #include "stb.h"
 #include "vtf.h"
+#include "pvr.h"
 
 #include "modulesystem/singletonmodule.h"
 
@@ -264,6 +265,26 @@ typedef SingletonModule<ImageTthAPI, ImageDependencies> ImageTthModule;
 ImageTthModule g_ImageTthModule;
 
 
+class ImagePvrAPI
+{
+	_QERPlugImageTable m_imagepvr;
+public:
+	typedef _QERPlugImageTable Type;
+	STRING_CONSTANT( Name, "pvr" );
+
+	ImagePvrAPI(){
+		m_imagepvr.loadImage = LoadPvr;
+	}
+	_QERPlugImageTable* getTable(){
+		return &m_imagepvr;
+	}
+};
+
+typedef SingletonModule<ImagePvrAPI, ImageDependencies> ImagePvrModule;
+
+ImagePvrModule g_ImagePvrModule;
+
+
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
 	initialiseModule( server );
 
@@ -274,6 +295,7 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ImagePCXModule.selfRegister();
 	g_ImageVtfModule.selfRegister();
 	g_ImageTthModule.selfRegister();
+	g_ImagePvrModule.selfRegister();
 #ifndef NO_DDS
 	g_ImageDDSModule.selfRegister();
 #endif

@@ -377,7 +377,7 @@ Image* LoadPvr( ArchiveFile& file )
 		default:
 		{
 			globalErrorStream() << "LoadPvr: unsupported image type " << image_type << '\n';
-			delete image;
+			image->release();
 			return nullptr;
 		}
 	}

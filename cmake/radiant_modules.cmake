@@ -95,6 +95,7 @@ radiant_add_module(image
 		${PROJECT_SOURCE_DIR}/modules/image/image.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/ktx.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/pcx.cpp
+		${PROJECT_SOURCE_DIR}/modules/image/pvr.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/stb.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/tga.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/vtf.cpp
@@ -106,12 +107,6 @@ radiant_add_module(image
 		wiferadiant-library-webplib
 		wiferadiant-library-stb
 		sourcepp::vtfpp
-)
-
-radiant_add_module(imagepvr
-	SOURCES
-		${PROJECT_SOURCE_DIR}/modules/imagepvr/imagepvr.cpp
-		${PROJECT_SOURCE_DIR}/modules/imagepvr/pvr.cpp
 )
 
 radiant_add_module(imagehl
