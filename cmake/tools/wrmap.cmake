@@ -76,6 +76,7 @@ radiant_add_tool(wrmap
 		wiferadiant-library-crnlib
 		wiferadiant-library-webplib
 		wiferadiant-library-stb
+		wiferadiant-library-gamepacklib
 		pugixml::pugixml
 		assimp
 		$<$<BOOL:${WIN32}>:ws2_32>
