@@ -312,7 +312,12 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 		 && !string_equal( start, "pk3" ) // loader does not work
 		 && !string_equal( start, "md5anim" ) // makes no sense
 		 && !string_equal( start, "md5camera" ) // makes no sense
-		 && !string_equal( start, "ogex" ) ){ // all sample models crash
+		 && !string_equal( start, "ogex" ) // all sample models crash
+		 && !string_equal( start, "mdl" ) // use our own loader
+		 && !string_equal( start, "md2" ) // use our own loader
+		 && !string_equal( start, "md3" ) // use our own loader
+		 && !string_equal( start, "md5" ) // use our own loader
+		 && !string_equal( start, "mdc" ) ){ // use our own loader
 			g_PicoModelModules.push_back( PicoModelModule( PicoModelAPIConstructor( start ) ) );
 			g_PicoModelModules.back().selfRegister();
 		}
