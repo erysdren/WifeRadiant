@@ -181,11 +181,16 @@ radiant_add_plugin(gensurf
 		${PROJECT_SOURCE_DIR}/plugins/gtkgensurf/heretic.cpp
 		${PROJECT_SOURCE_DIR}/plugins/gtkgensurf/plugin.cpp
 		${PROJECT_SOURCE_DIR}/plugins/gtkgensurf/view.cpp
-)
-target_link_libraries(gensurf PRIVATE mathlib)
-target_link_libraries(gensurf PRIVATE Qt6::Core Qt6::Gui Qt6::Widgets Qt6::Svg Qt6::OpenGL Qt6::OpenGLWidgets)
-target_compile_options(gensurf PRIVATE
-	$<$<AND:$<COMPILE_LANGUAGE:C>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-old-style-definition>
-	$<$<AND:$<COMPILE_LANGUAGE:C>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-but-set-variable>
+	DEPENDENCIES
+		wiferadiant-library-mathlib
+		Qt6::Core
+		Qt6::Gui
+		Qt6::Widgets
+		Qt6::Svg
+		Qt6::OpenGL
+		Qt6::OpenGLWidgets
+	COMPILE_OPTIONS
+		$<$<AND:$<COMPILE_LANGUAGE:C>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-old-style-definition>
+		$<$<AND:$<COMPILE_LANGUAGE:C>,$<C_COMPILER_ID:GNU,Clang>>:-Wno-unused-but-set-variable>
 )
 endif()
