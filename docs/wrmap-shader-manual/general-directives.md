@@ -1,10 +1,3 @@
----
-title: WRMap Shader Manual
-pagetitle: General Directives
-lang: en-US
-dir: ltr
----
-
 # General Directives
 
 General shader directives are global and affect all stages. They are all read by the game engine and also are partially used by Q3Map2.

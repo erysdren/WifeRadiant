@@ -1,10 +1,3 @@
----
-title: WRMap Shader Manual
-pagetitle: Preface
-lang: en-US
-dir: ltr
----
-
 # Preface
 
 Q3Map2 is an updated version of the original Q3Map program used to compile .map files created in a level editor such as Radiant into .bsp files used by id Tech 3 games. Since it's introduction, ydnar has added so many new features and improved efficiency to the degree where Q3Map2 has become the standard compiling program for the level editing community as well as for many commercial games.

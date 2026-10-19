@@ -1,10 +1,3 @@
----
-title: WRMap Shader Manual
-pagetitle: Q3Map Global Directives
-lang: en-US
-dir: ltr
----
-
 # Q3Map Global Directives
 
 Q3Map2 global directives change the physical nature of the textures and the brushes that are marked with them. Changing any of these values will require the map to be re-compiled. These are global and affect the entire shader.
