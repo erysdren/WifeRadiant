@@ -25,6 +25,7 @@ include(CMakeDependentOption)
 
 option(RADIANT_USE_ASSIMP "Build Assimp model loader plugin" ON)
 option(RADIANT_USE_GLES2 "Use OpenGL ES 2.0 instead of OpenGL 2.0" OFF)
+option(RADIANT_GENERATE_DOCS "Generate documentation with pandoc" ON)
 option(RADIANT_GENERATE_GAMEPACKS "Generate gamepacks" ON)
 cmake_dependent_option(RADIANT_GENERATE_USER_GAMEPACKS "Generate user gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
 cmake_dependent_option(RADIANT_GENERATE_IDTECH2_GAMEPACKS "Generate idTech 2 gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
@@ -454,6 +455,10 @@ if(NOT APPLE)
 	file(COPY "${PROJECT_SOURCE_DIR}/docs" DESTINATION "${RADIANT_INSTALL_PREFIX}/")
 	file(WRITE "${RADIANT_INSTALL_PREFIX}/settings/settings.txt" "local settings go here")
 endif()
+
+# docs
+
+include(radiant_docs)
 
 # gamepacks
 
