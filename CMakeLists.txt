@@ -452,7 +452,7 @@ target_link_libraries(radiant
 if(NOT APPLE)
 	file(GLOB RADIANT_DATA_FILES "${PROJECT_SOURCE_DIR}/resources/*")
 	file(COPY ${RADIANT_DATA_FILES} DESTINATION "${RADIANT_INSTALL_PREFIX}/")
-	file(COPY "${PROJECT_SOURCE_DIR}/docs" DESTINATION "${RADIANT_INSTALL_PREFIX}/")
+	# file(COPY "${PROJECT_SOURCE_DIR}/docs" DESTINATION "${RADIANT_INSTALL_PREFIX}/")
 	file(WRITE "${RADIANT_INSTALL_PREFIX}/settings/settings.txt" "local settings go here")
 endif()
 

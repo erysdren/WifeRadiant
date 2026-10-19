@@ -44,6 +44,7 @@ directory.
 - [Hammer-Hotspots](https://github.com/koerismo/Hammer-Hotspots)
 - [vmap](https://code.idtech.space/vera/vmap)
 - [midna w.](https://superhell.org)
+- [pandoc-ext/include-files](https://github.com/pandoc-ext/include-files)
 
 ## Supported games
 

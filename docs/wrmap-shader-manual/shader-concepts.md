@@ -1,3 +1,10 @@
+---
+title: WRMap Shader Manual
+pagetitle: Shader Concepts
+lang: en-US
+dir: ltr
+---
+
 # Shader Concepts
 
 The graphic engine for *id Tech 3* has taken a step forward by putting much more direct control over the surface qualities of textures into the hands of designers and artists. In writing this manual, we have tried to define the concepts and tools that are used to modify textures in a way that, it is hoped, will be graspable by users who already have basic knowledge of computer graphics but are not necessarily computer programmers. It is not a tutorial, nor is it intended to be one.
