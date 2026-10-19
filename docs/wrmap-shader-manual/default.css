@@ -40,7 +40,7 @@ h1, h2, h3, h4, h5, h6 {
 h2 {
 	line-height: 32px;
 	text-indent: 38px;
-	background: transparent url("ql_32.png"/*tpa=http://robotrenegade.com/q3map2/docs/shader_manual/_images/ql_32.png*/) no-repeat;
+	background: transparent url("wrmap_32.png") no-repeat;
 }
 
 *+h2 {

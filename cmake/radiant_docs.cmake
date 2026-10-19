@@ -29,7 +29,7 @@ function(radiant_add_docs name)
 		add_custom_command(
 			OUTPUT ${html_file}
 			COMMAND ${CMAKE_COMMAND} -E rm -r ${ARG_OUTPUT_PATH}
-			COMMAND ${PANDOC_EXECUTABLE} ARGS --lua-filter="${PROJECT_SOURCE_DIR}/cmake/include-files.lua" --toc -f markdown-smart -t chunkedhtml ${CSS_FILE} -s -o ${ARG_OUTPUT_PATH} ${ARG_ROOT_PAGE}
+			COMMAND ${PANDOC_EXECUTABLE} ARGS --lua-filter="${PROJECT_SOURCE_DIR}/cmake/include-files.lua" --toc --toc-depth 2 -f markdown-smart -t chunkedhtml ${CSS_FILE} -s -o ${ARG_OUTPUT_PATH} ${ARG_ROOT_PAGE}
 			COMMAND ${CMAKE_COMMAND} -E copy -t ${ARG_OUTPUT_PATH} ${dependency_files}
 			WORKING_DIRECTORY ${ARG_INPUT_PATH}
 		)
@@ -41,7 +41,7 @@ function(radiant_add_docs name)
 			set(html_file "${ARG_OUTPUT_PATH}/${markdown_file_stem}.html")
 			add_custom_command(
 				OUTPUT ${html_file}
-				COMMAND ${PANDOC_EXECUTABLE} ARGS --toc -f markdown-smart -t chunkedhtml ${CSS_FILE} -s -o ${html_file} ${markdown_file}
+				COMMAND ${PANDOC_EXECUTABLE} ARGS --toc --toc-depth 2 -f markdown-smart -t chunkedhtml ${CSS_FILE} -s -o ${html_file} ${markdown_file}
 				COMMAND ${CMAKE_COMMAND} -E copy -t ${ARG_OUTPUT_PATH} ${dependency_files}
 			)
 			add_custom_target(${name}-${markdown_file_stem} DEPENDS ${html_file})

@@ -152,13 +152,27 @@ Surfaces rendered with the polygonOffset keyword are rendered slightly off the p
 > #### Design Notes:
 > Use this for wall or floor markings, particularly for direction arrows for team games. Texture the brush with the decal shader on one face and the other faces with a nodraw shader. Then place the brush flush with the surface of the wall or floor.
 >
-> When using a _decal entity for texture projection, polygonOffset must be used to prevent Z-fighting. If you experience problems with depth sorting, try using [sort 6](#sort-value).
+> When using a [_decal entity](#_decal) for texture projection, polygonOffset must be used to prevent Z-fighting. If you experience problems with depth sorting, try using [sort 6](#sort-value).
 
 ## portal
 
 Specifies that this shader is the surface for a portal or mirror. In the game map, a portal entity (e.g. "misc_portal_surface") must be placed directly in front of the surface (within 64 game units). All this does is set "[sort portal](#sort-value)", so it isn't needed if you specify that explicitly.
 
 Bare bones mirror shader example:
+
+```
+textures/ztest/mirror
+{
+	qer_editorimage textures/sfx/portalfog.tga
+	surfaceparm nolightmap
+	portal
+	{
+		map textures/sfx/portalfog.tga
+		blendFunc GL_ZERO GL_SRC_ALPHA
+		depthWrite
+	}
+}
+```
 
 ## sort value
 

@@ -9,4 +9,5 @@ dir: ltr
 preface.md
 shader-concepts.md
 general-directives.md
+q3map-global-directives.md
 ```
