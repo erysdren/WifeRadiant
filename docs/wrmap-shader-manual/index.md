@@ -8,4 +8,5 @@ dir: ltr
 ``` {.include}
 preface.md
 shader-concepts.md
+general-directives.md
 ```

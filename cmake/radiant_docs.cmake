@@ -23,9 +23,6 @@ function(radiant_add_docs name)
 		"${ARG_INPUT_PATH}/*.png"
 		"${ARG_INPUT_PATH}/*.jpg"
 	)
-	foreach(markdown_file IN LISTS markdown_files)
-		set_property(DIRECTORY APPEND PROPERTY CMAKE_CONFIGURE_DEPENDS ${markdown_file})
-	endforeach()
 	if(ARG_ROOT_PAGE)
 		cmake_path(GET ARG_ROOT_PAGE STEM root_page_stem)
 		set(html_file "${ARG_OUTPUT_PATH}/${root_page_stem}.html")
