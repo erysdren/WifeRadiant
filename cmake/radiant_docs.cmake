@@ -41,7 +41,7 @@ function(radiant_add_docs name)
 			set(html_file "${ARG_OUTPUT_PATH}/${markdown_file_stem}.html")
 			add_custom_command(
 				OUTPUT ${html_file}
-				COMMAND ${PANDOC_EXECUTABLE} ARGS --toc --toc-depth 2 -f markdown-smart -t chunkedhtml ${CSS_FILE} -s -o ${html_file} ${markdown_file}
+				COMMAND ${PANDOC_EXECUTABLE} ARGS --toc --toc-depth 2 -f markdown-smart -t html ${CSS_FILE} -s -o ${html_file} ${markdown_file}
 				COMMAND ${CMAKE_COMMAND} -E copy -t ${ARG_OUTPUT_PATH} ${dependency_files}
 			)
 			add_custom_target(${name}-${markdown_file_stem} DEPENDS ${html_file})
