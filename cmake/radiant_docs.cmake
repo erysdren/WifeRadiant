@@ -71,3 +71,10 @@ radiant_add_docs(wrmap-manual
 	OUTPUT_PATH ${RADIANT_INSTALL_PREFIX}/docs/wrmap-manual
 	CSS_FILE "default.css"
 )
+
+# wrgamepack manual
+radiant_add_docs(wrgamepack-manual
+	INPUT_PATH ${PROJECT_SOURCE_DIR}/docs/wrgamepack-manual
+	OUTPUT_PATH ${RADIANT_INSTALL_PREFIX}/docs/wrgamepack-manual
+	CSS_FILE "default.css"
+)
