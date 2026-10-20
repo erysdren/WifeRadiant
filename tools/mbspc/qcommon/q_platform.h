@@ -297,6 +297,32 @@ Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA  02110-1301  USA
 
 #endif
 
+//================================================================= HAIKU ===
+
+#ifdef __HAIKU__
+
+#define OS_STRING "haiku"
+#define ID_INLINE inline
+#define PATH_SEP '/'
+
+#ifdef __i386__
+#define ARCH_STRING "x86"
+#elif defined __amd64__
+#undef idx64
+#define idx64 1
+#define ARCH_STRING "x86_64"
+#endif
+
+#if defined( _BIG_ENDIAN )
+#define Q3_BIG_ENDIAN
+#elif defined( _LITTLE_ENDIAN )
+#define Q3_LITTLE_ENDIAN
+#endif
+
+#define DLL_EXT ".so"
+
+#endif
+
 //================================================================== IRIX ===
 
 #ifdef __sgi
