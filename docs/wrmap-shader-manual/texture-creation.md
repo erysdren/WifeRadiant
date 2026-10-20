@@ -1,6 +1,6 @@
 # Texture Creation
 
-If you are familiar with the required tools, creating new assets for use in Quake III Arena is not particularly difficult. As a general rule, you should create new directories for each map with names different from the names used by id. If you are making a map that will be called "H4x0r_D00M", every directory containing new assets for that map should be titled H4x0r_D00M. This is to try and avoid asset directories overwriting each other as the editor and the gameload in assets.
+If you are familiar with the required tools, creating new assets for use in Quake III Arena is not particularly difficult. As a general rule, you should create new directories for each map with names different from the names used by id. If you are making a map that will be called "H4x0r\_D00M", every directory containing new assets for that map should be titled H4x0r\_D00M. This is to try and avoid asset directories overwriting each other as the editor and the gameload in assets.
 
 ## Tools Needed
 
@@ -42,23 +42,23 @@ This file will contain the shader scripts you write to modify a particular textu
 
 Follow these rules when creating textures for the Quake III Arena engine:
 
-- Save your textures into your new [map name] directories.
-- Don't use the same names that id used for textures. It will cause problems.
-- For best quality, save textures without an alpha channel as 24 bit TARGA files. Using JPEG files can save memory space, but at the risk of losing detail and depth in the texture. JPEG files cannot be used for textures requiring an alpha channel.
-- Textures containing an alpha channel must be saved as 32 bit TARGA files.
-- Indexed TARGA is not supported!
-- Progressive JPEG is not supported!
-- If a new texture requires no further manipulation, it does not need a shader script.
-- Size textures in powers of 2. Example: 8x8, 16x16,32x32, 64x64 pixels and so on.
-- Textures don't need to be square. A 32x256 pixel texture is perfectly acceptable.
+-   Save your textures into your new \[map name\] directories.
+-   Don't use the same names that id used for textures. It will cause problems.
+-   For best quality, save textures without an alpha channel as 24 bit TARGA files. Using JPEG files can save memory space, but at the risk of losing detail and depth in the texture. JPEG files cannot be used for textures requiring an alpha channel.
+-   Textures containing an alpha channel must be saved as 32 bit TARGA files.
+-   Indexed TARGA is not supported!
+-   Progressive JPEG is not supported!
+-   If a new texture requires no further manipulation, it does not need a shader script.
+-   Size textures in powers of 2. Example: 8x8, 16x16,32x32, 64x64 pixels and so on.
+-   Textures don't need to be square. A 32x256 pixel texture is perfectly acceptable.
 
 The following are some things the id designers learned about textures.
 
-- Create textures in "suites" built around one or two large textures with a number of much smaller supporting detail or accent textures.
-- Textures are grouped alphabetically by name in the texture display window, so you may want to give suites of textures similar names.
-- Use the shader function [qer_editorImage](#qer_editorImage) to conserve memory when making multiple versions of a single texture (as in the case of a glowing texture with several light values).
-- Unless you are creating special effects or textures designed to draw the player's eye to a specific spot, muted, middle value colors work best with the game engine.
-- Extremely busy (a lot of fussy detail) textures can break up or form visually unpleasant patterns when seen at distances.
+-   Create textures in "suites" built around one or two large textures with a number of much smaller supporting detail or accent textures.
+-   Textures are grouped alphabetically by name in the texture display window, so you may want to give suites of textures similar names.
+-   Use the shader function [qer\_editorImage](file:///mnt/selenium/netradiant-custom/old/docs/shaderManual/quake-editor-radiant-directives.html#qer_editorImage) to conserve memory when making multiple versions of a single texture (as in the case of a glowing texture with several light values).
+-   Unless you are creating special effects or textures designed to draw the player's eye to a specific spot, muted, middle value colors work best with the game engine.
+-   Extremely busy (a lot of fussy detail) textures can break up or form visually unpleasant patterns when seen at distances.
 
 ## Making the .pk3 File
 
@@ -66,7 +66,7 @@ When you go to distribute your creation to the gaming world, you need to put you
 
 ```
 Textures: baseq3/textures/[mymapnamefolder]
-Bsp & aas: baseq3/maps/mymapname.bsp, mymapname.aas
+Bsp &amp; aas: baseq3/maps/mymapname.bsp, mymapname.aas
 Shader scripts: baseq3/scripts/mymapname.shader
 ```
 
