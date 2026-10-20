@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333332 4.2333333"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="hl2lostcoast.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="22.627417"
+     inkscape:cx="7.2257474"
+     inkscape:cy="8.1759221"
+     inkscape:window-width="1920"
+     inkscape:window-height="1116"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       d="M 1.7501835,0.36656443 C 0.78546989,0.36656443 1.4753475e-8,1.1517934 1.4753475e-8,2.1165065 1.4753475e-8,3.0812215 0.78546989,3.8667703 1.7501835,3.8667703 c 0.5306685,0 1.007048,-0.2376951 1.3282941,-0.6121543 C 3.3379737,2.9521337 4.2333145,1.6876295 4.2333334,1.2565926 4.2333389,0.76504031 3.834857,0.36655835 3.3433053,0.36656443 c -0.2447412,-2.91e-6 -1.244766,0 -1.5931218,0 z m 0,0.30866684 c 0.2864799,0 0.5530292,0.0829423 0.7770485,0.22620131 0.3999123,0.25574032 0.6642288,0.70366172 0.6642288,1.21507392 0,0.00567 -1.69e-5,0.011371 -8.08e-5,0.017025 -0.00905,0.7900212 -0.6489722,1.4244931 -1.4411965,1.4244931 -0.7978906,0 -1.44151595,-0.6436256 -1.44151595,-1.4415171 0,-0.7978913 0.64362535,-1.44127534 1.44151595,-1.44127623 z M 1.1709111,1.0630722 v 0.318624 h 0.3262526 l 0.09403,0.2673942 -0.83791334,1.3530281 H 1.1294767 L 1.7293864,2.0568459 2.1385883,3.0939785 2.746848,2.9183667 2.6528992,2.6023935 2.3708115,2.6942541 1.7293868,1.0630727 Z"
+       style="fill:#bdbdbd;fill-opacity:1;stroke-width:1.09672"
+       id="path21-0"
+       sodipodi:nodetypes="ssssccssssssssccccccccccccc" />
+  </g>
+</svg>

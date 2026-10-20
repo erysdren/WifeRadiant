@@ -1,4 +1,65 @@
 
+function(radiant_add_gamepack name filename)
+	cmake_parse_arguments(PARSE_ARGV 1 ARG "HIDDEN" "ASSET_PATH" "")
+	if(ARG_HIDDEN)
+		set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}.xml")
+	else()
+		file(MAKE_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/")
+		set(output_file "${RADIANT_INSTALL_PREFIX}/gamepacks/${name}/game.xml")
+	endif()
+	if(ARG_ASSET_PATH AND EXISTS "${ARG_ASSET_PATH}")
+		file(COPY "${ARG_ASSET_PATH}" DESTINATION "${RADIANT_INSTALL_PREFIX}/gamepacks/")
+	endif()
+	add_custom_command(
+		OUTPUT "${output_file}"
+		DEPENDS wiferadiant-tool-wrgamepack
+		COMMAND ${CMAKE_CROSSCOMPILING_EMULATOR} "$<TARGET_FILE:wiferadiant-tool-wrgamepack>" "@${filename}" -q -o "${output_file}"
+		WORKING_DIRECTORY "${RADIANT_INSTALL_PREFIX}/gamepacks"
+		COMMAND_EXPAND_LISTS
+		VERBATIM
+	)
+	add_custom_target(wiferadiant-gamepack-${name} ALL DEPENDS "${output_file}")
+endfunction()
+
+function(radiant_add_gamepack_folder path)
+	file(GLOB gamepacks "${path}/*.txt")
+	foreach(gamepack IN LISTS gamepacks)
+		cmake_path(GET gamepack STEM gamepack_stem)
+		cmake_path(GET gamepack PARENT_PATH gamepack_path)
+		if(gamepack_stem MATCHES "^base_*")
+			radiant_add_gamepack(${gamepack_stem} ${gamepack} HIDDEN)
+		else()
+			radiant_add_gamepack(${gamepack_stem} ${gamepack} ASSET_PATH "${gamepack_path}/${gamepack_stem}")
+		endif()
+	endforeach()
+endfunction()
+
+if(RADIANT_GENERATE_SOURCE_GAMEPACKS)
+	radiant_add_gamepack_folder("${PROJECT_SOURCE_DIR}/cmake/gamepacks/source/")
+endif()
+
+if(RADIANT_GENERATE_GOLDSRC_GAMEPACKS)
+	radiant_add_gamepack_folder("${PROJECT_SOURCE_DIR}/cmake/gamepacks/goldsrc/")
+endif()
+
+if(RADIANT_GENERATE_IDTECH2_GAMEPACKS)
+	radiant_add_gamepack_folder("${PROJECT_SOURCE_DIR}/cmake/gamepacks/idtech2/")
+endif()
+
+if(RADIANT_GENERATE_IDTECH3_GAMEPACKS)
+	radiant_add_gamepack_folder("${PROJECT_SOURCE_DIR}/cmake/gamepacks/idtech3/")
+endif()
+
+if(RADIANT_GENERATE_IDTECH4_GAMEPACKS)
+	radiant_add_gamepack_folder("${PROJECT_SOURCE_DIR}/cmake/gamepacks/idtech4/")
+endif()
+
+if(RADIANT_GENERATE_USER_GAMEPACKS)
+	radiant_add_gamepack_folder("${PROJECT_SOURCE_DIR}/cmake/gamepacks/user/")
+endif()
+
+return()
+
 function(radiant_add_gamepack name)
 	cmake_parse_arguments(PARSE_ARGV 1 ARG
 		"SUPPORT_PATCH_TESSELATION;READ_GAMEINFO_TXT;WRITE_DEFAULT_KEYVALUES;HAS_BASEGAME;USE_NEW_OUTPUT_SEPARATOR;SUPPORT_PATCHES;SUPPORT_OUTPUTS;SUPPORT_LIGHTMAP_SCALE;SUPPORT_WADS"

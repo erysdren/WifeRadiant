@@ -569,7 +569,7 @@ int MiniMapBSPMain( Args& args ){
 		const CopiedString basename( PathFilename( source ) );
 		const CopiedString path( PathFilenameless( source ) );
 		char relativeMinimapFilename[1024];
-		snprintf( relativeMinimapFilename, sizeof(relativeMinimapFilename), g_game->miniMapNameFormat, basename.c_str() );
+		snprintf( relativeMinimapFilename, sizeof(relativeMinimapFilename), g_game->miniMapNameFormat.c_str(), basename.c_str() );
 		MergeRelativePath( minimapFilename, path.c_str(), relativeMinimapFilename );
 		Sys_Printf( "Output file name automatically set to %s\n", minimapFilename );
 	}
