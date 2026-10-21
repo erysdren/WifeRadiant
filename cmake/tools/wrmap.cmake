@@ -77,6 +77,7 @@ radiant_add_tool(wrmap
 		wiferadiant-library-webplib
 		wiferadiant-library-stb
 		pugixml::pugixml
+		sourcepp::vtfpp
 		assimp
 		$<$<BOOL:${WIN32}>:ws2_32>
 		$<$<BOOL:${WRMAP_WITH_ERICWTOOLS}>:libqbsp>

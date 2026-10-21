@@ -26,6 +26,7 @@
 #include "etclib.h"
 #include "qimagelib.h"
 #include "vfs.h"
+#include <vtfpp/vtfpp.h>
 
 int fgetLittleShort( FILE *f ){
 	byte b1, b2;
@@ -1226,6 +1227,11 @@ void Load32BitImage( const char *name, unsigned **pixels,  int *width, int *heig
 
 #define KTX_FORMAT_ETC1_RGB8				0x8D64
 
+#define KTX_FORMAT_RGB_S3TC_DXT1_EXT		0x83F0
+#define KTX_FORMAT_RGBA_S3TC_DXT1_EXT		0x83F1
+#define KTX_FORMAT_RGBA_S3TC_DXT3_EXT		0x83F2
+#define KTX_FORMAT_RGBA_S3TC_DXT5_EXT		0x83F3
+
 static void KTX_DecodeA8( const byte *in, bool bigEndian, byte *out ){
 	out[0] = out[1] = out[2] = 0;
 	out[3] = in[0];
@@ -1394,6 +1400,45 @@ static bool KTX_DecodeETC1( const byte* in, size_t inSize, unsigned int width, u
 	return true;
 }
 
+static bool KTX_DecodeDXT1( const byte* in, size_t inSize, unsigned int width, unsigned int height, byte* out, bool oneBitAlpha ){
+	const std::byte* data = reinterpret_cast<const std::byte*>(in);
+
+	vtfpp::ImageFormat format = vtfpp::ImageFormat::DXT1;
+	if (oneBitAlpha) {
+		format = vtfpp::ImageFormat::DXT1_ONE_BIT_ALPHA;
+	}
+
+	auto convertedData = vtfpp::ImageConversion::convertImageDataToFormat({data, data + inSize}, format, vtfpp::ImageFormat::RGBA8888, width, height);
+	if (convertedData.empty()) {
+		return false;
+	}
+
+	memcpy(out, convertedData.data(), width * height * 4);
+	return true;
+}
+
+static bool KTX_DecodeDXT3( const byte* in, size_t inSize, unsigned int width, unsigned int height, byte* out ){
+	const std::byte* data = reinterpret_cast<const std::byte*>(in);
+	auto convertedData = vtfpp::ImageConversion::convertImageDataToFormat({data, data + inSize}, vtfpp::ImageFormat::DXT3, vtfpp::ImageFormat::RGBA8888, width, height);
+	if (convertedData.empty()) {
+		return false;
+	}
+
+	memcpy(out, convertedData.data(), width * height * 4);
+	return true;
+}
+
+static bool KTX_DecodeDXT5( const byte* in, size_t inSize, unsigned int width, unsigned int height, byte* out ){
+	const std::byte* data = reinterpret_cast<const std::byte*>(in);
+	auto convertedData = vtfpp::ImageConversion::convertImageDataToFormat({data, data + inSize}, vtfpp::ImageFormat::DXT5, vtfpp::ImageFormat::RGBA8888, width, height);
+	if (convertedData.empty()) {
+		return false;
+	}
+
+	memcpy(out, convertedData.data(), width * height * 4);
+	return true;
+}
+
 #define KTX_HEADER_UINT32( buf ) ( bigEndian ? KTX_UINT32_BE( buf ) : KTX_UINT32_LE( buf ) )
 
 void LoadKTXBufferFirstImage( const byte *buffer, size_t bufSize, byte **pic, int *picWidth, int *picHeight ){
@@ -1485,6 +1530,18 @@ void LoadKTXBufferFirstImage( const byte *buffer, size_t bufSize, byte **pic, in
 		{
 		case KTX_FORMAT_ETC1_RGB8:
 			decoded = KTX_DecodeETC1( buffer, bufSize, width, height, pixels );
+			break;
+		case KTX_FORMAT_RGB_S3TC_DXT1_EXT:
+			decoded = KTX_DecodeDXT1( buffer, bufSize, width, height, pixels, false );
+			break;
+		case KTX_FORMAT_RGBA_S3TC_DXT1_EXT:
+			decoded = KTX_DecodeDXT1( buffer, bufSize, width, height, pixels, true );
+			break;
+		case KTX_FORMAT_RGBA_S3TC_DXT3_EXT:
+			decoded = KTX_DecodeDXT3( buffer, bufSize, width, height, pixels );
+			break;
+		case KTX_FORMAT_RGBA_S3TC_DXT5_EXT:
+			decoded = KTX_DecodeDXT5( buffer, bufSize, width, height, pixels );
 			break;
 		default:
 			Error( "LoadKTX: Image has an unsupported compressed format format 0x%X", format );
