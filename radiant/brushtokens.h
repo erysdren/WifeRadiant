@@ -24,6 +24,7 @@
 #include "stringio.h"
 #include "stream/stringstream.h"
 #include "brush.h"
+#include "disptokens.h"
 
 inline bool FaceShader_importContentsFlagsValue( FaceShader& faceShader, Tokeniser& tokeniser ){
 	// parse the optional contents/flags/value
@@ -531,6 +532,21 @@ public:
 				{
 					Valve220FaceTokenImporter<true> importer( face );
 					RETURN_FALSE_IF_FAIL( importer.importTokens( tokeniser ) );
+					// NOTE: should fail if a dispDef appears without a face
+
+					// referenced radiant/patch.h:1097
+					tokeniser.nextLine();
+					bool has_dispDef = string_equal( tokeniser.getToken(), "dispDef" );
+					tokeniser.ungetToken();
+					// NOTE: nextLine only sets a flag in tokeniser allowing it to cross lines
+					// -- ungetToken just remembers the token for the next getToken
+					// -- this should allow us to peek at the next line without skipping it
+					// -- when nextLine is called to advance the parser
+
+					if ( has_dispDef ) {
+						DispTokenImporter importer( *face.m_disp );
+						RETURN_FALSE_IF_FAIL( importer.importTokens( tokeniser ) );
+					}
 				}
 				break;
 			case eBrushTypeValve220:
@@ -656,6 +672,10 @@ public:
 					{
 						Valve220FaceTokenExporter<FaceExportFlags::yes, true> exporter( *face );
 						exporter.exportTokens( writer );
+						if ( face->m_disp != NULL ) {
+							DispTokenExporter disp_exporter( *face->m_disp );
+							disp_exporter.exportTokens( writer );
+						}
 					}
 					break;
 				}
