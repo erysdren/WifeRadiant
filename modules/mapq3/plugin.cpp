@@ -209,31 +209,40 @@ MapQuake4Module;
 MapQuake4Module g_MapQuake4Module;
 
 
-class MapDependencies :
+class MapQ3Dependencies :
 	public GlobalRadiantModuleRef,
 	public GlobalBrushModuleRef,
-	public GlobalPatchModuleRef,
 	public GlobalFiletypesModuleRef,
 	public GlobalScripLibModuleRef,
 	public GlobalEntityClassManagerModuleRef,
 	public GlobalSceneGraphModuleRef
 {
+	PatchModuleRef m_patchQuake3Module;
+	PatchModuleRef m_patchDef3Quake3Module;
 public:
-	MapDependencies() :
+	MapQ3Dependencies() :
 		GlobalBrushModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "brushtypes" ) ),
-		GlobalPatchModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "patchtypes" ) ),
-		GlobalEntityClassManagerModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "entityclass" ) ){
+		GlobalEntityClassManagerModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "entityclass" ) ),
+		m_patchQuake3Module( "quake3" ),
+		m_patchDef3Quake3Module( "def3quake3" ){
+	}
+	PatchCreator& getPatchQuake3(){
+		return *m_patchQuake3Module.getTable();
+	}
+	PatchCreator& getPatchDef3Quake3(){
+		return *m_patchDef3Quake3Module.getTable();
 	}
 };
 
 class MapQ3API final : public TypeSystemRef, public MapFormat, public PrimitiveParser
 {
+	MapQ3Dependencies& m_dependencies;
 	mutable bool m_formatDetected;
 public:
 	typedef MapFormat Type;
 	STRING_CONSTANT( Name, "mapq3" );
 
-	MapQ3API(){
+	MapQ3API( MapQ3Dependencies& dependencies ) : m_dependencies( dependencies ){
 		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "quake3 maps", "*.map", true, true, true ) );
 		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "quake3 region", "*.reg", true, true, true ) );
 		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "quake3 compiled maps", "*.bsp", false, true, false ) );
@@ -245,8 +254,11 @@ public:
 	scene::Node& parsePrimitive( Tokeniser& tokeniser ) const override {
 		const char* primitive = tokeniser.getToken();
 		if ( primitive != 0 ) {
+			if ( string_equal( primitive, "patchDef3" ) || string_equal( primitive, "patchDef3WS" ) ) {
+				return m_dependencies.getPatchDef3Quake3().createPatch();
+			}
 			if ( string_equal( primitive, "patchDef2" ) || string_equal( primitive, "patchDef2WS" ) ) {
-				return GlobalPatchModule::getTable().createPatch();
+				return m_dependencies.getPatchQuake3().createPatch();
 			}
 			if( !m_formatDetected ){
 				EBrushType detectedFormat;
@@ -303,10 +315,32 @@ public:
 	}
 };
 
-typedef SingletonModule<MapQ3API, MapDependencies> MapQ3Module;
+typedef SingletonModule<
+MapQ3API,
+MapQ3Dependencies,
+DependenciesAPIConstructor<MapQ3API, MapQ3Dependencies>
+>
+MapQ3Module;
 
 MapQ3Module g_MapQ3Module;
 
+
+class MapDependencies :
+	public GlobalRadiantModuleRef,
+	public GlobalBrushModuleRef,
+	public GlobalPatchModuleRef,
+	public GlobalFiletypesModuleRef,
+	public GlobalScripLibModuleRef,
+	public GlobalEntityClassManagerModuleRef,
+	public GlobalSceneGraphModuleRef
+{
+public:
+	MapDependencies() :
+		GlobalBrushModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "brushtypes" ) ),
+		GlobalPatchModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "patchtypes" ) ),
+		GlobalEntityClassManagerModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "entityclass" ) ){
+	}
+};
 
 class MapQ1API final : public TypeSystemRef, public MapFormat, public PrimitiveParser
 {

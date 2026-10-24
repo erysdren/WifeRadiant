@@ -365,7 +365,8 @@ class Patch final :
 		    const char* shader,
 		    bool patchDef3,
 		    std::size_t subdivisions_x,
-		    std::size_t subdivisions_y
+		    std::size_t subdivisions_y,
+		    bool hasColors
 		) :
 			m_width( width ),
 			m_height( height ),
@@ -373,7 +374,8 @@ class Patch final :
 			m_ctrl( ctrl ),
 			m_patchDef3( patchDef3 ),
 			m_subdivisions_x( subdivisions_x ),
-			m_subdivisions_y( subdivisions_y ){
+			m_subdivisions_y( subdivisions_y ),
+			m_hasColors( hasColors ){
 		}
 
 		void release() override {
@@ -386,6 +388,7 @@ class Patch final :
 		bool m_patchDef3;
 		std::size_t m_subdivisions_x;
 		std::size_t m_subdivisions_y;
+		bool m_hasColors; // patchDef3WS
 	};
 
 public:
@@ -412,6 +415,7 @@ public:
 	bool m_patchDef3;
 	std::size_t m_subdivisions_x;
 	std::size_t m_subdivisions_y;
+	bool m_hasColors; // patchDef3WS
 private:
 
 	UndoObserver* m_undoable_observer;
@@ -446,6 +450,7 @@ private:
 		m_patchDef3 = false;
 		m_subdivisions_x = 0;
 		m_subdivisions_y = 0;
+		m_hasColors = false; // patchDef3WS
 
 		check_shader();
 		captureShader();
@@ -495,6 +500,7 @@ public:
 		m_patchDef3 = other.m_patchDef3;
 		m_subdivisions_x = other.m_subdivisions_x;
 		m_subdivisions_y = other.m_subdivisions_y;
+		m_hasColors = other.m_hasColors; // patchDef3WS
 		setDims( other.m_width, other.m_height );
 		copy_ctrl( m_ctrl.data(), other.m_ctrl.data(), other.m_ctrl.data() + ( m_width * m_height ) );
 		SetShader( other.m_shader.c_str() );
@@ -527,6 +533,7 @@ public:
 		m_patchDef3 = other.m_patchDef3;
 		m_subdivisions_x = other.m_subdivisions_x;
 		m_subdivisions_y = other.m_subdivisions_y;
+		m_hasColors = other.m_hasColors; // patchDef3WS
 		setDims( other.m_width, other.m_height );
 		copy_ctrl( m_ctrl.data(), other.m_ctrl.data(), other.m_ctrl.data() + ( m_width * m_height ) );
 		SetShader( other.m_shader.c_str() );
@@ -932,7 +939,7 @@ public:
 	}
 
 	UndoMemento* exportState() const override {
-		return new SavedState( m_width, m_height, m_ctrl, m_shader.c_str(), m_patchDef3, m_subdivisions_x, m_subdivisions_y );
+		return new SavedState( m_width, m_height, m_ctrl, m_shader.c_str(), m_patchDef3, m_subdivisions_x, m_subdivisions_y, m_hasColors );
 	}
 	void importState( const UndoMemento* state ) override {
 		undoSave();
@@ -951,6 +958,7 @@ public:
 			m_patchDef3 = other.m_patchDef3;
 			m_subdivisions_x = other.m_subdivisions_x;
 			m_subdivisions_y = other.m_subdivisions_y;
+			m_hasColors = other.m_hasColors; // patchDef3WS
 		}
 
 		// end duplicate code
@@ -1106,6 +1114,7 @@ inline bool Patch_importMatrix( Patch& patch, Tokeniser& tokeniser ){
 					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[2] ) );
 					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[3] ) );
 					RETURN_FALSE_IF_FAIL( Tokeniser_parseToken( tokeniser, ")" ) );
+					patch.m_hasColors = true;
 				}
 			}
 			RETURN_FALSE_IF_FAIL( Tokeniser_parseToken( tokeniser, ")" ) );
@@ -1164,7 +1173,11 @@ public:
 inline void Patch_exportHeader( const Patch& patch, TokenWriter& writer ){
 	writer.writeToken( "{" );
 	writer.nextLine();
-	writer.writeToken( patch.m_patchDef3 ? "patchDef3" : "patchDef2" );
+	if (patch.m_hasColors) {
+		writer.writeToken( patch.m_patchDef3 ? "patchDef3WS" : "patchDef2WS" );
+	} else {
+		writer.writeToken( patch.m_patchDef3 ? "patchDef3" : "patchDef2" );
+	}
 	writer.nextLine();
 	writer.writeToken( "{" );
 	writer.nextLine();
@@ -1226,6 +1239,14 @@ inline void Patch_exportMatrix( const Patch& patch, TokenWriter& writer ){
 			writer.writeFloat( patch.ctrlAt( r, c ).m_vertex[2] );
 			writer.writeFloat( patch.ctrlAt( r, c ).m_texcoord[0] );
 			writer.writeFloat( patch.ctrlAt( r, c ).m_texcoord[1] );
+
+			// patchDef3WS
+			if ( patch.m_hasColors ) {
+				writer.writeFloat( patch.ctrlAt( r, c ).m_color[0] );
+				writer.writeFloat( patch.ctrlAt( r, c ).m_color[1] );
+				writer.writeFloat( patch.ctrlAt( r, c ).m_color[2] );
+				writer.writeFloat( patch.ctrlAt( r, c ).m_color[3] );
+			}
 
 			writer.writeToken( ")" );
 		}
@@ -1754,12 +1775,13 @@ public:
 		return m_patch;
 	}
 
-	PatchNode( bool patchDef3 = false ) :
+	PatchNode( bool patchDef3 = false, bool hasColors = false ) :
 		m_node( this, this, StaticTypeCasts::instance().get(), GlobalSceneGraph().currentLayer() ),
 		m_patch( m_node, InstanceSetEvaluateTransform<PatchInstance>::Caller( m_instances ), InstanceSet::BoundsChangedCaller( m_instances ) ),
 		m_importMap( m_patch ),
 		m_exportMap( m_patch ){
 		m_patch.m_patchDef3 = patchDef3;
+		m_patch.m_hasColors = hasColors; // patchDef3WS
 	}
 	PatchNode( const PatchNode& other ) :
 		scene::Node::Symbiot( other ),
