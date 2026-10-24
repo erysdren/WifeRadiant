@@ -151,10 +151,12 @@ radiant_add_gamepack(thewastes
 	SOUND_TYPES "wav"
 	MAP_TYPES "mapq3"
 	BRUSH_TYPES "quake3"
-	PATCH_TYPES "quake3"
+	PATCH_TYPES "def3quake3"
 	SHADER_CAULK "textures/common/caulk"
 	SHADER_NODRAW "textures/common/nodraw"
 	SHADER_TRIGGER "textures/common/trigger"
+	SUPPORT_PATCHES
+	SUPPORT_PATCH_TESSELATION
 )
 
 if(0)
