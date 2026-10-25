@@ -112,13 +112,6 @@ radiant_add_module(image
 		sourcepp::vtfpp
 )
 
-radiant_add_module(imagehl
-	SOURCES
-		${PROJECT_SOURCE_DIR}/modules/imagehl/hlw.cpp
-		${PROJECT_SOURCE_DIR}/modules/imagehl/imagehl.cpp
-		${PROJECT_SOURCE_DIR}/modules/imagehl/mip.cpp
-)
-
 if(RADIANT_USE_ASSIMP)
 	radiant_add_module(assmodel
 		SOURCES
