@@ -4,6 +4,8 @@ The open-source, cross-platform level editor for idTech, Source Engine, and Gold
 
 Nightly, weekly, and monthly builds can be found [on my Patreon](https://www.patreon.com/c/erysdren).
 
+# NO AI CODE OR CODE CONTRIBUTIONS WILL BE USED, ACCEPTED OR CONSIDERED FOR THIS PROJECT.
+
 ## THIS PROJECT IS STILL IN AN EARLY ALPHA STATE!<br/>DO NOT OVERWRITE HAMMER-MADE VMFS WITH THIS!<br/>MAKE BACKUPS!
 
 | ![d1_trainstation_02.vmf](.github/d1_trainstation_02.png) | ![q3dm1sample.map](.github/q3dm1sample.png) |
