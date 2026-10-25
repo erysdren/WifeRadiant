@@ -36,6 +36,7 @@
 #define TYP_QPIC        66
 #define TYP_SOUND       67
 #define TYP_MIPTEX      68
+#define TYP_PVRTEX      71
 
 typedef struct
 {

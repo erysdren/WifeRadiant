@@ -109,6 +109,11 @@ public:
 						strcat( buffer, lumpinfo.name );
 						strcat( buffer, ".mip" );
 						m_files.insert( files_t::value_type( buffer, wad_record_t( lumpinfo.filepos, lumpinfo.disksize, lumpinfo.size ) ) );
+					} else if (lumpinfo.type == TYP_PVRTEX) {
+						strcpy( buffer, "textures/" );
+						strcat( buffer, lumpinfo.name );
+						strcat( buffer, ".pvr" );
+						m_files.insert( files_t::value_type( buffer, wad_record_t( lumpinfo.filepos, lumpinfo.disksize, lumpinfo.size ) ) );
 					}
 				}
 			}
