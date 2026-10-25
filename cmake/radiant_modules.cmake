@@ -99,6 +99,8 @@ radiant_add_module(image
 		${PROJECT_SOURCE_DIR}/modules/image/stb.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/tga.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/vtf.cpp
+		${PROJECT_SOURCE_DIR}/modules/image/wal.cpp
+		${PROJECT_SOURCE_DIR}/modules/image/wal32.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/webp.cpp
 	DEPENDENCIES
 		wiferadiant-library-ddslib
@@ -115,13 +117,6 @@ radiant_add_module(imagehl
 		${PROJECT_SOURCE_DIR}/modules/imagehl/imagehl.cpp
 		${PROJECT_SOURCE_DIR}/modules/imagehl/mip.cpp
 		${PROJECT_SOURCE_DIR}/modules/imagehl/sprite.cpp
-)
-
-radiant_add_module(imageq2
-	SOURCES
-		${PROJECT_SOURCE_DIR}/modules/imageq2/imageq2.cpp
-		${PROJECT_SOURCE_DIR}/modules/imageq2/wal.cpp
-		${PROJECT_SOURCE_DIR}/modules/imageq2/wal32.cpp
 )
 
 if(RADIANT_USE_ASSIMP)
