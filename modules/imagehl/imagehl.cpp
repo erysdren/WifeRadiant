@@ -27,7 +27,6 @@
 
 #include "hlw.h"
 #include "mip.h"
-#include "sprite.h"
 
 #include "modulesystem/singletonmodule.h"
 
@@ -76,31 +75,10 @@ typedef SingletonModule<ImageMipAPI, ImageDependencies> ImageMipModule;
 ImageMipModule g_ImageMipModule;
 
 
-class ImageSpriteAPI
-{
-	_QERPlugImageTable m_imagesprite;
-public:
-	typedef _QERPlugImageTable Type;
-	STRING_CONSTANT( Name, "spr" );
-
-	ImageSpriteAPI(){
-		m_imagesprite.loadImage = LoadIDSP;
-	}
-	_QERPlugImageTable* getTable(){
-		return &m_imagesprite;
-	}
-};
-
-typedef SingletonModule<ImageSpriteAPI, ImageDependencies> ImageSpriteModule;
-
-ImageSpriteModule g_ImageSpriteModule;
-
-
 
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
 	initialiseModule( server );
 
 	g_ImageHLWModule.selfRegister();
 	g_ImageMipModule.selfRegister();
-	g_ImageSpriteModule.selfRegister();
 }

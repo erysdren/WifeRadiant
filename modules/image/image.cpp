@@ -27,6 +27,7 @@
 #include "tga.h"
 #include "bmp.h"
 #include "pcx.h"
+#include "spr.h"
 #include "stb.h"
 #include "vtf.h"
 #include "pvr.h"
@@ -342,6 +343,26 @@ typedef SingletonModule<ImageM32API, ImageDependencies> ImageM32Module;
 ImageM32Module g_ImageM32Module;
 
 
+class ImageSprAPI
+{
+	_QERPlugImageTable m_imagesprite;
+public:
+	typedef _QERPlugImageTable Type;
+	STRING_CONSTANT( Name, "spr" );
+
+	ImageSprAPI(){
+		m_imagesprite.loadImage = LoadIDSP;
+	}
+	_QERPlugImageTable* getTable(){
+		return &m_imagesprite;
+	}
+};
+
+typedef SingletonModule<ImageSprAPI, ImageDependencies> ImageSprModule;
+
+ImageSprModule g_ImageSprModule;
+
+
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
 	initialiseModule( server );
 
@@ -360,4 +381,5 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ImageWalModule.selfRegister();
 	g_ImageM8Module.selfRegister();
 	g_ImageM32Module.selfRegister();
+	g_ImageSprModule.selfRegister();
 }

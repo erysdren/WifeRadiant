@@ -96,6 +96,7 @@ radiant_add_module(image
 		${PROJECT_SOURCE_DIR}/modules/image/ktx.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/pcx.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/pvr.cpp
+		${PROJECT_SOURCE_DIR}/modules/image/spr.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/stb.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/tga.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/vtf.cpp
@@ -116,7 +117,6 @@ radiant_add_module(imagehl
 		${PROJECT_SOURCE_DIR}/modules/imagehl/hlw.cpp
 		${PROJECT_SOURCE_DIR}/modules/imagehl/imagehl.cpp
 		${PROJECT_SOURCE_DIR}/modules/imagehl/mip.cpp
-		${PROJECT_SOURCE_DIR}/modules/imagehl/sprite.cpp
 )
 
 if(RADIANT_USE_ASSIMP)

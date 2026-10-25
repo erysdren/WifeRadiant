@@ -21,7 +21,7 @@
 
 // by Hydra - hydra@hydras-world.com
 
-#include "sprite.h"
+#include "spr.h"
 
 #include <cstdlib>
 #include <cstring>
