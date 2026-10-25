@@ -33,6 +33,7 @@
 #include "pvr.h"
 #include "dds.h"
 #include "ktx.h"
+#include "mip.h"
 #include "crn.h"
 #include "webp.h"
 #include "wal.h"
@@ -363,6 +364,26 @@ typedef SingletonModule<ImageSprAPI, ImageDependencies> ImageSprModule;
 ImageSprModule g_ImageSprModule;
 
 
+class ImageMipAPI
+{
+	_QERPlugImageTable m_imagemip;
+public:
+	typedef _QERPlugImageTable Type;
+	STRING_CONSTANT( Name, "mip" );
+
+	ImageMipAPI(){
+		m_imagemip.loadImage = LoadMIP;
+	}
+	_QERPlugImageTable* getTable(){
+		return &m_imagemip;
+	}
+};
+
+typedef SingletonModule<ImageMipAPI, ImageDependencies> ImageMipModule;
+
+ImageMipModule g_ImageMipModule;
+
+
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
 	initialiseModule( server );
 
@@ -382,4 +403,5 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ImageM8Module.selfRegister();
 	g_ImageM32Module.selfRegister();
 	g_ImageSprModule.selfRegister();
+	g_ImageMipModule.selfRegister();
 }

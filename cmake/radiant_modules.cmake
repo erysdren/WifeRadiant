@@ -94,6 +94,7 @@ radiant_add_module(image
 		${PROJECT_SOURCE_DIR}/modules/image/dds.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/image.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/ktx.cpp
+		${PROJECT_SOURCE_DIR}/modules/image/mip.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/pcx.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/pvr.cpp
 		${PROJECT_SOURCE_DIR}/modules/image/spr.cpp
