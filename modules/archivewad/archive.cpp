@@ -73,19 +73,6 @@ class WadArchive final : public Archive
 		return eNotValid;
 	}
 
-	const char* type_for_version( EWadVersion version ){
-		switch ( version )
-		{
-		case eWAD2:
-			return ".mip";
-		case eWAD3:
-			return ".hlw";
-		default:
-			break;
-		}
-		return "";
-	}
-
 	int miptex_type_for_version( EWadVersion version ){
 		switch ( version )
 		{
@@ -120,7 +107,7 @@ public:
 					if ( lumpinfo.type == miptexType ) {
 						strcpy( buffer, "textures/" );
 						strcat( buffer, lumpinfo.name );
-						strcat( buffer, type_for_version( version ) );
+						strcat( buffer, ".mip" );
 						m_files.insert( files_t::value_type( buffer, wad_record_t( lumpinfo.filepos, lumpinfo.disksize, lumpinfo.size ) ) );
 					}
 				}
