@@ -42,6 +42,7 @@
 #include "mdlimage.h"
 #include "md5.h"
 #include "ghoul2.h"
+#include "iqm.h"
 
 
 class MD3ModelLoader : public ModelLoader
@@ -246,6 +247,35 @@ typedef SingletonModule<ModelGLMAPI, ModelDependencies> ModelGLMModule;
 ModelGLMModule g_ModelGLMModule;
 
 
+class IQMModelLoader : public ModelLoader
+{
+public:
+	scene::Node& loadModel( ArchiveFile& file ) override {
+		return loadIQM( file );
+	}
+};
+
+class ModelIQMAPI : public TypeSystemRef
+{
+	IQMModelLoader m_modeliqm;
+public:
+	typedef ModelLoader Type;
+	STRING_CONSTANT( Name, "iqm" );
+
+	ModelIQMAPI(){
+		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "iqm models", "*.iqm" ) );
+		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "vvm models", "*.vvm" ) );
+	}
+	ModelLoader* getTable(){
+		return &m_modeliqm;
+	}
+};
+
+typedef SingletonModule<ModelIQMAPI, ModelDependencies> ModelIQMModule;
+
+ModelIQMModule g_ModelIQMModule;
+
+
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
 	initialiseModule( server );
 
@@ -256,4 +286,5 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ImageMDLModule.selfRegister();
 	g_ModelMD5Module.selfRegister();
 	g_ModelGLMModule.selfRegister();
+	g_ModelIQMModule.selfRegister();
 }

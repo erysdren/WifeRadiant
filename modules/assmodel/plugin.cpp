@@ -317,7 +317,8 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 		 && !string_equal( start, "md2" ) // use our own loader
 		 && !string_equal( start, "md3" ) // use our own loader
 		 && !string_equal( start, "md5" ) // use our own loader
-		 && !string_equal( start, "mdc" ) ){ // use our own loader
+		 && !string_equal( start, "mdc" ) // use our own loader
+		 && !string_equal( start, "iqm" ) ){ // use our own loader
 			g_PicoModelModules.push_back( PicoModelModule( PicoModelAPIConstructor( start ) ) );
 			g_PicoModelModules.back().selfRegister();
 		}
