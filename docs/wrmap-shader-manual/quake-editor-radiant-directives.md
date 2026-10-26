@@ -1,3 +1,4 @@
+\pagebreak
 # Radiant Editor Directives
 
 These directives only affect the texture when it is seen in the Radiant

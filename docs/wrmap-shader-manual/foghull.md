@@ -1,3 +1,4 @@
+\pagebreak
 # Foghull
 
 Most recent Quake III engine games are programmed with a feature known

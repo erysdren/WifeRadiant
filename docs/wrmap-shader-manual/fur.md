@@ -1,3 +1,4 @@
+\pagebreak
 # Fur
 
 \"Fur\" shaders allow a surface to replicate itself or another shader

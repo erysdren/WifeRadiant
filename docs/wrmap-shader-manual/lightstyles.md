@@ -1,3 +1,4 @@
+\pagebreak
 # Lightstyles
 
 Q3Map2 light styles are a way to simulate flickering/blinking dynamic

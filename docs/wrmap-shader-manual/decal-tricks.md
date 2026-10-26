@@ -1,3 +1,4 @@
+\pagebreak
 # Advanced Decal Tricks 101
 
 ## Multiplicative Decals

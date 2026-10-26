@@ -1,3 +1,4 @@
+\pagebreak
 # Alpha Channels
 
 To use some blend modes of alphaFunc, you must add an alpha channel to

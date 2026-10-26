@@ -1,3 +1,4 @@
+\pagebreak
 # Cel Shading
 
 Cel shading is the technique used to make your maps render like

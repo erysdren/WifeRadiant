@@ -1,3 +1,4 @@
+\pagebreak
 # Stage Directives
 
 Stage specifications only affect rendering. Changing any directives or

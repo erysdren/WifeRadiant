@@ -1,3 +1,4 @@
+\pagebreak
 # Q3Map Surface Parameter Directives
 
 All surfaceparm keywords are preceded by the word surfaceparm as

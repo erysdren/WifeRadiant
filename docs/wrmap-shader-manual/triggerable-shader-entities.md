@@ -1,3 +1,4 @@
+\pagebreak
 # Triggerable Shader Entities
 
 The targetShaderName and targetShaderNewName keys can be used with any

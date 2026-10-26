@@ -1,3 +1,4 @@
+\pagebreak
 # Q3Map Global Directives
 
 Q3Map2 global directives change the physical nature of the textures and
