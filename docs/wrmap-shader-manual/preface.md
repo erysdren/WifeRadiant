@@ -32,6 +32,7 @@ Additional material
 :   ydnar
 :   TTimo
 :   Garux
+:   erysdren
 
 ### QeRadiant Shader Manual, Revision #12
 
