@@ -147,7 +147,7 @@ radiant_add_gamepack(thewastes
 	BUILD_MENU_FILENAME "default_build_menu_vmap.xml"
 	ARCHIVE_TYPES "pk3"
 	TEXTURE_TYPES "ktx" "tga"
-	MODEL_TYPES "iqm"
+	MODEL_TYPES "iqm" "vvm"
 	SOUND_TYPES "wav"
 	MAP_TYPES "mapq3"
 	BRUSH_TYPES "quake3"

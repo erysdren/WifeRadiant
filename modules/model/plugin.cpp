@@ -264,7 +264,6 @@ public:
 
 	ModelIQMAPI(){
 		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "iqm models", "*.iqm" ) );
-		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "vvm models", "*.vvm" ) );
 	}
 	ModelLoader* getTable(){
 		return &m_modeliqm;
@@ -274,6 +273,26 @@ public:
 typedef SingletonModule<ModelIQMAPI, ModelDependencies> ModelIQMModule;
 
 ModelIQMModule g_ModelIQMModule;
+
+
+class ModelVVMAPI : public TypeSystemRef
+{
+	IQMModelLoader m_modeliqm;
+public:
+	typedef ModelLoader Type;
+	STRING_CONSTANT( Name, "vvm" );
+
+	ModelVVMAPI(){
+		GlobalFiletypesModule::getTable().addType( Type::Name, Name, filetype_t( "vvm models", "*.vvm" ) );
+	}
+	ModelLoader* getTable(){
+		return &m_modeliqm;
+	}
+};
+
+typedef SingletonModule<ModelVVMAPI, ModelDependencies> ModelVVMModule;
+
+ModelVVMModule g_ModelVVMModule;
 
 
 extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server ){
@@ -287,4 +306,5 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ModelMD5Module.selfRegister();
 	g_ModelGLMModule.selfRegister();
 	g_ModelIQMModule.selfRegister();
+	g_ModelVVMModule.selfRegister();
 }
