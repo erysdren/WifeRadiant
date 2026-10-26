@@ -1,5 +1,5 @@
 ---
-title: Contents
+title: WRMap Shader Manual
 title-prefix: WRMap Shader Manual
 lang: en-US
 dir: ltr
