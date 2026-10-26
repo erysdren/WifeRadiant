@@ -1,4 +1,3 @@
-\pagebreak
 # The Q3Map2 Edition {#q3map2edition}
 
 Q3Map2 is an updated version of the original Q3Map program used to
