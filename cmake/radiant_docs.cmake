@@ -33,7 +33,14 @@ function(radiant_add_docs name)
 			COMMAND ${CMAKE_COMMAND} -E copy -t ${ARG_OUTPUT_PATH} ${dependency_files}
 			WORKING_DIRECTORY ${ARG_INPUT_PATH}
 		)
-		add_custom_target(${name}-${root_page_stem} DEPENDS ${html_file})
+		cmake_path(GET ARG_OUTPUT_PATH STEM output_path_stem)
+		set(pdf_file "${ARG_OUTPUT_PATH}/${output_path_stem}.pdf")
+		add_custom_command(
+			OUTPUT ${pdf_file}
+			COMMAND ${PANDOC_EXECUTABLE} ARGS --lua-filter="${PROJECT_SOURCE_DIR}/cmake/include-files.lua" --toc --toc-depth 2 -f markdown-smart -t pdf -s -o ${pdf_file} ${ARG_ROOT_PAGE}
+			WORKING_DIRECTORY ${ARG_INPUT_PATH}
+		)
+		add_custom_target(${name}-${root_page_stem} DEPENDS ${html_file} ${pdf_file})
 		add_dependencies(${name} ${name}-${root_page_stem})
 	else()
 		foreach(markdown_file IN LISTS markdown_files)
