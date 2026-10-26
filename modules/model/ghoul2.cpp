@@ -167,7 +167,6 @@ scene::Node& loadGhoul2GLM( ArchiveFile& file ) {
 			inSurfHierarchy = (glmSurfHierarchy_t *)((uint8_t *)inSurfHierarchy + size);
 		}
 		outSurface.setShader( inSurfHierarchy->shader );
-		globalOutputStream() << inSurfHierarchy->shader << '\n';
 
 		// update aabb
 		outSurface.updateAABB();
