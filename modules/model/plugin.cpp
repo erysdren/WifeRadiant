@@ -226,10 +226,6 @@ public:
 	}
 };
 
-class ModelGLMDependencies : public ModelDependencies, public GlobalScripLibModuleRef
-{
-};
-
 class ModelGLMAPI : public TypeSystemRef
 {
 	GLMModelLoader m_modelglm;
@@ -245,7 +241,7 @@ public:
 	}
 };
 
-typedef SingletonModule<ModelGLMAPI, ModelGLMDependencies> ModelGLMModule;
+typedef SingletonModule<ModelGLMAPI, ModelDependencies> ModelGLMModule;
 
 ModelGLMModule g_ModelGLMModule;
 
