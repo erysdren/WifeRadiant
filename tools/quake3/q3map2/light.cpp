@@ -665,7 +665,8 @@ static void CreateSurfaceLights(){
 			break;
 
 		case MST_PATCH:
-			RadLightForPatch( i, 0, info.lm, si, APPROX_BOUNCE, subdivide );
+		case MST_PATCHFIXED:
+			RadLightForPatch( i, 0, info.lm, si, APPROX_BOUNCE, subdivide, (ds.surfaceType == MST_PATCHFIXED) ?  true : false );
 			break;
 
 		default:

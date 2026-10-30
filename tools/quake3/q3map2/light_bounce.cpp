@@ -468,6 +468,7 @@ static void RadSubdivideDiffuseLight( int lightmapNum, const bspDrawSurface_t& d
 		break;
 
 	case MST_PATCH:
+	case MST_PATCHFIXED:
 		numPatchDiffuseLights++;
 		break;
 
@@ -653,7 +654,7 @@ void RadLightForTriangles( int num, int lightmapNum, const rawLightmap_t *lm, co
 
 #define PLANAR_EPSILON  0.1f
 
-void RadLightForPatch( int num, int lightmapNum, const rawLightmap_t *lm, const shaderInfo_t& si, float scale, float subdivide ){
+void RadLightForPatch( int num, int lightmapNum, const rawLightmap_t *lm, const shaderInfo_t& si, float scale, float subdivide, bool fixed ){
 	/* get surface */
 	const bspDrawSurface_t& ds = bspDrawSurfaces[ num ];
 	const surfaceInfo_t& info = surfaceInfos[ num ];
@@ -783,7 +784,8 @@ static void RadLight( int num ){
 				break;
 
 			case MST_PATCH:
-				RadLightForPatch( num, lightmapNum, lm, si, scale, subdivide );
+			case MST_PATCHFIXED:
+				RadLightForPatch( num, lightmapNum, lm, si, scale, subdivide, (ds.surfaceType == MST_PATCHFIXED) ?  true : false );
 				break;
 
 			default:

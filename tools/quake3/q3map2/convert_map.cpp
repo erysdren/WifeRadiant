@@ -821,8 +821,12 @@ for ( i = 0; i < brush->numSides; ++i )
  */
 
 static void ConvertPatch( FILE *f, int num, const bspDrawSurface_t& ds, const Vector3& origin ){
+	bool fixed = false;
+
 	/* only patches */
-	if ( ds.surfaceType != MST_PATCH ) {
+	if ( ds.surfaceType == MST_PATCHFIXED ) {
+		fixed = true;
+	} else if ( ds.surfaceType != MST_PATCH ) {
 		return;
 	}
 
@@ -841,26 +845,35 @@ static void ConvertPatch( FILE *f, int num, const bspDrawSurface_t& ds, const Ve
 		texture = shader.shader;
 	}
 
+	int pw = ds.patchWidth;
+	int ph = ds.patchHeight;
+
 	/* start patch */
 	fprintf( f, "\t// patch %d\n", num );
 	fprintf( f, "\t{\n" );
-	fprintf( f, "\t\tpatchDef2\n" );
+	fprintf( f, "\t\tpatchDef%i\n", fixed ? 3 : 2 );
 	fprintf( f, "\t\t{\n" );
 	fprintf( f, "\t\t\t%s\n", texture );
-	fprintf( f, "\t\t\t( %d %d 0 0 0 )\n", ds.patchWidth, ds.patchHeight );
+	if (fixed) {
+		pw &= 0xffff;
+		ph &= 0xffff;
+		fprintf( f, "\t\t\t( %d %d %d %d 0 0 0 )\n", pw, ph, ds.patchWidth >> 16, ds.patchHeight >> 16 );
+	} else {
+		fprintf( f, "\t\t\t( %d %d 0 0 0 )\n", pw, ph );
+	}
 	fprintf( f, "\t\t\t(\n" );
 
 	/* iterate through the verts */
-	for ( int x = 0; x < ds.patchWidth; ++x )
+	for ( int x = 0; x < pw; ++x )
 	{
 		/* start row */
 		fprintf( f, "\t\t\t\t(" );
 
 		/* iterate through the row */
-		for ( int y = 0; y < ds.patchHeight; ++y )
+		for ( int y = 0; y < ph; ++y )
 		{
 			/* get vert */
-			const bspDrawVert_t& dv = bspDrawVerts[ ds.firstVert + ( y * ds.patchWidth ) + x ];
+			const bspDrawVert_t& dv = bspDrawVerts[ ds.firstVert + ( y * pw ) + x ];
 
 			/* offset it */
 			const Vector3 xyz = dv.xyz + origin;

@@ -1815,7 +1815,7 @@ float                       SetupTrace( trace_t *trace );
 /* light_bounce.c */
 bool                        RadSampleImage( const byte * pixels, int width, int height, const Vector2& st, Color4f& color );
 void                        RadLightForTriangles( int num, int lightmapNum, const rawLightmap_t *lm, const shaderInfo_t& si, float scale, float subdivide );
-void                        RadLightForPatch( int num, int lightmapNum, const rawLightmap_t *lm, const shaderInfo_t& si, float scale, float subdivide );
+void                        RadLightForPatch( int num, int lightmapNum, const rawLightmap_t *lm, const shaderInfo_t& si, float scale, float subdivide, bool fixed );
 void                        RadCreateDiffuseLights();
 
 
