@@ -1,7 +1,13 @@
 \pagebreak
 # Entities
 
+## _decal
+
+Specifies a decal to be projected. Should contain one or more patch meshes and target an info_null entity. The targetting line drawn between the center of the _decal entity and the targetted info_null is the axis and distance of projection. It helps to think of the _decal mesh as if it were a light gel, the info_null were the target of a spotlight, and that you were "shining" this decal onto map geometry.
+
 ## _skybox
+
+The _skybox entity is a true miracle: It specifies the origin of a skybox (a wholly contained, separate area of the map), similar to some games' portal skies. When compiled with Q3Map2, the skybox surfaces will be visible from any place where sky is normally visible. It will cast shadows on the normal parts of the map, and can be used with cloud layers and other effects.
 
 The _skybox entity "grabs" all the map geometry it can "see" via the normal entity flooding algorithm and assimilates it into the portal sky heap. This is an important concept to understand; if there is any leak between your "main" map and the separate area designated for the _skybox, your compile will take forever, only to produce a very borked .bsp. With that out of the way...
 
