@@ -25,24 +25,29 @@ function(radiant_add_docs name)
 	)
 	if(ARG_ROOT_PAGE)
 		cmake_path(GET ARG_ROOT_PAGE STEM root_page_stem)
-		set(html_file "${ARG_OUTPUT_PATH}/${root_page_stem}.html")
+		cmake_path(GET ARG_OUTPUT_PATH STEM output_path_stem)
+		cmake_path(GET ARG_OUTPUT_PATH PARENT_PATH output_path_parent)
+		set(chunkedhtml_file "${ARG_OUTPUT_PATH}/${root_page_stem}.html")
 		add_custom_command(
-			OUTPUT ${html_file}
+			OUTPUT ${chunkedhtml_file}
 			COMMAND ${CMAKE_COMMAND} -E rm -rf ${ARG_OUTPUT_PATH}
 			COMMAND ${PANDOC_EXECUTABLE} ARGS --lua-filter="${PROJECT_SOURCE_DIR}/cmake/include-files.lua" --toc --toc-depth 2 -f markdown-smart -t chunkedhtml ${CSS_FILE} -s -o ${ARG_OUTPUT_PATH} ${ARG_ROOT_PAGE}
 			COMMAND ${CMAKE_COMMAND} -E copy -t ${ARG_OUTPUT_PATH} ${dependency_files}
 			WORKING_DIRECTORY ${ARG_INPUT_PATH}
 		)
-		cmake_path(GET ARG_OUTPUT_PATH STEM output_path_stem)
-		if(0)
-		set(pdf_file "${ARG_OUTPUT_PATH}/${output_path_stem}.pdf")
+		set(html_file "${output_path_parent}/${output_path_stem}.html")
+		add_custom_command(
+			OUTPUT ${html_file}
+			COMMAND ${PANDOC_EXECUTABLE} ARGS --lua-filter="${PROJECT_SOURCE_DIR}/cmake/include-files.lua" --toc --toc-depth 2 -f markdown-smart -t html ${CSS_FILE} -s --embed-resources -o ${html_file} ${ARG_ROOT_PAGE}
+			WORKING_DIRECTORY ${ARG_INPUT_PATH}
+		)
+		set(pdf_file "${output_path_parent}/${output_path_stem}.pdf")
 		add_custom_command(
 			OUTPUT ${pdf_file}
 			COMMAND ${PANDOC_EXECUTABLE} ARGS --lua-filter="${PROJECT_SOURCE_DIR}/cmake/include-files.lua" --toc --toc-depth 2 -f markdown-smart -t pdf -s -o ${pdf_file} ${ARG_ROOT_PAGE}
 			WORKING_DIRECTORY ${ARG_INPUT_PATH}
 		)
-		endif()
-		add_custom_target(${name}-${root_page_stem} DEPENDS ${html_file})
+		add_custom_target(${name}-${root_page_stem} DEPENDS ${chunkedhtml_file} ${html_file} ${pdf_file})
 		add_dependencies(${name} ${name}-${root_page_stem})
 	else()
 		foreach(markdown_file IN LISTS markdown_files)
