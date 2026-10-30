@@ -33,6 +33,7 @@ Additional material
 :   TTimo
 :   Garux
 :   erysdren
+:   [Wikibooks: Q3Map2](https://en.wikibooks.org/wiki/Q3Map2)
 
 ### QeRadiant Shader Manual, Revision #12
 
