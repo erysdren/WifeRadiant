@@ -57,10 +57,10 @@ function(radiant_add_docs name)
 	endif()
 endfunction()
 
-# wrmap shader manual
-radiant_add_docs(wrmap-shader-manual
-	ROOT_PAGE ${PROJECT_SOURCE_DIR}/docs/wrmap-shader-manual/index.md
-	INPUT_PATH ${PROJECT_SOURCE_DIR}/docs/wrmap-shader-manual
-	OUTPUT_PATH ${RADIANT_INSTALL_PREFIX}/docs/wrmap-shader-manual
+# wrmap manual
+radiant_add_docs(wrmap-manual
+	ROOT_PAGE ${PROJECT_SOURCE_DIR}/docs/wrmap-manual/index.md
+	INPUT_PATH ${PROJECT_SOURCE_DIR}/docs/wrmap-manual
+	OUTPUT_PATH ${RADIANT_INSTALL_PREFIX}/docs/wrmap-manual
 	CSS_FILE "default.css"
 )

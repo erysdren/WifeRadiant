@@ -1,6 +1,6 @@
 ---
-title: WRMap Shader Manual
-title-prefix: WRMap Shader Manual
+title: WRMap Manual
+title-prefix: WRMap Manual
 lang: en-US
 dir: ltr
 ---
