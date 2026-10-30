@@ -23,7 +23,6 @@ lightstyles.md
 
 entities.md
 entity-keys.md
-entity-spawnflags.md
 cel-shading.md
 decal-tricks.md
 foghull.md
