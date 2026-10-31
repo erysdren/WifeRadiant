@@ -3,19 +3,32 @@
 
 ## misc_model
 
+Used for inserting arbitrary mesh geometry into the compiled BSP.
+
+### Keys:
+
+model
+:   Path of the model file to load, relative to the game direcotry.
+
+modelscale
+:   Scale a model in all dimensions by a single value. Default: 1.0
+
+modelscale_vec
+:   Scale a model in all dimensions by a vector value. Default: 1.0 1.0 1.0
+
 ### Spawnflags:
 
-Spawnflag 1
+Spawnflag 1 (CASTSHADOW)
 :   Toggles the model casting shadows on the map surfaces.
 
-Spawnflag 2
+Spawnflag 2 (AUTOCLIP)
 :   Sets the autoclipping spawnflag, automatically assigning [q3map_clipModel](#q3map_clipModel) to any shaders used by the model.
     Use of Q3Map2 autoclipping for models is only recommended for large models with relatively few triangles in their mesh (i.e. terrain). The Q3Map2 autoclipping algorithm is a bit of a hack, and can hurt in-game performance (as well as produce erroneous clipping results) when used on small, dense models.
 
 Spawnflag 3
 :   Spawnflag 1 plus Spawnflag 2.
 
-Spawnflag 4
+Spawnflag 4 (FORCEMETA)
 :   Sets the forcemeta spawnflag, automatically adding [q3map_forceMeta](#q3map_forceMeta) to any shaders used by the model (which, in turn, allows the model to become lightmapped).
     This, effectively, is the "lightmapped model" spawnflag.
 
