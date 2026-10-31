@@ -448,8 +448,8 @@ private:
 		m_width = m_height = 0;
 
 		m_patchDef3 = false;
-		m_subdivisions_x = 0;
-		m_subdivisions_y = 0;
+		m_subdivisions_x = 4;
+		m_subdivisions_y = 4;
 		m_hasColors = false; // patchDef3WS
 
 		check_shader();
