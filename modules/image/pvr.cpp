@@ -47,7 +47,11 @@ typedef void (*pvr_image_func_t)(Image* image, pvr_t *pvr, int offset, bool detw
 enum {
 	PVR_PIXEL_TYPE_ARGB1555 = 0,
 	PVR_PIXEL_TYPE_RGB565 = 1,
-	PVR_PIXEL_TYPE_ARGB4444 = 2
+	PVR_PIXEL_TYPE_ARGB4444 = 2,
+	PVR_PIXEL_TYPE_YUV422 = 3,
+	PVR_PIXEL_TYPE_BUMP = 4,
+	PVR_PIXEL_TYPE_RGB555 = 5,
+	PVR_PIXEL_TYPE_YUV420 = 6
 };
 
 enum {
@@ -55,8 +59,19 @@ enum {
 	PVR_IMAGE_TYPE_TWIDDLED_MM = 2,
 	PVR_IMAGE_TYPE_VQ = 3,
 	PVR_IMAGE_TYPE_VQ_MM = 4,
+	PVR_IMAGE_TYPE_PAL4 = 5,
+	PVR_IMAGE_TYPE_PAL4_MM = 6,
+	PVR_IMAGE_TYPE_PAL8 = 7,
+	PVR_IMAGE_TYPE_PAL8_MM = 8,
 	PVR_IMAGE_TYPE_RECTANGULAR = 9,
-	PVR_IMAGE_TYPE_RECTANGULAR_MM = 10
+	PVR_IMAGE_TYPE_RECTANGULAR_MM = 10,
+	PVR_IMAGE_TYPE_STRIDE = 11,
+	PVR_IMAGE_TYPE_STRIDE_MM = 12,
+	PVR_IMAGE_TYPE_RECTANGULAR_TW = 13,
+	PVR_IMAGE_TYPE_BMP = 14,
+	PVR_IMAGE_TYPE_BMP_MM = 15,
+	PVR_IMAGE_TYPE_SMALLVQ = 16,
+	PVR_IMAGE_TYPE_SMALLVQ_MM = 17
 };
 
 static int pvr_log2(int x)
@@ -372,6 +387,11 @@ Image* LoadPvr( ArchiveFile& file )
 		case PVR_IMAGE_TYPE_RECTANGULAR_MM:
 		{
 			decode_mm(image, pvr, decode, pixel_func, false, false);
+			break;
+		}
+		case PVR_IMAGE_TYPE_RECTANGULAR_TW:
+		{
+			decode(image, pvr, 0, true, pixel_func);
 			break;
 		}
 		default:
