@@ -604,7 +604,7 @@ bool ShaderTemplate::parseDoom3( Tokeniser& tokeniser ){
 			if ( string_equal_nocase( token, "qer_editorimage" ) ) {
 				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_textureName ) );
 			}
-			if ( string_equal_nocase( token, "qer_rectanglemap" ) ) {
+			else if ( string_equal_nocase( token, "qer_rectanglemap" ) ) {
 				RETURN_FALSE_IF_FAIL( Tokeniser_parseTextureName( tokeniser, m_hotSpotDefName ) );
 			}
 			else if ( string_equal_nocase( token, "qer_trans" ) ) {
