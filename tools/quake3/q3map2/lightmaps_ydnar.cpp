@@ -462,7 +462,22 @@ static bool AddPatchToRawLightmap( int num, rawLightmap_t& lm ){
 	const surfaceInfo_t& info = surfaceInfos[ num ];
 
 	/* make a temporary mesh from the drawsurf */
-	const mesh_t mesh = TessellatedMesh( mesh_view_t( ds.patchWidth, ds.patchHeight, &yDrawVerts[ ds.firstVert ] ), info.patchIterations );
+	int patchWidth, patchHeight, subdiv_x, subdiv_y;
+	if (ds.surfaceType == MST_PATCHFIXED)
+	{
+		patchWidth = ds.patchWidth & 0xffff;
+		patchHeight = ds.patchHeight & 0xffff;
+		subdiv_x = ds.patchWidth >> 16;
+		subdiv_y = ds.patchHeight >> 16;
+	}
+	else
+	{
+		patchWidth = ds.patchWidth;
+		patchHeight = ds.patchHeight;
+		subdiv_x = -1;
+		subdiv_y = -1;
+	}
+	const mesh_t mesh = TessellatedMesh( mesh_view_t( patchWidth, patchHeight, &yDrawVerts[ ds.firstVert ], subdiv_x, subdiv_y ), info.patchIterations );
 
 	/* find the longest distance on each row/column */
 	for ( int y = 0; y < mesh.height; ++y )
@@ -616,7 +631,7 @@ static bool AddSurfaceToRawLightmap( int num, rawLightmap_t& lm ){
 	lm.minmax.extend( info.minmax );
 
 	/* check to see if this is a non-planar patch */
-	if ( ds.surfaceType == MST_PATCH &&
+	if ( (ds.surfaceType == MST_PATCH || ds.surfaceType == MST_PATCHFIXED) &&
 	     lm.axis == g_vector3_identity ) {
 		return AddPatchToRawLightmap( num, lm );
 	}
@@ -783,7 +798,7 @@ static bool AddSurfaceToRawLightmap( int num, rawLightmap_t& lm ){
 	}
 
 	/* add to counts */
-	if ( ds.surfaceType == MST_PATCH ) {
+	if ( ds.surfaceType == MST_PATCH || ds.surfaceType == MST_PATCHFIXED ) {
 		numPatchesLightmapped++;
 		if ( lm.plane != nullptr ) {
 			numPlanarPatchesLightmapped++;
@@ -1650,9 +1665,25 @@ static bool ApproximateLightmap( rawLightmap_t *lm ){
 			break;
 		}
 		case MST_PATCH:
+		case MST_PATCHFIXED:
 		{
 			/* make a mesh from the drawsurf */
-			const mesh_t mesh = TessellatedMesh( mesh_view_t( ds.patchWidth, ds.patchHeight, &yDrawVerts[ ds.firstVert ] ), info.patchIterations );
+			int patchWidth, patchHeight, subdiv_x, subdiv_y;
+			if (ds.surfaceType == MST_PATCHFIXED)
+			{
+				patchWidth = ds.patchWidth & 0xffff;
+				patchHeight = ds.patchHeight & 0xffff;
+				subdiv_x = ds.patchWidth >> 16;
+				subdiv_y = ds.patchHeight >> 16;
+			}
+			else
+			{
+				patchWidth = ds.patchWidth;
+				patchHeight = ds.patchHeight;
+				subdiv_x = -1;
+				subdiv_y = -1;
+			}
+			const mesh_t mesh = TessellatedMesh( mesh_view_t( patchWidth, patchHeight, &yDrawVerts[ ds.firstVert ], subdiv_x, subdiv_y ), info.patchIterations );
 
 			/* map the mesh quads */
 			info.approximated = true;

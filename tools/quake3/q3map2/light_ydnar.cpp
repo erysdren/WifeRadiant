@@ -1189,9 +1189,25 @@ void MapRawLightmap( int rawLightmapNum ){
 			break;
 		}
 		case MST_PATCH:
+		case MST_PATCHFIXED:
 		{
 			/* make a mesh from the drawsurf */
-			const mesh_t mesh = TessellatedMesh( mesh_view_t( ds.patchWidth, ds.patchHeight, &yDrawVerts[ ds.firstVert ] ), info->patchIterations );
+			int patchWidth, patchHeight, subdiv_x, subdiv_y;
+			if (ds.surfaceType == MST_PATCHFIXED)
+			{
+				patchWidth = ds.patchWidth & 0xffff;
+				patchHeight = ds.patchHeight & 0xffff;
+				subdiv_x = ds.patchWidth >> 16;
+				subdiv_y = ds.patchHeight >> 16;
+			}
+			else
+			{
+				patchWidth = ds.patchWidth;
+				patchHeight = ds.patchHeight;
+				subdiv_x = -1;
+				subdiv_y = -1;
+			}
+			const mesh_t mesh = TessellatedMesh( mesh_view_t( patchWidth, patchHeight, &yDrawVerts[ ds.firstVert ], subdiv_x, subdiv_y ), info->patchIterations );
 
 			/* debug code */
 #if 0

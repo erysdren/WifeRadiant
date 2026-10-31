@@ -872,10 +872,10 @@ static void PopulateWithBSPModel( const bspModel_t& model, const Matrix4& transf
 			int patchWidth, patchHeight, subdiv_x, subdiv_y;
 			if (ds.surfaceType == MST_PATCHFIXED)
 			{
-				patchWidth = ds.patchWidth&0xffff;
-				patchHeight = ds.patchHeight&0xffff;
-				subdiv_x = ds.patchWidth>>16;
-				subdiv_y = ds.patchHeight>>16;
+				patchWidth = ds.patchWidth & 0xffff;
+				patchHeight = ds.patchHeight & 0xffff;
+				subdiv_x = ds.patchWidth >> 16;
+				subdiv_y = ds.patchHeight >> 16;
 			}
 			else
 			{

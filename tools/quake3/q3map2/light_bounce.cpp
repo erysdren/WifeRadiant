@@ -659,8 +659,24 @@ void RadLightForPatch( int num, int lightmapNum, const rawLightmap_t *lm, const 
 	const bspDrawSurface_t& ds = bspDrawSurfaces[ num ];
 	const surfaceInfo_t& info = surfaceInfos[ num ];
 
+	int patchWidth, patchHeight, subdiv_x, subdiv_y;
+	if (fixed)
+	{
+		patchWidth = ds.patchWidth & 0xffff;
+		patchHeight = ds.patchHeight & 0xffff;
+		subdiv_x = ds.patchWidth >> 16;
+		subdiv_y = ds.patchHeight >> 16;
+	}
+	else
+	{
+		patchWidth = ds.patchWidth;
+		patchHeight = ds.patchHeight;
+		subdiv_x = -1;
+		subdiv_y = -1;
+	}
+
 	/* construct a bogus vert list with color index stuffed into color[ 0 ] */
-	mesh_t bogus( ds.patchWidth, ds.patchHeight );
+	mesh_t bogus( patchWidth, patchHeight, subdiv_x, subdiv_y );
 	std::copy_n( &yDrawVerts[ ds.firstVert ], ds.numVerts, bogus.verts() );
 	for ( int i = 0; i < ds.numVerts; ++i )
 		bogus.verts()[ i ].color[ 0 ][ 0 ] = i;
