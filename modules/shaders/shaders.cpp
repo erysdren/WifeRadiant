@@ -1580,7 +1580,7 @@ void ParseSourceShaderFile( ArchiveFile* file, const char* filename ){
 			}
 		}
 	}
-	if ( !baseTextureName.length() ) {
+	if ( baseTextureName.empty() ) {
 		globalWarningStream() << "Failed to determine basetexture in " << filename << '\n';
 		return;
 	}
@@ -1593,7 +1593,7 @@ void ParseSourceShaderFile( ArchiveFile* file, const char* filename ){
 
 	g_shaders.insert( ShaderTemplateMap::value_type( shaderTemplate->getName(), shaderTemplate ) );
 
-	shaderTemplate->m_textureName = std::format("materials/{}", string_to_lowercase(baseTextureNameCleaned.c_str()));
+	shaderTemplate->m_textureName = std::format("{}{}", g_texturePrefix, string_to_lowercase(baseTextureNameCleaned.c_str()));
 
 	auto& vmtAlphaTest = kv1[0]["$alphatest"];
 	auto& vmfAlphaTestReference = kv1[0]["$alphatestreference"];
@@ -1639,7 +1639,7 @@ void ParseSourceShaderFile( ArchiveFile* file, const char* filename ){
 	}
 
 	if ( kv1[0]["%rectanglemap"] ) {
-		std::string hotSpotDefName = std::format("materials/{}.rect", kv1[0]["%rectanglemap"].getValue());
+		std::string hotSpotDefName = std::format("{}{}.rect", g_shadersDirectory, kv1[0]["%rectanglemap"].getValue());
 		shaderTemplate->setHotSpotDefName(hotSpotDefName.c_str());
 	}
 
