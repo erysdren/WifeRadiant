@@ -31,7 +31,7 @@ endif()
 FetchContent_Declare(
 	sourcepp
 	GIT_REPOSITORY https://github.com/craftablescience/sourcepp.git
-	GIT_TAG "v2026.9.11"
+	GIT_TAG "v2026.11.1"
 	EXCLUDE_FROM_ALL
 	GIT_SHALLOW TRUE
 	GIT_PROGRESS TRUE
