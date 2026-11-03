@@ -169,7 +169,7 @@ radiant_add_gamepack(daikatana
 	PATH_LINUX "~/.steam/steam/steamapps/common/Daikatana/"
 	EXECUTABLE_WIN32 "daikatana.exe"
 	EXECUTABLE_LINUX "daikatana"
-	ENTITIES_FILENAME "quake2.fgd"
+	ENTITIES_FILENAME "entities.def"
 	SHADER_TYPE "quake3"
 	SHADER_PATH "scripts"
 	TEXTURE_PATH "textures"

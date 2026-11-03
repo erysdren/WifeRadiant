@@ -30,6 +30,7 @@
 
 #define QUAKE2_WAL   0
 #define HERETIC2_M8  1
+#define DAIKATANA_WAL 2
 
 typedef unsigned char byte;
 
@@ -75,6 +76,9 @@ struct wal_header_t
 	int value;
 };
 
+const int DKWAL_NAME_LENGTH = 32;
+const int DKWAL_MIPMAP_COUNT = 9;
+
 const int M8_NAME_LENGTH = 32;
 const int M8_MIPMAP_COUNT = 16;
 struct m8_header_t
@@ -93,7 +97,22 @@ struct m8_header_t
 Image* LoadMipTex( byte* buffer, byte TypeofTex ){
 	int w, h, offset, flags, contents, value;
 	byte palette[768];
+	int version;
 	byte* source;
+
+	// check first byte to see if its a Daikatana WAL
+	version = (int)buffer[0];
+	if (version < 32) {
+		switch (version) {
+			case 2:
+			case 3:
+				TypeofTex = DAIKATANA_WAL;
+				break;
+			default:
+				globalErrorStream() << "Unsupported Daikatana WAL version " << version << '\n';
+				return nullptr;
+		}
+	}
 
 	PointerInputStream inputStream( buffer );
 
@@ -111,9 +130,25 @@ Image* LoadMipTex( byte* buffer, byte TypeofTex ){
 		contents = istream_read_int32_le( inputStream );
 		value = istream_read_int32_le( inputStream );
 		source = buffer + offset;
-	}
-	else
-	{
+	} else if ( TypeofTex == DAIKATANA_WAL ) {
+		inputStream.seek( 1 + DKWAL_NAME_LENGTH ); // version, name
+		w = istream_read_int32_le( inputStream );
+		h = istream_read_int32_le( inputStream );
+		offset = istream_read_int32_le( inputStream );
+		inputStream.seek( sizeof(uint32_t) * ( DKWAL_MIPMAP_COUNT - 1 ) ); // remaining offsets
+		inputStream.seek( DKWAL_NAME_LENGTH ); // animname
+		flags = istream_read_int32_le( inputStream );
+		contents = istream_read_int32_le( inputStream );
+		if (version == 2) {
+			value = istream_read_int32_le( inputStream );
+			inputStream.read( palette, 768 );
+		} else {
+			inputStream.read( palette, 768 );
+			value = istream_read_int32_le( inputStream );
+		}
+		source = buffer + offset;
+	} else {
+		// FIXME erysdren 2026-11-03: make path configurable from gamepack
 		LoadPCXPalette( "pics/colormap.pcx", palette );
 
 		inputStream.seek( WAL_NAME_LENGTH ); // name
