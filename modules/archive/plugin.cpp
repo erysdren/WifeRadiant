@@ -108,6 +108,26 @@ typedef SingletonModule<ArchivePakAPI> ArchivePakModule;
 ArchivePakModule g_ArchivePakModule;
 
 
+class ArchiveSinAPI
+{
+	_QERArchiveTable m_archivesin;
+public:
+	typedef _QERArchiveTable Type;
+	STRING_CONSTANT( Name, "sin" );
+
+	ArchiveSinAPI(){
+		m_archivesin.m_pfnOpenArchive = &OpenArchive;
+	}
+	_QERArchiveTable* getTable(){
+		return &m_archivesin;
+	}
+};
+
+typedef SingletonModule<ArchiveSinAPI> ArchiveSinModule;
+
+ArchiveSinModule g_ArchiveSinModule;
+
+
 class ArchiveZipAPI
 {
 	_QERArchiveTable m_archivezip;
@@ -195,6 +215,7 @@ extern "C" void RADIANT_DLLEXPORT Radiant_RegisterModules( ModuleServer& server 
 	g_ArchiveGmaModule.selfRegister();
 	g_ArchiveGcfModule.selfRegister();
 	g_ArchivePakModule.selfRegister();
+	g_ArchiveSinModule.selfRegister();
 	g_ArchiveZipModule.selfRegister();
 	g_ArchivePk3Module.selfRegister();
 	g_ArchivePk4Module.selfRegister();
