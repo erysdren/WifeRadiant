@@ -728,6 +728,21 @@ inline double vector4_dot( const BasicVector4<Element>& self, const BasicVector4
 }
 
 template<typename Element>
+inline double vector4_length_squared( const BasicVector4<Element>& self ){
+	return vector4_dot( self, self );
+}
+
+template<typename Element>
+inline double vector4_length( const BasicVector4<Element>& self ){
+	return sqrt( vector4_length_squared( self ) );
+}
+
+template<typename Element>
+inline BasicVector4<Element> vector4_normalised( const BasicVector4<Element>& self ){
+	return vector4_scaled( self, float_divided( 1.0, vector4_length( self ) ) );
+}
+
+template<typename Element>
 inline BasicVector3<Element> vector4_projected( const BasicVector4<Element>& self ){
 	return vector3_scaled( vector4_to_vector3( self ), 1.0 / self[3] );
 }
