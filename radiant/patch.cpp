@@ -166,7 +166,7 @@ void Patch::setDims( std::size_t w, std::size_t h ){
 	}
 
 	if ( ( h % 2 ) == 0 ) {
-		m_height -= 1;
+		h -= 1;
 	}
 	ASSERT_MESSAGE( h <= MAX_PATCH_HEIGHT, "patch too tall" );
 	if ( h > MAX_PATCH_HEIGHT ) {
