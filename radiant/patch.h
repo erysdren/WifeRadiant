@@ -1102,27 +1102,21 @@ inline bool Patch_importMatrix( Patch& patch, Tokeniser& tokeniser ){
 				RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_texcoord[1] ) );
 
 				// patchDef3WS
-				if ( string_equal( tokeniser.getToken(), ")" ) )
-				{
-					continue;
-				}
-				else
-				{
-					tokeniser.ungetToken();
+				if ( Tokeniser_nextTokenIsDigit( tokeniser ) ) {
 					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[0] ) );
 					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[1] ) );
 					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[2] ) );
 					RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, patch.ctrlAt( r, c ).m_color[3] ) );
-					if ( !string_equal( tokeniser.getToken(), ")" ) ) {
-						// patchTerrainDef3
-						float unknown = 0;
-						tokeniser.ungetToken();
-						Tokeniser_getFloat( tokeniser, unknown );
-					}
-
 					patch.m_hasColors = true;
 					patch.ctrlAt( r, c ).m_color = vector4_normalised( patch.ctrlAt( r, c ).m_color );
+					if ( Tokeniser_nextTokenIsDigit( tokeniser ) ) {
+						// patchTerrainDef3
+						float unknown = 0;
+						RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, unknown ) );
+						globalOutputStream() << "patchTerrainDef3: " << unknown << '\n';
+					}
 				}
+				RETURN_FALSE_IF_FAIL( Tokeniser_parseToken( tokeniser, ")" ) );
 			}
 			RETURN_FALSE_IF_FAIL( Tokeniser_parseToken( tokeniser, ")" ) );
 		}

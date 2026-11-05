@@ -215,6 +215,11 @@ public:
 			m_face.getShader().m_flags.m_specified = true; // enable for Q2
 			RETURN_FALSE_IF_FAIL( FaceShader_importContentsFlagsValue( m_face.getShader(), tokeniser ) );
 		}
+		if ( Tokeniser_nextTokenIsDigit( tokeniser ) ) {
+			// skip COD thing
+			float unknown = 0;
+			RETURN_FALSE_IF_FAIL( Tokeniser_getFloat( tokeniser, unknown ) );
+		}
 		m_face.getTexdef().m_scaleApplied = true;
 		return true;
 	}
