@@ -26,7 +26,7 @@
 #pragma once
 
 #include <vector>
-
+#include "string/string.h"
 
 /* ydnar: compiler flags, because games have widely varying content/surface flags */
 const int C_SOLID                = 0x00000001;
@@ -53,10 +53,16 @@ const int C_DETAIL               = 0x08000000;  /* THIS MUST BE THE SAME AS IN R
 /* ydnar: for multiple game support */
 struct surfaceParm_t
 {
-	const char  *name;
+	CopiedString name;
 	int contentFlags, contentFlagsClear;
 	int surfaceFlags, surfaceFlagsClear;
 	int compileFlags, compileFlagsClear;
+};
+
+struct compileFlag_t
+{
+	CopiedString name;
+	int value;
 };
 
 enum class EMiniMapMode
@@ -68,17 +74,17 @@ enum class EMiniMapMode
 
 struct game_t
 {
-	const char          *arg;                           /* -game matches this */
-	const char          *gamePath;                      /* main game data dir */
-	const char          *homeBasePath;                  /* home sub-dir on unix */
-	const char          *magic;                         /* magic word for figuring out base path */
-	const char          *shaderPath;                    /* shader directory */
-	const char          *shaderExt;                     /* shader extension (without dot) */
+	CopiedString arg;                                   /* -game matches this */
+	std::vector<CopiedString> gamePaths;                /* main game data dir */
+	CopiedString homeBasePath;                          /* home sub-dir on unix */
+	CopiedString magic;                                 /* magic word for figuring out base path */
+	CopiedString shaderPath;                            /* shader directory */
+	CopiedString shaderExt;                             /* shader extension (without dot) */
 	int maxLMSurfaceVerts;                              /* default maximum lightmapped surface verts */
 	int maxSurfaceVerts;                                /* default maximum surface verts */
 	int maxSurfaceIndexes;                              /* default maximum surface indexes (tris * 3) */
 	bool emitFlares;                                    /* when true, emit flare surfaces */
-	const char          *flareShader;                   /* default flare shader (MUST BE SET) */
+	CopiedString flareShader;                           /* default flare shader (MUST BE SET) */
 	bool wolfLight;                                     /* when true, lights work like wolf q3map  */
 	int lightmapSize;                                   /* bsp lightmap width/height */
 	float lightmapGamma;                                /* default lightmap gamma */
@@ -102,15 +108,18 @@ struct game_t
 	float miniMapBorder;                                /* minimap border amount */
 	bool miniMapKeepAspect;                             /* minimap keep aspect ratio by letterboxing */
 	EMiniMapMode miniMapMode;                           /* minimap mode */
-	const char          *miniMapNameFormat;             /* minimap name format */
-	const char          *bspIdent;                      /* 4-letter bsp file prefix */
+	CopiedString miniMapNameFormat;                     /* minimap name format */
+	CopiedString bspIdent;                              /* 4-letter bsp file prefix */
 	int bspVersion;                                     /* bsp version to use */
 	bool lumpSwap;                                      /* cod-style len/ofs order */
 	typedef void ( *bspFunc )( const char * );
 	bspFunc load, write;                                /* load/write function pointers */
 	std::vector<surfaceParm_t> surfaceParms;            /* surfaceparm array */
 	int brushBevelsSurfaceFlagsMask;                    /* apply only these surfaceflags to bevels to reduce extra bsp shaders amount; applying them to get correct physics at walkable brush edges and vertices */
+	bool hidden = false;                                /* don't show in games list */
+	std::vector<compileFlag_t> compileFlags{};          /* additional flags */
 };
 
-extern const std::vector<game_t> g_games;
+extern const std::vector<game_t> g_builtinGames;
+extern std::vector<game_t> g_games;
 extern const game_t *g_game;

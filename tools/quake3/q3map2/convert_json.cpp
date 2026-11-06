@@ -169,7 +169,7 @@ static void write_json( const char *directory ){
 				for( const auto& parm : std::ranges::reverse_view( g_game->surfaceParms ) ){ // find known flags // traverse backwards to try fatter material flags 1st
 					if( parm.surfaceFlags == ( flags & parm.surfaceFlags ) && parm.surfaceFlags != 0 ){
 						flags &= ~parm.surfaceFlags;
-						map.emplace( parm.surfaceFlags, parm.name );
+						map.emplace( parm.surfaceFlags, parm.name.c_str() );
 					}
 				}
 				for( int bit = 0; bit < 32; ++bit ){ // handle unknown flags
@@ -191,7 +191,7 @@ static void write_json( const char *directory ){
 				for( const auto& parm : std::ranges::reverse_view( g_game->surfaceParms ) ){ // find known flags // traverse backwards to try fatter material flags 1st
 					if( parm.contentFlags == ( flags & parm.contentFlags ) && parm.contentFlags != 0 ){
 						flags &= ~parm.contentFlags;
-						map.emplace( parm.contentFlags, parm.name );
+						map.emplace( parm.contentFlags, parm.name.c_str() );
 					}
 				}
 				for( int bit = 0; bit < 32; ++bit ){ // handle unknown flags

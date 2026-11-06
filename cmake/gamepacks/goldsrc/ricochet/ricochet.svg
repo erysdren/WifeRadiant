@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<!-- Created with Inkscape (http://www.inkscape.org/) -->
+
+<svg
+   width="16"
+   height="16"
+   viewBox="0 0 4.2333332 4.2333333"
+   version="1.1"
+   id="svg1"
+   inkscape:version="1.4.4 (dcaf3e7d9e, 2026-05-05)"
+   sodipodi:docname="ricochet.svg"
+   xmlns:inkscape="http://www.inkscape.org/namespaces/inkscape"
+   xmlns:sodipodi="http://sodipodi.sourceforge.net/DTD/sodipodi-0.dtd"
+   xmlns="http://www.w3.org/2000/svg"
+   xmlns:svg="http://www.w3.org/2000/svg">
+  <sodipodi:namedview
+     id="namedview1"
+     pagecolor="#ffffff"
+     bordercolor="#000000"
+     borderopacity="0.25"
+     inkscape:showpageshadow="2"
+     inkscape:pageopacity="0.0"
+     inkscape:pagecheckerboard="0"
+     inkscape:deskcolor="#d1d1d1"
+     inkscape:document-units="px"
+     inkscape:zoom="45.254834"
+     inkscape:cx="10.131514"
+     inkscape:cy="8.639961"
+     inkscape:window-width="1920"
+     inkscape:window-height="1116"
+     inkscape:window-x="0"
+     inkscape:window-y="0"
+     inkscape:window-maximized="1"
+     inkscape:current-layer="layer1"
+     showguides="false" />
+  <defs
+     id="defs1" />
+  <g
+     inkscape:label="Layer 1"
+     inkscape:groupmode="layer"
+     id="layer1">
+    <path
+       id="path9"
+       style="baseline-shift:baseline;display:inline;overflow:visible;vector-effect:none;fill:#153aff;fill-opacity:1;stroke-width:1;stroke-linecap:round;paint-order:markers stroke fill;enable-background:accumulate;stop-color:#000000"
+       d="M 0.13155803,2.0067467e-6 V 0.31221806 0.6245311 h 0.3118274 0.64696307 2.2731064 c 0.067743,0 0.113816,0.04519 0.113816,0.11546702 V 1.812506 c 0,0.070272 -0.046075,0.1159522 -0.113816,0.1159522 H 1.365078 l 1.3665643,1.372585 0.8363319,0.8400211 a 0.31225817,0.31225822 0 0 0 0.4419571,0.00126 0.31225817,0.31225822 0 0 0 7.517e-4,-0.4415695 L 3.1743529,2.860345 2.8681576,2.5528876 h 0.4951752 c 0.4044099,0 0.7384424,-0.3364104 0.7384424,-0.740384 V 0.73999612 C 4.1017752,0.33602206 3.7677427,0 3.3633328,0 H 1.0903241 0.44375003 Z" />
+  </g>
+</svg>

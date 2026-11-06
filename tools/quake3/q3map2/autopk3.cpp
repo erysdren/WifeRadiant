@@ -332,7 +332,7 @@ int pk3BSPMain( Args& args ){
 		parseBspFile( bsp.c_str(), pk3Shaders, pk3Sounds, dbg );
 	}
 
-	pk3Shaderfiles = vfsListShaderFiles( g_game->shaderPath, g_game->shaderExt );
+	pk3Shaderfiles = vfsListShaderFiles( g_game->shaderPath.c_str(), g_game->shaderExt.c_str() );
 
 	if( dbg ){
 		Sys_Printf( "\n\tSchroider fileses.....%zu\n", pk3Shaderfiles.size() );
@@ -748,7 +748,7 @@ int repackBSPMain( Args& args ){
 
 
 
-	pk3Shaderfiles = vfsListShaderFiles( g_game->shaderPath, g_game->shaderExt );
+	pk3Shaderfiles = vfsListShaderFiles( g_game->shaderPath.c_str(), g_game->shaderExt.c_str() );
 
 	if( dbg ){
 		Sys_Printf( "\n\tSchroider fileses.....%zu\n", pk3Shaderfiles.size() );

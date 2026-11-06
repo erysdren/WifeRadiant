@@ -37,6 +37,7 @@ option(RADIANT_BUILD_TOOLS "Build editor tools" ON)
 cmake_dependent_option(RADIANT_BUILD_MBSPC "Build mbspc" ON RADIANT_BUILD_TOOLS OFF)
 cmake_dependent_option(RADIANT_BUILD_WRMAP "Build wrmap" ON "RADIANT_BUILD_TOOLS;RADIANT_USE_ASSIMP" OFF)
 cmake_dependent_option(WRMAP_WITH_ERICWTOOLS "Embed the ericw-tools frontend into wrmap" OFF RADIANT_BUILD_WRMAP OFF) # note: doesn't work yet
+cmake_dependent_option(RADIANT_BUILD_WRGAMEPACK "Build wrgamepack" ON RADIANT_BUILD_TOOLS OFF)
 
 # install prefix
 
@@ -51,6 +52,9 @@ set(RADIANT_VERSION_MAJOR ${PROJECT_VERSION_MAJOR} CACHE BOOL "" FORCE)
 set(RADIANT_VERSION_MINOR ${PROJECT_VERSION_MINOR} CACHE BOOL "" FORCE)
 set(RADIANT_VERSION_PATCH ${PROJECT_VERSION_PATCH} CACHE BOOL "" FORCE)
 set(RADIANT_ABOUTMSG "fix your hearts or die" CACHE BOOL "" FORCE)
+set(RADIANT_XMLNS_BASE "https://wiferadiant.org/xml")
+set(RADIANT_XMLNS_RADIANT "${RADIANT_XMLNS_BASE}/radiant")
+set(RADIANT_XMLNS_GAME "${RADIANT_XMLNS_BASE}/game")
 set(Q3MAP_VERSION_MAJOR 2 CACHE BOOL "" FORCE)
 set(Q3MAP_VERSION_MINOR 5 CACHE BOOL "" FORCE)
 set(Q3MAP_VERSION_PATCH 17 CACHE BOOL "" FORCE)
@@ -189,6 +193,17 @@ radiant_add_library(l_net
 	INCLUDE_DIRECTORIES
 		${PROJECT_SOURCE_DIR}/libs/l_net
 		${PROJECT_SOURCE_DIR}/libs
+)
+
+# gamepacklib
+
+radiant_add_library(gamepacklib
+	SOURCES
+		${PROJECT_SOURCE_DIR}/libs/gamepacklib/gamepacklib.cpp
+	INCLUDE_DIRECTORIES
+		${PROJECT_SOURCE_DIR}/libs/gamepacklib
+	DEPENDENCIES
+		pugixml::pugixml
 )
 
 # xmllib
@@ -439,6 +454,7 @@ target_link_libraries(radiant
 		wiferadiant-library-l_net
 		wiferadiant-library-xmllib
 		wiferadiant-library-quickhull
+		wiferadiant-library-gamepacklib
 		sourcepp::toolpp
 		sourcepp::steampp
 		$<$<BOOL:${WIN32}>:ws2_32>
