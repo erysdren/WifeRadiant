@@ -1006,7 +1006,7 @@ static void ParseRawBrush( bool onlyLights ){
 
 		/* read shader name */
 		GetToken( false );
-		const String64 shader( "textures/", token );
+		const String64 shader( g_materialPrefix, token );
 
 		/* set default flags and values */
 		shaderInfo_t& si = onlyLights? *shaderInfo.begin()
@@ -1477,7 +1477,7 @@ EntityCompileParams ParseEntityCompileParams( const entity_t& e, const entity_t 
 	/* ydnar: get cel shader :) for this entity */
 	if( const char *value; e.read_keyvalue( value, "_celshader" ) ||
 	           entities[ 0 ].read_keyvalue( value, "_celshader" ) ){
-		params.celShader = &ShaderInfoForShader( String64( "textures/", value ) );
+		params.celShader = &ShaderInfoForShader( String64( g_materialPrefix, value ) );
 		Sys_Printf( "Entity %d (%s) has cel shader %s\n", e.mapEntityNum, classname, params.celShader->shader.c_str() );
 	}
 	else{

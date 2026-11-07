@@ -205,7 +205,7 @@ void ParsePatch( bool onlyLights, entity_t& mapEnt, int mapPrimitiveNum, bool fi
 
 	/* get shader name */
 	GetToken( true );
-	const String64 shader( "textures/", token );
+	const String64 shader( g_materialPrefix, token );
 
 	if (fixedTess) {
 		Parse1DMatrix( 7, info );

@@ -49,7 +49,7 @@ static void autocaulk_write(){
 	ApplySurfaceParm( "lava", &flava, nullptr, nullptr );
 	// many setups have nodraw shader nonsolid, including vQ3; and nondrawnonsolid also... fall back to caulk in such case
 	// it would be better to decide in Radiant, as it has configurable per game common shaders, but it has no solidity info
-	const bool nodraw_is_solid = ShaderInfoForShader( "textures/common/nodraw" ).compileFlags & C_SOLID;
+	const bool nodraw_is_solid = ShaderInfoForShader( String64( g_materialPrefix, "common/nodraw" ) ).compileFlags & C_SOLID;
 
 	for ( const brush_t& b : entities[0].brushes ) {
 		fprintf( file, "%i ", b.brushNum );
@@ -390,7 +390,7 @@ static void ProcessWorldModel( entity_t& e ){
 
 	/* ydnar: fog hull */
 	if ( e.read_keyvalue( value, "_foghull" ) ) {
-		MakeFogHullSurfs( String64( "textures/", value ) );
+		MakeFogHullSurfs( String64( g_materialPrefix, value ) );
 	}
 
 	/* ydnar: bug 645: do flares for lights */
@@ -763,7 +763,7 @@ int BSPMain( Args& args ){
 			flat = true;
 		}
 		while ( args.takeArg( "-celshader" ) ) {
-			globalCelShader( "textures/", args.takeNext() );
+			globalCelShader( g_materialPrefix, args.takeNext() );
 			Sys_Printf( "Global cel shader set to \"%s\"\n", globalCelShader.c_str() );
 		}
 		while ( args.takeArg( "-meta" ) ) {

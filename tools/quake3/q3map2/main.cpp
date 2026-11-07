@@ -114,6 +114,11 @@ int main( int argc, char **argv ){
 			brushSubdivisions = std::max( atof( args.takeNext() ), 1.0 );
 		}
 
+		/* material prefix */
+		while ( args.takeArg( "-materialPrefix" ) ) {
+			g_materialPrefix = args.takeNext();
+		}
+
 		/* threads */
 		while ( args.takeArg( "-threads" ) ) {
 			numthreads = atoi( args.takeNext() );
@@ -158,6 +163,10 @@ int main( int argc, char **argv ){
 
 	if ( !brushSubdivisions ) {
 		brushSubdivisions = g_game->brushSubdivisions;
+	}
+
+	if (g_materialPrefix.empty()) {
+		g_materialPrefix = "textures/";
 	}
 
 	/* check if we have enough options left to attempt something */

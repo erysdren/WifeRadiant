@@ -179,7 +179,7 @@ public:
 				;
 			}
 		}
-		//if( !striEqualPrefix( buildSide.shaderInfo->shader, "textures/common/" ) )
+		//if( !striEqualPrefix( buildSide.shaderInfo->shader, String64( g_materialPrefix, "common/" ) ) )
 		//	fprintf( stderr, "brushside with %s: %d matches (%f area)\n", buildSide.shaderInfo->shader, matches, bestarea );
 		return bestVert;
 	}
@@ -338,8 +338,8 @@ static void ConvertBrushFast( FILE *f, int bspBrushNum, const Vector3& origin, E
 		}
 
 		/* get texture name */
-		const char *texture = striEqualPrefix( buildSide.shaderInfo->shader, "textures/" )
-		                      ? buildSide.shaderInfo->shader + 9
+		const char *texture = striEqualPrefix( buildSide.shaderInfo->shader, g_materialPrefix )
+		                      ? buildSide.shaderInfo->shader + strlen(g_materialPrefix)
 		                      : buildSide.shaderInfo->shader;
 
 		Vector3 pts[ 3 ];
@@ -447,8 +447,8 @@ static void ConvertBrush( FILE *f, int bspBrushNum, const Vector3& origin, EBrus
 		const TriRef vert = modelTriangles.GetBestSurfaceTriangleMatchForBrushside( buildSide );
 
 		/* get texture name */
-		const char *texture = striEqualPrefix( buildSide.shaderInfo->shader, "textures/" )
-		                      ? buildSide.shaderInfo->shader + 9
+		const char *texture = striEqualPrefix( buildSide.shaderInfo->shader, g_materialPrefix )
+		                      ? buildSide.shaderInfo->shader + strlen(g_materialPrefix)
 		                      : buildSide.shaderInfo->shader;
 
 		Vector3 pts[ 3 ];
@@ -704,8 +704,8 @@ static void ConvertBrush( FILE *f, int bspBrushNum, const Vector3& origin, EBrus
 		else
 		{
 			if ( g_decompile_wtf
-			  && !striEqualPrefix( buildSide.shaderInfo->shader, "textures/common/" )
-			  && !striEqualPrefix( buildSide.shaderInfo->shader, "textures/system/" )
+			  && !striEqualPrefix( buildSide.shaderInfo->shader, String64( g_materialPrefix, "common/" ) )
+			  && !striEqualPrefix( buildSide.shaderInfo->shader, String64( g_materialPrefix, "system/" ) )
 			  &&        !strEqual( buildSide.shaderInfo->shader, "noshader" )
 			  &&        !strEqual( buildSide.shaderInfo->shader, "default" ) ) {
 				//fprintf( stderr, "no matching triangle for brushside using %s (hopefully nobody can see this side anyway)\n", buildSide.shaderInfo->shader );
@@ -765,8 +765,8 @@ for ( i = 0; i < brush->numSides; ++i )
 	}
 
 	/* get texture name */
-	if ( striEqualPrefix( shader->shader, "textures/" ) ) {
-		texture = shader->shader + 9;
+	if ( striEqualPrefix( shader->shader, g_materialPrefix ) ) {
+		texture = shader->shader + strlen(g_materialPrefix);
 	}
 	else{
 		texture = shader->shader;
@@ -838,8 +838,8 @@ static void ConvertPatch( FILE *f, int num, const bspDrawSurface_t& ds, const Ve
 	/* get texture name */
 	const char      *texture;
 	if ( const bspShader_t& shader = bspShaders[ ds.shaderNum ];
-		striEqualPrefix( shader.shader, "textures/" ) ) {
-		texture = shader.shader + 9;
+		striEqualPrefix( shader.shader, g_materialPrefix ) ) {
+		texture = shader.shader + strlen(g_materialPrefix);
 	}
 	else{
 		texture = shader.shader;

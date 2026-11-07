@@ -208,7 +208,7 @@ int AnalyzeBSP( Args& args ){
 			if ( lumpString[ 0 ] == '{' && lumpString[ 2 ] == '"' ) {
 				Sys_Printf( "Type guess:    IBSP LUMP_ENTITIES\n" );
 			}
-			else if ( strstr( lumpString, "textures/" ) ) {
+			else if ( strstr( lumpString, g_materialPrefix.c_str() ) ) {
 				Sys_Printf( "Type guess:    IBSP LUMP_SHADERS\n" );
 			}
 			else

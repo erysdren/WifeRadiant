@@ -1956,6 +1956,7 @@ inline bool g_decompile_wtf;
 inline bool force;
 inline int patchSubdivisions = 8;                       /* ydnar: -patchmeta subdivisions */
 inline float brushSubdivisions = 0.0f;                  /* erysdren: -tessSize subdivisions */
+inline String64 g_materialPrefix;
 
 /* commandline arguments */
 inline bool verboseEntities;
