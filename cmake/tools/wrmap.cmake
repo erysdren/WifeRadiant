@@ -28,6 +28,7 @@ radiant_add_tool(wrmap
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bspfile_ibsp.cpp
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bspfile_rbsp.cpp
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bsp.cpp
+		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/bspx.cpp
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_ase.cpp
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_bsp.cpp
 		${PROJECT_SOURCE_DIR}/tools/quake3/q3map2/convert_json.cpp

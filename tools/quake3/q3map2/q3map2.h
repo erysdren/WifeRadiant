@@ -404,6 +404,51 @@ struct bspAdvertisement_t
 	char model[ MAX_QPATH ];
 };
 
+/* -------------------------------------------------------------------------------
+
+   bspx types
+
+   ------------------------------------------------------------------------------- */
+
+struct bspx_t {
+	struct lump {
+		std::string name;
+		std::vector<std::byte> data;
+	};
+	std::vector<lump> lumps;
+
+	lump& operator[](size_t i) { return lumps[i]; }
+	const lump& operator[](size_t i) const { return lumps[i]; }
+
+	using iterator = std::vector<lump>::iterator;
+	using const_iterator = std::vector<lump>::const_iterator;
+
+	iterator begin() { return lumps.begin(); }
+	iterator end() { return lumps.end(); }
+
+	const_iterator cbegin() { return lumps.cbegin(); }
+	const_iterator cend() { return lumps.cend(); }
+
+	iterator erase(const_iterator position) { return lumps.erase(position); }
+	iterator erase(const_iterator first, const_iterator last) { return lumps.erase(first, last); }
+
+	void push_back(const lump& lump) { lumps.push_back(lump); }
+	void clear() { lumps.clear(); }
+	size_t size() const { return lumps.size(); }
+	bool empty() const { return lumps.empty(); }
+};
+
+typedef struct bspxLump_s {
+	char name[24]; // up to 23 chars, zero-padded
+	uint32_t offset; // from file start
+	uint32_t size;
+} bspxLump_t;
+
+typedef struct bspxHeader_s {
+	char id[4]; // 'BSPX'
+	uint32_t numLumps;
+	bspxLump_t lumps[];
+} bspxHeader_t;
 
 /* -------------------------------------------------------------------------------
 
@@ -2306,6 +2351,8 @@ inline Vector3 gridSize = { 64, 64, 128 };
    abstracted bsp globals
 
    ------------------------------------------------------------------------------- */
+
+inline bspx_t g_bspx{};
 
 inline std::size_t numBSPEntities;
 inline std::vector<entity_t> entities;
