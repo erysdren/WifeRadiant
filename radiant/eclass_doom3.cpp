@@ -497,6 +497,24 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseToken( tokeniser ) );
 		}
 		// end quake4-specific keys
+		// begin fteqw-specific keys
+		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_input" ) ) {
+			EntityClassAttribute& attribute = EntityClass_insertInput( entityClass, last ).second;
+			attribute.m_displayName = attribute.m_name = last;
+			attribute.m_type = "input";
+			currentDescription = &attribute.m_description;
+			currentString = &description;
+			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
+		}
+		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_output" ) ) {
+			EntityClassAttribute& attribute = EntityClass_insertOutput( entityClass, last ).second;
+			attribute.m_displayName = attribute.m_name = last;
+			attribute.m_type = "output";
+			currentDescription = &attribute.m_description;
+			currentString = &description;
+			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
+		}
+		// end fteqw-specific keys
 		// begin ignore prey (unknown/unused?) entity keys
 		else if ( string_equal( key, "editor_light" )
 		       || string_equal( key, "editor_def def_debrisspawner" )
