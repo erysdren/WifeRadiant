@@ -47,6 +47,7 @@ const void *BSPX_FindLump(const char *name, size_t *size)
 			return (const void *)lump.data.data();
 		}
 	}
+
 	return NULL;
 }
 
@@ -56,23 +57,25 @@ void BSPX_Setup(void *filebase, size_t size, bspLump_t *lumps, size_t stdLumps)
 	size_t offs = 0;
 	bspxHeader_t *h;
 
-	for (i = 0; i < stdLumps; i++, lumps++)
-	{
+	for (i = 0; i < stdLumps; i++, lumps++) {
 		if (offs < (uint32_t)lumps->offset + (uint32_t)lumps->length)
 			offs = (uint32_t)lumps->offset + (uint32_t)lumps->length;
 	}
+
 	offs = (offs + 3) & ~3;
 	if (offs + sizeof(bspxHeader_t) > size)
 		return; // no space for it
+
 	h = (bspxHeader_t*)((char*)filebase + offs);
 
 	i = LittleLong(h->numLumps);
+
 	// verify the header
 	if (strncmp(h->id, "BSPX", 4) != 0 || offs + sizeof(bspxHeader_t) + sizeof(bspxLump_t) * (i - 1) > size)
 		return;
+
 	h->numLumps = i;
-	while(i-->0)
-	{
+	while (i-->0) {
 		h->lumps[i].offset = LittleLong(h->lumps[i].offset);
 		h->lumps[i].size = LittleLong(h->lumps[i].size);
 		if (h->lumps[i].offset + h->lumps[i].size > size)
@@ -83,10 +86,15 @@ void BSPX_Setup(void *filebase, size_t size, bspLump_t *lumps, size_t stdLumps)
 
 	for (i = 0; i < h->numLumps; i++) {
 		bspx_t::lump lump{};
+		uint32_t ofs = h->lumps[i].offset;
+		uint32_t sz = (h->lumps[i].size + 3) & ~3u;
 		lump.name = h->lumps[i].name;
-		lump.data = { reinterpret_cast<std::byte*>(filebase) + h->lumps[i].offset, reinterpret_cast<std::byte*>(filebase) + h->lumps[i].offset + h->lumps[i].size };
+		lump.data = { reinterpret_cast<std::byte*>(filebase) + ofs, reinterpret_cast<std::byte*>(filebase) + ofs + sz };
 		g_bspx.push_back(lump);
+		Sys_Printf( "Loaded BSPX lump '%.24s' (offset=%d size=%d)\n", h->lumps[i].name, ofs, sz );
 	}
+
+	Sys_Printf( "Loaded %d BSPX lumps\n", h->numLumps );
 }
 
 void BSPX_CopyOut(const char *lumpname, void *lumpdata, size_t lumpsize)
@@ -147,6 +155,10 @@ void BSPX_WriteLumps(FILE *file, bspLump_t *lumps, size_t stdlumps)
 	}
 
 	// now write the lumps. hopefully we got the offsets right!...
-	for (l = 0; l < g_bspx.size(); l++)
-		SafeWrite(file, g_bspx[l].data.data(), (g_bspx[l].data.size() + 3) & ~3u);
+	for (l = 0; l < g_bspx.size(); l++) {
+		uint32_t ofs = ftell(file);
+		uint32_t sz = (g_bspx[l].data.size() + 3) & ~3u;
+		SafeWrite(file, g_bspx[l].data.data(), sz);
+		Sys_Printf( "Wrote BSPX lump '%s' (offset=%d size=%d)\n", g_bspx[l].name.c_str(), ofs, sz );
+	}
 }

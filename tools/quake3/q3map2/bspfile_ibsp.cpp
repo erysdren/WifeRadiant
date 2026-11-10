@@ -256,6 +256,8 @@ void LoadIBSPFile( const char *filename ){
 	else{
 		bspAds.clear();
 	}
+
+	BSPX_Setup(file.data(), file.size(), header->lumps, HEADER_LUMPS);
 }
 
 /*
@@ -338,6 +340,8 @@ void WriteIBSPFile( const char *filename ){
 
 	/* advertisements */
 	AddLump( file, header.lumps[LUMP_ADVERTISEMENTS], bspAds );
+
+	BSPX_WriteLumps( file, header.lumps, HEADER_LUMPS);
 
 	/* emit bsp size */
 	const int size = ftell( file );

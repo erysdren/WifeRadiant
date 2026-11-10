@@ -214,6 +214,8 @@ void LoadRBSPFile( const char *filename ){
 	CopyLump( (bspHeader_t*) header, LUMP_LIGHTMAPS, bspLightBytes );
 	CopyLump( (bspHeader_t*) header, LUMP_ENTITIES, bspEntData );
 	CopyLightGridLumps( header );
+
+	BSPX_Setup(file.data(), file.size(), header->lumps, HEADER_LUMPS);
 }
 
 
@@ -262,6 +264,8 @@ void WriteRBSPFile( const char *filename ){
 	AddLump( file, header.lumps[LUMP_ENTITIES], bspEntData );
 	AddLump( file, header.lumps[LUMP_FOGS], bspFogs );
 	AddLump( file, header.lumps[LUMP_DRAWINDEXES], bspDrawIndexes );
+
+	BSPX_WriteLumps( file, header.lumps, HEADER_LUMPS);
 
 	/* emit bsp size */
 	const int size = ftell( file );

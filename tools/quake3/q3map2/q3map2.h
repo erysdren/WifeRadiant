@@ -406,7 +406,7 @@ struct bspAdvertisement_t
 
 /* -------------------------------------------------------------------------------
 
-   bspx types
+   bspx
 
    ------------------------------------------------------------------------------- */
 
@@ -449,6 +449,11 @@ typedef struct bspxHeader_s {
 	uint32_t numLumps;
 	bspxLump_t lumps[];
 } bspxHeader_t;
+
+const void *BSPX_FindLump(const char *name, size_t *size);
+void BSPX_Setup(void *filebase, size_t size, bspLump_t *lumps, size_t stdLumps);
+void BSPX_CopyOut(const char *lumpname, void *lumpdata, size_t lumpsize);
+void BSPX_WriteLumps(FILE *file, bspLump_t *lumps, size_t stdlumps);
 
 /* -------------------------------------------------------------------------------
 
