@@ -470,7 +470,8 @@ void UnparseEntities(){
 		const char *classname = e.classname();
 		if ( ( striEqual( classname, "misc_model" ) && !keepModels ) ||
 		     striEqual( classname, "_decal" ) ||
-		     striEqual( classname, "_skybox" ) ) {
+		     striEqual( classname, "_skybox" ) ||
+		     striEqual( classname, "_fog" ) ) {
 			continue;
 		}
 

@@ -450,6 +450,20 @@ typedef struct bspxHeader_s {
 	bspxLump_t lumps[];
 } bspxHeader_t;
 
+//
+// new BSPX lumps for wrmap
+//
+
+// name: "FOGPARMS"
+// fogparms lumps are created from brush entiites with the classname _fog
+// _fog entities have the keyvalues _color and _distance
+// fogparms lumps are given a shader name with the syntax "(mapname)_fog_(n)"
+typedef struct bspxFogParms_s {
+	uint32_t source; ///< index of the source fog lump to replace
+	uint8_t color[4]; ///< RGBA color
+	float distance; ///< distance to full opaque in game units
+} bspxFogParms_t;
+
 const void *BSPX_FindLump(const char *name, size_t *size);
 void BSPX_Setup(void *filebase, size_t size, bspLump_t *lumps, size_t stdLumps);
 void BSPX_CopyOut(const char *lumpname, void *lumpdata, size_t lumpsize);
