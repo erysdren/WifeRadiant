@@ -77,6 +77,7 @@ radiant_add_tool(wrmap
 		wiferadiant-library-crnlib
 		wiferadiant-library-webplib
 		wiferadiant-library-stb
+		wiferadiant-library-gamepacklib
 		pugixml::pugixml
 		sourcepp::vtfpp
 		assimp

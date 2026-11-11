@@ -47,6 +47,7 @@
 // network broadcasting
 #include "l_net/l_net.h"
 #include "pugixml.hpp"
+#include "gamepacklib.hpp"
 
 static socket_t *brdcst_socket;
 
@@ -400,6 +401,8 @@ void Sys_Warning( const char *format, ... ){
 void Error( const char *error, ... ){
 	char tmp[4096];
 	va_list argptr;
+
+	GamepackLib_Quit();
 
 	va_start( argptr, error );
 	vsnprintf( tmp, sizeof(tmp), error, argptr );

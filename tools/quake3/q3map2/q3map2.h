@@ -1593,6 +1593,7 @@ void                        HelpGames();
 /* path_init.c */
 const game_t                *GetGame( const char *arg );
 void                        InitPaths( Args& args );
+void                        InitGames();
 
 
 /* bsp.c */
