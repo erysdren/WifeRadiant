@@ -37,6 +37,7 @@
 #include "stream/stringstream.h"
 #include "moduleobservers.h"
 #include "stringio.h"
+#include "preferences.h"
 
 class RawString
 {
@@ -595,7 +596,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 
 	entityClass.m_comments = usage;
 
-	if ( string_equal( entityClass.name(), "light" ) ) {
+	if ( string_equal( entityClass.name(), "light" ) && g_pGameDescription->mGameType == "doom3" ) {
 		{
 			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, "light_radius" ).second;
 			attribute.m_type = "vector3";
