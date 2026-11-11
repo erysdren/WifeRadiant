@@ -412,10 +412,10 @@ private:
 	std::size_t m_width;
 	std::size_t m_height;
 public:
-	bool m_patchDef3;
-	std::size_t m_subdivisions_x;
-	std::size_t m_subdivisions_y;
-	bool m_hasColors; // patchDef3WS
+	bool m_patchDef3 = false;
+	std::size_t m_subdivisions_x = 4;
+	std::size_t m_subdivisions_y = 4;
+	bool m_hasColors = false; // patchDef3WS
 private:
 
 	UndoObserver* m_undoable_observer;
