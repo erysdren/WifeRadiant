@@ -360,6 +360,26 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			entityClass.fixedsize = true;
 			entityClass.m_modelpath = StringStream<64>( PathCleaned( token ) );
 		}
+		else if ( string_equal( key, "angle" ) || string_equal( key, "direction" ) ) {
+			entityClass.has_angles = true;
+			entityClass.has_direction_key = true;
+			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, key ).second;
+			attribute.m_displayName = attribute.m_name = key;
+			attribute.m_type = "angle";
+			const char* value;
+			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, value ) );
+			attribute.m_value = value;
+		}
+		else if ( string_equal( key, "angles" ) ) {
+			entityClass.has_angles = true;
+			entityClass.has_angles_key = true;
+			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, key ).second;
+			attribute.m_displayName = attribute.m_name = key;
+			attribute.m_type = key;
+			const char* value;
+			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, value ) );
+			attribute.m_value = value;
+		}
 		else if ( string_equal( key, "editor_color" ) ) {
 			const char* value;
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, value ) );
