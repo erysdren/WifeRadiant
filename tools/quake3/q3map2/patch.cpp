@@ -221,11 +221,6 @@ void ParsePatch( bool onlyLights, entity_t& mapEnt, int mapPrimitiveNum, bool fi
 		subdiv_y = -1;
 	}
 
-	if (subdiv_x == 0)
-		subdiv_x = -1;
-	if (subdiv_y == 0)
-		subdiv_y = -1;
-
 	mesh_t m( info[0], info[1], subdiv_x, subdiv_y );
 	const int numVerts = m.numVerts();
 
