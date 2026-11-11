@@ -5,54 +5,54 @@ build commands
 [EnginePath]: path to the engine .. C:\quake3\ C:\Program Files\Quake III Arena\ /usr/local/games/quake3/
 -->
 <project version="2.0">
-<var name="q3map2">"[RadiantPath]q3map2.[ExecutableType]" -v<cond value="[MonitorAddress]"> -connect [MonitorAddress]</cond> -game quake3 -fs_basepath "[EnginePath]"<cond value="[GameName]"> -fs_game [GameName]</cond></var>
+<var name="wrmap">"[RadiantPath]wrmap.[ExecutableType]" -v<cond value="[MonitorAddress]"> -connect [MonitorAddress]</cond> -game quake3 -fs_basepath "[EnginePath]"<cond value="[GameName]"> -fs_game [GameName]</cond></var>
 <var name="mbspc">"[RadiantPath]mbspc.[ExecutableType]"</var>
 <build name="Single: bsp">
-<command>[q3map2] -meta "[MapFile]"</command>
+<command>[wrmap] -meta "[MapFile]"</command>
 </build>
 <build name="Single: bsp +noOb">
-<command>[q3map2] -meta -noob "[MapFile]"</command>
+<command>[wrmap] -meta -noob "[MapFile]"</command>
 </build>
 <build name="Single: vis">
-<command>[q3map2] -vis -saveprt "[MapFile]"</command>
+<command>[wrmap] -vis -saveprt "[MapFile]"</command>
 </build>
 <build name="Single: light">
-<command>[q3map2] -light -fast "[MapFile]"</command>
+<command>[wrmap] -light -fast "[MapFile]"</command>
 </build>
 <separator />
 <build name="[test] quick and very crude">
-<command>[q3map2] -meta -samplesize 64 "[MapFile]"</command>
-<command>[q3map2] -vis -fast -saveprt "[MapFile]"</command>
-<command>[q3map2] -light -fast -nogrid "[MapFile]"</command>
+<command>[wrmap] -meta -samplesize 64 "[MapFile]"</command>
+<command>[wrmap] -vis -fast -saveprt "[MapFile]"</command>
+<command>[wrmap] -light -fast -nogrid "[MapFile]"</command>
 </build>
 <build name="[test] quick and very crude +noOb">
-<command>[q3map2] -meta -noob -samplesize 64 "[MapFile]"</command>
-<command>[q3map2] -vis -fast -saveprt "[MapFile]"</command>
-<command>[q3map2] -light -fast -nogrid "[MapFile]"</command>
+<command>[wrmap] -meta -noob -samplesize 64 "[MapFile]"</command>
+<command>[wrmap] -vis -fast -saveprt "[MapFile]"</command>
+<command>[wrmap] -light -fast -nogrid "[MapFile]"</command>
 </build>
 <separator />
 <build name="(Final)">
-<command>[q3map2] -meta "[MapFile]"</command>
-<command>[q3map2] -vis "[MapFile]"</command>
-<command>[q3map2] -light -fast -patchshadows -samples 2 -filter -bounce 8 "[MapFile]"</command>
+<command>[wrmap] -meta "[MapFile]"</command>
+<command>[wrmap] -vis "[MapFile]"</command>
+<command>[wrmap] -light -fast -patchshadows -samples 2 -filter -bounce 8 "[MapFile]"</command>
 </build>
 <build name="(Final) +noOb">
-<command>[q3map2] -meta -noob "[MapFile]"</command>
-<command>[q3map2] -vis "[MapFile]"</command>
-<command>[q3map2] -light -fast -patchshadows -samples 2 -filter -bounce 8 "[MapFile]"</command>
+<command>[wrmap] -meta -noob "[MapFile]"</command>
+<command>[wrmap] -vis "[MapFile]"</command>
+<command>[wrmap] -light -fast -patchshadows -samples 2 -filter -bounce 8 "[MapFile]"</command>
 </build>
 <separator />
 <build name="convert to .ASE">
-<command>[q3map2] -meta -patchmeta "[MapFile]"</command>
-<command>[q3map2] -convert -format ase -shadersasbitmap "[BspFile]"</command>
+<command>[wrmap] -meta -patchmeta "[MapFile]"</command>
+<command>[wrmap] -convert -format ase -shadersasbitmap "[BspFile]"</command>
 </build>
 <build name="convert to .OBJ">
-<command>[q3map2] -meta -patchmeta "[MapFile]"</command>
-<command>[q3map2] -convert -format obj -shadersasbitmap "[BspFile]"</command>
+<command>[wrmap] -meta -patchmeta "[MapFile]"</command>
+<command>[wrmap] -convert -format obj -shadersasbitmap "[BspFile]"</command>
 </build>
 <separator />
 <build name="make .pk3">
-<command>[q3map2] -pk3 "[BspFile]"</command>
+<command>[wrmap] -pk3 "[BspFile]"</command>
 </build>
 <build name="make .aas">
 <command>[mbspc] -forcesidesvisible -optimize -bsp2aas &quot;[BspFile]&quot;</command>
