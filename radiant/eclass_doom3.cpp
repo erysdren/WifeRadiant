@@ -696,6 +696,18 @@ void EntityClassDoom3_loadFile( const char* filename ){
 	}
 }
 
+void EntityClassDoom3_loadFile_decls( const char* filename ){
+	globalOutputStream() << "parsing entity classes from " << Quoted( filename ) << '\n';
+
+	const auto fullname = StringStream( "decls/def/", filename );
+
+	ArchiveTextFile* file = GlobalFileSystem().openTextFile( fullname );
+	if ( file != 0 ) {
+		EntityClassDoom3_parse( file->getInputStream(), fullname );
+		file->release();
+	}
+}
+
 EntityClass* EntityClassDoom3_findOrInsert( const char *name, bool has_brushes ){
 	ASSERT_NOTNULL( name );
 
@@ -760,8 +772,11 @@ public:
 	}
 	void realise() override {
 		if ( --m_unrealised == 0 ) {
-			globalOutputStream() << "searching vfs directory " << Quoted( "def" ) << " for *.def\n";
+			globalOutputStream() << "searching vfs directory " << Quoted( "def/" ) << " for *.def\n";
 			GlobalFileSystem().forEachFile( "def/", "def", makeCallbackF( EntityClassDoom3_loadFile ), 99 );
+
+			globalOutputStream() << "searching vfs directory " << Quoted( "decls/def/" ) << " for *.def\n";
+			GlobalFileSystem().forEachFile( "decls/def/", "def", makeCallbackF( EntityClassDoom3_loadFile_decls ), 99 );
 
 			{
 				for ( auto& [ name, model ] : g_models )
