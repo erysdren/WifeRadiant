@@ -217,14 +217,14 @@ class MapQ3Dependencies :
 	public GlobalEntityClassManagerModuleRef,
 	public GlobalSceneGraphModuleRef
 {
-	PatchModuleRef m_patchQuake3Module;
 	PatchModuleRef m_patchDef3Quake3Module;
+	PatchModuleRef m_patchQuake3Module;
 public:
 	MapQ3Dependencies() :
 		GlobalBrushModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "brushtypes" ) ),
 		GlobalEntityClassManagerModuleRef( GlobalRadiant().getRequiredGameDescriptionKeyValue( "entityclass" ) ),
-		m_patchQuake3Module( "quake3" ),
-		m_patchDef3Quake3Module( "def3quake3" ){
+		m_patchDef3Quake3Module( "def3quake3" ),
+		m_patchQuake3Module( "quake3" ){
 	}
 	PatchCreator& getPatchQuake3(){
 		return *m_patchQuake3Module.getTable();
