@@ -123,6 +123,8 @@
 #include "stringio.h"
 #include <map>
 
+#include "entityinspector.h"
+
 #define PARSE_ERROR( elementName, name ) Quoted( elementName ) << " is not a valid child of " << Quoted( name )
 
 class IgnoreBreaks
@@ -211,8 +213,15 @@ public:
 			std::size_t bit = atoi( element.attribute( "bit" ) );
 			ASSERT_MESSAGE( bit < MAX_FLAGS, "invalid flag bit" );
 			ASSERT_MESSAGE( entityClass->flags["spawnflags"].flags[bit].displayName.empty(), "non-unique flag bit" );
-			entityClass->flags["spawnflags"].flags[bit].displayName = key;
+			if ( !string_empty( name ) ) {
+				entityClass->flags["spawnflags"].flags[bit].displayName = name;
+			} else if ( !string_empty( key ) ) {
+				entityClass->flags["spawnflags"].flags[bit].displayName = key;
+			} else {
+				entityClass->flags["spawnflags"].flags[bit].displayName = element.attribute( "bit" );
+			}
 			entityClass->flags["spawnflags"].flags[bit].attribute = m_attribute;
+			g_entityFlagFields["spawnflags"] += 1;
 		}
 		else if( entityClass->fixedsize && string_equal( type, "model" ) ){
 			entityClass->miscmodel_is = true;
@@ -525,6 +534,8 @@ const char* GetExtension(){
 	return "ent";
 }
 void ScanFile( EntityClassCollector& collector, const char *filename ){
+	g_entityFlagFields.clear();
+
 	TextFileInputStream inputFile( filename );
 	if ( !inputFile.failed() ) {
 		globalOutputStream() << "parsing entity classes from " << Quoted( filename ) << '\n';
