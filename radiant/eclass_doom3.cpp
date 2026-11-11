@@ -39,6 +39,8 @@
 #include "stringio.h"
 #include "preferences.h"
 
+#include "entityinspector.h"
+
 class RawString
 {
 	const char* m_value;
@@ -330,12 +332,25 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 		const char* key;
 		PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, key ) );
 
-		const char* last = string_findFirstSpaceOrTab( key );
-		CopiedString first( StringRange( key, last ) );
+		const char* key2 = string_findFirstSpaceOrTab( key );
+		CopiedString first( StringRange( key, key2 ) );
 
-		if ( !string_empty( last ) ) {
-			last = string_findFirstNonSpaceOrTab( last );
+		if ( !string_empty( key2 ) ) {
+			key2 = string_findFirstNonSpaceOrTab( key2 );
 		}
+
+		const char* key3 = string_findFirstSpaceOrTab( key2 );
+
+		char last[256];
+		strncpy( last, key2, key3 - key2 );
+		last[key3 - key2] = '\0';
+
+		if ( !string_empty( key3 ) ) {
+			key3 = string_findFirstNonSpaceOrTab( key3 );
+		}
+
+		char third[256];
+		strncpy(third, key3, sizeof(third) - 1);
 
 		if ( currentString != 0 && string_equal( key, "\\" ) ) {
 			tokeniser.nextLine();
@@ -559,6 +574,22 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			currentString = &description;
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
 		}
+		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_flag" ) ) {
+			const char* flagBit = last;
+			const char* flagField = third;
+			const char* flagName;
+			if ( string_empty( flagField ) ) {
+				flagField = "spawnflags";
+			}
+			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, flagField, EntityClassAttribute( "flag", flagField ) ).second;
+			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, flagName ) );
+			const std::size_t bit = std::log2( atoi( flagBit ) );
+			ASSERT_MESSAGE( bit < MAX_FLAGS, "invalid flag bit" );
+			ASSERT_MESSAGE( entityClass.flags[flagField].flags[bit].displayName.empty(), "non-unique flag bit" );
+			entityClass.flags[flagField].flags[bit].displayName = flagName;
+			entityClass.flags[flagField].flags[bit].attribute = &attribute;
+			g_entityFlagFields[flagField] += 1;
+		}
 		// end fteqw-specific keys
 		// begin ignore prey (unknown/unused?) entity keys
 		else if ( string_equal( key, "editor_light" )
@@ -772,6 +803,7 @@ public:
 	}
 	void realise() override {
 		if ( --m_unrealised == 0 ) {
+			g_entityFlagFields.clear();
 			globalOutputStream() << "searching vfs directory " << Quoted( "def/" ) << " for *.def\n";
 			GlobalFileSystem().forEachFile( "def/", "def", makeCallbackF( EntityClassDoom3_loadFile ), 99 );
 
