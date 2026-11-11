@@ -505,38 +505,38 @@ static bool AddPatchToRawLightmap( int num, rawLightmap_t& lm ){
 	for ( int x = 0; x < ( mesh.width - 1 ); ++x )
 		length += widthTable[ x ];
 	lm.w = lm.sampleSize != 0 ? ceil( length / lm.sampleSize ) + 1 : 0;
-	value_maximize( lm.w, ds.patchWidth );
+	value_maximize( lm.w, patchWidth );
 	value_minimize( lm.w, lm.customWidth );
-	sBasis = (float) ( lm.w - 1 ) / ( ds.patchWidth - 1 );
+	sBasis = (float) ( lm.w - 1 ) / ( patchWidth - 1 );
 
 	/* determine lightmap height */
 	length = 0;
 	for ( int y = 0; y < ( mesh.height - 1 ); ++y )
 		length += heightTable[ y ];
 	lm.h = lm.sampleSize != 0 ? ceil( length / lm.sampleSize ) + 1 : 0;
-	value_maximize( lm.h, ds.patchHeight );
+	value_maximize( lm.h, patchHeight );
 	value_minimize( lm.h, lm.customHeight );
-	tBasis = (float) ( lm.h - 1 ) / ( ds.patchHeight - 1 );
+	tBasis = (float) ( lm.h - 1 ) / ( patchHeight - 1 );
 
 	/* set the lightmap texture coordinates in yDrawVerts */
 	lm.wrap[ 0 ] = true;
 	lm.wrap[ 1 ] = true;
 	bspDrawVert_t *verts = &yDrawVerts[ ds.firstVert ];
-	for ( int y = 0; y < ds.patchHeight; ++y )
+	for ( int y = 0; y < patchHeight; ++y )
 	{
 		const float t = ( tBasis * y ) + 0.5f;
-		for ( int x = 0; x < ds.patchWidth; ++x )
+		for ( int x = 0; x < patchWidth; ++x )
 		{
 			const float s = ( sBasis * x ) + 0.5f;
-			verts[ ( y * ds.patchWidth ) + x ].lightmap[ 0 ][ 0 ] = s * superSample;
-			verts[ ( y * ds.patchWidth ) + x ].lightmap[ 0 ][ 1 ] = t * superSample;
+			verts[ ( y * patchWidth ) + x ].lightmap[ 0 ][ 0 ] = s * superSample;
+			verts[ ( y * patchWidth ) + x ].lightmap[ 0 ][ 1 ] = t * superSample;
 
-			if ( y == 0 && !VectorCompare( verts[ x ].xyz, verts[ ( ( ds.patchHeight - 1 ) * ds.patchWidth ) + x ].xyz ) ) {
+			if ( y == 0 && !VectorCompare( verts[ x ].xyz, verts[ ( ( patchHeight - 1 ) * patchWidth ) + x ].xyz ) ) {
 				lm.wrap[ 1 ] = false;
 			}
 		}
 
-		if ( !VectorCompare( verts[ ( y * ds.patchWidth ) ].xyz, verts[ ( y * ds.patchWidth ) + ( ds.patchWidth - 1 ) ].xyz ) ) {
+		if ( !VectorCompare( verts[ ( y * patchWidth ) ].xyz, verts[ ( y * patchWidth ) + ( patchWidth - 1 ) ].xyz ) ) {
 			lm.wrap[ 0 ] = false;
 		}
 	}
