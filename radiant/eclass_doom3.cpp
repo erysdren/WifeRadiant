@@ -380,6 +380,14 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, value ) );
 			attribute.m_value = value;
 		}
+		else if ( string_equal( key, "modelscale_vec" ) ) {
+			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, key ).second;
+			attribute.m_displayName = attribute.m_name = key;
+			attribute.m_type = "vector3";
+			const char* value;
+			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, value ) );
+			attribute.m_value = value;
+		}
 		else if ( string_equal( key, "editor_color" ) ) {
 			const char* value;
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, value ) );
@@ -530,6 +538,14 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			EntityClassAttribute& attribute = EntityClass_insertOutput( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "output";
+			currentDescription = &attribute.m_description;
+			currentString = &description;
+			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
+		}
+		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_vector3" ) ) {
+			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			attribute.m_displayName = attribute.m_name = last;
+			attribute.m_type = "vector3";
 			currentDescription = &attribute.m_description;
 			currentString = &description;
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
