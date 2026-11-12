@@ -988,6 +988,16 @@ void SpawnFlags_setEntityClass( EntityClass* eclass ){
 
 	g_current_flags = eclass;
 
+	if ( !eclass->flags.size() ) {
+		for ( const auto& [key, value] : g_entityFlags ) {
+			for ( int i = 0; i < MAX_FLAGS; i++ ) {
+				value.checkBoxes[i]->hide();
+			}
+			value.groupBox->hide();
+		}
+		return;
+	}
+
 	// count up and display flag fields
 	for ( const auto& [key, value] : eclass->flags ) {
 		if ( !value.displayName.empty() ) {
@@ -1015,6 +1025,15 @@ void SpawnFlags_setEntityClass( EntityClass* eclass ){
 			g_entityFlags[key].active = true;
 		} else {
 			g_entityFlags[key].active = false;
+		}
+	}
+
+	for ( const auto& [key, value] : g_entityFlags ) {
+		for ( int i = value.numFlags; i < MAX_FLAGS; i++ ) {
+			value.checkBoxes[i]->hide();
+		}
+		if ( !value.numFlags ) {
+			value.groupBox->hide();
 		}
 	}
 }
@@ -1161,12 +1180,6 @@ public:
 void EntityInspector_updateKeyValues(){
 	g_selectedKeyValues.clear();
 	g_selectedDefaultKeyValues.clear();
-	for ( const auto& [key, value] : g_entityFlags ) {
-		for ( int i = 0; i < MAX_FLAGS; i++ ) {
-			value.checkBoxes[i]->hide();
-		}
-		value.groupBox->hide();
-	}
 	Entity_GetKeyValues_Selected( g_selectedKeyValues, g_selectedDefaultKeyValues );
 
 	EntityInspector_setEntityClass( GlobalEntityClassManager().findOrInsert( keyvalues_valueforkey( g_selectedKeyValues, "classname" ), false ) );
@@ -1570,8 +1583,7 @@ QWidget* EntityInspector_constructWindow( QWidget* toplevel ){
 			vbox->addWidget( frame );
 			auto* grid = new QGridLayout( frame );
 			grid->setAlignment( Qt::AlignmentFlag::AlignLeft );
-			for ( int i = 0; i < MAX_FLAGS; i++ )
-			{
+			for ( int i = 0; i < MAX_FLAGS; i++ ) {
 				auto* check = g_entityFlags[key].checkBoxes[i] = new QCheckBox;
 				grid->addWidget( check, i, 0 );
 				check->hide();
