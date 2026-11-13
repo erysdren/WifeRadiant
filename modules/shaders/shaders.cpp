@@ -1876,12 +1876,12 @@ void Shaders_Load(){
 			}
 			else{
 				globalOutputStream() << "No shaderlist.txt found: loading all shaders\n";
-				GlobalFileSystem().forEachFile( path, g_shadersExtension, makeCallbackF( ShaderList_addShaderFile ), 1 );
+				GlobalFileSystem().forEachFile( path, g_shadersExtension, makeCallbackF( ShaderList_addShaderFile ), 99 );
 			}
 		}
 		else
 		{
-			GlobalFileSystem().forEachFile( path, g_shadersExtension, makeCallbackF( ShaderList_addShaderFile ), 0 );
+			GlobalFileSystem().forEachFile( path, g_shadersExtension, makeCallbackF( ShaderList_addShaderFile ), 99 );
 		}
 
 		StringOutputStream shadername( 256 );
