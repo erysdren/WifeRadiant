@@ -79,6 +79,16 @@ typedef std::pair<CopiedString, EntityClassAttribute> EntityClassAttributePair;
 typedef std::list<EntityClassAttributePair> EntityClassAttributes;
 typedef std::list<CopiedString> StringList;
 
+// Tries displayName first and falls back to name or key
+inline const char* EntityClassAttributePair_getDisplayName( const EntityClassAttributePair& attributePair ){
+	if ( !attributePair.second.m_displayName.empty() ) {
+		return attributePair.second.m_name.c_str();
+	} else if ( !attributePair.second.m_name.empty() ) {
+		return attributePair.second.m_name.c_str();
+	}
+	return attributePair.first.c_str();
+}
+
 inline const char* EntityClassAttributePair_getName( const EntityClassAttributePair& attributePair ){
 	if ( !attributePair.second.m_name.empty() ) {
 		return attributePair.second.m_name.c_str();
