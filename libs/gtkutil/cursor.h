@@ -177,12 +177,13 @@ protected:
 		if( event->type() == QEvent::MouseMove ) {
 			auto *mouseEvent = static_cast<QMouseEvent *>( event );
 			const QPoint center = getCenter();
+			const QPointF mouseEventPos = mouseEvent->globalPosition();
 			/* QCursor::setPos( center ) effect may happen not immediately; suspend processing till then, otherwise start dash will happen */
 			if( !m_trackingEstablished ){
-				m_trackingEstablished = mouseEvent->globalPosition() == center;
+				m_trackingEstablished = mouseEventPos.toPoint() == center;
 				QCursor::setPos( center );
 			}
-			else if( mouseEvent->globalPosition() != center ){
+			else if( mouseEventPos.toPoint() != center ){
 				const QPointF delta = mouseEvent->globalPosition() - center;
 				m_motion_delta_function( delta.x(), delta.y(), mouseEvent );
 				QCursor::setPos( center );
