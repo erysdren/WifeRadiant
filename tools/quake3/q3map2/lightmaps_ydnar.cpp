@@ -2954,7 +2954,7 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 
 				/* copy direction data */
 				if ( deluxemap ) {
-					lb = bspDirBytes.data() + ( olm->lightmapNum * gameLmSize );
+					lb = bspLightBytes.data() + ( ( olm->lightmapNum + 1) * gameLmSize );
 					memcpy( lb, olm->bspDirBytes, gameLmSize );
 				}
 			}
