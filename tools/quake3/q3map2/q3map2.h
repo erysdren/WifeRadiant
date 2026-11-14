@@ -2398,6 +2398,8 @@ inline std::vector<bspBrushSide_t> bspBrushSides;
 
 inline std::vector<byte> bspLightBytes;
 
+inline std::vector<byte> bspDirBytes;
+
 inline std::vector<bspGridPoint_t> bspGridPoints;
 
 inline std::vector<byte> bspVisBytes; // MAX_MAP_VISIBILITY

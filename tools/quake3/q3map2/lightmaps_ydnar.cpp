@@ -2925,6 +2925,7 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 		else
 		{
 			bspLightBytes = decltype( bspLightBytes )( numBSPLightmaps * gameLmSize, 0 );
+			bspDirBytes = decltype( bspDirBytes )( numBSPLightmaps * gameLmSize, 0 );
 		}
 
 		/* walk the list of output lightmaps */
@@ -2953,7 +2954,7 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 
 				/* copy direction data */
 				if ( deluxemap ) {
-					lb = bspLightBytes.data() + ( ( olm->lightmapNum + 1 ) * gameLmSize );
+					lb = bspDirBytes.data() + ( olm->lightmapNum * gameLmSize );
 					memcpy( lb, olm->bspDirBytes, gameLmSize );
 				}
 			}
@@ -3001,6 +3002,11 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 
 			/* delete it */
 			remove( filename );
+		}
+
+		/* write deluxemaps */
+		if ( deluxemap ) {
+			BSPX_CopyOut("LIGHTINGDIR", bspDirBytes.data(), bspDirBytes.size());
 		}
 
 		Sys_Printf( "%d.", int( timer.elapsed_sec() ) );
