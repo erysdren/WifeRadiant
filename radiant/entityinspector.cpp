@@ -1049,7 +1049,7 @@ void EntityClassList_selectEntityClass( EntityClass* eclass ){
 }
 
 void EntityInspector_appendAttribute( const EntityClassAttributePair& attributePair, EntityAttribute& attribute ){
-	const char* keyname = attributePair.second.m_displayName.c_str(); //EntityClassAttributePair_getName( attributePair );
+	const char* keyname = EntityClassAttributePair_getDisplayName( attributePair );
 	auto *label = new QLabel( keyname );
 	EntityAttribute_setTooltip( label, attributePair.second.m_name.c_str(), attributePair.second.m_description.c_str() );
 	DialogGrid_packRow( g_attributeBox, attribute.getWidget(), label );
