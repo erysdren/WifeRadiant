@@ -62,6 +62,7 @@
 
 #include "winding.h"
 #include "brush_primit.h"
+#include "disp.h"
 
 const unsigned int BRUSH_DETAIL_FLAG = 27;
 const unsigned int BRUSH_DETAIL_MASK = ( 1 << BRUSH_DETAIL_FLAG );
@@ -901,6 +902,7 @@ class Face final :
 		FacePlane::SavedState m_planeState;
 		FaceTexdef::SavedState m_texdefState;
 		FaceShader::SavedState m_shaderState;
+		// TODO: Disp::SavedState
 
 		SavedState( const Face& face ) : m_planeState( face.getPlane() ), m_texdefState( face.getTexdef() ), m_shaderState( face.getShader() ){
 		}
@@ -922,6 +924,7 @@ public:
 
 	PlanePoints m_move_planepts;
 	PlanePoints m_move_planeptsTransformed;
+	Disp* m_disp = nullptr;
 private:
 	FacePlane m_plane;
 	FacePlane m_planeTransformed;
