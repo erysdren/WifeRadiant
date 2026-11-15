@@ -379,7 +379,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 		else if ( string_equal( key, "angle" ) || string_equal( key, "direction" ) ) {
 			entityClass.has_angles = true;
 			entityClass.has_direction_key = true;
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, key ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, key ).second;
 			attribute.m_displayName = attribute.m_name = key;
 			attribute.m_type = "angle";
 			const char* value;
@@ -389,7 +389,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 		else if ( string_equal( key, "angles" ) ) {
 			entityClass.has_angles = true;
 			entityClass.has_angles_key = true;
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, key ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, key ).second;
 			attribute.m_displayName = attribute.m_name = key;
 			attribute.m_type = key;
 			const char* value;
@@ -397,7 +397,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			attribute.m_value = value;
 		}
 		else if ( string_equal( key, "modelscale_vec" ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, key ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, key ).second;
 			attribute.m_displayName = attribute.m_name = key;
 			attribute.m_type = "vector3";
 			const char* value;
@@ -457,7 +457,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseToken( tokeniser ) );
 		}
 		else if ( !string_empty( last ) && ( string_equal( first.c_str(), "editor_var" ) || string_equal( first.c_str(), "editor_string" ) ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "string";
 			currentDescription = &attribute.m_description;
@@ -465,7 +465,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
 		}
 		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_float" ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "string";
 			currentDescription = &attribute.m_description;
@@ -473,7 +473,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
 		}
 		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_snd" ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "sound";
 			currentDescription = &attribute.m_description;
@@ -481,7 +481,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
 		}
 		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_bool" ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "boolean";
 			currentDescription = &attribute.m_description;
@@ -489,7 +489,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
 		}
 		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_int" ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "integer";
 			currentDescription = &attribute.m_description;
@@ -497,7 +497,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
 		}
 		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_model" ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "model";
 			currentDescription = &attribute.m_description;
@@ -505,7 +505,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
 		}
 		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_color" ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "color";
 			currentDescription = &attribute.m_description;
@@ -513,7 +513,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
 		}
 		else if ( !string_empty( last ) && ( string_equal( first.c_str(), "editor_material" ) || string_equal( first.c_str(), "editor_mat" ) ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "shader";
 			currentDescription = &attribute.m_description;
@@ -543,7 +543,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 		// end quake4-specific keys
 		// begin fteqw-specific keys
 		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_angles" ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "angles";
 			currentDescription = &attribute.m_description;
@@ -567,7 +567,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, description ) );
 		}
 		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_vector3" ) ) {
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, last ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "vector3";
 			currentDescription = &attribute.m_description;
@@ -581,7 +581,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			if ( string_empty( flagField ) ) {
 				flagField = "spawnflags";
 			}
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, flagField, EntityClassAttribute( "flag", flagField ) ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, flagField, EntityClassAttribute( "flag", flagField ) ).second;
 			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, flagName ) );
 			const std::size_t bit = std::log2( atoi( flagBit ) );
 			ASSERT_MESSAGE( bit < MAX_FLAGS, "invalid flag bit" );
@@ -608,7 +608,7 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			if ( string_equal_n( key, "editor_", 7 ) ) {
 				globalErrorStream() << "unsupported editor key " << Quoted( key );
 			}
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, key ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, key ).second;
 			attribute.m_displayName = attribute.m_name = key;
 			attribute.m_type = "string";
 			const char* value;
@@ -629,31 +629,31 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 
 	if ( string_equal( entityClass.name(), "light" ) && g_pGameDescription->mGameType == "doom3" ) {
 		{
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, "light_radius" ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, "light_radius" ).second;
 			attribute.m_type = "vector3";
 			attribute.m_value = "300 300 300";
 		}
 		{
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, "light_center" ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, "light_center" ).second;
 			attribute.m_type = "vector3";
 		}
 		{
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, "noshadows" ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, "noshadows" ).second;
 			attribute.m_type = "boolean";
 			attribute.m_value = "0";
 		}
 		{
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, "nospecular" ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, "nospecular" ).second;
 			attribute.m_type = "boolean";
 			attribute.m_value = "0";
 		}
 		{
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, "nodiffuse" ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, "nodiffuse" ).second;
 			attribute.m_type = "boolean";
 			attribute.m_value = "0";
 		}
 		{
-			EntityClassAttribute& attribute = EntityClass_insertAttribute( entityClass, "falloff" ).second;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, "falloff" ).second;
 			attribute.m_type = "real";
 		}
 	}
@@ -788,7 +788,7 @@ void EntityClass_resolveInheritance( EntityClass* derivedClass ){
 
 			for ( const auto& [ name, attr ] : parentClass->m_attributes )
 			{
-				EntityClass_insertAttribute( *derivedClass, name.c_str(), attr );
+				EntityClass_findOrInsertAttribute( *derivedClass, name.c_str(), attr );
 			}
 		}
 	}
