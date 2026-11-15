@@ -3006,7 +3006,7 @@ void StoreSurfaceLightmaps( bool fastAllocate, bool storeForReal ){
 
 		/* write deluxemaps */
 		if ( deluxemap ) {
-			BSPX_CopyOut("LIGHTINGDIR", bspDirBytes.data(), bspDirBytes.size());
+			// BSPX_CopyOut("LIGHTINGDIR", bspDirBytes.data(), bspDirBytes.size());
 		}
 
 		Sys_Printf( "%d.", int( timer.elapsed_sec() ) );
