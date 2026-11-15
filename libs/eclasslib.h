@@ -227,6 +227,27 @@ inline EntityClassAttributePair& EntityClass_insertAttribute( EntityClass& entit
 	return entityClass.m_attributes.back();
 }
 
+inline EntityClassAttributePair* EntityClass_findAttribute( EntityClass& entityClass, const char* key ){
+	auto cmp = [&key](EntityClassAttributePair& attr){
+		return string_equal_nocase( attr.first.c_str(), key );
+	};
+	const auto it = std::find_if( entityClass.m_attributes.begin(), entityClass.m_attributes.end(), cmp);
+	if ( it == entityClass.m_attributes.end() ) {
+		return nullptr;
+	} else {
+		return &*it;
+	}
+}
+
+inline EntityClassAttributePair& EntityClass_findOrInsertAttribute( EntityClass& entityClass, const char* key, const EntityClassAttribute& attribute = EntityClassAttribute() ){
+	auto* it = EntityClass_findAttribute( entityClass, key );
+	if ( it ) {
+		return *it;
+	} else {
+		return EntityClass_insertAttribute( entityClass, key, attribute );
+	}
+}
+
 
 inline void buffer_write_colour_add( char buffer[128], const Colour3& colour ){
 	snprintf( buffer, 128, "{%g %g %g}", colour[0], colour[1], colour[2] );
