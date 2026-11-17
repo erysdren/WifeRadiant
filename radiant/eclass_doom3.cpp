@@ -59,7 +59,8 @@ inline bool operator<( const RawString& self, const RawString& other ){
 typedef std::map<RawString, EntityClass*> EntityClasses;
 EntityClasses g_EntityClassDoom3_classes;
 EntityClass *g_EntityClassDoom3_bad = 0;
-
+typedef std::map<CopiedString, ListAttributeType> ListAttributeTypes;
+ListAttributeTypes g_listTypesDoom3;
 
 void EntityClassDoom3_clear(){
 	for ( auto& [ name, eclass ] : g_EntityClassDoom3_classes )
@@ -590,6 +591,18 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 			entityClass.flags[flagField].flags[bit].attribute = &attribute;
 			g_entityFlagFields[flagField] += 1;
 		}
+		else if ( !string_empty( last ) && !string_empty( third ) && string_equal( first.c_str(), "editor_choice" ) ) {
+			const char* choiceField = last;
+			const char* choiceValue = third;
+			const char* choiceName;
+			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, choiceField ).second;
+			attribute.m_displayName = attribute.m_name = choiceField;
+			std::string listTypeName = std::format("{}_{}", entityClass.name(), choiceField);
+			attribute.m_type = listTypeName;
+			PARSE_RETURN_FALSE_IF_FAIL( EntityClassDoom3_parseString( tokeniser, choiceName ) );
+			ListAttributeType& listType = g_listTypesDoom3[listTypeName.c_str()];
+			listType.push_back( choiceName, choiceValue );
+		}
 		// end fteqw-specific keys
 		// begin ignore prey (unknown/unused?) entity keys
 		else if ( string_equal( key, "editor_light" )
@@ -760,7 +773,11 @@ EntityClass* EntityClassDoom3_findOrInsert( const char *name, bool has_brushes )
 }
 
 const ListAttributeType* EntityClassDoom3_findListType( const char* name ){
-	return 0;
+	ListAttributeTypes::iterator i = g_listTypesDoom3.find( name );
+	if ( i != g_listTypesDoom3.end() ) {
+		return &( *i ).second;
+	}
+	return nullptr;
 }
 
 
