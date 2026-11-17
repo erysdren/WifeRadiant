@@ -288,6 +288,8 @@ qt_add_executable(radiant WIN32
 	${PROJECT_SOURCE_DIR}/radiant/console.cpp
 	${PROJECT_SOURCE_DIR}/radiant/csg.cpp
 	${PROJECT_SOURCE_DIR}/radiant/dialog.cpp
+	${PROJECT_SOURCE_DIR}/radiant/disp.cpp
+	${PROJECT_SOURCE_DIR}/radiant/disptokens.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass_def.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass_doom3.cpp
 	${PROJECT_SOURCE_DIR}/radiant/eclass_fgd.cpp
