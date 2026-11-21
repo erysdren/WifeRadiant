@@ -544,6 +544,8 @@ static bool EntityClass_parse( EntityClass& entityClass, Tokeniser& tokeniser ){
 		// end quake4-specific keys
 		// begin fteqw-specific keys
 		else if ( !string_empty( last ) && string_equal( first.c_str(), "editor_angles" ) ) {
+			entityClass.has_angles = true;
+			entityClass.has_angles_key = true;
 			EntityClassAttribute& attribute = EntityClass_findOrInsertAttribute( entityClass, last ).second;
 			attribute.m_displayName = attribute.m_name = last;
 			attribute.m_type = "angles";
