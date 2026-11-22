@@ -80,8 +80,9 @@ Plane3___<P> plane3_translated( const Plane3___<P>& plane, const BasicVector3<V>
 	return Plane3___<P>( plane.normal(), plane.dist() + vector3_dot( plane.normal(), translation ) );
 }
 
-inline Plane3 plane3_transformed( const Plane3& plane, const Matrix4& transform ){
-	Plane3 transformed;
+template<typename P>
+inline Plane3___<P> plane3_transformed( const Plane3___<P>& plane, const Matrix4& transform ){
+	Plane3___<P> transformed;
 	transformed.a = transform[0] * plane.a + transform[4] * plane.b + transform[8] * plane.c;
 	transformed.b = transform[1] * plane.a + transform[5] * plane.b + transform[9] * plane.c;
 	transformed.c = transform[2] * plane.a + transform[6] * plane.b + transform[10] * plane.c;
