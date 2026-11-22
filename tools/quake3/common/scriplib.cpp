@@ -58,6 +58,8 @@ struct script_t
 std::list<script_t> scriptstack;
 
 int scriptline;
+int scriptstacksize;
+CopiedString scriptfilename;
 char token[MAXTOKEN];
 bool tokenready;                     // only true if UnGetToken was just called
 
@@ -66,7 +68,7 @@ bool tokenready;                     // only true if UnGetToken was just called
    AddScriptToStack
    ==============
  */
-static bool AddScriptToStack( const char *filename, int index, bool verbose ){
+bool AddScriptToStack( const char *filename, int index, bool verbose ){
 	if ( MemBuffer buffer = vfsLoadFile( filename, index, true ) ) {
 		if( verbose ){
 			if ( index > 0 )
@@ -77,6 +79,8 @@ static bool AddScriptToStack( const char *filename, int index, bool verbose ){
 
 		scriptstack.emplace_back( filename, std::move( buffer ) );
 		scriptline = 1;
+		scriptstacksize = scriptstack.size();
+		scriptfilename = scriptstack.back().filename;
 		return true;
 	}
 	else
@@ -143,12 +147,15 @@ static bool EndOfScript( bool crossline ){
 	}
 
 	scriptstack.pop_back();
+	scriptstacksize = scriptstack.size();
 
 	if ( scriptstack.empty() ) {
+		scriptfilename = "";
 		return false;
 	}
 	else{
 		scriptline = scriptstack.back().line;
+		scriptfilename = scriptstack.back().filename;
 		Sys_Printf( "returning to %s\n", scriptstack.back().filename.c_str() );
 		return GetToken( crossline );
 	}
