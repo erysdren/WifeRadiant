@@ -208,7 +208,18 @@ void QE_InitVFS(){
 				if ( string_equal_nocase( token, "basegame" ) || string_equal_nocase( token, "gamedir" ) ) {
 					token = tokeniser.getToken();
 					if ( !string_empty( token ) ) {
-						paths_push( str( globalRoot, token, '/' ) );
+						if ( string_equal_prefix_nocase( token, "steam:" ) ) {
+							token += string_length( "steam:" );
+							auto libraryDirs = g_steam.getLibraryDirs();
+							for ( const auto& libraryDir : libraryDirs ) {
+								std::filesystem::path libraryPath = libraryDir / token;
+								if ( std::filesystem::exists( libraryPath ) ) {
+									paths_push( str( libraryPath.c_str(), '/' ) );
+								}
+							}
+						} else {
+							paths_push( str( globalRoot, token, '/' ) );
+						}
 					}
 				}
 			}
