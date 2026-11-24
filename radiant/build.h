@@ -24,9 +24,9 @@
 #include <vector>
 #include "string/string.h"
 
-void build_set_variable( const char* name, const char* value );
+void QE_Build_SetVariable( const char* name, const char* value );
 
-std::vector<CopiedString> build_construct_commands( size_t buildIdx );
+std::vector<CopiedString> QE_Build_ConstructCommands( size_t buildIdx );
 
 void DoBuildMenu();
 

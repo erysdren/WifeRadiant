@@ -33,15 +33,15 @@
 typedef std::map<CopiedString, CopiedString> Variables;
 Variables g_build_variables;
 
-void build_clear_variables(){
+void QE_Build_ClearVariables(){
 	g_build_variables.clear();
 }
 
-void build_set_variable( const char* name, const char* value ){
+void QE_Build_SetVariable( const char* name, const char* value ){
 	g_build_variables[name] = value;
 }
 
-const char* build_get_variable( const char* name ){
+const char* QE_Build_GetVariable( const char* name ){
 	Variables::iterator i = g_build_variables.find( name );
 	if ( i != g_build_variables.end() ) {
 		return ( *i ).second.c_str();
@@ -99,7 +99,7 @@ public:
 				{
 				case ']':
 					in_variable = false;
-					output.push_string( build_get_variable( variable.c_str() ) );
+					output.push_string( QE_Build_GetVariable( variable.c_str() ) );
 					variable.clear();
 					break;
 				default:
@@ -462,16 +462,16 @@ void project_verify( Project& project, Tools& tools ){
 #endif
 }
 
-void build_init_tools(){
+void QE_Build_InitTools(){
 	for ( const auto& [ name, tool ] : g_build_tools )
 	{
-		build_set_variable( name.c_str(), tool.evaluate().c_str() );
+		QE_Build_SetVariable( name.c_str(), tool.evaluate().c_str() );
 	}
 }
 
-std::vector<CopiedString> build_construct_commands( size_t buildIdx ){
-	build_init_variables();
-	build_init_tools();
+std::vector<CopiedString> QE_Build_ConstructCommands( size_t buildIdx ){
+	QE_Build_InitVariables();
+	QE_Build_InitTools();
 
 	std::vector<CopiedString> commands;
 
@@ -488,7 +488,7 @@ std::vector<CopiedString> build_construct_commands( size_t buildIdx ){
 	{
 		globalErrorStream() << "build #" << buildIdx << " not defined";
 	}
-	build_clear_variables();
+	QE_Build_ClearVariables();
 	return commands;
 }
 
@@ -1003,20 +1003,20 @@ public:
 
 			parser.exportXML( importer );
 
-			build_init_variables();
+			QE_Build_InitVariables();
 			const auto thisname = index.siblingAtColumn( 0 ).data().toString().toLatin1();
 			for ( const auto& [ name, tool ] : g_build_tools )
 			{
 				if( string_equal( name.c_str(), thisname.constData() ) ) // preceding tools are usable inside current one
 					break;
-				build_set_variable( name.c_str(), tool.evaluate().c_str() );
+				QE_Build_SetVariable( name.c_str(), tool.evaluate().c_str() );
 			}
 
 			Tool& newtool = tools.begin()->second;
 			model->setData( index, QString( newtool.evaluate().c_str() ), Qt::ItemDataRole::DisplayRole );
 			g_build_tools[ thisname.constData() ] = std::move( newtool );
 			g_tools_changed = true;
-			build_clear_variables();
+			QE_Build_ClearVariables();
 		}
 	}
 };
@@ -1094,7 +1094,7 @@ EMessageBoxReturn BuildMenuDialog_construct( ProjectList& projectList ){
 			auto *vbox = new QVBoxLayout( containerWidget );
 			vbox->setContentsMargins( 0, 0, 0, 0 );
 
-			build_init_variables();
+			QE_Build_InitVariables();
 			{ // immutable variables
 				vbox->addWidget( new QLabel( "Constants:" ) );
 				QIcon icon = new_local_icon( "copy.png" );
@@ -1124,7 +1124,7 @@ EMessageBoxReturn BuildMenuDialog_construct( ProjectList& projectList ){
 					table->setItem( table->rowCount() - 1, 1, new QTableWidgetItem( var.c_str() ) );
 				}
 			}
-			build_init_tools();
+			QE_Build_InitTools();
 			{ // mutable 'Tool' variables
 				vbox->addWidget( new QLabel( "Editables:" ) );
 				auto *table = new QTableWidget( 0, 2 );
@@ -1154,7 +1154,7 @@ EMessageBoxReturn BuildMenuDialog_construct( ProjectList& projectList ){
 				table->insertRow( table->rowCount() );
 				table->setItem( table->rowCount() - 1, 0, new QTableWidgetItem( LAST_ITER_STRING ) );
 			}
-			build_clear_variables();
+			QE_Build_ClearVariables();
 		}
 	}
 

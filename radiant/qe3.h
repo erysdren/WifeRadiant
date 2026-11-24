@@ -60,4 +60,4 @@ extern SimpleCounter g_brushCount;
 extern SimpleCounter g_patchCount;
 extern SimpleCounter g_entityCount;
 
-void build_init_variables();
+void QE_Build_InitVariables();

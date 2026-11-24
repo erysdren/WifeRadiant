@@ -247,43 +247,43 @@ bool ConfirmModified( const char* title ){
 	return true; // QMessageBox::StandardButton::Discard
 }
 
-void build_init_variables(){
+void QE_Build_InitVariables(){
 	StringOutputStream stream( 256 );
 
-	build_set_variable( "RadiantPath", AppPath_get() );
-	build_set_variable( "ExecutableType", RADIANT_EXECUTABLE_SUFFIX );
-	build_set_variable( "EnginePath", EnginePath_get() );
-	build_set_variable( "UserEnginePath", g_qeglobals.m_userEnginePath.c_str() );
+	QE_Build_SetVariable( "RadiantPath", AppPath_get() );
+	QE_Build_SetVariable( "ExecutableType", RADIANT_EXECUTABLE_SUFFIX );
+	QE_Build_SetVariable( "EnginePath", EnginePath_get() );
+	QE_Build_SetVariable( "UserEnginePath", g_qeglobals.m_userEnginePath.c_str() );
 	for( const auto& path : ExtraResourcePaths_get() )
 		if( !path.empty() )
 			stream << " -fs_pakpath " << Quoted( path );
-	build_set_variable( "ExtraResourcePaths", stream );
-	build_set_variable( "MonitorAddress", ( g_WatchBSP_Enabled ) ? RADIANT_MONITOR_ADDRESS : "" );
-	build_set_variable( "GameName", gamename_get() );
-	build_set_variable( "GamePath", stream( EnginePath_get(), "/", gamename_get(), "/" ) );
-	build_set_variable( "MapsPath", stream( EnginePath_get(), "/", gamename_get(), "/maps/" ) );
+	QE_Build_SetVariable( "ExtraResourcePaths", stream );
+	QE_Build_SetVariable( "MonitorAddress", ( g_WatchBSP_Enabled ) ? RADIANT_MONITOR_ADDRESS : "" );
+	QE_Build_SetVariable( "GameName", gamename_get() );
+	QE_Build_SetVariable( "GamePath", stream( EnginePath_get(), "/", gamename_get(), "/" ) );
+	QE_Build_SetVariable( "MapsPath", stream( EnginePath_get(), "/", gamename_get(), "/maps/" ) );
 
 #if defined( POSIX )
-	build_set_variable( "CopyCommand", "cp" );
+	QE_Build_SetVariable( "CopyCommand", "cp" );
 #elif defined( WIN32 )
-	build_set_variable( "CopyCommand", "xcopy /K /Y" );
+	QE_Build_SetVariable( "CopyCommand", "xcopy /K /Y" );
 #else
 #error "unsupported platform"
 #endif
 
 	const char* mapname = Map_Name( g_map );
 
-	build_set_variable( "BspFile", stream( PathExtensionless( mapname ), ".bsp" ) );
+	QE_Build_SetVariable( "BspFile", stream( PathExtensionless( mapname ), ".bsp" ) );
 
 	if( g_region_active ){
-		build_set_variable( "MapFile", stream( PathExtensionless( mapname ), ".reg" ) );
+		QE_Build_SetVariable( "MapFile", stream( PathExtensionless( mapname ), ".reg" ) );
 	}
 	else{
-		build_set_variable( "MapFile", mapname );
+		QE_Build_SetVariable( "MapFile", mapname );
 	}
 
-	build_set_variable( "MapPath", stream( PathFilenameless( mapname ) ) );
-	build_set_variable( "MapName", stream( PathFilename( mapname ) ) );
+	QE_Build_SetVariable( "MapPath", stream( PathFilenameless( mapname ) ) );
+	QE_Build_SetVariable( "MapName", stream( PathFilename( mapname ) ) );
 }
 
 class BatchCommandListener
@@ -360,7 +360,7 @@ void RunBSP( size_t buildIdx ){
 
 	Pointfile_Delete();
 
-	std::vector<CopiedString> commands = build_construct_commands( buildIdx );
+	std::vector<CopiedString> commands = QE_Build_ConstructCommands( buildIdx );
 	const auto bspname = StringStream<64>( PathFilename( Map_Name( g_map ) ) ); // grab the file name for engine running
 	BuildMonitor_Run( commands, bspname );
 }
