@@ -195,6 +195,28 @@ void QE_InitVFS(){
 		}
 	}
 
+	// read fteqw fmf file
+	if ( !string_empty( g_pGameDescription->getKeyValue( "fteqw_fmf" ) ) ) {
+		std::filesystem::path fmfPath = globalRoot;
+		fmfPath /= g_pGameDescription->getKeyValue( "fteqw_fmf" );
+		if ( std::filesystem::exists( fmfPath ) ) {
+			std::ifstream fmfFile( fmfPath );
+			std::string line;
+			while ( std::getline( fmfFile, line ) ) {
+				StringTokeniser tokeniser( line.c_str() );
+				const char* token = tokeniser.getToken();
+				if ( string_equal_nocase( token, "basegame" ) || string_equal_nocase( token, "gamedir" ) ) {
+					token = tokeniser.getToken();
+					if ( !string_empty( token ) ) {
+						paths_push( str( globalRoot, token, '/' ) );
+					}
+				}
+			}
+		} else {
+			globalWarningStream() << g_pGameDescription->getKeyValue( "fteqw_fmf" ) << " not found" << '\n';
+		}
+	}
+
 	for( const auto& path : paths )
 		GlobalFileSystem().initDirectory( path.c_str() );
 }
