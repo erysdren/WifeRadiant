@@ -61,7 +61,7 @@ static std::string findMaterialPath( std::vector<std::string>& paths, std::strin
 	return material;
 }
 
-static void processMesh(mdlpp::StudioModel& mdl, mdlpp::BakedModel& baked, mdlpp::BakedModel::Mesh& mesh, Model& model) {
+static void processSourceMesh(mdlpp::StudioModel& mdl, mdlpp::BakedModel& baked, mdlpp::BakedModel::Mesh& mesh, Model& model) {
 
 	if ( !mesh.indices.size() || !baked.vertices.size() ) {
 		return;
@@ -124,17 +124,13 @@ static void processMesh(mdlpp::StudioModel& mdl, mdlpp::BakedModel& baked, mdlpp
 scene::Node& loadSourceMDL( unsigned char* mdlBuffer, int mdlBufferLength, const char* mdlFilename ) {
 	auto modelNode = new ModelNode();
 
-	char vtxFilename[MAX_PATH];
-	char vvdFilename[MAX_PATH];
+	std::string vtxFilename;
+	std::string vvdFilename;
 
 	// glean base filename
 	bool appendExtOnly = false;
-	const char *mdlFilenameExtPtr = NULL;
-	size_t mdlFilenameExtPos = 0;
-	if ( !( mdlFilenameExtPtr = std::strrchr( mdlFilename, '.' ) ) ) {
+	if ( !std::strrchr( mdlFilename, '.' ) ) {
 		appendExtOnly = true;
-	} else {
-		mdlFilenameExtPos = mdlFilenameExtPtr - mdlFilename;
 	}
 
 	// find a vtx file
@@ -146,14 +142,14 @@ scene::Node& loadSourceMDL( unsigned char* mdlBuffer, int mdlBufferLength, const
 		".sw.vtx"
 	};
 	ArchiveFile *vtxFile = NULL;
-	for ( size_t i = 0; i < 4; i++ ) {
+	for ( const auto& suffix : vtxSuffixes ) {
 		if ( appendExtOnly ) {
-			std::snprintf( vtxFilename, sizeof(vtxFilename), "%s%s", mdlFilename, vtxSuffixes[i] );
+			vtxFilename = std::format("{}{}", mdlFilename, suffix);
 		} else {
-			std::strncpy( vtxFilename, mdlFilename, sizeof(vtxFilename) );
-			std::strncpy( vtxFilename + mdlFilenameExtPos, vtxSuffixes[i], sizeof(vtxFilename) - mdlFilenameExtPos );
+			vtxFilename = mdlFilename;
+			vtxFilename = vtxFilename.substr(0, vtxFilename.find_last_of('.')) + suffix;
 		}
-		vtxFile = GlobalFileSystem().openFile( vtxFilename );
+		vtxFile = GlobalFileSystem().openFile( vtxFilename.c_str() );
 		if ( vtxFile ) {
 			break;
 		}
@@ -165,12 +161,12 @@ scene::Node& loadSourceMDL( unsigned char* mdlBuffer, int mdlBufferLength, const
 
 	// find the vvd file
 	if ( appendExtOnly ) {
-		std::snprintf( vvdFilename, sizeof(vvdFilename), "%s%s", mdlFilename, ".vvd" );
+		vvdFilename = std::format("{}{}", mdlFilename, ".vvd");
 	} else {
-		std::strncpy( vvdFilename, mdlFilename, sizeof(vvdFilename) );
-		std::strncpy( vvdFilename + mdlFilenameExtPos, ".vvd", sizeof(vvdFilename) - mdlFilenameExtPos );
+		vvdFilename = mdlFilename;
+		vvdFilename = vvdFilename.substr(0, vvdFilename.find_last_of('.')) + ".vvd";
 	}
-	ArchiveFile *vvdFile = GlobalFileSystem().openFile( vvdFilename );
+	ArchiveFile *vvdFile = GlobalFileSystem().openFile( vvdFilename.c_str() );
 	if ( !vvdFile ) {
 		vtxFile->release();
 		Model_constructNull( modelNode->model() );
@@ -210,8 +206,8 @@ scene::Node& loadSourceMDL( unsigned char* mdlBuffer, int mdlBufferLength, const
 		Model_constructNull( modelNode->model() );
 		return modelNode->node();
 	}
-	for ( size_t i = 0; i < baked.meshes.size(); i++ ) {
-		processMesh( mdl, baked, baked.meshes[i], modelNode->model() );
+	for ( auto& mesh : baked.meshes ) {
+		processSourceMesh( mdl, baked, mesh, modelNode->model() );
 	}
 
 	return modelNode->node();
