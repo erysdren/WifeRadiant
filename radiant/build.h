@@ -30,8 +30,8 @@ std::vector<CopiedString> QE_Build_ConstructCommands( size_t buildIdx );
 
 void DoBuildMenu();
 
-void BuildMenu_Construct();
-void BuildMenu_Destroy();
+void QE_Build_ConstructMenu();
+void QE_Build_DestroyMenu();
 
 void Build_constructMenu( class QMenu* menu );
 extern QMenu* g_bsp_menu;

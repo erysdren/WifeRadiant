@@ -1299,11 +1299,11 @@ void SaveBuildMenu(){
 #include "preferencesystem.h"
 #include "stringio.h"
 
-void BuildMenu_Construct(){
+void QE_Build_ConstructMenu(){
 	GlobalPreferenceSystem().registerPreference( "BuildMenu", CopiedStringImportStringCaller( g_buildMenu ), CopiedStringExportStringCaller( g_buildMenu ) );
 	LoadBuildMenu();
 }
-void BuildMenu_Destroy(){
+void QE_Build_DestroyMenu(){
 	SaveBuildMenu();
 }
 

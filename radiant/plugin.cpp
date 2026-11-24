@@ -267,7 +267,7 @@ public:
 		Grid_construct();
 		MRU_Construct();
 		Pointfile_Construct();
-		BuildMenu_Construct();
+		QE_Build_ConstructMenu();
 		Map_Construct();
 		EntityList_Construct();
 		MainFrame_Construct();
@@ -307,7 +307,7 @@ public:
 		MainFrame_Destroy();
 		EntityList_Destroy();
 		Map_Destroy();
-		BuildMenu_Destroy();
+		QE_Build_DestroyMenu();
 		Pointfile_Destroy();
 		MRU_Destroy();
 		Grid_destroy();
