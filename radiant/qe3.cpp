@@ -350,8 +350,8 @@ void RunBSP( size_t buildIdx ){
 		return;
 	}
 
-	if ( !g_region_active && g_SnapShots_Enabled && Map_Modified( g_map ) )
-		Map_Snapshot();
+	if ( !g_region_active && g_Snapshots_Enabled && Map_Modified( g_map ) )
+		QE_AutoSave_MakeSnapshot();
 
 	if ( g_region_active ) {
 		const char* mapname = Map_Name( g_map );

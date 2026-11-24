@@ -34,13 +34,7 @@
 #include "qe3.h"
 #include "preferences.h"
 
-
-#if defined( WIN32 )
-#define PATH_MAX 260
-#endif
-
-
-bool DoesFileExist( const char* name, std::size_t& size ){
+bool DoesFileExist( const char* name, std::size_t& size ) {
 	if ( file_exists( name ) ) {
 		size += file_size( name );
 		return true;
@@ -48,7 +42,7 @@ bool DoesFileExist( const char* name, std::size_t& size ){
 	return false;
 }
 
-void Map_Snapshot(){
+void QE_AutoSave_MakeSnapshot() {
 	// we need to do the following
 	// 1. make sure the snapshot directory exists (create it if it doesn't)
 	// 2. find out what the lastest save is based on number
@@ -88,7 +82,7 @@ void Map_Snapshot(){
 }
 /*
    ===============
-   QE_CheckAutoSave
+   QE_AutoSave_Check
 
    If five minutes have passed since making a change
    and the map hasn't been saved, save it out.
@@ -96,24 +90,21 @@ void Map_Snapshot(){
  */
 
 bool g_AutoSave_Enabled = true;
-int m_AutoSave_Frequency = 15;
-bool g_SnapShots_Enabled = false;
+int g_AutoSave_Frequency = 15;
+bool g_Snapshots_Enabled = false;
 
-namespace
-{
-time_t s_start = 0;
-std::size_t s_changes = 0;
-}
+static time_t s_start = 0;
+static std::size_t s_changes = 0;
 
-void AutoSave_clear(){
+void QE_AutoSave_Clear() {
 	s_changes = 0;
 }
 
-scene::Node& Map_Node(){
+scene::Node& Map_Node() {
 	return GlobalSceneGraph().root();
 }
 
-void QE_CheckAutoSave(){
+void QE_AutoSave_Check() {
 	if ( !Map_Valid( g_map ) || !ScreenUpdates_Enabled() ) {
 		return;
 	}
@@ -125,18 +116,18 @@ void QE_CheckAutoSave(){
 		s_start = now;
 	}
 
-	if ( ( now - s_start ) > ( 60 * m_AutoSave_Frequency ) ) {
+	if ( ( now - s_start ) > ( 60 * g_AutoSave_Frequency ) ) {
 		s_start = now;
 		s_changes = Node_getMapFile( Map_Node() )->changes();
 
 		if ( g_AutoSave_Enabled ) {
-			const char* strMsg = g_SnapShots_Enabled ? "Autosaving snapshot..." : "Autosaving...";
+			const char* strMsg = g_Snapshots_Enabled ? "Autosaving snapshot..." : "Autosaving...";
 			globalOutputStream() << strMsg << '\n';
 			//Sys_Status( strMsg );
 
 			// only snapshot if not working on a default map
-			if ( g_SnapShots_Enabled && !Map_Unnamed( g_map ) ) {
-				Map_Snapshot();
+			if ( g_Snapshots_Enabled && !Map_Unnamed( g_map ) ) {
+				QE_AutoSave_MakeSnapshot();
 			}
 			else
 			{
@@ -163,31 +154,31 @@ void QE_CheckAutoSave(){
 	}
 }
 
-void Autosave_constructPreferences( PreferencesPage& page ){
+void QE_AutoSave_ConstructPreferences( PreferencesPage& page ) {
 	QCheckBox* autosave_enabled = page.appendCheckBox( "", "Enable Autosave", g_AutoSave_Enabled );
-	QWidget* autosave_frequency = page.appendSpinner( "Autosave Frequency (minutes)", m_AutoSave_Frequency, 1, 60 );
+	QWidget* autosave_frequency = page.appendSpinner( "Autosave Frequency (minutes)", g_AutoSave_Frequency, 1, 60 );
 	Widget_connectToggleDependency( autosave_frequency, autosave_enabled );
-	page.appendCheckBox( "", "Save Snapshots", g_SnapShots_Enabled );
+	page.appendCheckBox( "", "Save Snapshots", g_Snapshots_Enabled );
 }
-void Autosave_constructPage( PreferenceGroup& group ){
+void QE_AutoSave_ConstructPage( PreferenceGroup& group ) {
 	PreferencesPage page( group.createPage( "Autosave", "Autosave Preferences" ) );
-	Autosave_constructPreferences( page );
+	QE_AutoSave_ConstructPreferences( page );
 }
-void Autosave_registerPreferencesPage(){
-	PreferencesDialog_addSettingsPage( makeCallbackF( Autosave_constructPage ) );
+void QE_AutoSave_RegisterPreferencesPage() {
+	PreferencesDialog_addSettingsPage( makeCallbackF( QE_AutoSave_ConstructPage ) );
 }
-
 
 #include "preferencesystem.h"
 #include "stringio.h"
 
-void Autosave_Construct(){
+void QE_AutoSave_Construct() {
 	GlobalPreferenceSystem().registerPreference( "Autosave", BoolImportStringCaller( g_AutoSave_Enabled ), BoolExportStringCaller( g_AutoSave_Enabled ) );
-	GlobalPreferenceSystem().registerPreference( "AutosaveMinutes", IntImportStringCaller( m_AutoSave_Frequency ), IntExportStringCaller( m_AutoSave_Frequency ) );
-	GlobalPreferenceSystem().registerPreference( "Snapshots", BoolImportStringCaller( g_SnapShots_Enabled ), BoolExportStringCaller( g_SnapShots_Enabled ) );
+	GlobalPreferenceSystem().registerPreference( "AutosaveMinutes", IntImportStringCaller( g_AutoSave_Frequency ), IntExportStringCaller( g_AutoSave_Frequency ) );
+	GlobalPreferenceSystem().registerPreference( "Snapshots", BoolImportStringCaller( g_Snapshots_Enabled ), BoolExportStringCaller( g_Snapshots_Enabled ) );
 
-	Autosave_registerPreferencesPage();
+	QE_AutoSave_RegisterPreferencesPage();
 }
 
-void Autosave_Destroy(){
+void QE_AutoSave_Destroy() {
+
 }

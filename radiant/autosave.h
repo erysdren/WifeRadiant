@@ -21,11 +21,11 @@
 
 #pragma once
 
-extern bool g_SnapShots_Enabled;
+extern bool g_Snapshots_Enabled;
 
-void AutoSave_clear();
-void QE_CheckAutoSave();
-void Map_Snapshot();
+void QE_AutoSave_Clear();
+void QE_AutoSave_Check();
+void QE_AutoSave_MakeSnapshot();
 
-void Autosave_Construct();
-void Autosave_Destroy();
+void QE_AutoSave_Construct();
+void QE_AutoSave_Destroy();

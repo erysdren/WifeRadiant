@@ -279,7 +279,7 @@ public:
 		TextureBrowser_Construct();
 		ModelBrowser_Construct();
 		Entity_Construct();
-		Autosave_Construct();
+		QE_AutoSave_Construct();
 		EntityInspector_construct();
 		FindTextureDialog_Construct();
 		NullModel_construct();
@@ -295,7 +295,7 @@ public:
 		NullModel_destroy();
 		FindTextureDialog_Destroy();
 		EntityInspector_destroy();
-		Autosave_Destroy();
+		QE_AutoSave_Destroy();
 		Entity_Destroy();
 		ModelBrowser_Destroy();
 		TextureBrowser_Destroy();

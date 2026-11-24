@@ -728,7 +728,7 @@ public:
 		m_timer.setInterval( 1000 );
 		m_timer.callOnTimeout( [](){
 			if ( QGuiApplication::mouseButtons().testFlag( Qt::MouseButton::NoButton ) ) {
-				QE_CheckAutoSave();
+				QE_AutoSave_Check();
 			}
 		} );
 	}

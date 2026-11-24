@@ -295,7 +295,7 @@ public:
 
 			GlobalSceneGraph().insert_root( *m_resource->getNode() );
 
-			AutoSave_clear();
+			QE_AutoSave_Clear();
 
 			Map_SetValid( g_map, true );
 		}
