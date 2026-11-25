@@ -50,7 +50,7 @@
 #include <QMouseEvent>
 
 
-void process_gui(){
+void QE_ProcessGUI(){
 	QCoreApplication::processEvents();
 }
 

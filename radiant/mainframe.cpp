@@ -794,7 +794,7 @@ bool ScreenUpdates_Enabled(){
 
 void ScreenUpdates_process(){
 	if ( redrawRequired() ) {
-		process_gui();
+		QE_ProcessGUI();
 	}
 }
 
@@ -803,7 +803,7 @@ void ScreenUpdates_Disable( const char* message, const char* title ){
 	if ( g_wait_stack.empty() ) {
 		s_qe_every_second_timer.disable();
 
-		process_gui();
+		QE_ProcessGUI();
 
 		g_wait = create_wait_dialog( title, message );
 
@@ -1627,7 +1627,7 @@ static QSplashScreen *splash_screen = 0;
 void show_splash(){
 	splash_screen = create_splash();
 
-	process_gui();
+	QE_ProcessGUI();
 }
 
 void hide_splash(){

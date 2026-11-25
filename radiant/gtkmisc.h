@@ -35,7 +35,7 @@
 #include "math/vectorfwd.h"
 #include "string/stringfwd.h"
 
-void process_gui();
+void QE_ProcessGUI();
 
 void GlobalShortcuts_setWidget( QWidget *widget );
 
