@@ -26,6 +26,7 @@ include(CMakeDependentOption)
 option(RADIANT_USE_ASSIMP "Build Assimp model loader plugin" ON)
 option(RADIANT_USE_GLES2 "Use OpenGL ES 2.0 instead of OpenGL 2.0" OFF)
 option(RADIANT_GENERATE_DOCS "Generate documentation with pandoc" ON)
+option(RADIANT_CALCULATE_REVISION "Calculate git revision for published builds" OFF)
 option(RADIANT_GENERATE_GAMEPACKS "Generate gamepacks" ON)
 cmake_dependent_option(RADIANT_GENERATE_USER_GAMEPACKS "Generate user gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
 cmake_dependent_option(RADIANT_GENERATE_IDTECH2_GAMEPACKS "Generate idTech 2 gamepacks" ON RADIANT_GENERATE_GAMEPACKS OFF)
@@ -67,7 +68,13 @@ file(WRITE ${RADIANT_INSTALL_PREFIX}/RADIANT_PATCH ${RADIANT_VERSION_PATCH})
 
 # git revision
 
-include(radiant_revision)
+if(PROJECT_IS_TOP_LEVEL AND RADIANT_CALCULATE_REVISION)
+	include(radiant_revision)
+else()
+	set(RADIANT_GIT_REVISION "unknown")
+	set(RADIANT_GIT_DATE "unknown")
+	set(RADIANT_GIT_BRANCH "unknown")
+endif()
 
 # common compile options and definitions
 
