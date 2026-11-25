@@ -21,4 +21,4 @@
 
 #pragma once
 
-void OpenURL( const char *url );
+void QE_OpenURL( const char *url );

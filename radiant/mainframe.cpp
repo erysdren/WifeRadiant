@@ -664,7 +664,7 @@ void Restart(){
 
 
 void OpenUpdateURL(){
-	OpenURL( "https://wiferadiant.org/" );
+	QE_OpenURL( "https://wiferadiant.org/" );
 #if 0
 	// build the URL
 	StringOutputStream URL( 256 );
@@ -678,20 +678,20 @@ void OpenUpdateURL(){
 #endif
 	URL << "&Version_dlup=" RADIANT_GIT_REVISION;
 	g_GamesDialog.AddPacksURL( URL );
-	OpenURL( URL );
+	QE_OpenURL( URL );
 #endif
 }
 
 // open the Q3Rad manual
 void OpenHelpURL(){
 	// at least on win32, AppPath + "docs/index.html"
-	OpenURL( StringStream( AppPath_get(), "docs/index.html" ) );
+	QE_OpenURL( StringStream( AppPath_get(), "docs/index.html" ) );
 }
 
 void OpenBugReportURL(){
-	OpenURL( "https://github.com/erysdren/WifeRadiant/issues" );
-	// OpenURL( "http://www.icculus.org/netradiant/?cmd=bugs" );
-	// OpenURL( "https://github.com/Garux/netradiant-custom/issues" );
+	QE_OpenURL( "https://github.com/erysdren/WifeRadiant/issues" );
+	// QE_OpenURL( "http://www.icculus.org/netradiant/?cmd=bugs" );
+	// QE_OpenURL( "https://github.com/Garux/netradiant-custom/issues" );
 }
 
 

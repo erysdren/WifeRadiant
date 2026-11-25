@@ -476,12 +476,12 @@ void DoAbout(){
 				hbox->addWidget( buttons );
 				{
 					auto *button = buttons->addButton( "Credits", QDialogButtonBox::ButtonRole::NoRole );
-					QObject::connect( button, &QPushButton::clicked, [](){ OpenURL( StringStream( AppPath_get(), "credits.html" ) ); } );
+					QObject::connect( button, &QPushButton::clicked, [](){ QE_OpenURL( StringStream( AppPath_get(), "credits.html" ) ); } );
 					button->setEnabled( false );
 				}
 				{
 					auto *button = buttons->addButton( "Changelog", QDialogButtonBox::ButtonRole::NoRole );
-					QObject::connect( button, &QPushButton::clicked, [](){ OpenURL( StringStream( AppPath_get(), "docs/changelog-custom.txt" ) ); } );
+					QObject::connect( button, &QPushButton::clicked, [](){ QE_OpenURL( StringStream( AppPath_get(), "docs/changelog-custom.txt" ) ); } );
 				}
 				{
 					auto *button = buttons->addButton( "About Qt", QDialogButtonBox::ButtonRole::NoRole );

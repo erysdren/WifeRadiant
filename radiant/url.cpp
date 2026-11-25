@@ -26,7 +26,7 @@
 #include <QDesktopServices>
 #include <QUrl>
 
-void OpenURL( const char *url ){
+void QE_OpenURL( const char *url ){
 	// let's put a little comment
 	globalOutputStream() << "OpenURL: " << url << '\n';
 	// QUrl::fromUserInput appears to work well for urls and local paths with spaces

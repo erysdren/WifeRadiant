@@ -47,7 +47,7 @@ std::list<CopiedString> mHelpURLs;
    needed for hooking in Gtk+
  */
 void HandleHelpCommand( CopiedString& str ){
-	OpenURL( str.c_str() );
+	QE_OpenURL( str.c_str() );
 }
 
 void process_xlink( const char* filename, const char *menu_name, const char *base_url, QMenu *menu ){
