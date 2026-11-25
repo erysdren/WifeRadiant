@@ -160,6 +160,7 @@ directory.
 	- ~~sourcepp supports `.hot` files and VTF hotspot resources~~
 - ~~Optionally parse Source Engine `gameinfo.txt`~~
 - make `q3map2`/`wrmap` a library with a thin CLI wrapper for easier embedding into other applications
+- Drop `assimp` dependency (it uses AI code)
 
 ### Random feature highlights
 
