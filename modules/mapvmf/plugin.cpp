@@ -44,6 +44,7 @@
 
 #include <kvpp/kvpp.h>
 
+#include <cmath>
 #include <format>
 #include <map>
 
@@ -153,6 +154,71 @@ public:
 	MapFormat* getTable(){
 		return this;
 	}
+	static bool dispDef_from( auto dispinfo, std::string &dispDef) {
+		std::string head = "dispDef\n{\n";
+
+		float startpos[3];
+		sscanf(
+			dispinfo["startposition"].getValue().data(), "[%f %f %f]",
+			&startpos[0], &startpos[1], &startpos[2]);
+
+		int power;
+		sscanf(
+			dispinfo["power"].getValue().data(), "%i",
+			&power);
+
+		std::string params = std::format(
+			"{} ( {} {} {} )\n",
+			power, startpos[0], startpos[1], startpos[2]);
+
+		int row_len = power * power;
+
+		float normals[row_len][row_len][3];
+		float distances[row_len][row_len];
+		float alphas[row_len][row_len];
+		// NOTE: ignoring offsets, offset_normals & triangle_tags
+		for (int row = 0; row < row_len; row++) {
+			std::string row_index = std::format("row{}", row);
+			// is this a valid lookup? what if the key is absent?
+			StringTokeniser normals_tokeniser(dispinfo["normals"][row_index].getValue().data());
+			StringTokeniser distances_tokeniser(dispinfo["distances"][row_index].getValue().data());
+			StringTokeniser alphas_tokeniser(dispinfo["alphas"][row_index].getValue().data());
+			for (int col = 0; col < row_len; col++) {
+				const char* normal_token_0 = normals_tokeniser.getToken();
+				const char* normal_token_1 = normals_tokeniser.getToken();
+				const char* normal_token_2 = normals_tokeniser.getToken();
+				const char* distance_token = distances_tokeniser.getToken();
+				const char* alpha_token = alphas_tokeniser.getToken();
+
+				if (!string_parse_float(normal_token_0, normals[row][col][0])
+				 || !string_parse_float(normal_token_1, normals[row][col][1])
+				 || !string_parse_float(normal_token_2, normals[row][col][2])
+				 || !string_parse_float(distance_token, distances[row][col])
+				 || !string_parse_float(alpha_token, alphas[row][col]) ) {
+					return false;  // empty token; panic!
+				}
+			}
+		}
+
+		std::string rows = "(\n";
+		for (int row = 0; row < row_len; row++) {
+			rows += "(";
+			for (int col = 0; col < row_len; col++) {
+				rows += " " + std::format(
+					"( {} {} {} {} )",
+					normals[row][col][0] * distances[row][col],
+					normals[row][col][1] * distances[row][col],
+					normals[row][col][2] * distances[row][col],
+					alphas[row][col]);
+			}
+			rows += " )\n";
+		}
+
+		std::string tail = ")\n}\n";
+
+		dispDef = head + params + rows + tail;
+		return true;
+	}
 	void readGraph( scene::Node& root, TextInputStream& inputStream, EntityCreator& entityTable ) const override {
 
 		int mapversion = 0;
@@ -235,9 +301,23 @@ public:
 									solidelem["lightmapscale"].getValue()
 								);
 
+								for ( auto sideelem : solidelem ) {
+									// TODO: freak out if side has multiple dispinfo
+									if (string_equal_nocase(sideelem.getKey().data(), "dispinfo")) {
+										std::string dispDef;
+										if ( dispDef_from( sideelem, dispDef ) ) {
+											faceData.append("\n");
+											faceData.append(dispDef);
+										} else {
+											globalWarningStream() << "FIXME: bad dispinfo in " << Node_getEntity( entity )->getClassName() << '\n';
+										}
+									}
+								}
+
 								MapImporter* importer = Node_getMapImporter( solid );
 								StringInputStream istream( faceData );
 								importer->importTokens( NewScriptTokeniser( istream ) );
+
 							}  else if (string_equal_nocase(solidelem.getKey().data(), "editor")) {
 								if ( solidelem.hasChild("visgroupid") ) {
 									int32_t visgroupid = solidelem["visgroupid"].getValue<int32_t>();
@@ -340,14 +420,190 @@ public:
 			virtual void writeFloat( double f ) {
 				m_lines.back().append( std::format( "{} ", f ) );
 			}
-			void forEachLine( int64_t& childID, kvpp::KV1ElementWritable<std::string>& solid, std::function<void(int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side)> func ) {
-				for ( auto line : m_lines ) {
+			bool forEachLine(
+				int64_t& childID, kvpp::KV1ElementWritable<std::string>& solid,
+				std::function<bool(int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side)> side_func,
+				std::function<bool(std::vector<std::string>& lines, int& i, kvpp::KV1ElementWritable<std::string>& disp)> disp_func
+			  ) {
+				bool func_ok = true;  // lines we don't catch are ok
+				kvpp::KV1ElementWritable<std::string> *prev_side = NULL;
+				for (int i = 0; i < (int)m_lines.size(); i++) {
+					std::string line = m_lines.at(i);
 					if ( line[0] == '(' ) {
-						func( childID, line, solid.addChild("side") );
+						prev_side = &solid.addChild("side");
+						func_ok = side_func( childID, line, *prev_side );
+					} else if ( line[0] == 'd' ) {  // ^dispDef
+						if (prev_side == NULL)
+							return false;  // dispDef with no brushside! invalid solid
+						func_ok = disp_func( m_lines, i, prev_side->addChild("dispinfo") );
+						prev_side = NULL;
 					}
+					if (!func_ok)
+						return false;
 				}
+				return true;
 			}
 		};
+		static bool writeDisp(std::vector<std::string>& lines, int& i, kvpp::KV1ElementWritable<std::string> &disp) {
+			// temp dispDef parse macros, undef'd at end of parsing
+			#define ASSERT_LINE(expected) \
+				if (line != expected) \
+					return false;
+
+			#define GET_TOKEN(token) \
+				if ( !string_equal( tokeniser.getToken(), token ) ) \
+					return false;
+
+			#define NEXT_LINE() \
+				i++; \
+				if ( i >= (int)lines.size() ) \
+					return false; \
+				line = lines.at(i);
+
+			// parse dispDef lines
+			std::string line = lines.at(i);
+			ASSERT_LINE( "dispDef\n" ); NEXT_LINE();
+			ASSERT_LINE( "{\n" ); NEXT_LINE();
+
+			int power;
+			double startpos[3];
+			sscanf(line.c_str(), "%d ( %lf %lf %lf )", &power, &startpos[0], &startpos[1], &startpos[2]);
+			NEXT_LINE();
+			ASSERT_LINE( "(\n" ); NEXT_LINE();
+
+			struct DispVert { float x, y, z, a; };
+			std::vector<std::vector<DispVert>>	vertices;
+
+			int num_rows = power * power;
+			for (int row = 0; row < num_rows; row++) {
+				vertices.emplace_back();
+				// ( ( x y z a ) ... repeat num_rows times ... )
+				StringTokeniser tokeniser(line.c_str());
+				GET_TOKEN("(");
+				for (int col = 0; col < num_rows; col++) {
+					DispVert dispvert;
+					vertices.back().push_back(dispvert);
+					if (!string_equal(tokeniser.getToken(), ")")
+					 || !string_parse_float(tokeniser.getToken(), dispvert.x)
+					 || !string_parse_float(tokeniser.getToken(), dispvert.y)
+					 || !string_parse_float(tokeniser.getToken(), dispvert.z)
+					 || !string_parse_float(tokeniser.getToken(), dispvert.a)
+					 || !string_equal(tokeniser.getToken(), ")") ) {
+						return false;  // invalid token(s); panic!
+					}
+				}
+				GET_TOKEN(")");
+				NEXT_LINE();
+			}
+
+			ASSERT_LINE( ")\n" ); NEXT_LINE();
+			ASSERT_LINE( "}\n" );  // caller handles next line
+
+			#undef ASSERT_LINE
+			#undef GET_TOKEN
+			#undef NEXT_LINE
+
+			// write dispinfo node
+			disp["power"] = power;
+			disp["startposition"] = std::format( "[{} {} {}]", startpos[0], startpos[1], startpos[2] );
+			// unimplemented:
+			disp["flags"] = 0;
+			disp["elevation"] = 0;
+			disp["subdiv"] = 0;
+			// child nodes
+			kvpp::KV1ElementWritable<std::string> normals        = disp.addChild("normals");
+			kvpp::KV1ElementWritable<std::string> distances      = disp.addChild("distances");
+			kvpp::KV1ElementWritable<std::string> alphas         = disp.addChild("alphas");
+			kvpp::KV1ElementWritable<std::string> offsets        = disp.addChild("offsets");
+			kvpp::KV1ElementWritable<std::string> offset_normals = disp.addChild("offset_normals");
+
+			// vertex rows
+			for (int row = 0; row < num_rows; row++) {
+				std::string row_normals        = "";
+				std::string row_distances      = "";
+				std::string row_alphas         = "";
+				std::string row_offsets        = "";
+				std::string row_offset_normals = "";
+				for (int col = 0; col < num_rows; col++) {
+					float x = vertices[row][col].x;
+					float y = vertices[row][col].y;
+					float z = vertices[row][col].z;
+					float a = vertices[row][col].a;
+					float m = sqrt(x * x + y * y + z * z);
+					float n_x = x / m;
+					float n_y = y / m;
+					float n_z = z / m;
+
+					row_normals.append(std::format("{} {} {} ", n_x, n_y, n_z));
+					row_distances.append(std::format("{} ", m));
+					row_alphas.append(std::format("{} ", a));
+					// defaults (unimplemented):
+					row_offsets.append("0 0 0 ");
+					row_offset_normals.append("0 0 1 ");  // match face normal?
+				}
+				std::string row_index = std::format("row{}", row);
+				normals[row_index]        = row_normals;
+				distances[row_index]      = row_distances;
+				alphas[row_index]         = row_alphas;
+				offsets[row_index]        = row_offsets;
+				offset_normals[row_index] = row_offset_normals;
+			}
+
+			kvpp::KV1ElementWritable<std::string> triangle_tags = disp.addChild("triangle_tags");
+			// default triangle tags (8x16 @ p3)
+			for (int row = 0; row < (num_rows - 1); row++) {
+				std::string row_triangle_tags = "";
+				for (int col = 0; col < (num_rows - 1); col++) {
+					row_triangle_tags.append("9 9 ");
+				}
+				std::string row_index = std::format("row{}", row);
+				triangle_tags[row_index] = row_triangle_tags;
+			}
+
+			kvpp::KV1ElementWritable<std::string> allowed_verts = disp.addChild("allowed_verts");
+			allowed_verts["10"] = "-1 -1 -1 -1 -1 -1 -1 -1 -1 -1";  // default; unused?
+
+			return true;
+		}
+		static bool writeSide(int64_t &childID, std::string &line, kvpp::KV1ElementWritable<std::string> &side) {
+			// parse line
+			double points[3][3];
+			char material[128];
+			double uaxis[4];
+			double vaxis[4];
+			double rotation;
+			double scale[2];
+			double lightmapscale;
+			sscanf(
+				line.c_str(),
+				"( %lf %lf %lf ) ( %lf %lf %lf ) ( %lf %lf %lf ) %128s [ %lf %lf %lf %lf ] [ %lf %lf %lf %lf ] %lf %lf %lf %lf",
+				&points[0][0], &points[0][1], &points[0][2],
+				&points[1][0], &points[1][1], &points[1][2],
+				&points[2][0], &points[2][1], &points[2][2],
+				material,
+				&uaxis[0], &uaxis[1], &uaxis[2], &uaxis[3],
+				&vaxis[0], &vaxis[1], &vaxis[2], &vaxis[3],
+				&rotation, &scale[0], &scale[1], &lightmapscale);
+			// TODO: return false if line doesn't fit the pattern
+			// write node
+			side["id"] = childID++;
+			side["plane"] = std::format(
+					"({} {} {}) ({} {} {}) ({} {} {})",
+					points[0][0], points[0][1], points[0][2],
+					points[1][0], points[1][1], points[1][2],
+					points[2][0], points[2][1], points[2][2]);
+			side["material"] = material;
+			side["uaxis"] = std::format(
+					"[{} {} {} {}] {}",
+					uaxis[0], uaxis[1], uaxis[2], uaxis[3], scale[0]);
+			side["vaxis"] = std::format(
+					"[{} {} {} {}] {}",
+					vaxis[0], vaxis[1], vaxis[2], vaxis[3], scale[1] );
+			side["rotation"] = std::format( "{}", rotation );
+			side["lightmapscale"] = std::format( "{}", lightmapscale );
+			side["smoothing_groups"] = 0; // FIXME: make configurable
+			return true;
+		}
 		void writeSolid( scene::Node& node, kvpp::KV1ElementWritable<std::string>& solid ) const {
 			solid["id"] = m_childID++;
 
@@ -357,28 +613,8 @@ public:
 			// FIXME: this sucks and could surely be done better.
 			MapVMFTokenWriter writer;
 			exporter->exportTokens( writer );
-			writer.forEachLine( m_childID, solid, [](int64_t& childID, std::string& line, kvpp::KV1ElementWritable<std::string>& side){
-				double points[3][3];
-				char material[128];
-				double uaxis[4];
-				double vaxis[4];
-				double rotation;
-				double scale[2];
-				double lightmapscale;
-				sscanf(line.c_str(), "( %lf %lf %lf ) ( %lf %lf %lf ) ( %lf %lf %lf ) %128s [ %lf %lf %lf %lf ] [ %lf %lf %lf %lf ] %lf %lf %lf %lf",
-					&points[0][0], &points[0][1], &points[0][2], &points[1][0], &points[1][1], &points[1][2], &points[2][0], &points[2][1], &points[2][2],
-					material, &uaxis[0], &uaxis[1], &uaxis[2], &uaxis[3], &vaxis[0], &vaxis[1], &vaxis[2], &vaxis[3], &rotation, &scale[0], &scale[1],
-					&lightmapscale
-				);
-				side["id"] = childID++;
-				side["plane"] = std::format( "({} {} {}) ({} {} {}) ({} {} {})", points[0][0], points[0][1], points[0][2], points[1][0], points[1][1], points[1][2], points[2][0], points[2][1], points[2][2] );
-				side["material"] = material;
-				side["uaxis"] = std::format( "[{} {} {} {}] {}", uaxis[0], uaxis[1], uaxis[2], uaxis[3], scale[0] );
-				side["vaxis"] = std::format( "[{} {} {} {}] {}", vaxis[0], vaxis[1], vaxis[2], vaxis[3], scale[1] );
-				side["rotation"] = std::format( "{}", rotation );
-				side["lightmapscale"] = std::format( "{}", lightmapscale );
-				side["smoothing_groups"] = 0; // FIXME: make configurable
-			});
+			bool write_ok = writer.forEachLine( m_childID, solid, writeSide, writeDisp );
+			// TODO: error handling: message / discard solid if (!write_ok)
 		}
 		virtual bool pre( scene::Node& node ) const {
 			Entity* entity = Node_getEntity( node );
