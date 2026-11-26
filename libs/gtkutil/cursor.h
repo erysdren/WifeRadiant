@@ -180,11 +180,20 @@ protected:
 			const QPointF mouseEventPos = mouseEvent->globalPosition();
 			/* QCursor::setPos( center ) effect may happen not immediately; suspend processing till then, otherwise start dash will happen */
 			if( !m_trackingEstablished ){
+#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
 				m_trackingEstablished = mouseEventPos.toPoint() == center.toPointF();
+#else
+				m_trackingEstablished = mouseEventPos == center;
+#endif
 				QCursor::setPos( center );
 			}
+#if QT_VERSION >= QT_VERSION_CHECK(6, 4, 0)
 			else if( mouseEventPos != center.toPointF() ){
-				const QPointF delta = mouseEvent->globalPosition() - center.toPointF();
+				const QPointF delta = mouseEventPos - center.toPointF();
+#else
+			else if( mouseEventPos != center ){
+				const QPointF delta = mouseEventPos - center;
+#endif
 				m_motion_delta_function( delta.x(), delta.y(), mouseEvent );
 				QCursor::setPos( center );
 			}
