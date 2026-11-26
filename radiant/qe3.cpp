@@ -214,7 +214,7 @@ void QE_InitVFS(){
 							for ( const auto& libraryDir : libraryDirs ) {
 								std::filesystem::path libraryPath = libraryDir / token;
 								if ( std::filesystem::exists( libraryPath ) ) {
-									paths_push( str( libraryPath.c_str(), '/' ) );
+									paths_push( str( libraryPath.string().c_str(), '/' ) );
 								}
 							}
 						} else {
